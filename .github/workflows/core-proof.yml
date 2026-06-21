@@ -64,3 +64,28 @@ jobs:
         run: >
           pnpm --filter web exec vitest run
           src/lib/packet/__tests__/translationPdfVisualAcceptance.test.ts
+
+  full-pipeline-e2e:
+    name: Full translation pipeline — Cyrillic text → English → certified PDF (no Gemini)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install poppler (free on Linux)
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+      - name: Install
+        run: pnpm install --frozen-lockfile || pnpm install
+      # Injects a SYNTHETIC PII-free OCR read (the only faked part = the camera, which
+      # is exactly what Gemini quota blocks) and drives the REAL post-read chain:
+      # buildCyrillicMap → docintelToCandidate → arbitrateDocument → buildCanonicalResult
+      # → toTranslationRows → applyOcrFieldSafety (C3) → generateTranslationPDF → poppler.
+      # Proves: KMU-55 transliteration, dictionaries, brain, ambiguous→review,
+      # low-conf critical→null, date→USCIS, and ZERO Cyrillic leak in the certified PDF.
+      - name: Pipeline E2E (real brain + C3 + PDF, synthetic OCR only)
+        run: >
+          pnpm --filter web exec vitest run
+          src/app/api/translation/__tests__/translationPipelineFixtureE2E.test.ts
