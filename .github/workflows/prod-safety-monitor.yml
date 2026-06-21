@@ -1,0 +1,48 @@
+name: Prod Safety Monitor (Wave D)
+
+# READ-ONLY prod health watch after enabling the anti-fab / self-consistency gates
+# (PASS_RUNTIME_VERIFIED 2026-06-05). Curls the PUBLIC healthz only — no secrets, no
+# Vercel token, no env/flag/deploy mutation, no PII. The deeper checks (runtime logs,
+# document_class_metric count, review_rate) need a Vercel token that is NOT a repo
+# secret, so they live in docs/reports/PROD_SAFETY_MONITORING_24H_RUNBOOK.md (manual).
+#
+# Self-limits to the 48h monitoring window: after 2026-06-07 the job no-ops (exit 0).
+# REMOVE this file once monitoring is done (it is intentionally temporary — avoid toggle debt).
+
+on:
+  schedule:
+    - cron: '17 */6 * * *'  # every 6h at :17 (off the :00 mark)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  healthz:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Stop after the 48h monitoring window
+        id: window
+        run: |
+          # Monitoring window ends 2026-06-07 (48h after gate enablement).
+          if [ "$(date -u +%Y%m%d)" -gt "20260607" ]; then
+            echo "Monitoring window closed — no-op. Delete this workflow file."
+            echo "active=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "active=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Check prod healthz (public, read-only)
+        if: steps.window.outputs.active == 'true'
+        run: |
+          set -euo pipefail
+          BODY="$(curl -s --max-time 20 https://messenginfo.com/api/healthz)"
+          echo "healthz: $BODY"
+          STATUS="$(printf '%s' "$BODY" | sed -n 's/.*"status":"\([^"]*\)".*/\1/p')"
+          SHA="$(printf '%s' "$BODY" | sed -n 's/.*"sha":"\([^"]*\)".*/\1/p')"
+          echo "status=$STATUS sha=$SHA"
+          if [ "$STATUS" != "ok" ]; then
+            echo "::error::prod healthz NOT ok (status=$STATUS) — investigate; consider rollback (SELF_CONSISTENCY first)."
+            exit 1
+          fi
+          echo "::notice::prod healthz ok (sha=$SHA). Gates ON; run the manual runbook for logs/metric/review_rate."

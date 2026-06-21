@@ -1,0 +1,42 @@
+opaque_id,hash,file_exists,type_verified,pages,quality,printed_or_handwritten,ground_truth_exists,gt_independently_reviewed,split,in_benchmark,in_runtime_pipeline,critical_fields,exact_match,fabricated_fields,fallback,review_decision
+# ── REPO-PRESENT SYNTHETIC FIXTURES (hardcoded values e.g. IVANENKO TARAS — NOT real docs, NOT real GT) ──
+syn_passport_booklet,2a5f5224e164,YES,YES(generator),1,synthetic-clean,printed(MRZ),synthetic-only(generator hardcoded),NO,test-fixture,NO(synthetic),smoke-only,family/given/dob/passport_no/mrz,UNVERIFIED,UNVERIFIED,UNVERIFIED,n/a
+syn_birth_cert,153e312d768b,YES,YES(generator),1,synthetic-clean,printed,synthetic-only,NO,test-fixture,NO,smoke-only,family/given/patronymic/dob/place,UNVERIFIED,UNVERIFIED,UNVERIFIED,n/a
+syn_military_id,2b672e6e7df6,YES,YES(generator),1,synthetic-clean,printed,synthetic-only,NO,test-fixture,NO,smoke-only,family/given/dob,UNVERIFIED,UNVERIFIED,UNVERIFIED,n/a
+syn_marriage_cert,b7e743735b8c,YES,YES(generator),1,synthetic-clean,printed,synthetic-only,NO,test-fixture,NO,smoke-only,spouses/date,UNVERIFIED,UNVERIFIED,UNVERIFIED,n/a
+syn_divorce_cert,4ec698b3d0a0,YES,YES(generator),1,synthetic-clean,printed,synthetic-only,NO,test-fixture,NO,smoke-only,spouses/date,UNVERIFIED,UNVERIFIED,UNVERIFIED,n/a
+syn_id_card,709bfe834b6c,YES,YES(generator),1,synthetic-clean,printed,synthetic-only,NO,test-fixture,NO,smoke-only,family/given/dob,UNVERIFIED,UNVERIFIED,UNVERIFIED,n/a
+syn_passport_heic,dc168d64414b,YES,YES(generator),1,synthetic-clean,printed(MRZ),synthetic-only,NO,test-fixture,NO,heicToJpeg.test only,n/a(format test),UNVERIFIED,UNVERIFIED,UNVERIFIED,n/a
+syn_i94,3581231567b4,YES,YES(generator),1,synthetic-clean,printed,synthetic-only,NO,test-fixture,NO,smoke-only,admission_no/coa/entry_date,UNVERIFIED,UNVERIFIED,UNVERIFIED,n/a
+syn_ead,10415bea874e,YES,YES(generator),1,synthetic-clean,printed,synthetic-only,NO,test-fixture,NO,smoke-only,a_number/card_no/category,UNVERIFIED,UNVERIFIED,UNVERIFIED,n/a
+syn_uscis_notice,74b95877184f,YES,YES(generator),1,synthetic-clean,printed,synthetic-only,NO,test-fixture,NO,smoke-only,receipt_no,UNVERIFIED,UNVERIFIED,UNVERIFIED,n/a
+syn_passport_proof,e9efb3cca140,YES,YES(generator),1,synthetic-clean,printed(MRZ),synthetic-only,NO,test-fixture/proof,NO,smoke-only,mrz,UNVERIFIED,UNVERIFIED,UNVERIFIED,n/a
+# degraded/ = 21 SYNTHETIC degradations of syn_passport (blur/rot/glare/crop/downscale) — robustness fixtures, NOT corpus docs, NO GT, NOT in any benchmark gate
+syn_degraded_set,multiple,YES,YES(gen_degraded_passports.py),1each,degraded(synthetic),printed(MRZ),synthetic-only,NO,test-fixture/degraded,NO,degraded_passport_matrix.csv(local report only),mrz/dob,UNVERIFIED,UNVERIFIED,UNVERIFIED,n/a
+# ── "25-DOC PRIVATE CORPUS" (PRIVATE_CORPUS_MANIFEST.safe.yaml) — sha256 HASHES ONLY. SOURCE FILES ABSENT FROM REPO+CI ──
+# Source dirs qa-shots/private + test-fixtures/real-docs are GITIGNORED and CONFIRMED ABSENT in this worktree. doctype_guess = filename-keyword heuristic (unreliable). 6/25 "unclassified".
+doc001,07848f158_manifest_only,NO(gitignored),NO(keyword guess: passport_or_booklet),UNKNOWN,UNKNOWN,UNKNOWN,GT only in REAL_DOC_GROUND_TRUTH.local.yaml(gitignored;ABSENT),NO,private,claimed-only,UNKNOWN,UNKNOWN,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED
+doc002,16fda74ca_manifest_only,NO,NO(guess: military_id),UNKNOWN,UNKNOWN,UNKNOWN,ABSENT,NO,private,claimed-only,UNKNOWN,UNKNOWN,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED
+doc003,21b23a33f_manifest_only,NO,NO(guess: i94),UNKNOWN,UNKNOWN,UNKNOWN,ABSENT,NO,private,claimed-only,UNKNOWN,UNKNOWN,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED
+doc004,2203427bc_manifest_only,NO,NO(guess: ead),UNKNOWN,UNKNOWN,UNKNOWN,ABSENT,NO,private,claimed-only,UNKNOWN,UNKNOWN,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED
+doc005,30e822c6c_manifest_only,NO,NO(guess: marriage_certificate),UNKNOWN,UNKNOWN,UNKNOWN,ABSENT,NO,private,claimed-only,UNKNOWN,UNKNOWN,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED
+doc006,3188741189_manifest_only,NO,NO(guess: birth_certificate),UNKNOWN,UNKNOWN,UNKNOWN,ABSENT,NO,private,claimed-only,UNKNOWN,UNKNOWN,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED
+doc007,34e921bc5_manifest_only,NO,NO(guess: i94),UNKNOWN,UNKNOWN,UNKNOWN,ABSENT,NO,private,claimed-only,UNKNOWN,UNKNOWN,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED
+doc008,4fa1cb6e9_manifest_only,NO,NO(guess: i94),UNKNOWN,UNKNOWN,UNKNOWN,ABSENT,NO,private,claimed-only,UNKNOWN,UNKNOWN,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED
+doc009,55bf92fa7_manifest_only,NO,NO(guess: i94),UNKNOWN,UNKNOWN,UNKNOWN,ABSENT,NO,private,claimed-only,UNKNOWN,UNKNOWN,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED
+doc010,589919ce7_manifest_only,NO,NO(guess: unclassified),UNKNOWN,UNKNOWN,UNKNOWN,ABSENT,NO,private,claimed-only,UNKNOWN,UNKNOWN,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED
+doc011,6ff76470b_manifest_only,NO,NO(guess: divorce_certificate),UNKNOWN,UNKNOWN,UNKNOWN,ABSENT,NO,private,claimed-only,UNKNOWN,UNKNOWN,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED
+doc012,7523e1d02_manifest_only,NO,NO(guess: ead),UNKNOWN,UNKNOWN,UNKNOWN,ABSENT,NO,private,claimed-only,UNKNOWN,UNKNOWN,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED
+doc013,93e71692c_manifest_only,NO,NO(guess: marriage_certificate),UNKNOWN,UNKNOWN,UNKNOWN,ABSENT,NO,private,claimed-only,UNKNOWN,UNKNOWN,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED
+doc014,99426b52d_manifest_only,NO,NO(guess: ead),UNKNOWN,UNKNOWN,UNKNOWN,ABSENT,NO,private,claimed-only,UNKNOWN,UNKNOWN,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED
+doc015,a6ff178e3_manifest_only,NO,NO(guess: marriage_certificate),UNKNOWN,UNKNOWN,UNKNOWN,ABSENT,NO,private,claimed-only,UNKNOWN,UNKNOWN,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED
+doc016,afb4fbcb1_manifest_only,NO,NO(guess: unclassified),UNKNOWN,UNKNOWN,UNKNOWN,ABSENT,NO,private,claimed-only,UNKNOWN,UNKNOWN,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED
+doc017,b6bb8f69a_manifest_only,NO,NO(guess: divorce_certificate),UNKNOWN,UNKNOWN,UNKNOWN,ABSENT,NO,private,claimed-only,UNKNOWN,UNKNOWN,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED
+doc018,bbebc9c00_manifest_only,NO,NO(guess: unclassified),UNKNOWN,UNKNOWN,UNKNOWN,ABSENT,NO,private,claimed-only,UNKNOWN,UNKNOWN,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED
+doc019,c76693ca1_manifest_only,NO,NO(guess: unclassified),UNKNOWN,UNKNOWN,UNKNOWN,ABSENT,NO,private,claimed-only,UNKNOWN,UNKNOWN,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED
+doc020,c97ac362b_manifest_only,NO,NO(guess: passport_or_booklet),UNKNOWN,UNKNOWN,UNKNOWN,ABSENT,NO,private,claimed-only,UNKNOWN,UNKNOWN,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED
+doc021,cfdc6e7da_manifest_only,NO,NO(guess: ead),UNKNOWN,UNKNOWN,UNKNOWN,ABSENT,NO,private,claimed-only,UNKNOWN,UNKNOWN,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED
+doc022,d07e7eeb6_manifest_only,NO,NO(guess: unclassified),UNKNOWN,UNKNOWN,UNKNOWN,ABSENT,NO,private,claimed-only,UNKNOWN,UNKNOWN,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED
+doc023,ec2de594c_manifest_only,NO,NO(guess: passport_or_booklet),UNKNOWN,UNKNOWN,UNKNOWN,ABSENT,NO,private,claimed-only,UNKNOWN,UNKNOWN,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED
+doc024,f39057276_manifest_only,NO,NO(guess: unclassified),UNKNOWN,UNKNOWN,UNKNOWN,ABSENT,NO,private,claimed-only,UNKNOWN,UNKNOWN,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED
+doc025,f5dbc2688_manifest_only,NO,NO(guess: military_id),UNKNOWN,UNKNOWN,UNKNOWN,ABSENT,NO,private,claimed-only,UNKNOWN,UNKNOWN,UNVERIFIED,UNVERIFIED,UNVERIFIED,UNVERIFIED

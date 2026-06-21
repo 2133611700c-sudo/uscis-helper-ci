@@ -1,0 +1,20 @@
+MOBILE UX SCREENSHOT AUDIT — 2026-05-09
+========================================
+
+VALID SCREENSHOTS (unique content, correct pages):
+  review_top_mobile.png (163745B)            ← real Review page top
+  evidence_exact_bbox_mobile.png (160033B)   ← real bbox viewer
+  evidence_combined_bbox_mobile.png (145011B)← real combined bbox
+  correction_modal_mobile.png (148770B)      ← real correction modal
+
+PLACEHOLDER SCREENSHOTS (identical MD5=75535c13):
+  certification_locked_mobile.png   ← PLACEHOLDER — 06/07/08 hit same fallback page
+  certification_unlocked_mobile.png ← PLACEHOLDER — not separately captured
+  payment_gate_mobile.png           ← PLACEHOLDER — /payment route fallback
+  final_download_mobile.png         ← PLACEHOLDER — /complete route fallback
+
+ROOT CAUSE: Session 92567d4f was not post-payment. Routes /payment and /complete
+redirected to same fallback. These 3 screens need recapture with a post-payment session.
+
+ACTION REQUIRED: Recapture screens 6/7/8 after P001 completes a paid session.
+PILOT IMPACT: Non-blocking — known users will be guided manually.

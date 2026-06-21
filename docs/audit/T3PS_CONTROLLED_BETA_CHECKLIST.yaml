@@ -1,0 +1,48 @@
+task_id: T3PS-08-CONTROLLED-BETA-STABILIZATION-AND-LAUNCH
+status: GO_CONTROLLED_BETA_LOCK_IN_PROGRESS
+
+release:
+  code_locked_scoped_commit: true
+  pushed_to_main: false
+  vercel_ready: true
+  health_sha_match: true
+
+post_deploy_smoke:
+  ru_start_200: true
+  en_start_200: true
+  ru_landing_200: true
+  ru_sources_200: true
+  ru_privacy_200: true
+  health_ok: true
+  step6_passport_number_selector_visible: true
+  step6_passport_expiration_selector_visible: true
+  packet_checker_visible: true
+  attestation_visible: true
+
+regression_lock:
+  step6_selector_tests: true
+  payload_field_tests: true
+  route_422_200_tests: true
+  pdf_presence_proof: true
+  cyrillic_leak_none: true
+  full_gates_pass: true
+
+monitoring:
+  health_polling_documented: true
+  ocr_5xx_alert_documented: true
+  generate_5xx_alert_documented: true
+  daily_counts_documented: true
+  telegram_env_keys_available: BLOCKED
+  blocked_reason: "Missing runtime keys in current environment: TELEGRAM_OWNER_WEBHOOK_URL, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, TELEGRAM_ALERT_CHAT_ID."
+
+operations:
+  operating_plan_exists: true
+  rollback_path_documented: true
+  support_template_documented: true
+  no_pii_policy_documented: true
+
+risk_register:
+  exists: true
+  no_open_p0_for_controlled_beta: true
+
+paid_launch_ready: false

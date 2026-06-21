@@ -1,0 +1,30 @@
+task_id: T3PS-05-FINAL-GO-NO-GO-RELEASE-OPS
+generated_at: "2026-05-15T07:54:00Z"
+verdict: NO_GO
+
+production:
+  local_head_sha: "00be4b64fbceb7938f7b48a40149466ae185b4a4"
+  origin_main_sha: "00be4b64fbceb7938f7b48a40149466ae185b4a4"
+  vercel_deployment_id: "dpl_CqjM2sD1Y3hJvGm6bQvLJ7N5T8yK"
+  vercel_state: READY
+  health_ok: true
+  health_sha: "00be4b64fbceb7938f7b48a40149466ae185b4a4"
+  ocr_configured: true
+
+gates:
+  status: PASS
+  report: "test-fixtures/proof/RUN_ALL_GATES.report.yaml"
+
+prompt_status:
+  t3ps_01: PASS
+  t3ps_02: PASS
+  t3ps_03: PASS
+  t3ps_04: FAIL
+
+blocking_reasons:
+  - "T3PS-04: real pilot file produced zero extracted fields"
+  - "T3PS-04: OCR configured but passport module extraction still returns zero fields"
+
+next_action:
+  - "fix production passport extraction path (non-zero mapped fields)"
+  - "rerun real-doc pilot with redacted evidence"

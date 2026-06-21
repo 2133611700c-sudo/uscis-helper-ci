@@ -1,0 +1,80 @@
+artifacts:
+  - id: final_certified_release
+    path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_FINAL_CERTIFIED_RELEASE.yaml
+    exists: true
+    related_phase: historical_release
+    sha_if_known: null
+    proves: prior_go_certification_snapshot
+    freshness: superseded
+    usable_for_110: true
+    notes: superseded_by_final_functional_and_master_closeout
+
+  - id: final_functional_closeout
+    path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_FINAL_FUNCTIONAL_CLOSEOUT.yaml
+    exists: true
+    related_phase: functional_closeout
+    sha_if_known: "11c7f978bef35de6eef4380b316bdd3af5fbf115"
+    proves: functional_stage_i_working
+    freshness: superseded
+    usable_for_110: true
+    notes: superseded_by_110_fresh_rerun
+
+  - id: master_closeout
+    path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_MASTER_CLOSEOUT_REPORT.yaml
+    exists: true
+    related_phase: consolidated_history
+    sha_if_known: "11c7f978bef35de6eef4380b316bdd3af5fbf115"
+    proves: consolidated_evidence_chain
+    freshness: fresh
+    usable_for_110: true
+    notes: base_for_prompt_reconciliation
+
+  - id: prompt_coverage_matrix
+    path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_PROMPT_COVERAGE_MATRIX.md
+    exists: true
+    related_phase: original_5_prompts
+    sha_if_known: "d2a0d19f7931142aca60c48d9b0778efb94c257e"
+    proves: prompt_level_statuses
+    freshness: fresh
+    usable_for_110: true
+    notes: includes PASS/PARTIAL/SUPERSEDED mapping
+
+  - id: residual_gaps_previous
+    path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_RESIDUAL_GAPS_REGISTER.yaml
+    exists: true
+    related_phase: risk_register
+    sha_if_known: "d2a0d19f7931142aca60c48d9b0778efb94c257e"
+    proves: known_nonblocking_gaps
+    freshness: fresh
+    usable_for_110: true
+    notes: reused and normalized into 110 register
+
+  - id: browser_and_pdf_fresh_110
+    path: /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/
+    exists: true
+    related_phase: fresh_reverify
+    sha_if_known: "11c7f978bef35de6eef4380b316bdd3af5fbf115"
+    proves: gates_browser_ocr_pdf_health
+    freshness: fresh
+    usable_for_110: true
+    notes: primary evidence package for this task
+
+  - id: field_gap_register
+    path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_FIELD_GAP_REGISTER.yaml
+    exists: true
+    related_phase: field_coverage
+    sha_if_known: null
+    proves: historical_field_gap_tracking
+    freshness: stale
+    usable_for_110: true
+    notes: incorporated as background; not sole source of truth
+
+  - id: beta_go_no_go
+    path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_CONTROLLED_BETA_GO_NO_GO.md
+    exists: true
+    related_phase: beta_decision
+    sha_if_known: null
+    proves: controlled_beta_decision_context
+    freshness: superseded
+    usable_for_110: true
+    notes: superseded by 110 final lock

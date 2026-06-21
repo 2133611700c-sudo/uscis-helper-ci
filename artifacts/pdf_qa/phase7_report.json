@@ -1,0 +1,14 @@
+{
+  "pdf_path": "/Users/sergiiivanenko/work/uscis-helper/artifacts/e2e/smoke_test_output.pdf",
+  "bytes": 5208,
+  "text_chars": 2212,
+  "body_chars": 1240,
+  "audit_chars": 972,
+  "pages": 3,
+  "field_lines_in_body": 17,
+  "forbidden_checked": 10,
+  "required_checked": 6,
+  "passed": 22,
+  "failed": 0,
+  "ok": true
+}

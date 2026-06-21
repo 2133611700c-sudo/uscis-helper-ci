@@ -1,0 +1,14 @@
+row_id,title_match,keep_count,reason
+1,USCIS Helper Master Document Compilation,1,System dupe — keep newest only
+2,USCIS Helper Master Working Document,1,System dupe — keep newest only
+3,"You are working with 4 uploaded source files",0,Chat artifact — not data
+4,USCIS Helper Project Launch Plan,0,Chat artifact — not data
+5,USCIS Helper: Operational Context Confirmation,0,Chat artifact — not data
+6,USCIS Helper: Research & Product Plan,0,Chat artifact — not data
+7,Messenginfo Project Kickoff & Strategy,0,Chat artifact — not data
+8,Messenginfo Project: Research & Execution,0,Chat artifact — not data
+9,Нова форма RE-PAROLE. Як подати RE-PAROLE онлайн для дорослого,1,Video duplicate — keep one
+10,Інструкція Re-Parole FeeWaiver I-131 + I-912 + HR-1 поштова подача,1,Video duplicate — keep one
+11,Інструкція Reparole I-131 + I -912 PDF ONLINE - БЕЗКОШТОВНО 2026,1,Video duplicate — keep one
+12,Інструкція І-765 + І-912 + HR-1. Поштова подача з FeeWaiver 2026,1,Video duplicate — keep one
+13,RE-PAROLE без оплати 2026: як правильно заповнити I-131,1,Video duplicate — keep one

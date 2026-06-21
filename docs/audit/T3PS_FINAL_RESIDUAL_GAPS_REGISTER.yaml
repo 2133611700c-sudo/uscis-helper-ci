@@ -1,0 +1,25 @@
+report: T3PS_FINAL_RESIDUAL_GAPS_REGISTER
+generated_at: "2026-05-24T05:58:00Z"
+status: DEGRADED
+residual_gaps:
+  - id: T3PS-RUNTIME-P0-OWNER-001
+    priority: P0
+    blocker: true
+    accepted_risk: false
+    description: "Owner-mode contour is not proven in current cycle because automation has no owner session."
+  - id: T3PS-RUNTIME-P1-001
+    priority: P1
+    blocker: false
+    accepted_risk: true
+    description: "Owner-mode automation proof blocked by missing owner session context."
+  - id: T3PS-RUNTIME-P1-002
+    priority: P1
+    blocker: false
+    accepted_risk: true
+    description: "Vercel insights/CSP noise persists and is non-blocking for TPS flow."
+  - id: T3PS-RUNTIME-P1-003
+    priority: P1
+    blocker: false
+    accepted_risk: true
+    description: "Telegram monitoring remains out of scope for Stage I functional closeout."
+open_p0_count: 1

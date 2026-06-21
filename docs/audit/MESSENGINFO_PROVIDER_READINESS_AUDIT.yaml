@@ -1,0 +1,154 @@
+audit: MESSENGINFO_PROVIDER_READINESS_AUDIT
+captured_at: 2026-05-20T04:10:00Z
+production_sha: ebb24e8
+honesty_rule: |
+  "READY" requires THREE things, all live:
+    1. integration code in the repo
+    2. env vars set in production
+    3. a live API call against the production endpoint returns OK
+  If any of the three is missing, status is NOT_CONFIGURED.
+  "Code exists but not configured" is NOT half-ready — it's NOT_CONFIGURED.
+
+providers:
+
+  deepseek:
+    role: AI Brain (document classifier + field extractor) for TPS / translation / re-parole
+    code_in_repo: true
+    env_vars:
+      DEEPSEEK_API_KEY:   set_in_production: true
+      DEEPSEEK_BASE_URL:  optional, defaults https://api.deepseek.com
+      DEEPSEEK_MODEL:     optional, defaults deepseek-chat
+    live_check:
+      probe: /api/tps/health
+      brain_ready: true
+      brain_misconfigured: false
+    billing_responsible: Taras (Anthropic-style account, separate from cloud bills)
+    status: READY
+
+  google_vision:
+    role: raw OCR (text detection) for ALL services
+    code_in_repo: true
+    file: apps/web/src/lib/ocr/providers/google-vision.ts
+    env_vars:
+      GOOGLE_CLOUD_VISION_API_KEY: set_in_production: true
+      GOOGLE_VISION_API_KEY:       set_in_production: false (alias accepted in code)
+    live_check:
+      probe: POST /api/tps/ocr/extract with realistic UA passport
+      provider_field_in_response: google_vision
+      vision_text_length: 411 (>0 → live call returned text)
+      response_http: 200
+    billing_responsible: Google Cloud project owned by Taras
+    status: READY
+
+  azure_id_document:
+    role: prebuilt structured passport / ID-document extractor (planned shadow)
+    code_in_repo: false
+    env_vars:
+      AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT: not_set
+      AZURE_DOCUMENT_INTELLIGENCE_KEY:      not_set
+    live_check: not_runnable
+    billing_responsible: NO Azure subscription / billing card attached
+    status: NOT_CONFIGURED
+    what_is_needed_to_change_status:
+      - create Azure subscription
+      - attach billing
+      - create Document Intelligence resource (free F0 tier covers initial tests)
+      - copy endpoint + key into Vercel env
+      - then write the provider integration file (it does NOT exist yet)
+      - then run live health check
+      - only THEN flip status
+
+  aws_textract_analyzeid:
+    role: identity-document extractor (planned benchmark)
+    code_in_repo: false
+    env_vars:
+      AWS_ACCESS_KEY_ID:     not_set
+      AWS_SECRET_ACCESS_KEY: not_set
+      AWS_REGION:            not_set
+    live_check: not_runnable
+    billing_responsible: NO AWS account attached
+    status: NOT_CONFIGURED
+    note: |
+      A comment in apps/web/src/lib/translation/mockOCR.ts mentions
+      AWS Textract as a future provider. That is aspirational text,
+      NOT integration. There is no AWS code, no client, no credentials.
+
+  mindee:
+    role: passport / ID extractor (planned benchmark)
+    code_in_repo: false
+    env_vars: none_set
+    live_check: not_runnable
+    billing_responsible: NO Mindee account attached
+    status: NOT_CONFIGURED
+
+  abbyy:
+    role: high-accuracy OCR (planned enterprise benchmark)
+    code_in_repo: false
+    env_vars: none_set
+    live_check: not_runnable
+    billing_responsible: NO ABBYY account / license attached
+    status: NOT_CONFIGURED
+
+final_status: PARTIAL
+
+what_is_actually_working_in_production_today:
+  ocr_stack:
+    - Google Vision raw text detection (DOCUMENT_TEXT_DETECTION mode,
+      language hints uk / en / ru)
+    - DeepSeek Brain field classifier + extractor with KMU-55 transliteration
+      and slot-firewall + pre-PDF firewall
+  payment:
+    - Stripe Checkout (Live mode) — TPS Tier 1 $15, translation tiers,
+      re-parole Tier 1
+  pdf_layer:
+    - pdf-lib AcroForm prefill for I-821, I-765, I-131, I-912
+  not_yet_running:
+    - Azure / AWS / Mindee / ABBYY — code does not exist, accounts do not exist
+
+correction_to_prior_documents:
+  - file: docs/audit/T3PS_R1A_RESIDUAL_GAPS.yaml
+    correction: |
+      Entries for azure_id_document_shadow_benchmark and
+      aws_textract_analyzeid_benchmark were written as if the only
+      remaining work were code. The truth is account + billing + env
+      + code, in that order. This audit is the canonical source —
+      treat T3PS_R1A_RESIDUAL_GAPS azure/aws lines as "needs
+      registration first" not "needs code first".
+
+risks_if_we_keep_loose_language:
+  - claiming "multi-provider ready" before accounts exist is dishonest
+  - a future incident review would correctly point at any doc that
+    said "Azure ready" without billing as the wrong claim
+  - the only safe language until provider accounts exist:
+      "Azure / AWS / Mindee / ABBYY: NOT_CONFIGURED — no account,
+       no billing, no env, no code."
+
+next_action_per_provider:
+  azure_id_document:
+    owner: Taras
+    step_1: create Azure subscription + attach card
+    step_2: create Document Intelligence resource (region close to
+             Vercel iad1 — eastus2 or eastus)
+    step_3: copy endpoint + key to Vercel env
+    step_4: notify engineer; only then code + shadow benchmark begins
+
+  aws_textract_analyzeid:
+    owner: Taras
+    step_1: create AWS account + attach card
+    step_2: create IAM user with textract:AnalyzeID permission only
+    step_3: rotate keys, store in Vercel env (AWS_ACCESS_KEY_ID,
+             AWS_SECRET_ACCESS_KEY, AWS_REGION)
+    step_4: notify engineer; only then code + benchmark begins
+
+  mindee:
+    owner: Taras
+    step_1: register at mindee.com, attach billing
+    step_2: provision API key for Passport or Identity API
+    step_3: store MINDEE_API_KEY in Vercel env
+    step_4: notify engineer
+
+  abbyy:
+    owner: Taras
+    step_1: ABBYY Cloud OCR SDK trial → paid plan
+    step_2: copy ApplicationID + Password to Vercel env
+    step_3: notify engineer

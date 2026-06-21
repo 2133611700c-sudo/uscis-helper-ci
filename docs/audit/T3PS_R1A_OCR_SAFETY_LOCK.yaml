@@ -1,0 +1,94 @@
+status: GO_TPS_R1A_LOCKED
+release: MESSENGINFO_DOCUMENT_INTELLIGENCE_RELEASE_1A_TPS_OCR_SAFETY
+production_sha: 90d904cbc9
+verified_at: 2026-05-20T03:50:00Z
+
+sha:
+  local:  90d904c
+  origin: 90d904c
+  health: 90d904c
+  status: in_sync
+
+gates:
+  typecheck:        PASS
+  unit_tests:       PASS  (58/58 — documentContracts + documentBrain suites)
+  browser_matrix:   PASS  (4/4 scenarios)
+  pdf_firewall_e2e: PASS  (Cyrillic family_name blocked HTTP 422)
+
+firewall:
+  passport_a_number_blocked:    PASS  # API contract + UI re-filter on hydration
+  wrong_slot_blocked:           PASS  # slot_mismatch=true returned + UI banner
+  stale_state_filtered:         PASS  # storage v3 schema bump + v2 key wipe + hydration filter
+  pre_pdf_audit:                PASS  # generate-packet rejects Cyrillic / bad dates / dashed a_number with 422
+
+review:
+  edit_works:           PASS  # window.prompt → user_corrected source label
+  reset_works:          PASS  # link on every step + confirm + storage purge
+  source_labels_correct: PASS # AI / MRZ / OCR / user_corrected per real extraction_source
+  missing_field_humanized: PASS
+
+retake_warnings_phase5:
+  passport_mrz_missing: PASS  # info banner shown when fields present but no ocr_mrz source
+  passport_dob_missing: PASS  # warning when vision_text_length>50 but no dob
+  poor_image:           PASS  # info banner when vision_text_length<30
+
+browser:
+  scenario_1_correct_slot:
+    no_a_number_row:        true
+    no_slot_mismatch_banner: true
+    note: |
+      Passport uploaded into passport slot, fresh storage. A-Number row
+      absent, no warning banners, DOB Brain output non-deterministic on
+      this particular run but field structure correct.
+  scenario_2_stale_state:
+    ghost_value_suppressed: true
+    v2_key_wiped:           true
+    note: |
+      v2 localStorage pre-seeded with family_name='Ghost' and
+      a_number='000-000-000'. After page load: ghost values not on
+      screen, old v2 key removed.
+  scenario_3_wrong_slot:
+    slot:                    i94
+    slot_mismatch:           true
+    detected_document_type:  passport
+    rejected_field_count:    2
+    final_field_keys: [dob, family_name, given_name, passport_country_of_issuance, passport_number]
+    note: |
+      Real passport file POSTed with docHint=i94. API correctly flags
+      mismatch, rejects 2 forbidden fields (sex, country_of_nationality
+      — not in i94 allowed list), keeps only shared identity fields.
+      Wizard UI now displays an amber banner on this state.
+  scenario_4_pdf_firewall:
+    http_status: 422
+    blocked:     true
+    note: |
+      Submitted answers payload with Cyrillic family_name 'Шевченко'.
+      generate-packet preflight returned 422 — never reached pdf-lib.
+
+pdf:
+  pypdf_dump:    NOT_EXERCISED_IN_R1A  # successful packet generation not run; firewall path verified instead
+  cyrillic_leak: BLOCKED_AT_PREFLIGHT   # impossible to reach PDF layer
+
+remaining_p0: []  # all R1A P0 closed
+
+remaining_p1:
+  - tooltip_help_icons   # ? icons render but click handler not ported
+  - inline_editor_richness  # window.prompt works, modal is polish
+  - name_recognition_stability  # Brain non-determinism without crisp MRZ
+  - identity_conflict_guard     # passport-authoritative override on EAD/I-94 conflicts
+  - generate_packet_happy_path_e2e  # full ZIP download not exercised in R1A matrix
+
+next_action: |
+  Release 1A locked. Recommended next milestone (R1B): full happy-path
+  generate-packet browser proof with pypdf dump + Cyrillic_leak=NONE
+  confirmation, plus the four P1 polish items above. Azure ID Document
+  shadow benchmark and the broader Document Intelligence Engine remain
+  out of scope until R1B closes.
+
+commits_in_release_1a:
+  - 0abba53  feat(tps-ocr) document-slot firewall (API)
+  - b7cfabf  fix(tps-ocr) accept docHint and doc_type_hint
+  - 11a4281  fix(tps-v2) stale-state firewall + edit + reset + $15
+  - 91f85a2  fix(tps-ai) real UA passport — DOB 2-digit year, Cyrillic month, Ч/Ж sex
+  - 66de140  fix(tps-ai) sex 'Ч / M' bilingual + country 'Ukraina / Ukraine' split
+  - 90d904c  feat(t3ps) release 1A OCR safety lock — wrong-slot UI + pre-PDF firewall

@@ -1,0 +1,22 @@
+{
+  "_meta": {
+    "doc_id": "",
+    "fixture": "international_passport_<surname>.jpg",
+    "document_class": "ua_international_passport",
+    "ground_truth_status": "PENDING_OWNER",
+    "owner_verified_fields": ["family_name_cyrillic","given_name_cyrillic","date_of_birth","passport_number","sex"],
+    "verified_scope": "ONLY owner_verified_fields penalized; strong anchor = MRZ (controls family/given/number/dob/sex)",
+    "language_intent": "value = AS WRITTEN; MRZ Latin is the controlling form for the latin layer; see GT_LANGUAGE_INTENT.md",
+    "fill_instructions": "Type exactly as written. Unreadable -> null + note. Set ground_truth_status=VERIFIED_BY_OWNER. Do NOT commit filled file."
+  },
+  "family_name_cyrillic": "",
+  "family_name_latin": "",
+  "given_name_cyrillic": "",
+  "given_name_latin": "",
+  "passport_number": "",
+  "date_of_birth": "",
+  "sex": "",
+  "passport_expiration_date": "",
+  "candidate_not_verified": ["passport_expiration_date"],
+  "notes": ""
+}

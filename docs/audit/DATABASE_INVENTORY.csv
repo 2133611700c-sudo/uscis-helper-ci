@@ -1,0 +1,46 @@
+table,exists,live_rows,runtime_writer,runtime_reader,rls,service_role_bypass,pii,retention,encryption,deletion_path,test_coverage,prod_data_risk,status
+profiles,yes,0,app(auth),app,yes,yes,low(name/email),none,no,cascade auth.users,partial,low,PROVEN_PRODUCTION
+translations_orders,yes,0,app,app,yes(3pol),yes,yes(recipient),none,no,none,partial,low(empty),OBSOLETE(dup of translation_orders)
+translation_orders,yes,2,app,app,yes(1pol),yes,yes,none,no,none,partial,med,PROVEN_PRODUCTION
+translation_orders_v2,yes,0,NONE(0 files),NONE,yes(1pol),yes,yes(intended),none,no,none,unit-only,low(empty/dark),NOT_WIRED(PR119 OPEN draft)
+translation_order_events,yes,0,NONE,NONE,yes(1pol),yes,no,none,no,none,unit-only,low,NOT_WIRED(V2)
+document_artifacts,yes,0,NONE(0 files),NONE,yes(1pol),yes,yes(artifact bytes ref),none,no,none,unit-only,low(dark),NOT_WIRED(V2)
+delivery_outbox,yes,0,NONE(0 files),NONE,yes(1pol),yes,yes(recipient),none,no,none,unit-only,low(dark),NOT_WIRED(V2 transactional outbox)
+stripe_processed_events,yes,0,NONE-app-grep(webhook may use rpc),app(webhook),yes(1pol),yes,no,none,no,append-only,unit,low,CODE_ONLY(idempotency ledger; 0 rows = unverified live)
+wizard_drafts,yes,0,NONE(route flag-OFF),route(flag-OFF),yes(0pol-advisor),yes,yes(AES-GCM ciphertext),expires_at(no cron found),AES-256-GCM,DELETE route(404 when off),itest-local,low(empty;flag OFF in prod),NOT_WIRED(SERVER_LEDGER_ENABLED absent prod)
+canonical_documents,yes,24,app,app,yes(2pol),yes,yes(canonical field values),none,no,INSERT-only(no UPDATE/DELETE),unit+itest,MED(PII immutable),PROVEN_PRODUCTION(shadow writes)
+canonical_overrides,yes,0,app,app,yes(2pol),yes,yes(override values),none,no,INSERT-only append,unit+itest,low(empty),PROVEN_PRODUCTION(shadow)
+certification_records,yes,8,app,app,yes(1pol),yes,yes(signer/applicant),none,no,none,partial,med,PROVEN_PRODUCTION
+translation_certification_audit,yes,0,app(generate-pdf),app,yes(2pol),yes,partial,none,no,service-role only,unit,low,CODE_ONLY(0 rows)
+certifier_override_audit,yes,0,app,app,yes(1pol),yes,hashes-only(T0),none,hash-chain,append-only-trigger,unit,low,CODE_ONLY(0 rows)
+manual_review_queue,yes,5,app(12 files),app,yes(1pol),yes,yes(field values in tickets),none,no,none,unit,MED,PROVEN_PRODUCTION
+manual_review_events,yes,5,app,app,yes(1pol),yes,NO(comment forbids raw PII),none,no,append,unit,low,PROVEN_PRODUCTION
+tps_ocr_audit,yes,668,app(logOcrRun),app,yes(1pol),yes,YES-RAW(brain_raw source_value/final_value + input_raw),NONE(no TTL),NO,none,unit,P0-HIGH(575 rows raw PII cleartext),PROVEN_PRODUCTION-BUT-PII-LEAK
+extracted_fields,yes,138,app,app,yes(1pol),yes,YES(field values),none,no,none,unit,med,PROVEN_PRODUCTION
+numeric_evidence,yes,0,app,app,yes(1pol),yes,partial,none,no,none,unit,low,CODE_ONLY
+user_corrections,yes,10,app,app,yes(1pol),yes,YES(corrected values),none,no,none,unit,med,PROVEN_PRODUCTION
+extraction_runs,yes,16,app,app,yes(1pol),yes,low(job meta),none,no,none,unit,low,PROVEN_PRODUCTION
+final_renders,yes,14,app,app,yes(1pol),yes,YES(render refs),none,no,none,partial,med,PROVEN_PRODUCTION
+translation_sessions,yes,32,app,app,yes(1pol),yes,yes,none,no,none,partial,med,PROVEN_PRODUCTION
+translation_documents,yes,17,app,app,yes(1pol),yes,yes(doc refs),none,no,none,partial,med,PROVEN_PRODUCTION
+translation_payments,yes,1,app(webhook),app,yes(1pol),yes,partial,none,no,none,partial,low,PROVEN_PRODUCTION
+translation_events,yes,0,app,app,yes(1pol),yes,no,none,no,append,partial,low,CODE_ONLY
+translation_quality_log,yes,0,app,app,yes(1pol),yes,no,none,no,none,partial,low,CODE_ONLY
+wizard_sessions,yes,45,app,app,yes(1pol),yes,low(anon_user_id),none,no,none,partial,low,PROVEN_PRODUCTION
+session_members,yes,0,app,app,yes(1pol),yes,YES(family member PII),none,no,none,partial,low(empty),CODE_ONLY
+session_documents,yes,0,app,app,yes(1pol),yes,refs(UUID paths),none,no,none,partial,low,CODE_ONLY
+manual_answers,yes,0,app,app,yes(1pol),yes,YES(answers),none,no,none,partial,low,CODE_ONLY
+generated_packets,yes,0,app,app,yes(1pol),yes,refs,CLEANUP_PACKETS_RETENTION_DAYS(cron/cleanup),no,cron/cleanup route,partial,low,PROVEN_PRODUCTION
+assistant_threads,yes,0,app(mia),app,yes(1pol),yes,YES(chat),none,no,none,partial,low,CODE_ONLY
+email_events,yes,0,app,app,yes(1pol),yes,NO(SHA-256 hash only),none,hash,none,partial,low,CODE_ONLY
+audit_log,yes,8,app,app,yes(2pol),yes,partial,none,no,immutable(never del),partial,low,PROVEN_PRODUCTION
+audit_logs,yes,184,app,app,yes(1pol),yes,partial,none,no,none,partial,low,PROVEN_PRODUCTION(dup naming audit_log vs audit_logs)
+form_sessions,yes,0,app,app,yes(3pol),yes,yes,none,no,none,partial,low,CODE_ONLY
+form_answers,yes,0,app,app,yes(2pol),yes,YES,none,no,none,partial,low,CODE_ONLY
+form_editions,yes,1,monitor,app,yes(1pol),yes,no,none,no,none,partial,low,PROVEN_PRODUCTION
+canonical_answers,yes,42,seed/admin,app,yes(2pol),yes,no(content),none,no,none,partial,low,PROVEN_PRODUCTION
+official_sources,yes,0,monitor,app,yes(2pol),yes,no,none,no,none,partial,low,CODE_ONLY
+monitoring_sources,yes,26,cron,app,yes(1pol),yes,no,none,no,none,partial,low,PROVEN_PRODUCTION
+monitoring_alerts,yes,405,cron,app,yes(1pol),yes,no,none,no,none,partial,low,PROVEN_PRODUCTION
+dead_links_log,yes,42,cron,app,yes(1pol),yes,no,none,no,none,partial,low,PROVEN_PRODUCTION
+guard_block_events,yes,0,app(shadow),app,yes(0pol-advisor),yes,NO(PII-free design),none,no,none,unit,low,CODE_ONLY(0 rows; RLS-no-policy=default-deny OK service-role)

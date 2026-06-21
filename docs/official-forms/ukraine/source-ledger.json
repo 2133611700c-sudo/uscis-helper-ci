@@ -1,0 +1,110 @@
+{
+  "_rule": "Assume an official source existed for every doc type & period. Not found on first pass = SOURCE_SEARCH_INCOMPLETE, never 'no source'. Keep current + historical editions. Renderer allowed when source basis documented; if no visual blank, TEMPLATE_BASIS=official_description_not_visual_blank. Names=KMU-55 (never translated); numbers/dates/series locked; seals=[bracketed]; no 'certified' claim.",
+  "access_date": "2026-05-29",
+  "status_taxonomy": ["CURRENT_SOURCE_FOUND","HISTORICAL_SOURCE_FOUND","OFFICIAL_DESCRIPTION_FOUND","ARCHIVE_SEARCH_NEEDED","SOURCE_SEARCH_INCOMPLETE"],
+  "documents": [
+    {
+      "doc_type": "civil_status_birth", "authority": "КМУ / Мінюст",
+      "current": { "act": "КМУ №1025", "date": "2010-11-10", "url": "https://zakon.rada.gov.ua/laws/show/1025-2010-п", "status": "CURRENT_SOURCE_FOUND" },
+      "historical": [{ "act": "КМУ №1367", "date": "2002-09-12", "url": "https://zakon.rada.gov.ua/laws/show/1367-2002-п", "status": "HISTORICAL_SOURCE_FOUND", "note": "earlier registration books & blank descriptions (pre-2010 docs)" }],
+      "procedures": { "act": "Наказ Мінюсту №52/5", "date": "2000-10-18", "note": "Правила держреєстрації актів цивільного стану" },
+      "fields_found": ["УКРАЇНА+Герб+СВІДОЦТВО ПРО НАРОДЖЕННЯ","child прізвище/ім'я/по батькові","дата народження","місце народження (місто/село, район, область, держава)","громадянство","батько ПІБ+громадянство","мати ПІБ+громадянство","актовий запис № і дата","місце держреєстрації (орган)","орган що видав","серія та номер","дата видачі","підпис+МП"],
+      "confidence": "high", "template_status": "schema_pending", "pdf_renderer_status": "pending"
+    },
+    {
+      "doc_type": "civil_status_marriage", "authority": "КМУ / Мінюст",
+      "current": { "act": "КМУ №1025", "date": "2010-11-10", "url": "https://zakon.rada.gov.ua/laws/show/1025-2010-п", "status": "CURRENT_SOURCE_FOUND" },
+      "historical": [{ "act": "КМУ №1367", "date": "2002-09-12", "status": "HISTORICAL_SOURCE_FOUND" }],
+      "fields_found": ["УКРАЇНА+Герб+СВІДОЦТВО ПРО ШЛЮБ","наречений ПІБ/дата народж./місце/громадянство","наречена ПІБ/дата народж./місце/громадянство","зареєстровано шлюб (дата)","актовий запис № і дата","прізвище після шлюбу чоловіка/дружини","місце держреєстрації","орган що видав","серія та номер","дата видачі","підпис+МП"],
+      "confidence": "high", "template_status": "schema_DONE", "pdf_renderer_status": "pending"
+    },
+    {
+      "doc_type": "civil_status_divorce", "authority": "КМУ / Мінюст",
+      "current": { "act": "КМУ №1025", "date": "2010-11-10", "url": "https://zakon.rada.gov.ua/laws/show/1025-2010-п", "status": "CURRENT_SOURCE_FOUND" },
+      "historical": [{ "act": "КМУ №1367", "date": "2002-09-12", "status": "HISTORICAL_SOURCE_FOUND" }],
+      "fields_found": ["УКРАЇНА+Герб+СВІДОЦТВО ПРО РОЗІРВАННЯ ШЛЮБУ","чоловік ПІБ","дружина ПІБ","розірвано: число/місяць/рік","актовий запис №","присвоєне прізвище йому/їй","місце держреєстрації","орган що видав","свідоцтво видано (ПІБ)","серія та номер","дата видачі","підпис+МП"],
+      "confidence": "high", "template_status": "schema_pending", "pdf_renderer_status": "pending"
+    },
+    {
+      "doc_type": "civil_status_death", "authority": "КМУ / Мінюст",
+      "current": { "act": "КМУ №1025", "date": "2010-11-10", "url": "https://zakon.rada.gov.ua/laws/show/1025-2010-п", "status": "CURRENT_SOURCE_FOUND" },
+      "fields_found": ["УКРАЇНА+Герб+СВІДОЦТВО ПРО СМЕРТЬ","померлий ПІБ","дата народження","дата смерті","місце смерті","актовий запис № і дата","місце держреєстрації","орган що видав","серія та номер","дата видачі","підпис+МП"],
+      "confidence": "high", "template_status": "schema_pending", "pdf_renderer_status": "pending"
+    },
+    {
+      "doc_type": "civil_status_name_change", "authority": "КМУ / Мінюст",
+      "current": { "act": "КМУ №1025", "date": "2010-11-10", "url": "https://zakon.rada.gov.ua/laws/show/1025-2010-п", "status": "CURRENT_SOURCE_FOUND" },
+      "fields_found": ["СВІДОЦТВО ПРО ЗМІНУ ІМЕНІ","попереднє ПІБ","нове ПІБ","дата народження","актовий запис № і дата","орган що видав","серія та номер"],
+      "confidence": "medium", "template_status": "schema_pending", "pdf_renderer_status": "pending", "note": "confirm exact blank fields in КМУ 1025 appendix"
+    },
+    {
+      "doc_type": "passport_internal_id_card", "authority": "КМУ / ДМС",
+      "current": { "act": "КМУ №302", "date": "2015-03-25", "url": "https://dmsu.gov.ua/poslugi/pasport-gromadyanina-ukrajni.html", "status": "CURRENT_SOURCE_FOUND" },
+      "fields_found": ["назва держави","назва документа","ПІБ","стать","громадянство","дата народження","УНЗР","№ документа","дата закінчення дії","дата видачі","орган (код)","місце народження","фото","підпис"],
+      "confidence": "high", "template_status": "schema_pending", "pdf_renderer_status": "pending"
+    },
+    {
+      "doc_type": "passport_internal_booklet_legacy", "authority": "КМУ / ВРУ / МВС",
+      "current": { "act": "МВС №456 (тимчасовий порядок видачі зразка 1994)", "date": "2019-06-06", "status": "CURRENT_SOURCE_FOUND", "note": "issued now only in special cases by court decision" },
+      "historical": [
+        { "act": "КМУ №353 (зразок бланка паспорта-книжечки 1994)", "date": "1994-06-04", "url": "https://zakon.rada.gov.ua/go/353-94-п", "status": "HISTORICAL_SOURCE_FOUND", "note": "MAIN established-sample act for the booklet" },
+        { "act": "ВРУ №2503-XII (Положення про паспорт громадянина України)", "date": "1992-06-26", "url": "https://zakon.rada.gov.ua/go/2503-12", "status": "OFFICIAL_DESCRIPTION_FOUND", "note": "booklet structure: 88×125mm, 16 pages, inserted data" }
+      ],
+      "fields_found": ["прізвище/ім'я/по батькові","стать","дата народження","місце народження","серія та номер (perforated)","орган що видав, дата видачі","сторінка прописки/реєстрації"],
+      "confidence": "high", "template_status": "schema_pending", "pdf_renderer_status": "pending",
+      "TEMPLATE_BASIS": "official_description_not_visual_blank"
+    },
+    {
+      "doc_type": "passport_foreign", "authority": "КМУ / ДМС",
+      "current": { "act": "КМУ №152", "date": "2014-05-07", "url": "https://zakon.rada.gov.ua/laws/show/152-2014-п", "status": "CURRENT_SOURCE_FOUND" },
+      "fields_found": ["type/country code/passport number (MRZ)","surname/given (Latin controlling spelling)","nationality/DOB/sex/place of birth","date of issue/expiry/authority","record number/MRZ lines"],
+      "confidence": "high", "template_status": "schema_pending", "pdf_renderer_status": "pending"
+    },
+    {
+      "doc_type": "passport_combined_service", "authority": "КМУ",
+      "current": { "act": "КМУ №1709", "date": "2025-12-24", "status": "CURRENT_SOURCE_FOUND", "note": "одночасне оформлення внутр.+закордон" },
+      "confidence": "medium", "template_status": "procedure_only", "pdf_renderer_status": "n/a"
+    },
+    {
+      "doc_type": "driver_license", "authority": "МВС / КМУ",
+      "current": { "act": "КМУ №340", "date": "1993-05-08", "url": "https://zakon.rada.gov.ua/laws/show/340-93-п", "status": "CURRENT_SOURCE_FOUND" },
+      "related": [{ "act": "МВС z0074-10", "note": "порядок іспитів/видачі" }],
+      "fields_found": ["ПІБ","дата народження","категорії","дата видачі","строк дії","орган","номер"],
+      "confidence": "medium", "template_status": "schema_pending", "pdf_renderer_status": "pending", "note": "confirm current blank edition vs ID-1 plastic"
+    },
+    {
+      "doc_type": "military_id", "authority": "Міноборони",
+      "current": { "act": "Наказ МОУ №206 (військовий квиток рядового/сержантського складу)", "date": "2017-04-10", "status": "CURRENT_SOURCE_FOUND", "note": "expires 2026-06-01 — store editions by year" },
+      "historical": [{ "act": "Положення про військовий квиток (старий слой)", "status": "HISTORICAL_SOURCE_FOUND" }],
+      "fields_found": ["прізвище/ім'я/по батькові","дата народження","місце народження","освіта","спеціальність","сімейний стан","серія та номер","відношення до військової служби","призовна комісія/область","орган видачі"],
+      "confidence": "medium", "template_status": "schema_pending", "pdf_renderer_status": "pending",
+      "TEMPLATE_BASIS": "official_description_not_visual_blank"
+    },
+    {
+      "doc_type": "tax_taxpayer_card", "authority": "ДПС / Мінфін",
+      "current": { "act": "Положення про реєстрацію ФО в ДРФО (РНОКПП)", "status": "OFFICIAL_DESCRIPTION_FOUND" },
+      "related": [{ "act": "КМУ №1806", "date": "2025-12-31", "note": "е-картка платника з QR через Дію" }],
+      "fields_found": ["прізвище/ім'я/по батькові","РНОКПП (10 цифр)","орган ДПС","дата","відмітка в паспорті"],
+      "confidence": "medium", "template_status": "schema_pending", "pdf_renderer_status": "pending", "en_label": "Taxpayer registration card / Tax identification document"
+    },
+    {
+      "doc_type": "education_school_certificate", "authority": "МОН",
+      "current": { "act": "Наказ МОН №1109", "date": "2018-10-16", "status": "CURRENT_SOURCE_FOUND" },
+      "historical": [{ "act": "Наказ МОН №811", "date": "2003-12-10", "status": "HISTORICAL_SOURCE_FOUND", "note": "ІВС ОСВІТА" }],
+      "confidence": "medium", "template_status": "schema_pending", "pdf_renderer_status": "pending"
+    },
+    {
+      "doc_type": "education_diploma", "authority": "МОН / КМУ",
+      "current": { "act": "Наказ МОН №102", "date": "2021-01-25", "status": "CURRENT_SOURCE_FOUND" },
+      "related": [{ "act": "КМУ №811", "date": "2020-09-09", "note": "документи про вищу освіту" }],
+      "subtypes": ["diploma","diploma-supplement","academic-transcript"],
+      "confidence": "medium", "template_status": "schema_pending", "pdf_renderer_status": "pending"
+    },
+    {
+      "doc_type": "pension_certificate", "authority": "Пенсійний фонд",
+      "current": { "act": "ПФУ №26-1", "date": "2017-11-03", "status": "CURRENT_SOURCE_FOUND" },
+      "historical": [{ "act": "ПФУ №4-1", "date": "2004-03-25", "status": "HISTORICAL_SOURCE_FOUND" }],
+      "confidence": "medium", "template_status": "schema_pending", "pdf_renderer_status": "pending"
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+report: T3PS-FINAL-CONSOLIDATED-CLOSEOUT
+generated_at: "2026-05-16T08:05:00Z"
+sha:
+  local: "d2a0d19f7931142aca60c48d9b0778efb94c257e"
+  origin: "d2a0d19f7931142aca60c48d9b0778efb94c257e"
+  production: "d2a0d19f7931142aca60c48d9b0778efb94c257e"
+sha_truth:
+  local_equals_origin: true
+  origin_equals_production: true
+  go_allowed_by_sha_rule: true
+dirty_inventory:
+  status: present
+  note: "Workspace contains many unrelated modified/untracked files; strict scoped commit used for this task."
+  snapshot_source: "/Users/sergiiivanenko/work/uscis-helper (git status --short)"
+artifact_inventory:
+  - path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_01_PRODUCTION_TRUTH_BASELINE.md
+    purpose: baseline
+    status: found
+    pii_risk: low
+  - path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_02_LIVE_BROWSER_CONTOUR.md
+    purpose: browser_proof
+    status: found
+    pii_risk: medium_redacted
+  - path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_03_PDF_FIELD_COVERAGE_PROOF.md
+    purpose: pdf_proof
+    status: found
+    pii_risk: medium_redacted
+  - path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_04_REAL_DOCUMENT_AI_OCR_ROBUSTNESS.md
+    purpose: real_doc_pilot
+    status: found
+    pii_risk: medium_redacted
+  - path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_FINAL_GO_NO_GO_RELEASE_REPORT.md
+    purpose: go_no_go
+    status: found
+    pii_risk: low
+  - path: /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-master/
+    purpose: consolidated_fresh_rerun_evidence
+    status: found
+    pii_risk: redacted
+gates:
+  - command: "pnpm --filter web run typecheck"
+    exit_code: 0
+    status: PASS
+    timestamp_utc: "2026-05-16T07:59:00Z"
+  - command: "pnpm --filter web test"
+    exit_code: 0
+    status: PASS
+    timestamp_utc: "2026-05-16T07:59:00Z"
+  - command: "pnpm --filter web run lint"
+    exit_code: 0
+    status: PASS
+    timestamp_utc: "2026-05-16T08:00:00Z"
+  - command: "pnpm --filter web run guard:content"
+    exit_code: 0
+    status: PASS
+    timestamp_utc: "2026-05-16T08:00:00Z"
+  - command: "pnpm --filter web run build"
+    exit_code: 0
+    status: PASS
+    timestamp_utc: "2026-05-16T08:00:00Z"
+browser:
+  flow_A_i821_only:
+    status: PASS
+    generate_status: 200
+    zip_downloaded_same_run: true
+    evidence:
+      summary: /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-master/browser_summary_A.json
+      screenshots_dir: /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-master/screenshots/A
+  flow_B_i821_i765:
+    status: PASS
+    generate_status: 200
+    zip_downloaded_same_run: true
+    evidence:
+      summary: /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-master/browser_summary_B.json
+      screenshots_dir: /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-master/screenshots/B
+  console_network_caveats:
+    - "_vercel/insights/script.js 404"
+    - "CSP blocked Cloudflare beacon script"
+ocr_matrix:
+  source: /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-master/ocr_matrix_reverify.json
+  international_passport: PASS
+  ukrainian_internal_passport: PASS
+  i94: PASS
+  ead: PASS
+  uscis_notice: NOT_REQUIRED
+pdf_proof:
+  source_summary: /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-master/pdf_reverify_summary.json
+  i821_field_dump_redacted: /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-master/i821_field_dump_redacted.txt
+  i765_field_dump_redacted: /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-master/i765_field_dump_redacted.txt
+  zip_listing: /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-master/zip_listing.txt
+  cyrillic_leak: NONE
+  key_fields_required_status: PASS
+prompt_coverage:
+  matrix_path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_PROMPT_COVERAGE_MATRIX.md
+  summary:
+    T3PS_01: PASS
+    T3PS_02: PASS
+    T3PS_03: PASS
+    T3PS_04: PARTIAL
+    T3PS_05: SUPERSEDED
+    T3PS_06: PASS
+    T3PS_07: PASS
+    T3PS_08: PASS
+    T3PS_09: PARTIAL
+residual_gaps:
+  source: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_RESIDUAL_GAPS_REGISTER.yaml
+  p0_open_count: 0
+  p1_open_count: 2
+  accepted_count: 3
+final_verdict:
+  status: GO_CONTROLLED_BETA_LOCKED
+  controlled_beta_ready: true
+  paid_launch_ready: false
+  reason: "SHA truth reconciled, gates PASS, browser A/B PASS with generate 200 and ZIP, OCR required docs PASS, PDF proof PASS, and no open P0 gaps."
+next_action: "Run small trusted-user controlled beta under Stage I lock; keep functional scope frozen and track P1 items separately."

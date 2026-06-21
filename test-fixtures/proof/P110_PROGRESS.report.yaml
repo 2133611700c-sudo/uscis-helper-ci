@@ -1,0 +1,123 @@
+report: TPS_FINISH_TO_110_PERCENT_WORKING_SERVICE — progress checkpoint
+status: 3_of_6_phases_done — pushed to local main, awaiting `push.command` on Mac
+generated_at: "2026-05-11T09:00Z"
+
+# ── PHASES COMPLETED THIS PUSH ──────────────────────────────────────────────
+phase_1_source_to_final_latin_preview:
+  status: PASS_IN_CODE
+  commit: cfdf980
+  files_changed:
+    - apps/web/src/components/tps/SelfReviewScreen.tsx
+    - apps/web/src/app/[locale]/services/tps-ukraine/start/TPSWizard.tsx
+  what_user_now_sees: |
+    Self-Review row for a Cyrillic value renders:
+      Фамилия: Шевченко
+                → Shevchenko  · так будет записано в форме USCIS
+    Latin-only fields (passport_number, DOB, I-94 number, phone) show no
+    preview chip — no visual noise.
+  contract:
+    when_shown: "value is non-empty AND contains Cyrillic AND latinPreview !== value"
+    transliteration_engine: "lib/tps/transliterate.ts toWinAnsiSafe (KMU-55)"
+    locales_covered: ["uk", "ru", "en", "es"]
+  test_hooks:
+    - data-testid="review-latin-${rowKey}" on the chip
+
+phase_2_packet_completeness_checker:
+  status: PASS_IN_CODE
+  commit: 85ab047
+  files_added:
+    - apps/web/src/components/tps/PacketCompletenessChecker.tsx (396 lines)
+  files_changed:
+    - apps/web/src/app/[locale]/services/tps-ukraine/start/GeneratePacketBlock.tsx
+  sits_where: "Above the attestation row in GeneratePacketBlock"
+  surfaces:
+    - "Forms that WILL be in ZIP (I-821 Ed 01/20/25, I-765 Ed 08/21/25 conditional)"
+    - "Filled critical fields with ✓"
+    - "Missing critical fields in red + counter"
+    - "Signing locations (Part 8 of I-821, Part 3 of I-765)"
+    - "Lockbox preview (Phoenix for U4U/Ukraine TPS)"
+  locales_covered: ["uk", "ru", "en", "es"]
+  test_hooks:
+    - tps-packet-checker, checker-forms, checker-form-i821
+    - checker-form-i765 / checker-form-i765-skipped
+    - checker-filled, checker-missing, checker-missing-${field}
+    - checker-missing-footer, checker-signing, checker-lockbox
+
+phase_3_i94_ead_ocr_full_routing:
+  status: PASS_IN_CODE
+  commit: 6735324
+  files_changed:
+    - apps/web/src/lib/tps/forms/i821FieldMap.ts (A-Number)
+    - apps/web/src/lib/tps/forms/i765FieldMap.ts (A-Number)
+    - apps/web/src/app/[locale]/services/tps-ukraine/start/GeneratePacketBlock.tsx
+    - apps/web/src/lib/tps/__tests__/packetBuilder.test.ts (new test case)
+  pdf_fields_now_filled:
+    i821:
+      - "Part 2 Item 7 — form1[0].Page02[0].Part2_Item7_AlienNumber[0]"
+    i765:
+      - "Part 2 Line 7 — form1[0].Page2[0].Line7_AlienNumber[0]"
+      - "Line 23 status_at_last_entry (already wired, now actually populated)"
+  wizard_changes:
+    - "PersonalFields gains a_number + status_at_last_entry"
+    - "applyPreExtracted whitelists: a_number, i94_class_of_admission→status_at_last_entry"
+    - "Request body sends a_number, status_at_last_entry"
+    - "U4U sensible default: status_at_last_entry='UH' for initial-path when blank"
+  test_added:
+    name: "routes A-Number + status_at_last_entry into both I-821 and I-765"
+    asserts:
+      - "987654321 appears in I-821 pdftotext output"
+      - "987654321 appears in I-765 pdftotext output"
+      - "UH appears in I-765 pdftotext output (Line 23)"
+
+# ── PHASES STILL PENDING ────────────────────────────────────────────────────
+phase_4_real_doc_pilot_prep:
+  status: PENDING
+  why: "Needs a real Ukrainian passport photo placed at /Users/sergiiivanenko/Downloads/tps-real-test.jpg. Cannot self-source for privacy."
+  blocker_owner: "user"
+
+phase_5_output_contract_README_review:
+  status: PENDING
+  next_action: "Audit README inside generated ZIP for English residue + accuracy of edition+page counts (now duplicated in PacketCompletenessChecker — drift risk)"
+
+phase_6_final_gates_visual_proof_yaml:
+  status: PENDING_AFTER_PUSH
+  what_remains:
+    - "Mac-side: vitest run (sandbox cannot due to linux-arm64 rolldown binding)"
+    - "Mac-side: pnpm -F web build"
+    - "Vercel READY after push"
+    - "Live browser smoke of new Checker + Latin preview on prod"
+    - "Final 110%-grade YAML"
+
+# ── GATES RUN IN SANDBOX ────────────────────────────────────────────────────
+gates_sandbox:
+  typecheck: PASS (apps/web tsc --noEmit clean, 0 errors)
+  content_guard: PASS (0 violations)
+  vitest: DEFERRED_TO_MAC
+    reason: "rolldown native binding missing on linux-arm64 in this sandbox"
+    workaround: "User runs `pnpm -F web test` on Mac; new test case ‘routes A-Number + status_at_last_entry’ will execute alongside the 4 existing buildPacket tests"
+
+# ── COMMITS READY TO PUSH ───────────────────────────────────────────────────
+commits_local_ahead_of_origin:
+  - sha: cfdf980
+    subject: "feat(tps/review): show Latin transliteration preview on Self-Review (P110.1 / TFR.3)"
+  - sha: 6735324
+    subject: "feat(tps): route A-Number + I-94 class of admission from OCR into I-821 + I-765 (P110.3)"
+  - sha: 85ab047
+    subject: "feat(tps): Packet Completeness Checker before Generate (P110.2 / TFR.5)"
+
+# ── NEXT ACTION FOR USER ────────────────────────────────────────────────────
+next_action: |
+  On Mac:
+    1. cd /Users/sergiiivanenko/work/uscis-helper
+    2. ./push.command   (double-click in Finder also works)
+    3. Wait for Vercel READY at https://messenginfo.com
+    4. Confirm new Checker + Latin preview render on /ru/services/tps-ukraine/start
+
+honest_summary: |
+  Three of the six P110 phases are implemented and gated locally. Two
+  more (real-doc pilot, output-contract README audit) require either
+  your photo upload or a Mac-side full-vitest+build run. The third
+  remaining is the final-gates report after deploy. We are NOT at 110%
+  yet — but we are 3 commits closer, all on green typecheck + guards,
+  with the most user-visible trust surfaces (Latin preview + Checker)
+  shipped.

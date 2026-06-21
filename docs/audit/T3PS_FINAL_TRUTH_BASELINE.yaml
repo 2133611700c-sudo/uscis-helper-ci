@@ -1,0 +1,10 @@
+report: T3PS_FINAL_TRUTH_BASELINE
+generated_at: "2026-05-16T22:02:30Z"
+local_head: "63e735629bfd8d453c06b19e7974adf231f3a60c"
+origin_main: "63e735629bfd8d453c06b19e7974adf231f3a60c"
+production_health_sha: "63e735629bfd8d453c06b19e7974adf231f3a60c"
+production_health_ok: true
+sha_mismatch_classification: MATCH
+notes:
+  - Runtime SHA is aligned with origin/main.
+  - Prior docs-only divergence has been resolved by deployment at this SHA.

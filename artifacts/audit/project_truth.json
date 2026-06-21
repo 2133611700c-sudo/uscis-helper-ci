@@ -1,0 +1,34 @@
+{
+  "audit": "FULL_PROJECT_REALITY_2026-06-14",
+  "captured_at": "2026-06-14T20:16Z",
+  "rule": "distrust-everything; every claim re-verified against primary source",
+  "ground_truth": {
+    "main_sha": "02eb59593c1a7f69d6d6c245825827e101d37e0f",
+    "production_sha": "02eb595",
+    "production_healthz": "ok / environment=production",
+    "main_equals_production": true,
+    "production_canonical_mode_env_count": 0,
+    "production_mode": "shadow (no CANONICAL_MODE_* set)",
+    "audit_branch": "audit/full-project-reality-2026-06-14",
+    "repo_shape": { "apps": ["web"], "packages": ["ai","db","knowledge","shared"], "migrations_files": 36, "workflows": 20, "existing_docs_audit_files": 117 }
+  },
+  "open_prs": [
+    { "number": 119, "state": "OPEN", "draft": true, "head": "96a543c", "base": "main", "changed_files": 51, "mergeable": "UNKNOWN", "note": "Translation Operator V2; likely stale vs advanced main; DO NOT TOUCH per owner" }
+  ],
+  "recently_merged_prs_claims_UNVERIFIED": [
+    { "number": 133, "claim": "wire TPS wizard to server PII ledger behind flag", "self_caveat": "ready-not-verified-live" },
+    { "number": 132, "claim": "/api/wizard-draft route integration — server PII ledger proven E2E" },
+    { "number": 131, "claim": "PII ledger browser client adapter (#9 stack complete)" },
+    { "number": 130, "claim": "server-side PII ledger backend — wizard_drafts + store + /api/wizard-draft" },
+    { "number": 129, "claim": "PII ledger AES-256-GCM crypto foundation" },
+    { "number": 128, "claim": "real-doc benchmark (0 fabricated) + I-821/I-131/I-765 PDF readback proof" },
+    { "number": 127, "claim": "phase-4 cache half — immutable OCR cache + fail-closed budget" },
+    { "number": 126, "claim": "advance phases 1-3 to PASS, activate phase 4 (ground-truth)" },
+    { "number": 124, "claim": "V1_COMPLETION control plane — STAGING_CONTROL_PLANE" },
+    { "number": 122, "claim": "require operator auth and re-verify Stripe recipient for legacy delivery" },
+    { "number": 120, "claim": "browser-persisted PII MINIMIZATION (this session)" }
+  ],
+  "discovery_note": "Between 86e5d1e (last known) and 02eb595, a parallel 'V1' track (PRs #121-#133) was merged by other sessions: server-side PII ledger (wizard_drafts + AES-256-GCM), OCR cache + budget, real-doc benchmark '0 fabricated', PDF readback 'PASS', 'phases 1-3 PASS'. ALL of these are UNVERIFIED claims requiring independent primary-source proof in this audit. Notably PR #120's 'PII containment' is partially SUPERSEDED by the #129-#133 server-ledger stack — reconciliation required.",
+  "audit_mode": "READ-ONLY: no runtime/migration/env/flag changes; no merges; no Stripe; no destructive ops; docs-only output branch + one Draft PR.",
+  "status_vocabulary": ["PROVEN_PRODUCTION","PROVEN_STAGING","PROVEN_LOCAL","PROVEN_MOCKED","CODE_ONLY","PARTIAL","BROKEN","NOT_WIRED","NOT_BUILT","BLOCKED_EXTERNAL","UNVERIFIED","OBSOLETE","DEAD_CODE"]
+}

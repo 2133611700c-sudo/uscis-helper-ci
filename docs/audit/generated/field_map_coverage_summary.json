@@ -1,0 +1,12 @@
+{
+  "i821_total_fields": 511,
+  "i821_mapped_refs_total": 87,
+  "i821_mapped_valid": 85,
+  "i821_invalid_refs": 2,
+  "i821_unmapped_pdf_fields": 426,
+  "i765_total_fields": 180,
+  "i765_mapped_refs_total": 47,
+  "i765_mapped_valid": 47,
+  "i765_invalid_refs": 0,
+  "i765_unmapped_pdf_fields": 133
+}

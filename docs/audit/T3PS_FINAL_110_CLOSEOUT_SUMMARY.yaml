@@ -1,0 +1,22 @@
+report: T3PS_FINAL_110_CLOSEOUT_SUMMARY
+generated_at: "2026-05-16T22:34:00Z"
+final_status: GO_CONTROLLED_BETA_110_LOCKED
+percent_complete_stage_i: 100
+local_head: "c2309c237d7157259c3b112d6f926032d88bd15d"
+origin_main: "c2309c237d7157259c3b112d6f926032d88bd15d"
+production_health_sha: "e402d9c2c4cd864f9e65840de298978ae56e68d3"
+sha_status: DOCS_ONLY_DIVERGENCE
+authoritative_files_count: 11
+authoritative_files_pass: true
+gates_status: PASS
+ocr_matrix_status: PASS
+browser_ab_status: PASS
+pdf_zip_status: PASS
+legal_risk_status: PASS
+open_p0_count: 0
+accepted_non_blocking:
+  - Telegram out of Stage I scope
+  - uscis_notice NOT_REQUIRED for Stage I
+  - Vercel insights/CSP noise if present
+paid_launch_ready: false
+next_action: "Start controlled beta cohort"

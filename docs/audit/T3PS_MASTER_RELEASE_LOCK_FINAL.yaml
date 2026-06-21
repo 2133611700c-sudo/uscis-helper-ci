@@ -1,0 +1,40 @@
+report: T3PS_MASTER_RELEASE_LOCK_FINAL
+generated_at: "2026-05-24T05:58:00Z"
+repo:
+  local_head: "6f73aa3134ec4585213002f9f7a051101b4437e9"
+  origin_main: "6f73aa3134ec4585213002f9f7a051101b4437e9"
+  production_health_sha: "6f73aa3134ec4585213002f9f7a051101b4437e9"
+  sha_alignment:
+    local_equals_origin: true
+    origin_equals_health: true
+    docs_only_runtime_difference: false
+    explanation: "Production SHA matches runtime commit before this release-lock update."
+functional_evidence:
+  gates: PASS
+  ocr_matrix: PASS
+  browser_ab: PARTIAL
+  zip_pdf: PASS
+  cyrillic_leak: NONE
+  real_doc_pilot: PARTIAL
+  evidence_paths:
+    selector_and_dual_probe: "/Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-final-release/browser-run-clean/dual_proof_summary.json"
+    network: "/Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-final-release/browser-run-clean/dual_proof_network.json"
+    failed_requests: "/Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-final-release/browser-run-clean/dual_proof_failed_requests.json"
+original_5_prompts:
+  status: PARTIAL_NON_BLOCKING
+  open_blocking_items_count: 0
+residual_gaps:
+  open_p0_count: 1
+  accepted_risks:
+    - "Telegram out of scope for Stage I."
+    - "Vercel insights/CSP noise non-blocking."
+  non_blocking_p1:
+    - "Owner-mode proof unavailable in current automation context (no owner session)."
+  blocking_p0:
+    - "Owner-mode contour is not proven in current automation context (no owner session)."
+final_status:
+  controlled_beta: PARTIAL_RELEASE_ACCOUNTING
+  paid_launch_ready: false
+  public_beta_ready: false
+  telegram_required_for_stage_i: false
+next_action: "Run a fresh production client contour with valid paid entitlement to obtain generate 200 + ZIP + PDF visual proof, then close P0."

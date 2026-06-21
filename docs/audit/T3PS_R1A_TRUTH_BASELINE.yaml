@@ -1,0 +1,149 @@
+phase: 0_truth_baseline
+release: MESSENGINFO_DOCUMENT_INTELLIGENCE_RELEASE_1A_TPS_OCR_SAFETY
+captured_at: 2026-05-20T03:28:00Z
+mode: read_only
+modifications_committed_in_this_phase: 0
+
+git:
+  HEAD:        09bd4cf2490c68593730616018f919a6dc6a97b9
+  origin_main: 09bd4cf2490c68593730616018f919a6dc6a97b9
+  in_sync:     true
+  dirty_paths:
+    # All pre-existing local-only artifacts from prior closeouts (.bak,
+    # tsbuildinfo, evidence screenshots/PNGs). Phase 0 does NOT touch them.
+    - apps/web/tsconfig.tsbuildinfo
+    - docs/audit/T3PS_110_TRUTH_BASELINE.yaml
+    - docs/reports/evidence/t3ps-final-release/browser-run-clean/*
+    - docs/reports/evidence/t3ps-functional-closeout/scenario_*/*
+    - test-fixtures/proof/RUN_ALL_GATES.report.yaml
+  untracked_local_only:
+    - .DS_Store
+    - .apply-migration.log
+    - .mr-checks.log
+    - .push.log
+    - .save-mr-ready-screenshot.log
+
+production_health:
+  url: https://messenginfo.com/api/tps/health
+  sha:                        09bd4cf
+  ok:                         true
+  google_vision_configured:   true
+  deepseek_configured:        true
+  tps_ai_brain_enabled:       true
+  brain_ready:                true
+  brain_misconfigured:        false
+  forms_pinned:
+    i821: { edition: 01/20/25, filled: true }
+    i765: { edition: 08/21/25, filled: true }
+    i131: { edition: 01/20/25, filled: true }
+    i912: { filled: false, note: paper-only, fee-waiver }
+
+files_in_scope:
+  api_layer:
+    - path: apps/web/src/app/api/tps/ocr/extract/route.ts
+      lines: 465
+      role: OCR endpoint + Brain merge + slot firewall application
+    - path: apps/web/src/app/api/tps/generate-packet/route.ts
+      lines: 81
+      role: ZIP packet build endpoint
+  ai_layer:
+    - path: apps/web/src/lib/tps/ai/documentBrain.ts
+      lines: 693
+      role: DeepSeek prompt + validators + parseDate + sex/country normalizers
+    - path: apps/web/src/lib/tps/ocr/documentContracts.ts
+      lines: 318
+      role: per-slot allowed/forbidden field contract (Phase 1 target)
+  ui_layer:
+    - path: apps/web/src/app/[locale]/services/tps-ukraine/start/TPSWizardV2.tsx
+      lines: 2528
+      role: 6-step wizard, hydration filter, edit/reset, pay button
+  pdf_layer:
+    - path: apps/web/src/lib/tps/packetBuilder.ts
+      lines: 207
+      role: I-821/I-765 prefill (pre-PDF firewall to be added in Phase 6)
+
+what_already_lives_on_production_from_prior_work:
+  - api_slot_firewall:       commit 0abba53  (filters rejected fields out of response)
+  - docHint_form_name_fix:   commit b7cfabf  (slot firewall now actually receives slot)
+  - storage_schema_v3:       commit 11a4281  (v2 ghost state discarded on hydration)
+  - hydration_field_filter:  commit 11a4281  (SLOT_ALLOWED_FIELDS re-runs on read)
+  - reset_link_every_step:   commit 11a4281
+  - edit_via_window_prompt:  commit 11a4281
+  - pay_button_with_$15:     commit 11a4281
+  - parseDate_real_world:    commits a8b26e2, 91f85a2, 66de140
+  - sex_normalizer_Cyrillic: commit 91f85a2 + 66de140
+  - country_normalizer:      commit a8b26e2 + 66de140
+  - source_label_honesty:    commit a8fd065
+  - missing_field_humanize:  commit a8fd065
+  - state_survives_locale:   commit d735a1b
+
+residual_known_gaps_carry_into_r1a:
+  p0_or_p1:
+    - id: wrong_slot_ui_warning
+      severity: P0_per_R1A_spec
+      status: NOT_PORTED
+      where: TPSWizardV2.tsx Step 5
+      note: |
+        API already returns slot_mismatch=true and detected_document_type,
+        but the wizard UI does not yet render a user-visible warning banner.
+        Phase 4 of R1A target.
+    - id: pre_pdf_source_to_final_audit
+      severity: P0_per_R1A_spec
+      status: NOT_BUILT
+      where: api/tps/generate-packet/route.ts + packetBuilder.ts
+      note: |
+        No guard prevents Cyrillic / unsourced / contract-forbidden fields
+        from reaching pdf-lib prefill. Phase 6 of R1A target.
+    - id: cyrillic_safety_in_pdf_layer
+      severity: P0_per_R1A_spec
+      status: PARTIAL
+      where: packetBuilder.ts
+      note: |
+        documentBrain.toWinAnsiSafe transliterates names before validator,
+        but no FINAL check at PDF-bound layer. Phase 6 target.
+    - id: tooltip_help_icons
+      severity: P1
+      status: BROKEN
+      where: TPSWizardV2.tsx (manual fields phone/email/marital/EAD)
+      note: |
+        `?` icons render but click/hover handler not wired in React port.
+    - id: inline_editor_richness
+      severity: P1
+      status: BASIC_ONLY
+      where: TPSWizardV2.tsx onEdit
+      note: |
+        window.prompt() works (commit 11a4281). Inline modal with live
+        validator preview is the polish step.
+    - id: name_recognition_stability
+      severity: P1
+      status: BRAIN_NONDETERMINISM
+      where: documentBrain.ts SYSTEM_PROMPT
+      note: |
+        Taras observed "Sergi" / "Taras" variation across sessions
+        when MRZ not crisply visible. Brain temperature already 0 per
+        deepseek client default; needs prompt rule "do not invent
+        characters; transliterate strictly per KMU-55".
+    - id: identity_conflict_guard
+      severity: P1
+      status: NOT_BUILT
+      where: wizard mergedFields useMemo
+      note: |
+        First-wins merge today. Should mark conflict when EAD name differs
+        from passport name.
+
+  release_1a_excluded:
+    # Items explicitly excluded by R1A spec
+    - azure_id_document_integration
+    - aws_textract_AnalyzeID
+    - mindee
+    - abbyy
+    - translation_service_refactor
+    - re_parole_changes
+    - telegram
+    - payment_logic_changes
+    - shared_core_refactor
+
+next_phase: 1_contract_firewall
+next_phase_will_modify_files: yes
+next_phase_will_commit: yes
+phase_0_verdict: BASELINE_CAPTURED_NO_CHANGES

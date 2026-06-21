@@ -1,0 +1,30 @@
+report: T3PS_HISTORICAL_ARTIFACTS_INDEX
+generated_at: "2026-05-16T22:28:00Z"
+historical_artifacts:
+  - path: docs/audit/T3PS_FINAL_GO_NO_GO_RELEASE_REPORT.yaml
+    status: historical_non_authoritative
+    superseded_by: docs/audit/T3PS_MASTER_RELEASE_LOCK_FINAL.yaml
+    reason: old_no_go_before_final_stage_i_closure
+  - path: docs/audit/T3PS_FINAL_GO_NO_GO_RELEASE_REPORT.md
+    status: historical_non_authoritative
+    superseded_by: docs/audit/T3PS_MASTER_RELEASE_LOCK_FINAL.md
+    reason: old_no_go_before_final_stage_i_closure
+  - path: docs/audit/T3PS_CONTROLLED_BETA_DAY1_REPORT.yaml
+    status: historical_non_authoritative
+    superseded_by: docs/audit/T3PS_FINAL_RESIDUAL_GAPS_REGISTER.yaml
+    reason: monitoring_transport_iteration_not_stage_i_blocker
+  - path: docs/audit/T3PS_110_EVIDENCE_INDEX.yaml
+    status: historical_non_authoritative
+    superseded_by: docs/audit/T3PS_MASTER_EVIDENCE_INDEX_FINAL.yaml
+    reason: stale_sha_iteration
+  - path: docs/audit/T3PS_MASTER_CLOSEOUT_REPORT.yaml
+    status: historical_non_authoritative
+    superseded_by: docs/audit/T3PS_MASTER_RELEASE_LOCK_FINAL.yaml
+    reason: earlier_consolidation_snapshot
+  - path: docs/reports/evidence/t3ps-final-browser/scenario_A_fresh/browser_summary.json
+    status: historical_non_authoritative
+    superseded_by: docs/reports/evidence/t3ps-final-release/browser-run-clean/browser_summary.json
+    reason: forced_state_debug_run_with_422
+dirty_tree_assessment:
+  affects_release_lock: false
+  reason: "Current dirty/untracked files are historical or raw evidence artifacts; authoritative final status is defined only by the final audit set."

@@ -1,0 +1,386 @@
+# ============================================================================
+# MIGRATION_BRIEF.yaml — uscis-helper -> "один живой мозг + словари внутри него"
+# Источник истины для агента. Ссылаться на этот файл, а не на чат.
+# Формат каждого отчёта агента: Цель -> Известно -> Не подтверждено ->
+#   Решение -> Шаги -> Бутылочные горла -> Риски -> Следующее действие.
+# ============================================================================
+meta:
+  id: uscis-helper-migration
+  version: 1
+  prod_sha: 31353a7da7a575e23f848abc793d9adcbc6950f1
+  repo_root: /Users/sergiiivanenko/work/uscis-helper
+  app: apps/web
+  mode: principal-execution-agent / co-founder   # НЕ assistant mode
+  rules_of_evidence: [Confirmed, Hypothesis, UNKNOWN]   # маркировать каждое утверждение
+  no_speculation: true        # пустоты знаний не заполнять догадками
+  no_flattery: true
+
+operator_contract:            # нарушение любого пункта = СТОП
+  path_prelude: 'export PATH="/opt/homebrew/bin:$HOME/.nvm/versions/node/v24.11.1/bin:$PATH"'
+  behavior_changes_behind_flag: true       # каждый флаг default OFF
+  no_big_bang: true                        # strangler-fig: один продукт x один класс за раз
+  phase_boundary_stop: true                # после фазы стоп + отчёт + ждать отмашку владельца
+  forbidden:
+    - prod env (меняет только владелец вручную)
+    - secrets (не читать значения, только имена)
+    - Supabase RLS/GRANT существующие (можно ДОБАВЛЯТЬ таблицу, не трогать политики)
+    - Stripe / payment
+    - UI redesign
+    - воскрешение мёртвого consensus/orchestrator кластера
+  commits:
+    sign: '--no-gpg-sign'
+    precommit_requires_staged: [STATUS.md, HANDOFF.md, CHANGELOG.md]
+  long_scripts: 'nohup bash s.sh > /tmp/out.txt 2>&1 & ; sleep N ; cat /tmp/out.txt'
+  playwright: 'apps/web/node_modules/.bin/playwright, запускать из apps/web/'
+  chrome_precheck: 'list_connected_browsers -> select_browser (deviceId 9442cdb8-8d89-4220-a6fa-68b591c9b1a2) перед заявлением о недоступности'
+
+# ----------------------------------------------------------------------------
+# ПРОТОКОЛ НОН-СТОП — главное правило поведения агента (2026-06-03)
+# ----------------------------------------------------------------------------
+non_stop_protocol:
+  lanes:
+    AUTONOMOUS:
+      desc: выполнять БЕЗ вопросов, нон-стоп
+      includes: [чтение кода, трассировка, правки за флагом default OFF, юнит-тесты, typecheck, harness-smoke на бесплатных путях, обновление docs]
+    OWNER_GATE:
+      desc: физически не может агент — НЕ делать, парковать
+      includes: [платные API-прогоны, prod env, billing, браузер-авторизация, необратимые удаления, ground-truth значения]
+      park_to: docs/reports/OWNER_QUEUE.md
+  iron_rules:
+    - НИКОГДА не останавливать весь run из-за одного owner-gate. Запарковал -> взял следующий AUTONOMOUS-кирпич -> продолжил.
+    - Останавливать run ТОЛЬКО когда (а) не осталось выполнимых AUTONOMOUS-кирпичей, ИЛИ (б) typecheck/тест падает и не чинится за 2 попытки, ИЛИ (в) действие угрожает проду.
+    - Owner-gate задачи копить и выдавать ОДНИМ батчем на чекпойнте фазы — не по одной, не посреди работы.
+    - Запрещён ложный прогресс. "core_status=ok"/"4 fields" = ЖИВОСТЬ, НЕ ТОЧНОСТЬ. В каждом baseline явно liveness vs accuracy.
+    - Любое структурное утверждение ("X не вызывается") подкреплять сырым выводом команды в отчёте.
+    - Никаких обходов owner-gate шелл-скриптами/неаутентифицированным браузером. Уперся в auth/billing -> паркуй.
+
+# ----------------------------------------------------------------------------
+# ДВА ПЛАНА МОЗГА — не смешивать в один тезис "мозг". Подтверждено Фазой 1.
+# ----------------------------------------------------------------------------
+brain_planes:
+  ocr_core:
+    desc: общий live OCR spine для всех 4 продуктов
+    reader: apps/web/src/lib/docintel/documentFieldReader.ts        # readDocument
+    judge:  apps/web/src/lib/canonical/core/arbitration.ts          # arbitrateDocument
+    dict_door: apps/web/src/lib/docintel/transliterationPolicy.ts -> apps/web/src/lib/tps/dictionaryBridge.ts
+    fanout: NONE   # geminiVisionProvider возвращает на первой модели (118,145) — один ридер
+  tps_merge:
+    desc: ОТДЕЛЬНЫЙ живой post-OCR merge brain (НЕ трогать как "dead")
+    entry:  apps/web/src/lib/tps/centralBrain.ts:100                 # mergeToCentralBrain
+    route:  apps/web/src/app/api/tps/brain/merge/route.ts:69
+    ui:     apps/web/src/app/[locale]/services/tps-ukraine/start/TPSWizardV2.tsx:2076
+    consumers_downstream:
+      - apps/web/src/app/api/tps/translation/preview/route.ts:65     # booklet перевод
+      - apps/web/src/lib/tps/packetBuilder.ts:164                    # сборка пакета
+      - apps/web/src/lib/tps/translationBridge.ts:392
+    warning: 'резать tps/centralBrain = сломать booklet translation preview + packet'
+
+# ----------------------------------------------------------------------------
+# ПОДТВЕРЖДЁННЫЕ ФАКТЫ — не перепроверять, опираться (prod_sha 31353a7)
+# ----------------------------------------------------------------------------
+confirmed:
+  prod_flags:
+    ONE_CORE_TPS_ENABLED: "1"
+    ONE_CORE_EAD_ENABLED: "true"
+    ONE_CORE_REPAROLE_ENABLED: "true"
+    ONE_BRAIN_CORE_ENABLED: "1"            # => central-brain ветка в Translation НЕ исполняется
+    CENTRAL_BRAIN_TRANSLATION: "on"        # заглушена флагом выше
+    DOCAI_ENABLED: "false"
+    TPS_GEMINI_VISION_ARBITER_ENABLED: ABSENT
+    DUAL_OCR_CROSSREF: ABSENT
+    GEMINI_MODEL: 'gemini-2.5-flash\n'     # хвостовой \n; helper уже добавлен в код, prod env ещё НЕ исправлен
+  dead_cluster_zero_live_importers:        # достижим ТОЛЬКО через загейченный central-brain / тесты / health route
+    - apps/web/src/lib/engine/consensus.ts
+    - apps/web/src/lib/engine/models.ts
+    - apps/web/src/lib/engine/htr.ts
+    - apps/web/src/lib/engine/orchestrator.ts   # импортирует мёртвый consensus
+    - apps/web/src/lib/engine/assembler.ts      # test+type only
+    - apps/web/src/lib/engine/presence.ts       # только через central-brain/index.ts; passport-guard ронял реальную фамилию
+    - apps/web/src/lib/engine/renderPdf.ts      # нет импортёров
+  engine_live: [apps/web/src/lib/engine/translator.ts, apps/web/src/lib/engine/docTypes.ts]
+  central_brain_side_paths:
+    health_route: apps/web/src/app/api/central-brain/health/route.ts
+    callable_analyze: apps/web/src/lib/central-brain/index.ts:32
+    translation_gated_branch: apps/web/src/app/api/translation/vision-extract/route.ts:159
+  reparole_bypass:
+    flag: apps/web/src/app/[locale]/services/re-parole-u4u/start/ReparoleWizardV2.tsx:42
+    sends_i94_ead_dl_to_tps_ocr: apps/web/src/app/[locale]/services/re-parole-u4u/start/ReparoleWizardV2.tsx:601
+  dictionaries:
+    in_brain_now:        # через dictionaryBridge (строки 14-19)
+      - transliterateKMU55   # 21 маппинг
+      - GEO_CORRECTIONS      # ~21
+      - normalizeOblastToNominative  # 24
+      - GLOBAL_BLOCKLIST     # ~24
+      - SETTLEMENT_TYPES     # ~21
+    NOT_in_brain:        # написаны, но висят в мёртвом orchestrator / legacy / клиенте
+      snapCity_gazetteer: {file: packages/knowledge/src/gazetteer.ts, entries: 25, used_in: "orchestrator.ts:65"}
+      reconcilePatronymic: {file: packages/knowledge/src/patronymic.ts, used_in: "orchestrator.ts:52"}
+      lookupSettlement_registry: {file: packages/knowledge/src/registry/registryLookup.ts, entries: 54, used_in: "orchestrator.ts:60"}
+      lookupAuthority: {used_in: ["orchestrator.ts:92", "legacy_modules militaryId.ts/birthCertificate.ts"]}
+      translateCivilRegistryTerm: {used_in: ["orchestrator.ts:94", "legacy birthCertificate.ts"]}
+      classifyGarbage_server: {used_in: NONE}   # isGarbageValue только клиент (TPSWizardV2, TranslateWizard)
+  legacy_callable_routes:
+    - apps/web/src/app/api/ocr/extract/route.ts
+    - apps/web/src/app/api/ocr/translate/route.ts
+    - apps/web/src/app/api/translation/extract/route.ts
+    - apps/web/src/app/api/translation/process/route.ts
+  done_already:
+    gemini_model_helper: apps/web/src/lib/gemini/model.ts (+ __tests__/model.test.ts), подключён в
+      [geminiVisionProvider.ts:34, engine/presence.ts:56, translation/vision-extract/route.ts:234]
+    phase1_T1.1: PASS   # tps/centralBrain трассирован
+    phase1_T1.2: PASS   # engine/* imporт-граф разделён
+    phase1_T1.3: PARTIAL # booklet smoke на 4 продукта снят, но в сломанной среде; полной матрицы нет
+
+# ----------------------------------------------------------------------------
+# БЛОКЕРЫ — должны быть сняты до доверия любому baseline (это и есть "что не сделано")
+# ----------------------------------------------------------------------------
+blockers:
+  B1_google_vision_403:
+    fact: 'Google Vision вернул HTTP 403 во время route-smoke => OCR-текстовый слой не работал => baseline недостоверен'
+    impact: 'MRZ-crossref, keyword-модули, dual-OCR — все зависят от Vision text; без него числа review_required искажены'
+    must_fix_before: P1.5 baseline matrix
+  B2_local_next_dev_degraded:
+    fact: 'next dev: /api/* -> 404, "Failed to find Server Action", повторяющиеся EMFILE watcher errors'
+    impact: 'localhost app-router НЕ источник истины; direct route-handler invocation надёжнее'
+    workaround: 'baseline снимать прямым вызовом POST() handlers с .env.local, как уже делал агент'
+  B3_presence_passport_guard:
+    fact: 'engine/presence.ts отдал пустые printed fields под guard "printed field not found in OCR" => fail на IVANENKO'
+    impact: 'presence/central-brain cluster нельзя считать безопасной опорой; но это side-path, не live core'
+    decision: 'не чинить presence — он в dead-плоскости; зафиксировать как причину НЕ опираться на него'
+
+# ----------------------------------------------------------------------------
+# ЦЕЛЕВОЕ СОСТОЯНИЕ ("done" для всего брифа)
+# ----------------------------------------------------------------------------
+target_state:
+  - все 4 продукта читают через один OCR-core, со ВСЕМИ словарями внутри живой двери
+  - умные словари (snapCity, reconcilePatronymic, registry lookups, серверный classifyGarbage) работают в core, не в orchestrator
+  - стадия верификации: расхождение источников -> review_required, без тихой подмены
+  - provenance-лог на поле (значение / источник чтения / какие словари тронули / confidence / review)
+  - tps_merge plane сохранён и не сломан (booklet перевод + packet работают)
+  - мёртвый кластер удалён, Translation dead-branch вырезан, legacy-routes карантинированы
+  - газеттир расширен (КАТОТТГ), снаппер работает в мозге
+
+# ----------------------------------------------------------------------------
+# БРИКИ. Поля каждого: id, depends_on, owner_gate, files, action, flag, tests,
+#   smoke, rollback, done_when. owner_gate=true => остановиться и ждать владельца.
+# ----------------------------------------------------------------------------
+phases:
+
+  - id: P0
+    name: Добить GEMINI_MODEL
+    bricks:
+      - id: P0.1
+        owner_gate: true
+        action: 'ВЛАДЕЛЕЦ вручную: printf "gemini-2.5-flash" | vercel env add GEMINI_MODEL production --force ; vercel --prod'
+        agent_role: подготовить команду, не выполнять, ждать подтверждения
+        done_when: prod env без хвостового \n
+      - id: P0.2
+        depends_on: [P0.1]
+        owner_gate: true
+        action: 1 booklet через прод, в логах подтвердить модель = gemini-2.5-flash и отсутствие 404-round-trip
+        done_when: лог показывает корректный model-id
+
+  - id: P1_5
+    name: СНЯТЬ БЛОКЕРЫ СРЕДЫ + полная baseline matrix (это и есть незакрытый T1.3)
+    status: CLOSED-SMART   # 2026-06-03: Vision billing НЕ нужен для baseline живого пути.
+    closed_smart_rationale: |
+      Live core читает через ОДИН Gemini (geminiVisionProvider), НЕ через Google Vision OCR.
+      Поэтому Vision 403 НЕ блокирует baseline живого пути. Baseline снят на Gemini-core subset.
+      Доказательство: docs/reports/BASELINE_MATRIX.md.
+      ВАЖНО: baseline = LIVENESS ONLY (пайплайн не падает), НЕ accuracy.
+      Точность booklet остаётся НЕизмеренной до P1.5.4 (ground-truth) — owner-gate.
+      P1.5.1 (Vision auth) и P1.5.3 (платная полная матрица) остаются owner-gate, но НЕ блокируют P2.
+    rationale: 'baseline с Vision 403 недостоверен. Сначала рабочая среда, потом числа.'
+    bricks:
+      - id: P1.5.1
+        title: Починить Google Vision auth в harness-среде
+        files: [apps/web/.env.local, apps/web/src/lib/ocr/providers/google-vision.ts]
+        action: |
+          Диагностировать 403: какой ключ/服务-account используется в harness vs prod.
+          Проверить GOOGLE_CLOUD_VISION_API_KEY / GOOGLE_VISION_SERVICE_ACCOUNT_JSON присутствие (имена, НЕ значения).
+          Цель: тот же путь аутентификации, что в проде, доступен локальному harness.
+        owner_gate: true   # если нужен новый ключ/служебный аккаунт — решает владелец
+        done_when: пробный Vision-вызов на 1 фикстуре возвращает 200, не 403
+      - id: P1.5.2
+        title: Зафиксировать harness как источник истины (не next dev)
+        files: [apps/web/src/lib/engine/__tests__/pipeline.live.e2e.test.ts]
+        action: 'baseline снимать прямым вызовом route POST() handlers с .env.local; next dev НЕ использовать (B2)'
+        done_when: воспроизводимый harness-скрипт, удаляемый после прогона
+      - id: P1.5.3
+        title: ПОЛНАЯ baseline matrix product x class (с рабочим Vision)
+        depends_on: [P1.5.1, P1.5.2]
+        owner_gate: true   # платные вызовы
+        classes: [international_passport, internal_booklet, id_card, birth_certificate, soviet_birth_certificate, marriage_certificate, military_id, i94, ead, i797, driver_license]
+        products: [TPS, Translation, ReParole, EAD]
+        action: |
+          Прогнать каждую применимую пару product x class на реальной фикстуре из test-fixtures/real-docs/.
+          Записать строку: product | class | brain_plane | какой ридер | какие словари применились | review_required count | invented_fields count | pass/fail.
+        output_file: docs/reports/BASELINE_MATRIX.md
+        done_when: матрица заполнена реальными прогонами (не из кода), Vision=200, помечены классы без фикстуры как UNKNOWN
+      - id: P1.5.4
+        title: GROUND-TRUTH для booklet (без него P2 неизмерим)
+        problem: |
+          Без верных значений нечем доказать "стало точнее" в P2.
+          "baseline не ухудшился" сейчас = пустые слова (accuracy не измерена ни на одном booklet).
+        autonomous_part: |
+          Сгенерить шаблон ground-truth JSON на 3-4 реальных booklet из test-fixtures/real-docs/.
+          Поля пустые, со списком ожидаемых ключей и путём к фикстуре.
+          Положить в test-fixtures/real-docs/ground-truth/.
+        owner_gate_part: |
+          Владелец вписывает верные значения глазами с документа. Только человек знает истину.
+          Задача в OWNER_QUEUE.md.
+        owner_gate: true
+        done_when: шаблоны созданы (autonomous) + владелец вписал значения (owner-gate)
+
+  - id: P2
+    name: ВСТРОИТЬ СЛОВАРИ В ЖИВОЙ МОЗГ (ядро)
+    flag: SMART_NORMALIZE_ENABLED   # default OFF, на всю фазу
+    rationale: перенести логику ИЗ мёртвого orchestrator В живую дверь transliterationPolicy/dictionaryBridge
+    bricks:
+      - id: P2.1
+        title: city_of_birth -> snapCity (газеттир) в мозге
+        files:
+          - apps/web/src/lib/docintel/transliterationPolicy.ts   # ветка city
+          - apps/web/src/lib/tps/dictionaryBridge.ts             # normalizeCity
+        action: |
+          После normalizeCity(GEO_CORRECTIONS), ДО transliterateKMU55, вызвать snapCity(value).
+          matched=true -> взять snapped value; matched=false -> review_required=true (НЕ тихая подмена).
+        tests: 'vitest: Простянець->Тростянець snap ok; неизвестное село -> review_required=true'
+        smoke: 2 буклета с не-областными местами через harness
+        rollback: SMART_NORMALIZE_ENABLED=OFF
+        done_when: место снапается или уходит на review; baseline (BASELINE_MATRIX) не ухудшился
+      - id: P2.2
+        title: middle_name/patronymic -> reconcilePatronymic
+        files: [apps/web/src/lib/docintel/transliterationPolicy.ts]
+        action: 'reconcilePatronymic(value, givenName, sex); рукопись -> review_required=true всегда'
+        tests: vitest на согласованность отчества с именем+полом
+        rollback: flag OFF
+        done_when: отчество сверяется с именем; конфликт -> review
+      - id: P2.3
+        title: authority/issued_by -> lookupAuthority + translateCivilRegistryTerm в bridge
+        files: [apps/web/src/lib/tps/dictionaryBridge.ts]
+        note: позже убрать дублирование из legacy militaryId.ts/birthCertificate.ts (P5)
+        tests: vitest на РАЦС/ЗАГС/ДРАЦС раскрытие
+        rollback: flag OFF
+      - id: P2.4
+        title: settlement -> lookupSettlement / normalizeSettlementType
+        files: [apps/web/src/lib/tps/dictionaryBridge.ts]
+        rollback: flag OFF
+      - id: P2.5
+        title: серверный анти-мусор classifyGarbage до клиента
+        files: [apps/web/src/lib/canonical/core/arbitration.ts, apps/web/src/lib/docintel/documentFieldReader.ts]
+        action: 'classifyGarbage в reader или arbitrate -> мусор режется на сервере, не только в UI'
+        tests: vitest на мусорные значения
+        rollback: flag OFF
+    phase_done_when: SMART_NORMALIZE_ENABLED=ON на TPS, BASELINE_MATRIX не ухудшился, typecheck PASS
+
+  - id: P3
+    name: СТАДИЯ ВЕРИФИКАЦИИ (анти-фейк, БЕЗ воскрешения consensus)
+    gate:
+      id: P3.GATE
+      owner_gate: true
+      title: ГЕЙТ СТОИМОСТИ/НЕЗАВИСИМОСТИ — обязателен до любого fanout
+      reason: 'шрам владельца — потеря денег на нерасчётном решении. fanout платный на каждый документ.'
+      experiment:
+        files: [test-fixtures/real-docs/, apps/web/src/lib/docintel/providers/]
+        action: |
+          Прогнать 9 фикстур через ТРИ архитектурно разных движка: Gemini (LLM) x Google Vision (OCR) x DocAI.
+          ВАЖНО: Gemini x Gemini = НЕ сверка (одинаковые галлюцинации). Независимость = разные движки.
+          Замерить: расходятся ли они на ошибках (ловит ли один то, что другой врёт), и стоимость на документ.
+        output_file: docs/reports/FANOUT_GATE.md
+      decision_rule:
+        - 'движки расходятся и ловят ошибки -> Google-only fanout оправдан -> строить P3.2'
+        - 'все трое тихо согласны на неверном (вероятно на рукописной кириллице) -> fanout мёртв -> только структурные верификаторы + обязательный human review на фамилию/место из буклета'
+    bricks:
+      - id: P3.1
+        title: структурные верификаторы (дёшево, строить сразу, не ждут гейта)
+        files: [apps/web/src/lib/canonical/core/arbitration.ts, apps/web/src/lib/canonical/core/mrzAuthority.ts]
+        action: 'MRZ<->visible-zone сверка; gazetteer-snap как верификатор места; patronymic-consistency; date sanity. Расхождение -> review_required.'
+        tests: vitest на фикстурах с известными ошибками -> поднимается review_required
+        rollback: flag VERIFY_STRUCT_ENABLED OFF
+      - id: P3.2
+        title: второй независимый ридер (ТОЛЬКО если P3.GATE зелёный)
+        depends_on: [P3.GATE]
+        flag: VERIFIER_SECOND_READ_ENABLED   # default OFF
+        files: [apps/web/src/lib/docintel/documentFieldReader.ts, apps/web/src/lib/canonical/core/arbitration.ts]
+        action: 'добавить Vision/DocAI как кандидатов; arbitrateDocument сравнивает; расхождение -> review_required'
+        rollback: flag OFF
+    phase_done_when: на фикстурах с известными ошибками верификатор поднимает review там, где раньше уходило тихо
+
+  - id: P4
+    name: PROVENANCE-ЛОГ (Аудитор со схемы; additive)
+    bricks:
+      - id: P4.1
+        title: per-field provenance в arbitrate
+        files: [apps/web/src/lib/canonical/core/arbitration.ts, apps/web/src/lib/canonical/types.ts]
+        action: 'на каждое поле: значение / источник чтения (модель) / какие словари тронули / confidence / review_required'
+        rollback: не влияет на выдачу (только обогащает результат)
+      - id: P4.2
+        title: персист в Supabase (НЕ трогать существующие RLS)
+        owner_gate: true   # новая таблица в проде
+        action: 'новая таблица provenance, RLS по образцу остальных (добавить, не менять); только запись, без влияния на выдачу'
+        done_when: на 1 прогон есть полный provenance-след каждого поля
+
+  - id: P5
+    name: УБОРКА (только после того как живой мозг доказал словари+верификацию)
+    bricks:
+      - id: P5.1
+        title: вырезать dead-branch central-brain в Translation
+        files: [apps/web/src/app/api/translation/vision-extract/route.ts]   # ветка :159
+        precondition: подтвердить grep'ом 0 живых вызовов при ONE_BRAIN_CORE_ENABLED=1
+        action: удалить загейченную ветку; прод-поведение не меняется (она и так не исполняется)
+        show_diff_to_owner: true
+        tests: typecheck PASS + Translation route тесты PASS
+      - id: P5.2
+        title: карантин legacy-routes
+        files: [apps/web/src/app/api/ocr/extract, ocr/translate, translation/extract, translation/process]
+        precondition: grep доказать, что UI их не зовёт
+        action: вернуть 410/флаг, НЕ удалять сразу
+        show_diff_to_owner: true
+      - id: P5.3
+        title: удалить мёртвый кластер
+        files: [engine/consensus.ts, models.ts, htr.ts, orchestrator.ts, assembler.ts, presence.ts, renderPdf.ts, central-brain/*]
+        precondition: 0 живых импортёров подтверждено; central-brain health route решён отдельно
+        owner_gate: true   # htr.ts = задел под HTR-роадмап
+        action: 'htr.ts сохранить в отдельную ветку перед удалением; central-brain/health — решение владельца (оставить как diag или убрать)'
+        tests: typecheck PASS + граф импортов чист
+      - id: P5.4
+        title: убрать дублирование словарей из legacy-модулей
+        files: [apps/web/src/lib/tps/modules/militaryId.ts, apps/web/src/lib/tps/modules/birthCertificate.ts]
+        precondition: P2.3 (lookupAuthority/civilTerm уже в bridge) доказан в проде
+        note: НЕ трогать tps_merge plane (centralBrain.ts) — он живой
+    phase_done_when: typecheck PASS, граф чист, прод-поведение не тронуто, booklet перевод+packet работают
+
+  - id: P6
+    name: ДАННЫЕ — расширить газеттир (после того как snapCity уже в мозге, P2.1)
+    bricks:
+      - id: P6.1
+        owner_gate: true
+        title: источник КАТОТТГ/КОАТУУ
+        action: найти официальный датасет адмеджиниц Украины; проверить лицензию+формат; дать владельцу источник+лицензию ДО загрузки
+      - id: P6.2
+        title: влить как индекс с ленивой загрузкой (не раздувать бандл)
+        files: [packages/knowledge/src/gazetteer.ts, packages/knowledge/scripts/gen-registry.mjs]
+        action: индекс + lazy load; пере-генерация если применимо
+      - id: P6.3
+        title: регресс
+        action: snapCity на расширенных данных не ломает тесты; добавить тесты на сёла
+        done_when: место снапается по тысячам пунктов, review только на реально неоднозначных
+
+# ----------------------------------------------------------------------------
+definition_of_done_per_pr:
+  - typecheck PASS (npm --prefix apps/web run typecheck)
+  - relevant vitest PASS
+  - smoke на реальной фикстуре (Vision=200, не 403)
+  - изменение за флагом default OFF
+  - BASELINE_MATRIX не ухудшился
+  - STATUS.md / HANDOFF.md / CHANGELOG.md обновлены и staged
+  - откат = один флаг
+  - prod env / secrets / существующие RLS не тронуты
+  - tps_merge plane (booklet перевод+packet) не сломан
+  - отчёт в формате Цель->Известно->Не подтверждено->Решение->Шаги->Бутылочные горла->Риски->Следующее
+
+execution_order:
+  sequence: [P0, P1_5, P2, P3, P4, P5, P6]
+  between_phases: СТОП + отчёт + ждать отмашку владельца. Не цеплять фазы в один забег.
+  start_here: 'P1_5.1 — починить Vision 403. Без рабочего Vision baseline недостоверен, и всё, что строится поверх — гадание.'

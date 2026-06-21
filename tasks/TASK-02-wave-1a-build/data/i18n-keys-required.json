@@ -1,0 +1,401 @@
+{
+  "_comment": "All 4 locale files (en, ru, uk, es) MUST have IDENTICAL key structure. Use this as the canonical key tree. Values are placeholders showing required structure.",
+
+  "header": {
+    "navServices": "Services",
+    "navDocuments": "Documents",
+    "navFaq": "FAQ",
+    "navSources": "Sources",
+    "ctaCheckStatus": "Check Status"
+  },
+
+  "trending": {
+    "label": "Trending:",
+    "items": {
+      "reparole": "Re-parole",
+      "tpsEad": "TPS EAD deadline",
+      "paymentIssue": "Payment not recognized",
+      "biometrics": "Biometrics",
+      "translation": "Document translation",
+      "caseStatus": "Case status"
+    }
+  },
+
+  "hero": {
+    "h1": "USCIS help for Ukrainians in the U.S.",
+    "subtitle": "Official sources, document guidance, and clear next steps for U4U, re-parole, TPS, EAD, I-94, and case tracking.",
+    "ctaBrowseServices": "Browse Services",
+    "ctaReadUpdates": "Read Latest Updates",
+    "trustStrip": "Official-source based · 4 languages · Not a law firm"
+  },
+
+  "caseStatus": {
+    "title": "Check your USCIS case status",
+    "subtitle": "Enter your 13-character receipt number. We don't store it.",
+    "placeholder": "e.g. IOE1234567890",
+    "buttonLabel": "Open USCIS",
+    "errorInvalid": "Receipt number format is invalid. It should be 3 letters (EAC, WAC, LIN, SRC, NBC, MSC, IOE) followed by 10 digits.",
+    "disclaimer": "We don't store your receipt number. Submitting opens the official USCIS Case Status page in a new tab."
+  },
+
+  "officialSources": {
+    "sectionTitle": "Official sources",
+    "uscisCaseStatus": {
+      "title": "USCIS Case Status",
+      "description": "Track your case with your receipt number"
+    },
+    "uscisForms": {
+      "title": "USCIS Forms",
+      "description": "Official forms and instructions"
+    },
+    "cbpI94": {
+      "title": "CBP I-94",
+      "description": "Find your most recent I-94 record"
+    },
+    "dojReps": {
+      "title": "DOJ Accredited Reps",
+      "description": "Find a DOJ-accredited representative"
+    }
+  },
+
+  "services": {
+    "sectionTitle": "What do you need help with?",
+    "viewAll": "View all services",
+    "cards": {
+      "parole-expires-soon": {
+        "title": "Parole expires soon",
+        "shortProblem": "Your parole expires in days or weeks"
+      },
+      "re-parole-u4u": {
+        "title": "Re-parole U4U",
+        "shortProblem": "How to file for re-parole"
+      },
+      "tps-ukraine": {
+        "title": "TPS Ukraine",
+        "shortProblem": "TPS eligibility, EAD deadlines, re-registration"
+      },
+      "ead-work-permit": {
+        "title": "EAD work permit",
+        "shortProblem": "Work authorization status and renewal"
+      },
+      "i-94": {
+        "title": "I-94 record",
+        "shortProblem": "Find or correct your I-94"
+      },
+      "uscis-case-status": {
+        "title": "USCIS case status",
+        "shortProblem": "Track your case progress"
+      },
+      "payment-problem": {
+        "title": "Payment problem",
+        "shortProblem": "USCIS payment issues and disputes"
+      },
+      "biometrics": {
+        "title": "Biometrics appointment",
+        "shortProblem": "What to expect, how to reschedule"
+      },
+      "rfe-denial": {
+        "title": "RFE or denial",
+        "shortProblem": "Request for Evidence or denial response"
+      },
+      "translate-document": {
+        "title": "Translate a document",
+        "shortProblem": "Translation requirements for USCIS"
+      },
+      "form-draft-helper": {
+        "title": "Form draft helper",
+        "shortProblem": "Understand which form to use"
+      },
+      "official-sources": {
+        "title": "Official sources",
+        "shortProblem": "All official USCIS, CBP, DOJ links"
+      }
+    }
+  },
+
+  "servicePages": {
+    "_pattern": "Each slug below has 4 sub-keys: title, subtitle, whatHelps (array of 3-5 strings), commonMistakes (array of 3 strings), officialNote (1-2 sentences)",
+    "parole-expires-soon": {
+      "title": "Your parole is expiring soon",
+      "subtitle": "Understand what you have, what you need, and where to verify the official rules.",
+      "whatHelps": [
+        "Knowing the difference between parole expiration and case receipt",
+        "Identifying which form to file (typically I-131)",
+        "Locating your I-94 and parole travel authorization documents",
+        "Understanding state of presence vs work authorization"
+      ],
+      "commonMistakes": [
+        "Believing a receipt notice automatically extends parole",
+        "Filing only the form without personal evidence",
+        "Confusing parole status with EAD validity"
+      ],
+      "officialNote": "USCIS publishes Uniting for Ukraine guidance on its official website. Always verify dates and requirements directly from USCIS."
+    },
+    "re-parole-u4u": {
+      "title": "How to file for re-parole (U4U)",
+      "subtitle": "What documents to gather, what evidence is now expected, and where to find official requirements.",
+      "whatHelps": [
+        "Gathering supporting documents required by USCIS",
+        "Understanding personal vs general justification",
+        "Reviewing the Form I-131 and instructions",
+        "Knowing the difference between re-parole and EAD applications"
+      ],
+      "commonMistakes": [
+        "Assuming general country conditions are sufficient",
+        "Filing without recent personal evidence (medical, family, employment)",
+        "Forgetting to include the Travel Authorization document"
+      ],
+      "officialNote": "Form I-131 and instructions are available on the USCIS website. The instructions are the authoritative source for what evidence is required."
+    },
+    "tps-ukraine": {
+      "title": "TPS Ukraine",
+      "subtitle": "Designation period, EAD auto-extension dates, and re-registration windows.",
+      "whatHelps": [
+        "Confirming whether you registered in time",
+        "Understanding the TPS designation period vs EAD validity",
+        "Locating your EAD card category code",
+        "Reviewing re-registration windows on USCIS"
+      ],
+      "commonMistakes": [
+        "Assuming TPS designation extension automatically extends your EAD",
+        "Missing re-registration windows",
+        "Working past your EAD auto-extension cutoff"
+      ],
+      "officialNote": "USCIS posts current TPS Ukraine designation dates and auto-extension EAD dates on its official TPS country page. Federal Register notices are the authoritative source."
+    },
+    "ead-work-permit": {
+      "title": "EAD (Work permit)",
+      "subtitle": "How USCIS treats EAD applications, categories, and what an EAD covers.",
+      "whatHelps": [
+        "Identifying your correct EAD category",
+        "Reviewing Form I-765 instructions",
+        "Understanding fee waivers via Form I-912",
+        "Knowing the difference between auto-extension and new approval"
+      ],
+      "commonMistakes": [
+        "Filing under the wrong category code",
+        "Filing for work authorization on a re-parole receipt alone",
+        "Missing the I-9 reverification deadline with employer"
+      ],
+      "officialNote": "Form I-765 and the Federal Register are the authoritative sources for EAD eligibility, categories, and auto-extension dates."
+    },
+    "i-94": {
+      "title": "I-94 record",
+      "subtitle": "How to retrieve, verify, and request corrections to your I-94 with CBP.",
+      "whatHelps": [
+        "Retrieving your most recent I-94 from CBP",
+        "Understanding class of admission codes",
+        "Identifying when an I-94 correction request is needed"
+      ],
+      "commonMistakes": [
+        "Confusing I-94 expiration with parole expiration",
+        "Not retrieving I-94 before applying for benefits",
+        "Submitting incorrect class of admission on forms"
+      ],
+      "officialNote": "CBP I-94 records are retrieved at i94.cbp.dhs.gov. CBP, not USCIS, issues and corrects I-94 records."
+    },
+    "uscis-case-status": {
+      "title": "Check your USCIS case status",
+      "subtitle": "Use your receipt number to track your case on USCIS.",
+      "whatHelps": [
+        "Locating your receipt number on USCIS notices",
+        "Understanding what each status step means",
+        "Knowing the difference between processing time and your case status"
+      ],
+      "commonMistakes": [
+        "Entering the wrong receipt number format",
+        "Confusing biometrics scheduling with case approval",
+        "Calling USCIS before checking online status"
+      ],
+      "officialNote": "USCIS case status is tracked at egov.uscis.gov. Receipt number formats begin with EAC, WAC, LIN, SRC, NBC, MSC, or IOE followed by 10 digits."
+    },
+    "payment-problem": {
+      "title": "USCIS payment problem",
+      "subtitle": "What to do when your payment processed but USCIS shows your case as unpaid.",
+      "whatHelps": [
+        "Confirming the charge on your bank statement",
+        "Locating your payment confirmation in your USCIS online account",
+        "Understanding when to contact USCIS Contact Center"
+      ],
+      "commonMistakes": [
+        "Paying again before confirming the original payment status",
+        "Not saving the bank statement showing the charge",
+        "Waiting too long before contacting USCIS"
+      ],
+      "officialNote": "USCIS payment issues are handled through your USCIS online account at my.uscis.gov."
+    },
+    "biometrics": {
+      "title": "Biometrics appointment",
+      "subtitle": "What biometrics involves, what to bring, and how to reschedule.",
+      "whatHelps": [
+        "Bringing required identification documents",
+        "Knowing what biometrics involves (fingerprints, photo, signature)",
+        "Understanding rescheduling rules"
+      ],
+      "commonMistakes": [
+        "Missing the appointment without rescheduling",
+        "Bringing wrong identification documents",
+        "Assuming biometrics is the same as case approval"
+      ],
+      "officialNote": "USCIS lists biometrics services and fees on its official website."
+    },
+    "rfe-denial": {
+      "title": "Responding to an RFE or denial",
+      "subtitle": "What an RFE means, deadlines, and where to find official guidance.",
+      "whatHelps": [
+        "Reading the RFE letter to identify exactly what is requested",
+        "Identifying the response deadline",
+        "Understanding when a Motion to Reopen vs an appeal is appropriate"
+      ],
+      "commonMistakes": [
+        "Missing the RFE deadline",
+        "Sending only some of the requested evidence",
+        "Confusing an RFE with a denial"
+      ],
+      "officialNote": "USCIS Policy Manual is the authoritative reference for RFE and denial procedures."
+    },
+    "translate-document": {
+      "title": "Translate a document for USCIS",
+      "subtitle": "Translation requirements under 8 CFR 103.2(b)(3).",
+      "whatHelps": [
+        "Understanding USCIS translation certification requirements",
+        "Knowing which documents commonly need translation",
+        "Identifying who can certify a translation"
+      ],
+      "commonMistakes": [
+        "Submitting an untranslated foreign-language document",
+        "Using a translation without a certification of competence",
+        "Confusing notarization with translation certification"
+      ],
+      "officialNote": "USCIS translation requirements are codified at 8 CFR 103.2(b)(3) (Code of Federal Regulations)."
+    },
+    "form-draft-helper": {
+      "title": "Which form do I need?",
+      "subtitle": "Common immigration scenarios and the USCIS forms typically associated with them.",
+      "whatHelps": [
+        "Identifying the topic that matches your situation",
+        "Locating the official USCIS form page",
+        "Reading form instructions before starting"
+      ],
+      "commonMistakes": [
+        "Filing a similar but wrong form",
+        "Using an outdated form edition",
+        "Skipping the official instructions"
+      ],
+      "officialNote": "All USCIS forms are at uscis.gov/forms. Form instructions are part of the official form."
+    },
+    "official-sources": {
+      "title": "Official sources",
+      "subtitle": "All authoritative US government sources we link to.",
+      "whatHelps": [
+        "USCIS for forms, fees, and policy",
+        "CBP for I-94 records",
+        "DOJ EOIR for accredited representatives",
+        "Federal Register for designation notices"
+      ],
+      "commonMistakes": [
+        "Trusting unofficial websites for processing times",
+        "Following advice from social media without verification",
+        "Using outdated form editions"
+      ],
+      "officialNote": "Always verify any guidance you receive against the official source listed for that topic."
+    }
+  },
+
+  "translatePage": {
+    "safeStatement": "USCIS generally requires a full English translation and translator certification for foreign-language documents submitted to USCIS. This page does not create a certified translation."
+  },
+
+  "askQuestion": {
+    "title": "Don't see your question?",
+    "subtitle": "Browse our knowledge base or contact us.",
+    "ctaFaq": "Browse FAQ & Answers",
+    "ctaContact": "Contact us"
+  },
+
+  "howWeHelp": {
+    "sectionTitle": "How we help",
+    "card1": {
+      "title": "Find official sources",
+      "description": "Every topic links to the authoritative USCIS, CBP, or DOJ source."
+    },
+    "card2": {
+      "title": "Organize your documents",
+      "description": "Know what to gather before you file."
+    },
+    "card3": {
+      "title": "Get clear next steps",
+      "description": "Understand what to do — and what not to do."
+    }
+  },
+
+  "documentTools": {
+    "sectionTitle": "Document guidance",
+    "footnote": "Document tools are coming soon. These pages explain what to prepare and link to official requirements.",
+    "items": {
+      "passport": "Passport",
+      "birth": "Birth certificate",
+      "marriage": "Marriage certificate",
+      "diploma": "Diploma",
+      "military": "Military document",
+      "driver": "Driver license"
+    }
+  },
+
+  "telegramStrip": {
+    "title": "Community access",
+    "openChannel": "Open Channel",
+    "openBot": "Open Bot",
+    "fallback": "Telegram channel and bot will be added after verification."
+  },
+
+  "miaWidget": {
+    "header": "Hi! I'm Mia, your guide to Messenginfo.",
+    "linkCaseStatus": "Case Status",
+    "linkServices": "Services",
+    "linkSources": "Sources",
+    "linkContact": "Contact",
+    "footer": "I'm a quick navigator, not a chat assistant."
+  },
+
+  "disclaimer": {
+    "title": "Important",
+    "bold": "Messenginfo is not a law firm and does not provide legal advice.",
+    "body": "We provide official-source information and self-help guidance. For legal advice, consult a licensed immigration attorney or DOJ-accredited representative."
+  },
+
+  "footer": {
+    "colAbout": "About",
+    "colServices": "Services",
+    "colResources": "Resources",
+    "colLegal": "Legal",
+    "linkAbout": "About",
+    "linkContact": "Contact",
+    "linkPrivacy": "Privacy",
+    "linkTerms": "Terms",
+    "linkDisclaimer": "Disclaimer",
+    "copyright": "© 2026 Messenginfo · Not a law firm · Not a translation service"
+  },
+
+  "mobileBar": {
+    "home": "Home",
+    "services": "Services",
+    "status": "Status",
+    "contact": "Contact"
+  },
+
+  "badges": {
+    "riskLow": "Low risk",
+    "riskMedium": "Medium",
+    "riskHigh": "High risk",
+    "officialSource": "Official source"
+  },
+
+  "common": {
+    "openOfficialSource": "Open Official Source",
+    "backToServices": "Back to Services",
+    "lastVerified": "Last verified",
+    "relatedServices": "Related services",
+    "loading": "Loading..."
+  }
+}

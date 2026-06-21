@@ -1,0 +1,39 @@
+name: V1 Nightly Staging Smoke
+
+# DRY-RUN until a dedicated staging environment exists (phase STAGING_CONTROL_PLANE).
+# Never targets production. Makes NO real provider/Stripe calls. No-ops (exit 0)
+# unless repo variable V1_STAGING_READY == 'true' AND staging secrets are present.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 7 * * *' # 07:00 UTC nightly
+
+jobs:
+  nightly-staging:
+    name: staging route smoke + user-path E2E (dry-run)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+      - name: Guard — staging readiness (fail-closed, dry-run by default)
+        env:
+          V1_STAGING_READY: ${{ vars.V1_STAGING_READY }}
+          STAGING_APP_URL: ${{ secrets.STAGING_APP_URL }}
+        run: |
+          if [ "${V1_STAGING_READY:-}" != "true" ]; then
+            echo "V1_STAGING_READY != true → DRY-RUN: staging not provisioned; no smoke executed, no provider/Stripe calls."
+            exit 0
+          fi
+          if [ -z "${STAGING_APP_URL:-}" ]; then
+            echo "::error::V1_STAGING_READY=true but STAGING_APP_URL missing — fail closed."
+            exit 1
+          fi
+          # Production target is forbidden even when staging is 'ready'.
+          case "$STAGING_APP_URL" in
+            *messenginfo.com*|*rtfxrlountkoegsseukx*)
+              echo "::error::STAGING_APP_URL references production — refused."; exit 1;;
+          esac
+          echo "Staging ready. (Real staging smoke is implemented in a later phase; still no production, no real money.)"

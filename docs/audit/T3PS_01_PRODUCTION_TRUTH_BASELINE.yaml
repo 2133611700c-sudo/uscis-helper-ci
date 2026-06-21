@@ -1,0 +1,76 @@
+task_id: T3PS-01-PRODUCTION-TRUTH-BASELINE
+generated_at: "2026-05-14T07:42:30Z"
+local_repo:
+  path: "/Users/sergiiivanenko/work/uscis-helper"
+  current_branch: "main"
+  local_head_sha: "0e239635b062c1c0e9289bc08794da5d7fbe59b7"
+  origin_main_sha: "0e239635b062c1c0e9289bc08794da5d7fbe59b7"
+  commits_ahead_of_origin: 0
+  commits_behind_origin: 0
+  uncommitted_changes_present: true
+  uncommitted_changes_sample:
+    - "M apps/web/tsconfig.tsbuildinfo"
+    - "?? .DS_Store"
+    - "?? test-fixtures/proof/... (multiple untracked artifacts)"
+github_truth:
+  target_repo_from_task: "2133611700c-sudo/opencloud-gpt-agent"
+  default_branch: "main"
+  remote_main_sha: "b1e16cf53df7ef7be0e93e6a333f5db92dd2e136"
+  expected_recent_commit_check:
+    expected_commit: "0e23963 or newer"
+    status: "FAIL"
+    error: "No commit found for SHA: 0e23963 (HTTP 422)"
+  latest_runs_checked: 10
+mac_gates:
+  script: "./scripts/run-all-gates.sh"
+  status: "PASS"
+  report_path: "test-fixtures/proof/RUN_ALL_GATES.report.yaml"
+  summary:
+    total: 5
+    pass: 5
+    fail: 0
+vercel_deployment_truth:
+  scope_check_status: "FAIL"
+  scope_error: "vercel ls --scope 2133611700c-sudo -> Error: The specified scope does not exist"
+  inspect_status: "PASS"
+  deployment_id: "dpl_5A1KHYhPswRBuVDvsSr3MJNR1reG"
+  deployment_state: "READY"
+  deployment_url: "https://uscis-helper-5uxqzzaku-sergiis-projects-8a97ee0f.vercel.app"
+  aliases:
+    - "https://messenginfo.com"
+    - "https://www.messenginfo.com"
+  deployed_commit_sha_from_health: "0e239635b062c1c0e9289bc08794da5d7fbe59b7"
+production_http_smoke:
+  routes:
+    - url: "https://messenginfo.com/ru/services/tps-ukraine/start"
+      status: 200
+      content_type: "text/html; charset=utf-8"
+    - url: "https://messenginfo.com/en/services/tps-ukraine/start"
+      status: 200
+      content_type: "text/html; charset=utf-8"
+    - url: "https://messenginfo.com/ru/services/tps-ukraine"
+      status: 200
+      content_type: "text/html; charset=utf-8"
+    - url: "https://messenginfo.com/ru/services/tps-ukraine/sources"
+      status: 200
+      content_type: "text/html; charset=utf-8"
+    - url: "https://messenginfo.com/ru/privacy"
+      status: 200
+      content_type: "text/html; charset=utf-8"
+  health:
+    url: "https://messenginfo.com/api/tps/health"
+    ok: true
+    sha: "0e239635b062c1c0e9289bc08794da5d7fbe59b7"
+openclaw_capability_status:
+  workflow: "openclaw-task-runner.yml"
+  initial_dispatch_with_inputs: "FAIL"
+  initial_dispatch_error: "HTTP 422 Unexpected inputs provided: [\"expected_status\",\"note\",\"task_type\"]"
+  fallback_dispatch_without_inputs: "PASS"
+  run_id: 25848225569
+  run_url: "https://github.com/2133611700c-sudo/opencloud-gpt-agent/actions/runs/25848225569"
+  run_conclusion: "success"
+  artifact_name: "openclaw-task-runner-25848225569"
+blockers:
+  - "Task points GitHub to opencloud-gpt-agent, but local/Vercel production under test is uscis-helper; expected commit 0e23963 is absent in opencloud-gpt-agent."
+  - "Local repo is not clean (documented uncommitted/untracked files present)."
+verdict: "FAIL"

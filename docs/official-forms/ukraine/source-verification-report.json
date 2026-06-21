@@ -1,0 +1,51 @@
+{
+  "generated_by": "scripts/verify-ukraine-sources.mjs",
+  "note": "A source is verified only if its fetched page contains the act number + keywords. Offline → unreachable.",
+  "summary": {
+    "verified": 3,
+    "mismatch": 0,
+    "unreachable": 0,
+    "invalid_url": 3
+  },
+  "sources": [
+    {
+      "id": "ua_kmu_1025_2010",
+      "url": "https://zakon.rada.gov.ua/laws/show/1025-2010-п/print",
+      "status": "verified",
+      "title": "Про затвердження зразків актови... | від 10.11.2010 № 1025 (Текст для друку)",
+      "numberOk": true,
+      "keywordsOk": true
+    },
+    {
+      "id": "ua_kmu_152_2014",
+      "url": "https://zakon.rada.gov.ua/laws/show/152-2014-п/print",
+      "status": "verified",
+      "title": "Про затвердження зразка бланка, ... | від 07.05.2014 № 152 (Текст для друку)",
+      "numberOk": true,
+      "keywordsOk": true
+    },
+    {
+      "id": "ua_kmu_302_2015",
+      "url": "https://zakon.rada.gov.ua/laws/show/302-2015-п/print",
+      "status": "verified",
+      "title": "Про затвердження зразка бланка, ... | від 25.03.2015 № 302 (Текст для друку)",
+      "numberOk": true,
+      "keywordsOk": true
+    },
+    {
+      "id": "military_id",
+      "status": "invalid_url",
+      "note": "no correct official URL yet (prior guess z0502-17 was a different act)"
+    },
+    {
+      "id": "education_diploma",
+      "status": "invalid_url",
+      "note": "no correct official URL yet (prior guess z0156-21 was a different act)"
+    },
+    {
+      "id": "pension_certificate",
+      "status": "invalid_url",
+      "note": "no correct official URL yet (prior guess z1426-17 was a different act)"
+    }
+  ]
+}

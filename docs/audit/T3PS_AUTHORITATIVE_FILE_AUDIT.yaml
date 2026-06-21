@@ -1,0 +1,43 @@
+report: T3PS_AUTHORITATIVE_FILE_AUDIT
+generated_at: "2026-05-16T22:28:00Z"
+authoritative_files:
+  - path: docs/audit/T3PS_MASTER_RELEASE_LOCK_FINAL.md
+    exists: true
+    status_alignment: PASS
+  - path: docs/audit/T3PS_MASTER_RELEASE_LOCK_FINAL.yaml
+    exists: true
+    status_alignment: PASS
+  - path: docs/audit/T3PS_MASTER_EVIDENCE_INDEX_FINAL.yaml
+    exists: true
+    status_alignment: PASS
+  - path: docs/audit/T3PS_STATUS_RECONCILIATION_FINAL.yaml
+    exists: true
+    status_alignment: PASS
+  - path: docs/audit/T3PS_FINAL_RESIDUAL_GAPS_REGISTER.yaml
+    exists: true
+    status_alignment: PASS
+  - path: docs/audit/T3PS_FINAL_GATES_RERUN.yaml
+    exists: true
+    status_alignment: PASS
+  - path: docs/audit/T3PS_FINAL_OCR_MATRIX.yaml
+    exists: true
+    status_alignment: PASS
+  - path: docs/audit/T3PS_FINAL_BROWSER_AB_PROOF.md
+    exists: true
+    status_alignment: PASS
+  - path: docs/audit/T3PS_FINAL_PDF_ZIP_PROOF.md
+    exists: true
+    status_alignment: PASS
+  - path: docs/audit/T3PS_FINAL_PART7_LEGAL_RISK_PROOF.md
+    exists: true
+    status_alignment: PASS
+  - path: docs/audit/T3PS_STAGE_I_RELEASE_LOCK.md
+    exists: true
+    status_alignment: PASS
+required_values_check:
+  master_status: GO_CONTROLLED_BETA_110_LOCKED
+  open_p0_count: 0
+  paid_launch_ready: false
+  telegram_required_for_stage_i: false
+  uscis_notice_scope: NOT_REQUIRED
+overall: PASS

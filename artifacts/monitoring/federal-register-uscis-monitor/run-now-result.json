@@ -1,0 +1,22 @@
+{
+  "run_metadata": {
+    "run_date": "2026-05-09",
+    "window_start": "2026-05-02",
+    "window_end": "2026-05-09",
+    "monitor_version": "1.1",
+    "slug_fix_applied": "u-s-citizenship-and-immigration-services + homeland-security-department"
+  },
+  "sources_checked": [
+    {
+      "source": "federalregister.gov API",
+      "url": "https://www.federalregister.gov/api/v1/articles.json?conditions%5Bagencies%5D%5B%5D=u-s-citizenship-and-immigration-serv...",
+      "status": "OK",
+      "total_count": 153
+    }
+  ],
+  "relevant_items_count": 0,
+  "relevant_items": [],
+  "fetch_errors": [],
+  "no_update_statement": "No official USCIS/Federal Register updates found today for the monitored topics.",
+  "risk_assessment": []
+}

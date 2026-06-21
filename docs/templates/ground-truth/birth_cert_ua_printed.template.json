@@ -1,0 +1,23 @@
+{
+  "_meta": {
+    "doc_id": "",
+    "fixture": "birth_cert_ua_printed_<surname>.jpg",
+    "document_class": "birth_certificate_ua_printed",
+    "ground_truth_status": "PENDING_OWNER",
+    "owner_verified_fields": ["child_family_name_cyrillic","child_given_name_cyrillic","child_patronymic_cyrillic","date_of_birth","place_of_birth_raw","sex"],
+    "verified_scope": "ONLY owner_verified_fields are penalized in accuracy; all else = candidate_not_verified",
+    "language_intent": "value = AS WRITTEN ON DOCUMENT (Ukrainian here); canonical goes in *_latin/*_english; see docs/reports/GT_LANGUAGE_INTENT.md",
+    "fill_instructions": "Type exactly as written. Unreadable -> null + note. Set ground_truth_status=VERIFIED_BY_OWNER. Do NOT commit filled file."
+  },
+  "child_family_name_cyrillic": "",
+  "child_given_name_cyrillic": "",
+  "child_patronymic_cyrillic": "",
+  "date_of_birth": "",
+  "place_of_birth_raw": "",
+  "sex": "",
+  "issuing_authority_raw": "",
+  "act_record_number": "",
+  "issue_date": "",
+  "candidate_not_verified": ["issuing_authority_raw","act_record_number","issue_date","father_full_name","mother_full_name"],
+  "notes": ""
+}

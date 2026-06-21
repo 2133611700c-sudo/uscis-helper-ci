@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Messenginfo — Document Translation</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#faf9f7;--surface:#fff;--border:#e8e5e0;
+  --ink-1:#1a1714;--ink-2:#6b6560;--ink-3:#9e9890;
+  --accent:#1a6b4a;--accent-light:#e8f5ee;--accent-hover:#145a3d;
+  --gold:#c59a3a;--gold-light:#fef8eb;
+  --danger:#c44;--danger-light:#fef2f2;
+  --radius:14px;--shadow:0 2px 12px rgba(0,0,0,.06);
+}
+html.dark{
+  --bg:#1a1714;--surface:#231f1c;--border:#3a3530;
+  --ink-1:#f0ede8;--ink-2:#9e9890;--ink-3:#6b6560;
+  --accent-light:#1a3328;--gold-light:#2a2115;--danger-light:#2a1515;
+  --shadow:0 2px 12px rgba(0,0,0,.3);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink-1);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.screen{display:none;min-height:100vh;padding:0 0 40px}
+.screen.active{display:block;animation:fadeUp .4s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.container{max-width:440px;margin:0 auto;padding:20px 20px 0}
+
+/* Header */
+.header{display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:56px;border-bottom:1px solid rgba(255,255,255,.08);background:#1a1714;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);position:sticky;top:0;z-index:10}
+html.dark .header{background:#1a1714}
+html:not(.dark) .header{background:#1e1d1b}
+.logo img{height:36px;width:auto;display:block}
+.header-right{display:flex;align-items:center;gap:8px}
+.theme-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;cursor:pointer;font-size:15px;line-height:1;transition:background .15s;color:#fff}
+.theme-btn:hover{background:rgba(255,255,255,.15)}
+.lang-sw{display:flex;gap:4px}
+.lang-sw button{background:none;border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:4px 8px;font-size:11px;font-weight:600;color:rgba(255,255,255,.6);cursor:pointer;font-family:inherit;transition:all .15s}
+.lang-sw button:hover{color:#fff;border-color:rgba(255,255,255,.4)}
+.lang-sw button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* Progress */
+.progress{display:flex;gap:6px;margin:20px 0}
+.progress span{flex:1;height:4px;border-radius:4px;background:var(--border);transition:background .3s}
+.progress span.done{background:var(--accent)}
+.progress span.current{background:var(--gold)}
+
+/* Buttons */
+.btn{display:block;width:100%;padding:16px;border-radius:var(--radius);font-size:16px;font-weight:600;font-family:inherit;cursor:pointer;border:none;transition:all .2s;text-align:center}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-hover)}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed}
+.btn-outline{background:none;border:2px solid var(--border);color:var(--ink-1)}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+.btn-sm{padding:8px 16px;font-size:13px;width:auto;display:inline-block}
+
+/* Cards */
+.plan-card{background:var(--surface);border:2px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:12px;cursor:pointer;transition:all .2s;position:relative}
+.plan-card:hover{border-color:var(--accent)}
+.plan-card.selected{border-color:var(--accent);background:var(--accent-light)}
+.plan-card.recommended{border-color:var(--gold)}
+.plan-badge{position:absolute;top:-10px;right:16px;background:var(--gold);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.04em}
+.plan-name{font-size:18px;font-weight:700;margin-bottom:4px}
+.plan-price{font-size:24px;font-weight:700;color:var(--accent);margin-bottom:6px}
+.plan-desc{font-size:14px;color:var(--ink-2);line-height:1.5}
+
+/* Fields */
+.field-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.field-label{font-size:12px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px}
+.field-original{font-size:14px;color:var(--ink-2)}
+.field-translated{font-size:16px;font-weight:600;color:var(--ink-1)}
+/* Popover help */
+.help-btn{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--border);color:var(--ink-2);font-size:11px;font-weight:700;cursor:pointer;border:none;font-family:inherit;vertical-align:middle;margin-left:4px}
+.help-btn:hover{background:var(--accent);color:#fff}
+.popover{display:none;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin:8px 0 12px;font-size:13px;color:var(--ink-2);line-height:1.7;box-shadow:var(--shadow)}
+.popover.open{display:block;animation:fadeUp .2s ease}
+.popover b{color:var(--ink-1)}
+/* Back button */
+.back-btn{background:none;border:none;font-size:14px;color:var(--ink-2);cursor:pointer;padding:8px 0;font-family:inherit}
+.back-btn:hover{color:var(--accent)}
+/* Sticky total */
+.sticky-total{position:sticky;bottom:0;background:var(--bg);border-top:1px solid var(--border);padding:12px 20px;margin:0 -20px;display:flex;justify-content:space-between;align-items:center;z-index:5}
+.sticky-total .st-price{font-size:22px;font-weight:700;color:var(--accent)}
+/* Plan included note */
+.plan-included{font-size:12px;color:var(--ink-3);margin-top:6px}
+
+/* Edit inline */
+.field-edit{font-size:12px;color:var(--accent);cursor:pointer;font-weight:600;white-space:nowrap;margin-left:12px}
+.field-input-edit{width:100%;padding:8px;border:1px solid var(--accent);border-radius:6px;font-size:14px;font-family:inherit;margin-top:6px}
+
+/* Checkbox */
+.ack-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;cursor:pointer}
+.ack-cb{width:22px;height:22px;min-width:22px;accent-color:var(--accent);cursor:pointer;margin-top:2px}
+.ack-text{font-size:14px;line-height:1.5;color:var(--ink-1)}
+
+/* Addon */
+.addon-row{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin:16px 0;display:flex;align-items:center;gap:12px}
+.addon-row input[type=checkbox]{width:20px;height:20px;accent-color:var(--accent)}
+.addon-info{flex:1}
+.addon-title{font-weight:600;font-size:14px}
+.addon-desc{font-size:13px;color:var(--ink-2)}
+.addon-price{font-weight:700;color:var(--accent);font-size:15px;white-space:nowrap}
+
+/* Status */
+.status-block{background:var(--accent-light);border-radius:var(--radius);padding:20px;text-align:center;margin:20px 0}
+.status-icon{font-size:48px;margin-bottom:8px}
+.status-title{font-size:18px;font-weight:700;color:var(--accent);margin-bottom:6px}
+.status-meta{font-size:14px;color:var(--ink-2)}
+.status-meta span{display:block;margin:4px 0}
+
+/* Warning */
+.warn-block{background:var(--gold-light);border:1px solid #e8d5a0;border-radius:var(--radius);padding:16px;margin:16px 0;font-size:13px;color:#7a6520;line-height:1.6}
+
+/* Sig choice */
+.sig-card{background:var(--surface);border:2px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:10px;cursor:pointer;transition:all .2s}
+.sig-card:hover{border-color:var(--accent)}
+.sig-card.selected{border-color:var(--accent);background:var(--accent-light)}
+.sig-icon{font-size:28px;margin-bottom:6px}
+.sig-title{font-weight:700;font-size:15px;margin-bottom:4px}
+.sig-desc{font-size:13px;color:var(--ink-2);line-height:1.5}
+
+/* File download */
+.file-row{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px}
+.file-icon{font-size:28px}
+.file-name{font-weight:600;font-size:14px}
+.file-desc{font-size:12px;color:var(--ink-2)}
+.file-dl{font-size:13px;font-weight:600;color:var(--accent);cursor:pointer;margin-left:auto;white-space:nowrap}
+
+/* Footer */
+.footer-note{font-size:12px;color:var(--ink-3);text-align:center;margin-top:24px;line-height:1.6;padding:0 10px}
+
+/* Inputs */
+.input{width:100%;padding:14px 16px;border:1px solid var(--border);border-radius:10px;font-size:15px;font-family:inherit;background:var(--surface);margin-bottom:10px}
+.input:focus{outline:none;border-color:var(--accent)}
+.input-label{font-size:12px;color:var(--ink-2);margin-bottom:4px;display:block;font-weight:600}
+
+h1{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;line-height:1.2;margin-bottom:8px;color:var(--ink-1)}
+h2{font-size:18px;font-weight:700;margin-bottom:12px}
+.subtitle{font-size:15px;color:var(--ink-2);line-height:1.5;margin-bottom:24px}
+
+.divider{height:1px;background:var(--border);margin:20px 0}
+
+/* Upload area */
+.upload-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:48px 20px;text-align:center;cursor:pointer;transition:all .3s;background:var(--surface)}
+.upload-zone:hover{border-color:var(--accent);background:var(--accent-light)}
+.upload-icon{font-size:48px;margin-bottom:12px}
+.upload-text{font-size:16px;font-weight:600;color:var(--ink-1);margin-bottom:4px}
+.upload-hint{font-size:13px;color:var(--ink-2)}
+
+/* Order summary */
+.order-row{display:flex;justify-content:space-between;padding:8px 0;font-size:15px}
+.order-total{font-weight:700;font-size:18px;border-top:2px solid var(--border);padding-top:12px;margin-top:8px}
+.order-total span{color:var(--accent)}
+
+.lock-note{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-3);justify-content:center;margin-top:12px}
+</style>
+</head>
+<body>
+
+<!-- ========== HEADER ========== -->
+<div class="header">
+  <a class="logo" href="https://messenginfo.com" aria-label="Messenginfo home">
+    <img src="/brand/messenginfo-full.webp" alt="Messenginfo">
+  </a>
+  <div class="header-right">
+    <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" aria-label="Toggle theme">🌙</button>
+    <div class="lang-sw">
+      <button onclick="setLang('uk')" id="lb-uk" class="active">UK</button>
+      <button onclick="setLang('ru')" id="lb-ru">RU</button>
+      <button onclick="setLang('en')" id="lb-en">EN</button>
+      <button onclick="setLang('es')" id="lb-es">ES</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 1. UPLOAD ========== -->
+<div class="screen active" id="s-upload">
+<div class="container">
+  <div style="height:24px"></div>
+  <h1 data-t="h.title">Переведіть документ за кілька хвилин</h1>
+  <p class="subtitle" data-t="h.sub">Свідоцтво про народження, паспорт, посвідчення — готовий PDF для USCIS, DMV, школи, роботодавця.</p>
+
+  <!-- PHOTO TIPS (shown once) -->
+  <div id="photo-tips" style="background:var(--accent-light);border-radius:var(--radius);padding:16px;margin-bottom:16px">
+    <div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:8px" data-t="h.tips.title">📸 Як сфоткати добре:</div>
+    <div style="font-size:13px;color:var(--ink-2);line-height:1.8">
+      💡 <span data-t="h.tip1">Добре світло — без тіней</span><br>
+      📐 <span data-t="h.tip2">Рівно зверху — не під кутом</span><br>
+      📄 <span data-t="h.tip3">Весь документ у кадрі</span><br>
+      🔍 <span data-t="h.tip4">Чітко — текст читається</span>
+    </div>
+  </div>
+
+  <!-- UPLOAD BUTTONS -->
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <label class="upload-zone" style="padding:24px 20px;display:flex;align-items:center;gap:16px;text-align:left">
+      <div style="font-size:36px;min-width:44px;text-align:center">📷</div>
+      <div>
+        <div class="upload-text" data-t="h.photo">Сфотографувати сторінку</div>
+        <div class="upload-hint" data-t="h.photo.hint">Відкриється камера телефону</div>
+      </div>
+      <input type="file" accept="image/*" capture="environment" style="display:none" onchange="addPage(this)">
+    </label>
+    <label class="upload-zone" style="padding:24px 20px;display:flex;align-items:center;gap:16px;text-align:left">
+      <div style="font-size:36px;min-width:44px;text-align:center">📁</div>
+      <div>
+        <div class="upload-text" data-t="h.file">Завантажити файл</div>
+        <div class="upload-hint" data-t="h.file.hint">JPG, PNG, PDF — до 10 МБ</div>
+      </div>
+      <input type="file" accept="image/*,.pdf,application/pdf" style="display:none" onchange="addPage(this)" multiple>
+    </label>
+  </div>
+
+  <!-- PAGE LIST -->
+  <div id="page-list" style="display:none;margin-top:16px">
+    <div style="font-size:14px;font-weight:600;margin-bottom:8px">
+      <span data-t="h.pages">Завантажено:</span> <span id="page-count-label">0</span> <span data-t="h.pages.unit">стор.</span>
+    </div>
+    <div id="page-thumbs" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px"></div>
+
+    <div id="page-limit-warn" style="display:none" class="warn-block" data-t="h.limit">
+      ⚠️ Максимум 15 сторінок онлайн. Для більших документів зв'яжіться з нами.
+    </div>
+
+    <button class="btn btn-primary" id="btn-pages-done" onclick="pagesComplete()" disabled data-t="h.done">Це все — продовжити</button>
+  </div>
+
+  <p style="font-size:13px;color:var(--ink-3);text-align:center;margin-top:12px" data-t="h.nolimit">Фоткайте скільки сторінок потрібно перекласти.</p>
+
+  <p class="footer-note" data-t="h.footer">Ми перевіримо документ безкоштовно. Переклад — після оплати.</p>
+  <p class="footer-note" style="margin-top:8px">
+    <a href="#" style="color:var(--accent);text-decoration:underline">Terms of Service</a> · 
+    <a href="#" style="color:var(--accent);text-decoration:underline">Privacy Policy</a>
+  </p>
+</div>
+</div>
+
+<!-- ========== 2. DETECTING ========== -->
+<div class="screen" id="s-detect">
+<div class="container">
+  <div style="height:40px"></div>
+  <div style="text-align:center">
+    <div style="font-size:64px;margin-bottom:16px">🔍</div>
+    <h2 data-t="d.title">Перевіряємо документ...</h2>
+    <p class="subtitle" data-t="d.sub">Визначаємо тип та перевіряємо якість фото</p>
+  </div>
+</div>
+</div>
+
+<!-- ========== 3. PRICING ========== -->
+<div class="screen" id="s-price">
+<div class="container">
+  <button class="back-btn" onclick="goTo('s-upload')">← <span data-t="nav.back">Назад</span></button>
+  <div class="progress"><span class="done"></span><span class="current"></span><span></span><span></span><span></span><span></span></div>
+
+  <div class="status-block">
+    <div class="status-icon">✅</div>
+    <div class="status-title" data-t="p.ready">Документ готовий до перекладу</div>
+    <div class="status-meta">
+      <span data-t="p.type">Тип: Свідоцтво про народження</span>
+      <span data-t="p.lang">Мова: Українська</span>
+      <span data-t="p.quality">Якість фото: Добра</span>
+      <span>📄 <b id="price-page-count">1</b> <span data-t="p.pages.up">стор. завантажено</span></span>
+    </div>
+  </div>
+
+  <h2 data-t="p.choose">Оберіть варіант:
+    <button class="help-btn" onclick="toggleHelp('help-inc')">?</button>
+  </h2>
+  <div class="popover" id="help-inc">
+    <b>✓</b> Переклад поле-за-полем англійською<br>
+    <b>✓</b> Сертифікація з вашим підписом<br>
+    <b>✓</b> Копія оригіналу в PDF<br>
+    <b>✓</b> Доставка на email<br><br>
+    <b>✗</b> Юридичні консультації<br>
+    <b>✗</b> Гарантія ухвалення USCIS<br>
+    <b>✗</b> Нотаріальне завірення / апостиль
+  </div>
+
+  <div class="plan-card" id="plan-basic" onclick="selectPlan('basic')">
+    <div class="plan-name">Basic</div>
+    <div class="plan-price">$14.99</div>
+    <div class="plan-desc" data-t="p.basic">Швидкий PDF. Ви перевіряєте ключові поля самостійно.</div>
+    <div class="plan-included" data-t="p.plan.inc">До 3 сторінок включено · додаткові $3/стор.</div>
+  </div>
+
+  <div class="plan-card recommended" id="plan-plus" onclick="selectPlan('plus')">
+    <div class="plan-badge" data-t="p.rec">Рекомендовано</div>
+    <div class="plan-name">Plus</div>
+    <div class="plan-price">$19.99</div>
+    <div class="plan-desc" data-t="p.plus">Спеціаліст перевірить імена, дати та номери перед фінальним PDF.</div>
+    <div class="plan-included" data-t="p.plan.inc">До 3 сторінок включено · додаткові $3/стор.</div>
+  </div>
+
+  <div class="plan-card" id="plan-premium" onclick="selectPlan('premium')">
+    <div class="plan-name">Premium</div>
+    <div class="plan-price">$29.99</div>
+    <div class="plan-desc" data-t="p.prem">Детальна перевірка для нечітких фото або важливих подач.</div>
+    <div class="plan-included" data-t="p.plan.inc">До 3 сторінок включено · додаткові $3/стор.</div>
+  </div>
+
+  <div class="addon-row">
+    <input type="checkbox" id="addon-es" onchange="updateTotal()">
+    <div class="addon-info">
+      <div class="addon-title" data-t="p.es">Іспанська копія</div>
+      <div class="addon-desc" data-t="p.es.d">Для California DMV, школи, роботодавця</div>
+    </div>
+    <div class="addon-price">+$3</div>
+  </div>
+
+  <div style="text-align:center;margin:4px 0">
+    <button class="help-btn" onclick="toggleHelp('help-page')" style="width:auto;border-radius:8px;padding:4px 12px;font-size:12px">
+      ? <span data-t="p.help.page">Що рахується як сторінка?</span>
+    </button>
+  </div>
+  <div class="popover" id="help-page">
+    1 фото = 1 сторінка. Лицьова + зворотна ID = 2 стор. PDF = кількість сторінок у файлі.
+  </div>
+
+  <!-- LIVE PRICE BREAKDOWN -->
+  <div id="price-breakdown" style="display:none;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin:12px 0">
+    <div class="order-row" style="font-size:14px"><span id="pb-plan">Plus</span><span id="pb-plan-price">$19.99</span></div>
+    <div class="order-row" style="font-size:13px;color:var(--ink-3)"><span data-t="pay.included">До 3 сторінок включено</span><span>$0.00</span></div>
+    <div class="order-row" id="pb-extra" style="display:none;font-size:13px"><span id="pb-extra-label"></span><span id="pb-extra-price"></span></div>
+    <div class="order-row" id="pb-es" style="display:none;font-size:13px"><span>Іспанська</span><span>+$3.00</span></div>
+    <div class="order-row order-total"><span data-t="pay.total">Разом:</span><span id="pb-total">$19.99</span></div>
+  </div>
+
+  <button class="btn btn-primary" id="btn-pay" disabled onclick="goTo('s-payment')" data-t="p.btn">Продовжити до оплати</button>
+
+  <p class="footer-note" data-t="p.note">Безкоштовне виправлення помилок форматування. Без гарантій ухвалення.</p>
+</div>
+</div>
+
+<!-- ========== 4. PAYMENT ========== -->
+<div class="screen" id="s-payment">
+<div class="container">
+  <div class="progress"><span class="done"></span><span class="done"></span><span class="current"></span><span></span><span></span><span></span></div>
+
+  <h2 data-t="pay.title">Замовлення</h2>
+
+  <div class="order-row">
+    <span data-t="pay.doc">Свідоцтво про народження</span>
+    <span id="pay-plan-price">$19.99</span>
+  </div>
+  <div class="order-row" style="font-size:13px;color:var(--ink-2)">
+    <span data-t="pay.included">До 3 сторінок включено</span>
+    <span>$0.00</span>
+  </div>
+  <div class="order-row" id="pay-extra-row" style="display:none">
+    <span id="pay-extra-label">0 додатк. × $3</span>
+    <span id="pay-extra-price">+$0.00</span>
+  </div>
+  <div class="order-row" id="pay-es-row" style="display:none">
+    <span data-t="pay.es">Іспанська копія</span>
+    <span>+$3.00</span>
+  </div>
+  <div class="order-row order-total">
+    <span data-t="pay.total">Разом:</span>
+    <span id="pay-total">$19.99</span>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- TRANSLATOR DETAILS — collected here, used everywhere -->
+  <div style="font-size:12px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px" data-t="pay.details">Ваші дані (для сертифікації та доставки):</div>
+
+  <label class="input-label" data-t="c.fname">Повне ім'я латиницею (як у паспорті)</label>
+  <input class="input" id="prof-name" placeholder="LASTNAME FIRSTNAME PATRONYMIC" oninput="checkPayReady()">
+
+  <label class="input-label">Email</label>
+  <input class="input" id="prof-email" placeholder="your@email.com" type="email" oninput="checkPayReady()">
+
+  <label class="input-label" data-t="c.phone">Телефон</label>
+  <input class="input" id="prof-phone" placeholder="(555) 123-4567" oninput="checkPayReady()">
+
+  <label class="input-label" data-t="c.addr">Адреса в США</label>
+  <input class="input" id="prof-addr" placeholder="123 Main St, Los Angeles, CA 90012" oninput="checkPayReady()">
+
+  <div style="height:12px"></div>
+
+  <button class="btn btn-primary" id="btn-apple" disabled onclick="simulatePayment()" style="background:#000;border-radius:8px">
+     Pay
+  </button>
+  <div style="height:10px"></div>
+  <button class="btn btn-primary" id="btn-card" disabled onclick="simulatePayment()" style="background:#5433ff">
+    💳 <span data-t="pay.card">Оплатити карткою</span>
+  </button>
+
+  <div class="lock-note">🔒 Stripe. <span data-t="pay.safe">Ваші дані захищені.</span></div>
+  <p class="footer-note" style="margin-top:8px;font-size:11px">
+    By continuing you agree to <a href="#" style="color:var(--accent)">Terms</a> and <a href="#" style="color:var(--accent)">Privacy Policy</a>.
+  </p>
+</div>
+</div>
+
+<!-- ========== 5a. HUMAN REVIEW PENDING (Plus/Premium only) ========== -->
+<div class="screen" id="s-pending">
+<div class="container">
+  <div class="progress"><span class="done"></span><span class="done"></span><span class="done"></span><span class="current"></span><span></span><span></span></div>
+  <div style="text-align:center;padding:40px 0">
+    <div style="font-size:64px;margin-bottom:16px">👤</div>
+    <h2 data-t="pend.title">Спеціаліст перевіряє ваш документ</h2>
+    <p class="subtitle" data-t="pend.sub">Зазвичай це займає 15-60 хвилин. Ми повідомимо вас на email коли буде готово.</p>
+    <div style="margin:24px 0">
+      <div style="width:60px;height:60px;border:4px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto"></div>
+    </div>
+    <p style="font-size:13px;color:var(--ink-3)" data-t="pend.demo" id="pend-demo-note">(Demo mode — у продакшені цей екран розблокується тільки після перевірки спеціалістом)</p>
+    <div style="height:16px"></div>
+    <button class="btn btn-outline" id="pend-skip-btn" onclick="goTo('s-review')" style="opacity:.5;border-style:dashed" data-t="pend.skip">⚙️ Demo: пропустити очікування</button>
+    <script>document.addEventListener('DOMContentLoaded',function(){if(typeof DEMO_MODE!=='undefined'&&!DEMO_MODE){var b=document.getElementById('pend-skip-btn');var n=document.getElementById('pend-demo-note');if(b)b.style.display='none';if(n)n.style.display='none';}});</script>
+  </div>
+</div>
+</div>
+<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+
+<!-- ========== 5. REVIEW FIELDS ========== -->
+<div class="screen" id="s-review">
+<div class="container">
+  <div class="progress"><span class="done"></span><span class="done"></span><span class="done"></span><span class="current"></span><span></span><span></span></div>
+
+  <div style="text-align:center;margin-bottom:20px">
+    <div style="font-size:32px">✅</div>
+    <div style="font-weight:700;color:var(--accent);font-size:15px" data-t="r.paid">Оплата пройшла</div>
+  </div>
+
+  <h2 data-t="r.title">Перевірте дані:</h2>
+
+  <div class="warn-block" data-t="r.warn">⚠️ Переконайтесь, що ім'я написано так само, як у вашому паспорті або Green Card.</div>
+
+  <div class="field-card">
+    <div>
+      <div class="field-label" data-t="r.surname">Прізвище</div>
+      <div class="field-original">ШЕВЧЕНКО</div>
+      <div class="field-translated">SHEVCHENKO</div>
+    </div>
+    <div class="field-edit" onclick="editField(this)" data-t="r.edit">Змінити</div>
+  </div>
+
+  <div class="field-card">
+    <div>
+      <div class="field-label" data-t="r.name">Ім'я</div>
+      <div class="field-original">ТАРАС</div>
+      <div class="field-translated">TARAS</div>
+    </div>
+    <div class="field-edit" onclick="editField(this)" data-t="r.edit">Змінити</div>
+  </div>
+
+  <div class="field-card">
+    <div>
+      <div class="field-label" data-t="r.patr">По батькові</div>
+      <div class="field-original">ГРИГОРОВИЧ</div>
+      <div class="field-translated">HRYHOROVYCH</div>
+    </div>
+    <div class="field-edit" onclick="editField(this)" data-t="r.edit">Змінити</div>
+  </div>
+
+  <div class="field-card">
+    <div>
+      <div class="field-label" data-t="r.dob">Дата народження</div>
+      <div class="field-original">09.03.1814</div>
+      <div class="field-translated">March 9, 1814</div>
+    </div>
+    <div class="field-edit" onclick="editField(this)" data-t="r.edit">Змінити</div>
+  </div>
+
+  <div class="field-card">
+    <div>
+      <div class="field-label" data-t="r.pob">Місце народження</div>
+      <div class="field-original">с. Моринці</div>
+      <div class="field-translated">village of Moryntsi</div>
+    </div>
+    <div class="field-edit" onclick="editField(this)" data-t="r.edit">Змінити</div>
+  </div>
+
+  <div class="field-card">
+    <div>
+      <div class="field-label" data-t="r.father">Батько</div>
+      <div class="field-original">ГРИГОРІЙ</div>
+      <div class="field-translated">HRYHORII</div>
+    </div>
+    <div class="field-edit" onclick="editField(this)" data-t="r.edit">Змінити</div>
+  </div>
+
+  <div class="field-card">
+    <div>
+      <div class="field-label" data-t="r.mother">Мати</div>
+      <div class="field-original">КАТЕРИНА</div>
+      <div class="field-translated">KATERYNA</div>
+    </div>
+    <div class="field-edit" onclick="editField(this)" data-t="r.edit">Змінити</div>
+  </div>
+
+  <div class="field-card">
+    <div>
+      <div class="field-label" data-t="r.serial">Серія / Номер</div>
+      <div class="field-translated">І-ОК №123456</div>
+    </div>
+    <div class="field-edit" onclick="editField(this)" data-t="r.edit">Змінити</div>
+  </div>
+
+  <div class="field-card">
+    <div>
+      <div class="field-label" data-t="r.sex">Стать</div>
+      <div class="field-original">чоловіча</div>
+      <div class="field-translated">Male</div>
+    </div>
+    <div class="field-edit" onclick="editField(this)" data-t="r.edit">Змінити</div>
+  </div>
+
+  <div class="field-card">
+    <div>
+      <div class="field-label" data-t="r.recno">Актовий запис №</div>
+      <div class="field-translated">Record No. 234</div>
+    </div>
+    <div class="field-edit" onclick="editField(this)" data-t="r.edit">Змінити</div>
+  </div>
+
+  <div class="field-card">
+    <div>
+      <div class="field-label" data-t="r.recdate">Дата запису</div>
+      <div class="field-original">12.03.1814</div>
+      <div class="field-translated">March 12, 1814</div>
+    </div>
+    <div class="field-edit" onclick="editField(this)" data-t="r.edit">Змінити</div>
+  </div>
+
+  <div class="field-card">
+    <div>
+      <div class="field-label" data-t="r.dracs">Орган видачі</div>
+      <div class="field-original">Звенигородський ДРАЦС</div>
+      <div class="field-translated">Zvenyhorodka DRACS</div>
+    </div>
+    <div class="field-edit" onclick="editField(this)" data-t="r.edit">Змінити</div>
+  </div>
+
+  <div class="field-card">
+    <div>
+      <div class="field-label" data-t="r.issued">Дата видачі</div>
+      <div class="field-original">15.04.1814</div>
+      <div class="field-translated">April 15, 1814</div>
+    </div>
+    <div class="field-edit" onclick="editField(this)" data-t="r.edit">Змінити</div>
+  </div>
+
+  <div class="field-card" style="background:var(--accent-light)">
+    <div>
+      <div class="field-label" data-t="r.seal">Печатка</div>
+      <div class="field-translated">[ROUND SEAL: detected]</div>
+    </div>
+    <div style="font-size:20px">✅</div>
+  </div>
+
+  <div style="height:16px"></div>
+  <button class="btn btn-primary" onclick="goTo('s-cert')" data-t="r.confirm">✓ Все правильно, продовжити</button>
+</div>
+</div>
+
+<!-- ========== 6. CERTIFICATION ========== -->
+<div class="screen" id="s-cert">
+<div class="container">
+  <div class="progress"><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span><span class="current"></span><span></span></div>
+
+  <h2 data-t="c.title">Останній крок</h2>
+  <p class="subtitle" data-t="c.sub">Відповідно до 8 CFR §103.2(b)(3), ви підписуєте переклад як перекладач.</p>
+
+  <!-- AUTO-FILLED TRANSLATOR DATA (read-only) -->
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <div style="font-size:12px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em" data-t="c.your">Перекладач:</div>
+      <div class="field-edit" onclick="editProfile()" data-t="r.edit">Змінити</div>
+    </div>
+    <div style="font-size:16px;font-weight:700;margin-bottom:4px" id="cert-name-display">—</div>
+    <div style="font-size:13px;color:var(--ink-2);line-height:1.7" id="cert-details-display">—</div>
+  </div>
+
+  <!-- HIDDEN PROFILE EDITOR (shows only on Edit click) -->
+  <div id="profile-editor" style="display:none;background:var(--surface);border:2px solid var(--accent);border-radius:var(--radius);padding:16px;margin-bottom:16px">
+    <div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:10px" data-t="c.edit.title">Редагувати дані перекладача:</div>
+    <label class="input-label" data-t="c.fname">Повне ім'я латиницею (як у паспорті)</label>
+    <input class="input" id="inp-name" value="" placeholder="LASTNAME FIRSTNAME PATRONYMIC">
+    <label class="input-label" data-t="c.addr">Адреса в США</label>
+    <input class="input" id="inp-addr" value="" placeholder="123 Main St, Los Angeles, CA 90012">
+    <label class="input-label" data-t="c.phone">Телефон</label>
+    <input class="input" id="inp-phone" value="" placeholder="(555) 123-4567">
+    <label class="input-label">Email</label>
+    <input class="input" id="inp-email" value="" placeholder="your@email.com" type="email">
+    <button class="btn btn-primary" onclick="saveProfile()" style="margin-top:8px" data-t="c.edit.save">Зберегти</button>
+  </div>
+
+  <label class="ack-row">
+    <input type="checkbox" class="ack-cb" id="ack1" onchange="checkCert()">
+    <span class="ack-text" data-t="c.cb1">Я підтверджую, що володію українською та англійською мовами на рівні, достатньому для сертифікації перекладу.</span>
+  </label>
+
+  <label class="ack-row">
+    <input type="checkbox" class="ack-cb" id="ack2" onchange="checkCert()">
+    <span class="ack-text" data-t="c.cb2">Я перевірив(ла) всі поля та беру на себе повну відповідальність за точність перекладу. Messenginfo лише допоміг з підготовкою драфту та форматуванням.</span>
+  </label>
+
+  <div class="divider"></div>
+
+  <h2 data-t="c.sig.title">Підпишіть переклад</h2>
+  <p style="font-size:14px;color:var(--ink-2);margin-bottom:16px;line-height:1.5" data-t="c.sig.desc">Намалюйте ваш підпис пальцем, мишкою або стилусом. Підпис буде розміщений на сторінці сертифікації у PDF.</p>
+
+  <!-- SIGNATURE PAD -->
+  <div style="background:var(--surface);border:2px solid var(--border);border-radius:var(--radius);padding:4px;margin-bottom:8px">
+    <canvas id="sigCanvas" style="width:100%;height:140px;display:block;cursor:crosshair;touch-action:none;border-radius:10px"></canvas>
+  </div>
+  <div style="display:flex;justify-content:space-between;margin-bottom:16px">
+    <span style="font-size:12px;color:var(--ink-3)" data-t="c.sig.hint">↑ Підпишіть тут</span>
+    <button class="btn-sm btn-outline" onclick="clearSig()" style="padding:6px 14px;font-size:12px;border-radius:8px" data-t="c.sig.clear">Очистити</button>
+  </div>
+
+  <label class="ack-row">
+    <input type="checkbox" class="ack-cb" id="ack3" onchange="checkCert()">
+    <span class="ack-text" data-t="c.cb3">Я розумію, що цей підпис буде розміщений на сертифікації мого перекладу.</span>
+  </label>
+
+  <!-- FALLBACK: manual printing option -->
+  <details style="margin-top:12px">
+    <summary style="font-size:12px;color:var(--ink-3);cursor:pointer" data-t="c.sig.fallback">Інші варіанти підпису ▾</summary>
+    <div style="padding:10px 0;font-size:13px;color:var(--danger);line-height:1.6;font-weight:600" data-t="c.sig.notrec">⚠️ Не рекомендується. Використовуйте тільки якщо орган подачі вимагає мокрий підпис.</div>
+    <div style="padding:0 0 10px;font-size:13px;color:var(--ink-2);line-height:1.6" data-t="c.sig.fallback.text">
+      Завантажте PDF без підпису, роздрукуйте, підпишіть ручкою і подайте паперову копію.
+    </div>
+    <label class="ack-row" style="margin-top:8px">
+      <input type="checkbox" id="manual-sig-check" onchange="toggleManualSig()">
+      <span class="ack-text" style="font-size:13px" data-t="c.sig.manual">Я хочу підписати вручну (PDF без підпису)</span>
+    </label>
+  </details>
+
+  <div style="height:16px"></div>
+  <button class="btn btn-primary" id="btn-final" disabled onclick="generatePdf()" data-t="c.btn">Згенерувати підписаний PDF</button>
+</div>
+</div>
+
+<!-- ========== 7. DONE ========== -->
+<div class="screen" id="s-done">
+<div class="container">
+  <div class="progress"><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span></div>
+
+  <div style="text-align:center;padding:24px 0">
+    <div style="font-size:64px;margin-bottom:12px">✅</div>
+    <h1 data-t="done.title">Готово!</h1>
+    <p class="subtitle" data-t="done.sub">Файл надіслано на вашу пошту</p>
+  </div>
+
+  <div class="file-row">
+    <div class="file-icon">📄</div>
+    <div>
+      <div class="file-name">birth-certificate-EN.pdf</div>
+      <div class="file-desc" data-t="done.en">English Translation + Certification + Original</div>
+    </div>
+    <div class="file-dl" data-t="done.dl">Завантажити</div>
+  </div>
+
+  <div class="file-row" id="done-es" style="display:none">
+    <div class="file-icon">📄</div>
+    <div>
+      <div class="file-name">birth-certificate-ES.pdf</div>
+      <div class="file-desc" data-t="done.es">Spanish copy for California / local use</div>
+    </div>
+    <div class="file-dl" data-t="done.dl">Завантажити</div>
+  </div>
+
+  <div class="warn-block" id="done-es-note" style="display:none" data-t="done.es.note">
+    Для USCIS використовуйте English PDF. Іспанська копія — для California DMV, школи, роботодавця або особистого використання.
+  </div>
+
+  <div class="divider"></div>
+
+  <div id="done-uscis-instructions">
+    <h2 data-t="done.next">Що далі:</h2>
+    <p style="font-size:14px;color:var(--ink-2);line-height:1.8;margin-bottom:20px" data-t="done.steps">
+      1. Завантажте підписаний PDF<br>
+      2. Перевірте, що ваш підпис є на сторінці сертифікації<br>
+      3. Подайте PDF разом із копією оригіналу документа відповідно до інструкцій вашої подачі
+    </p>
+  </div>
+
+  <button class="btn btn-outline" onclick="resetApp()" data-t="done.more">Перекласти ще один документ</button>
+
+  <p class="footer-note" style="margin-top:32px">
+    Signature captured electronically on this date for the translation certification.<br>
+    Messenginfo assisted with preparing the draft and formatting only.<br>
+    The translation was certified and signed by the user as the translator.
+  </p>
+</div>
+</div>
+
+<script>
+// ===== LANGUAGE =====
+let lang='uk';
+const T={
+  uk:{
+    'h.title':'Переведіть документ за кілька хвилин',
+    'h.sub':'Свідоцтво про народження, паспорт, посвідчення — готовий PDF для USCIS, DMV, школи, роботодавця.',
+    'h.photo':'Сфотографувати','h.photo.hint':'Відкриється камера телефону','h.file':'Завантажити файл','h.file.hint':'Вибрати з фото, файлів або комп’ютера',
+    
+    'h.footer':'Ми перевіримо документ безкоштовно. Переклад — після оплати.',
+    'd.title':'Перевіряємо документ...',
+    'd.sub':'Визначаємо тип та перевіряємо якість фото',
+    'p.ready':'Документ готовий до перекладу',
+    'p.type':'Тип: Свідоцтво про народження',
+    'p.lang':'Мова: Українська',
+    'p.quality':'Якість фото: Добра',
+    'p.choose':'Оберіть варіант:',
+    'p.basic':'Швидкий PDF. Ви перевіряєте ключові поля самостійно.',
+    'p.rec':'Рекомендовано',
+    'p.plus':'Спеціаліст перевірить імена, дати та номери перед фінальним PDF.',
+    'p.prem':'Детальна перевірка для нечітких фото або важливих подач.',
+    'p.es':'Іспанська копія',
+    'p.es.d':'Для California DMV, школи, роботодавця',
+    'p.btn':'Продовжити до оплати',
+    'p.note':'Безкоштовне виправлення помилок форматування. Без гарантій ухвалення.',
+    'pay.title':'Замовлення',
+    'pay.doc':'Свідоцтво про народження',
+    'pay.es':'Іспанська копія',
+    'pay.total':'Разом:','pay.details':'Ваші дані (для сертифікації та доставки):',
+    'pay.card':'Оплатити карткою',
+    'pay.safe':'Ваші дані захищені.',
+    'r.paid':'Оплата пройшла',
+    'r.title':'Перевірте дані:',
+    'r.warn':'⚠️ Переконайтесь, що ім\'я написано так само, як у вашому паспорті або Green Card.',
+    'r.surname':'Прізвище','r.name':'Ім\'я','r.patr':'По батькові',
+    'r.dob':'Дата народження','r.pob':'Місце народження',
+    'r.father':'Батько','r.mother':'Мати',
+    'r.serial':'Серія / Номер','r.issued':'Дата видачі','r.sex':'Стать','r.recno':'Актовий запис №','r.recdate':'Дата запису','r.dracs':'Орган видачі','r.seal':'Печатка','pend.title':'Спеціаліст перевіряє ваш документ','pend.sub':'Зазвичай це займає 15-60 хвилин. Ми повідомимо вас на email коли буде готово.','pend.demo':'(Demo — у продакшені розблокується після перевірки спеціалістом)','pend.skip':'⚙️ Demo: пропустити очікування','done.es.note':'Для USCIS використовуйте English PDF. Іспанська копія — для California DMV, школи, роботодавця.',
+    'r.edit':'Змінити',
+    'r.confirm':'✓ Все правильно, продовжити',
+    'c.title':'Останній крок',
+    'c.sub':'Відповідно до 8 CFR §103.2(b)(3), документ має бути перекладений та підписаний компетентним перекладачем. Ви підписуєте як перекладач.',
+    'c.your':'Ваші дані (перекладач):',
+    'c.fname':'Повне ім\'я латиницею (як у паспорті)',
+    'c.addr':'Адреса в США','c.phone':'Телефон',
+    'c.cb1':'Я підтверджую, що володію українською та англійською мовами на рівні, достатньому для сертифікації перекладу.',
+    'c.cb2':'Я перевірив(ла) всі поля та беру на себе повну відповідальність за точність перекладу. Messenginfo лише допоміг з підготовкою драфту та форматуванням.',
+    'c.sig.title':'Підпишіть переклад',
+    'c.sig.desc':'Намалюйте ваш підпис пальцем, мишкою або стилусом. Підпис буде розміщений на сторінці сертифікації у PDF.','c.sig.hint':'↑ Підпишіть тут','c.sig.clear':'Очистити','c.cb3':'Я розумію, що цей підпис буде розміщений на сертифікації мого перекладу.','c.sig.notrec':'⚠️ Не рекомендується. Використовуйте тільки якщо орган подачі вимагає мокрий підпис.','c.sig.fallback':'Інші варіанти підпису ▾','c.sig.fallback.text':'Якщо ви хочете підписати ручкою: завантажте PDF без підпису, роздрукуйте, підпишіть і подайте паперову копію.','c.sig.manual':'Я хочу підписати вручну (PDF без підпису)',
+    
+    
+    'c.btn':'Згенерувати підписаний PDF','prof.title':'Ваші дані для сертифікації','prof.sub':'Ці дані будуть на сторінці сертифікації. Вводяться один раз.','prof.save':'Зберегти і продовжити','prof.note':'Ці дані використовуються тільки для сертифікації перекладу.','c.edit.title':'Редагувати дані перекладача:','c.edit.save':'Зберегти',
+    'done.title':'Готово!','done.sub':'Файл надіслано на вашу пошту',
+    'done.en':'English Translation + Certification + Original',
+    'done.es':'Іспанська копія для California / local',
+    'done.dl':'Завантажити',
+    'done.next':'Що далі:',
+    'done.steps':'1. Завантажте підписаний PDF\n2. Перевірте, що ваш підпис є на сторінці сертифікації\n3. Подайте PDF разом із копією оригіналу відповідно до інструкцій',
+    'done.more':'Перекласти ще один документ'
+  },
+  ru:{
+    'h.title':'Переведите документ за несколько минут',
+    'h.sub':'Свидетельство о рождении, паспорт, удостоверение — готовый PDF для USCIS, DMV, школы, работодателя.',
+    'h.photo':'Сфотографировать','h.photo.hint':'Откроется камера телефона','h.file':'Загрузить файл','h.file.hint':'Выбрать из фото, файлов или компьютера',
+    
+    'h.footer':'Мы проверим документ бесплатно. Перевод — после оплаты.',
+    'd.title':'Проверяем документ...',
+    'd.sub':'Определяем тип и проверяем качество фото',
+    'p.ready':'Документ готов к переводу',
+    'p.type':'Тип: Свидетельство о рождении',
+    'p.lang':'Язык: Украинский',
+    'p.quality':'Качество фото: Хорошее',
+    'p.choose':'Выберите вариант:',
+    'p.basic':'Быстрый PDF. Вы проверяете ключевые поля сами.',
+    'p.rec':'Рекомендуем',
+    'p.plus':'Специалист проверит имена, даты и номера перед финальным PDF.',
+    'p.prem':'Детальная проверка для нечётких фото или важных подач.',
+    'p.es':'Испанская копия',
+    'p.es.d':'Для California DMV, школы, работодателя',
+    'p.btn':'Продолжить к оплате',
+    'p.note':'Бесплатное исправление ошибок форматирования. Без гарантий принятия.',
+    'pay.title':'Заказ',
+    'pay.doc':'Свидетельство о рождении',
+    'pay.es':'Испанская копия',
+    'pay.total':'Итого:','pay.details':'Ваши данные (для сертификации и доставки):',
+    'pay.card':'Оплатить картой',
+    'pay.safe':'Ваши данные защищены.',
+    'r.paid':'Оплата прошла',
+    'r.title':'Проверьте данные:',
+    'r.warn':'⚠️ Убедитесь, что имя написано так же, как в вашем паспорте или Green Card.',
+    'r.surname':'Фамилия','r.name':'Имя','r.patr':'Отчество',
+    'r.dob':'Дата рождения','r.pob':'Место рождения',
+    'r.father':'Отец','r.mother':'Мать',
+    'r.serial':'Серия / Номер','r.issued':'Дата выдачи','r.sex':'Пол','r.recno':'Актовая запись №','r.recdate':'Дата записи','r.dracs':'Орган выдачи','r.seal':'Печать','pend.title':'Специалист проверяет ваш документ','pend.sub':'Обычно это занимает 15-60 минут. Мы сообщим на email когда будет готово.','pend.demo':'(Demo — в продакшене разблокируется после проверки специалистом)','pend.skip':'⚙️ Demo: пропустить ожидание','done.es.note':'Для USCIS используйте English PDF. Испанская копия — для California DMV, школы, работодателя.',
+    'r.edit':'Изменить',
+    'r.confirm':'✓ Всё правильно, продолжить',
+    'c.title':'Последний шаг',
+    'c.sub':'Согласно 8 CFR §103.2(b)(3), документ должен быть переведён и подписан компетентным переводчиком. Вы подписываете как переводчик.',
+    'c.your':'Ваши данные (переводчик):',
+    'c.fname':'Полное имя латиницей (как в паспорте)',
+    'c.addr':'Адрес в США','c.phone':'Телефон',
+    'c.cb1':'Я подтверждаю, что владею украинским и английским языками на уровне, достаточном для сертификации перевода.',
+    'c.cb2':'Я проверил(а) все поля и беру на себя полную ответственность за точность перевода. Messenginfo лишь помог с подготовкой драфта и форматированием.',
+    'c.sig.title':'Подпишите перевод',
+    'c.sig.desc':'Нарисуйте подпись пальцем, мышкой или стилусом. Подпись будет размещена на странице сертификации в PDF.','c.sig.hint':'↑ Подпишите здесь','c.sig.clear':'Очистить','c.cb3':'Я понимаю, что эта подпись будет размещена на сертификации моего перевода.','c.sig.notrec':'⚠️ Не рекомендуется. Используйте только если орган подачи требует мокрую подпись.','c.sig.fallback':'Другие варианты подписи ▾','c.sig.fallback.text':'Если хотите подписать ручкой: скачайте PDF без подписи, распечатайте, подпишите и подайте бумажную копию.','c.sig.manual':'Я хочу подписать вручную (PDF без подписи)',
+    
+    
+    'c.btn':'Сгенерировать подписанный PDF','prof.title':'Ваши данные для сертификации','prof.sub':'Эти данные будут на странице сертификации. Вводятся один раз.','prof.save':'Сохранить и продолжить','prof.note':'Эти данные используются только для сертификации перевода.','c.edit.title':'Редактировать данные переводчика:','c.edit.save':'Сохранить',
+    'done.title':'Готово!','done.sub':'Файл отправлен на вашу почту',
+    'done.en':'English Translation + Certification + Original',
+    'done.es':'Испанская копия для California / local',
+    'done.dl':'Скачать',
+    'done.next':'Что дальше:',
+    'done.steps':'1. Скачайте подписанный PDF\n2. Проверьте, что ваша подпись есть на странице сертификации\n3. Подайте PDF вместе с копией оригинала согласно инструкциям',
+    'done.more':'Перевести ещё один документ'
+  },
+  en:{
+    'h.title':'Translate your document in minutes',
+    'h.sub':'Birth certificate, passport, ID — ready PDF for USCIS, DMV, school, employer. More documents coming soon.',
+    'h.photo':'Take a photo','h.photo.hint':'Opens your phone camera','h.file':'Upload file','h.file.hint':'Choose from Photos, Files, or computer',
+    
+    'h.footer':'We check your document for free. Translation after payment.',
+    'd.title':'Checking your document...',
+    'd.sub':'Detecting type and checking photo quality',
+    'p.ready':'Document ready for translation',
+    'p.type':'Type: Birth Certificate',
+    'p.lang':'Language: Ukrainian',
+    'p.quality':'Photo quality: Good',
+    'p.choose':'Choose your option:',
+    'p.basic':'Fast PDF. You check the key fields yourself.',
+    'p.rec':'Recommended',
+    'p.plus':'A person checks names, dates, and numbers before final PDF.',
+    'p.prem':'Priority review for blurry photos or important filings.',
+    'p.es':'Spanish copy',
+    'p.es.d':'For California DMV, school, employer',
+    'p.btn':'Continue to payment',
+    'p.note':'Free correction for formatting errors. No acceptance guarantee.',
+    'pay.title':'Order',
+    'pay.doc':'Birth Certificate',
+    'pay.es':'Spanish copy',
+    'pay.total':'Total:','pay.details':'Your details (for certification and delivery):',
+    'pay.card':'Pay with card',
+    'pay.safe':'Your data is protected.',
+    'r.paid':'Payment successful',
+    'r.title':'Review your data:',
+    'r.warn':'⚠️ Make sure the name matches your passport or Green Card exactly.',
+    'r.surname':'Surname','r.name':'Given name','r.patr':'Patronymic',
+    'r.dob':'Date of birth','r.pob':'Place of birth',
+    'r.father':'Father','r.mother':'Mother',
+    'r.serial':'Series / No.','r.issued':'Date of issue','r.sex':'Sex','r.recno':'Record No.','r.recdate':'Record date','r.dracs':'Issuing authority','r.seal':'Seal/stamp','pend.title':'Specialist is reviewing your document','pend.sub':'This usually takes 15-60 minutes. We will notify you by email when ready.','pend.demo':'(Demo — in production, unlocks after specialist review)','pend.skip':'⚙️ Demo: skip waiting','done.es.note':'For USCIS, use the English PDF. Spanish copy is for California DMV, school, employer, or personal use.',
+    'r.edit':'Edit',
+    'r.confirm':'✓ Everything correct, continue',
+    'c.title':'Last step',
+    'c.sub':'Under 8 CFR §103.2(b)(3), the document must be translated and signed by a competent translator. You sign as the translator.',
+    'c.your':'Your details (translator):',
+    'c.fname':'Full legal name in Latin letters (as in passport)',
+    'c.addr':'US address','c.phone':'Phone',
+    'c.cb1':'I confirm I am competent in both Ukrainian and English at a level sufficient to certify this translation.',
+    'c.cb2':'I reviewed all fields and accept full responsibility for the accuracy of this translation. Messenginfo only assisted with preparing the draft and formatting.',
+    'c.sig.title':'Sign your translation',
+    'c.sig.desc':'Draw your signature with finger, mouse, or stylus. It will be placed on the certification page of the PDF.','c.sig.hint':'↑ Sign here','c.sig.clear':'Clear','c.cb3':'I understand this signature will be placed on my translation certification.','c.sig.notrec':'⚠️ Not recommended. Use only if the filing agency specifically requires a wet signature.','c.sig.fallback':'Other signing options ▾','c.sig.fallback.text':'If you prefer to sign by hand: download the unsigned PDF, print it, sign it, and submit the paper copy.','c.sig.manual':'I want to sign manually (unsigned PDF)',
+    
+    
+    'c.btn':'Generate signed PDF','prof.title':'Your certification details','prof.sub':'These details will appear on the certification page. Entered once.','prof.save':'Save and continue','prof.note':'This information is used only for translation certification.','c.edit.title':'Edit translator details:','c.edit.save':'Save',
+    'done.title':'Done!','done.sub':'File sent to your email',
+    'done.en':'English Translation + Certification + Original',
+    'done.es':'Spanish copy for California / local use',
+    'done.dl':'Download',
+    'done.next':'What to do next:',
+    'done.steps':'1. Download the signed PDF\n2. Verify your signature appears on the certification page\n3. Submit the PDF with a copy of the original document per your filing instructions',
+    'done.more':'Translate another document'
+  },
+  es:{
+    'h.title':'Traduzca su documento en minutos',
+    'h.sub':'Certificado de nacimiento, pasaporte, ID — PDF listo para USCIS, DMV, escuela, empleador.',
+    'h.photo':'Tomar foto','h.photo.hint':'Se abrirá la cámara del teléfono','h.file':'Subir archivo','h.file.hint':'Elegir desde Fotos, Archivos o computadora',
+    
+    'h.footer':'Verificamos su documento gratis. Traducción después del pago.',
+    'd.title':'Verificando su documento...',
+    'd.sub':'Detectando tipo y verificando calidad de foto',
+    'p.ready':'Documento listo para traducción',
+    'p.type':'Tipo: Certificado de Nacimiento',
+    'p.lang':'Idioma: Ucraniano',
+    'p.quality':'Calidad de foto: Buena',
+    'p.choose':'Elija su opción:',
+    'p.basic':'PDF rápido. Usted revisa los campos clave.',
+    'p.rec':'Recomendado',
+    'p.plus':'Un especialista revisa nombres, fechas y números antes del PDF final.',
+    'p.prem':'Revisión prioritaria para fotos borrosas o trámites importantes.',
+    'p.es':'Copia en español',
+    'p.es.d':'Para California DMV, escuela, empleador',
+    'p.btn':'Continuar al pago',
+    'p.note':'Corrección gratuita de errores de formato. Sin garantía de aceptación.',
+    'pay.title':'Pedido',
+    'pay.doc':'Certificado de Nacimiento',
+    'pay.es':'Copia en español',
+    'pay.total':'Total:','pay.details':'Sus datos (para certificación y entrega):',
+    'pay.card':'Pagar con tarjeta',
+    'pay.safe':'Sus datos están protegidos.',
+    'r.paid':'Pago exitoso',
+    'r.title':'Revise sus datos:',
+    'r.warn':'⚠️ Asegúrese de que el nombre coincida exactamente con su pasaporte o Green Card.',
+    'r.surname':'Apellido','r.name':'Nombre','r.patr':'Patronímico',
+    'r.dob':'Fecha de nacimiento','r.pob':'Lugar de nacimiento',
+    'r.father':'Padre','r.mother':'Madre',
+    'r.serial':'Serie / Nro.','r.issued':'Fecha de expedición','r.sex':'Sexo','r.recno':'Acta No.','r.recdate':'Fecha de acta','r.dracs':'Autoridad emisora','r.seal':'Sello','pend.title':'Un especialista revisa su documento','pend.sub':'Esto suele tomar 15-60 minutos. Le notificaremos por email cuando esté listo.','pend.demo':'(Demo — en producción, se desbloquea después de la revisión)','pend.skip':'⚙️ Demo: omitir espera','done.es.note':'Para USCIS, use el PDF en inglés. La copia en español es para California DMV, escuela o empleador.',
+    'r.edit':'Editar',
+    'r.confirm':'✓ Todo correcto, continuar',
+    'c.title':'Último paso',
+    'c.sub':'Según 8 CFR §103.2(b)(3), el documento debe ser traducido y firmado por un traductor competente. Usted firma como traductor.',
+    'c.your':'Sus datos (traductor):',
+    'c.fname':'Nombre completo en letras latinas (como en pasaporte)',
+    'c.addr':'Dirección en EE.UU.','c.phone':'Teléfono',
+    'c.cb1':'Confirmo que domino ucraniano e inglés a un nivel suficiente para certificar esta traducción.',
+    'c.cb2':'Revisé todos los campos y asumo total responsabilidad por la exactitud de la traducción. Messenginfo solo ayudó con la preparación del borrador y el formato.',
+    'c.sig.title':'Firme su traducción',
+    'c.sig.desc':'Dibuje su firma con el dedo, ratón o lápiz. Se colocará en la página de certificación del PDF.','c.sig.hint':'↑ Firme aquí','c.sig.clear':'Borrar','c.cb3':'Entiendo que esta firma se colocará en la certificación de mi traducción.','c.sig.notrec':'⚠️ No recomendado. Use solo si la agencia requiere firma húmeda.','c.sig.fallback':'Otras opciones de firma ▾','c.sig.fallback.text':'Si prefiere firmar a mano: descargue el PDF sin firma, imprímalo, fírmelo y presente la copia en papel.','c.sig.manual':'Quiero firmar manualmente (PDF sin firma)',
+    
+    
+    'c.btn':'Generar PDF firmado','prof.title':'Sus datos para certificación','prof.sub':'Estos datos aparecerán en la página de certificación. Se ingresan una vez.','prof.save':'Guardar y continuar','prof.note':'Esta información se usa solo para la certificación de traducción.','c.edit.title':'Editar datos del traductor:','c.edit.save':'Guardar',
+    'done.title':'¡Listo!','done.sub':'Archivo enviado a su correo',
+    'done.en':'English Translation + Certification + Original',
+    'done.es':'Copia en español para California / uso local',
+    'done.dl':'Descargar',
+    'done.next':'Qué hacer ahora:',
+    'done.steps':'1. Descargue el PDF firmado\n2. Verifique que su firma aparece en la página de certificación\n3. Presente el PDF con una copia del documento original según las instrucciones',
+    'done.more':'Traducir otro documento'
+  }
+};
+
+function setLang(l){
+  lang=l;
+  document.querySelectorAll('.lang-sw button').forEach(b=>b.classList.remove('active'));
+  document.getElementById('lb-'+l).classList.add('active');
+  document.querySelectorAll('[data-t]').forEach(el=>{
+    const k=el.getAttribute('data-t');
+    if(T[l]&&T[l][k]){
+      if(el.tagName==='INPUT')el.placeholder=T[l][k];
+      else el.innerHTML=T[l][k].replace(/\n/g,'<br>');
+    }
+  });
+}
+
+// ===== THEME TOGGLE =====
+(function(){
+  var stored=localStorage.getItem('theme');
+  var prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
+  var dark=stored==='dark'||(stored===null&&prefersDark);
+  document.documentElement.classList.toggle('dark',dark);
+  document.addEventListener('DOMContentLoaded',function(){
+    var btn=document.getElementById('theme-btn');
+    if(btn)btn.textContent=dark?'☀️':'🌙';
+  });
+})();
+function toggleTheme(){
+  var isDark=document.documentElement.classList.toggle('dark');
+  localStorage.setItem('theme',isDark?'dark':'light');
+  var btn=document.getElementById('theme-btn');
+  if(btn)btn.textContent=isDark?'☀️':'🌙';
+}
+
+// ===== CONFIG =====
+const DEMO_MODE = true; // Set to false in production
+
+// ===== SHARED VALIDATION =====
+function isProfileValid(p){
+  const emailOk=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.email);
+  const phoneOk=(p.phone||'').replace(/\D/g,'').length>=7;
+  return !!(p.name&&p.addr&&emailOk&&phoneOk);
+}
+
+// ===== GENERATE PDF =====
+function generatePdf(){
+  const extraPages=Math.max(0,pages.length-INCLUDED_PAGES);
+  const prices={basic:14.99,plus:19.99,premium:29.99};
+  const basePlan=prices[selectedPlan]||0;
+  const extraCost=extraPages*EXTRA_PAGE_PRICE;
+  const esCost=document.getElementById('addon-es').checked?3:0;
+  const payload={
+    profile:profile,
+    selectedPlan:selectedPlan,
+    pageCount:pages.length,
+    includedPages:INCLUDED_PAGES,
+    extraPages:extraPages,
+    extraPagePrice:EXTRA_PAGE_PRICE,
+    basePlanPrice:basePlan,
+    extraPagesCost:extraCost,
+    spanishCopyCost:esCost,
+    totalPrice:basePlan+extraCost+esCost,
+    spanishCopy:document.getElementById('addon-es').checked,
+    signatureDataUrl:manualSig?null:getSignatureData(),
+    signatureMethod:manualSig?'manual_wet_signature':'drawn_on_screen',
+    signedAt:new Date().toISOString(),
+    userAgent:navigator.userAgent,
+    certificationTextVersion:'self_cert_8cfr_v1'
+  };
+  console.log('PDF Payload:',JSON.stringify(payload,null,2));
+  goTo('s-done');
+}
+
+// ===== INLINE EDIT =====
+function editField(el){
+  const card=el.closest('.field-card');
+  const translated=card.querySelector('.field-translated');
+  if(card.querySelector('.field-input-edit')){return;}
+  const current=translated.textContent;
+  translated.style.display='none';
+  const inp=document.createElement('input');
+  inp.className='field-input-edit';
+  inp.value=current;
+  inp.onblur=function(){
+    translated.textContent=inp.value;
+    translated.style.display='block';
+    inp.remove();
+  };
+  inp.onkeydown=function(e){if(e.key==='Enter')inp.blur();};
+  card.querySelector('div').appendChild(inp);
+  inp.focus();
+  el.textContent=lang==='en'?'Editing...':lang==='es'?'Editando...':lang==='ru'?'Изменение...':'Зміна...';
+  inp.addEventListener('blur',()=>{
+    el.textContent=T[lang]['r.edit']||'Edit';
+  });
+}
+
+// ===== NAVIGATION =====
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  if(id==='s-cert') setTimeout(initSigPad,100);
+  if(id==='s-done'){
+    const email=profile.email||'your email';
+    document.querySelector('[data-t="done.sub"]').innerHTML=(T[lang]['done.sub']||'File sent to your email').replace('вашу пошту',email).replace('вашу почту',email).replace('your email',email).replace('su correo',email);
+    // Adjust done instructions for manual signing
+    const stepsEl=document.querySelector('[data-t="done.steps"]');
+    if(manualSig){
+      const unsignedSteps={
+        uk:'1. Завантажте PDF без підпису\n2. Роздрукуйте і підпишіть ручкою\n3. Подайте разом із копією оригіналу',
+        ru:'1. Скачайте PDF без подписи\n2. Распечатайте и подпишите ручкой\n3. Подайте вместе с копией оригинала',
+        en:'1. Download the unsigned PDF\n2. Print and sign by hand\n3. Submit with a copy of the original document',
+        es:'1. Descargue el PDF sin firma\n2. Imprima y firme a mano\n3. Presente con una copia del documento original'
+      };
+      stepsEl.innerHTML=(unsignedSteps[lang]||unsignedSteps.en).replace(/\n/g,'<br>');
+    }
+  }
+}
+
+// ===== UPLOAD =====
+// ===== HELPERS =====
+function toggleHelp(id){document.getElementById(id).classList.toggle('open')}
+
+// ===== PAGE UPLOAD =====
+let pages=[];
+const MAX_PAGES=15;
+const INCLUDED_PAGES=3;
+const EXTRA_PAGE_PRICE=3;
+function getPageCount(){return pages.length}
+
+function addPage(input){
+  const files=input.files;
+  if(!files||!files.length)return;
+  for(let i=0;i<files.length;i++){
+    if(pages.length>=MAX_PAGES){document.getElementById('page-limit-warn').style.display='block';break;}
+    pages.push({id:Date.now()+Math.random(),file:files[i]});
+  }
+  input.value='';
+  renderThumbs();
+  document.getElementById('photo-tips').style.display='none';
+}
+function removePage(id){
+  pages=pages.filter(p=>p.id!==id);
+  renderThumbs();
+}
+function renderThumbs(){
+  const c=document.getElementById('page-thumbs');c.innerHTML='';
+  pages.forEach((p,i)=>{
+    const t=document.createElement('div');
+    t.style.cssText='width:52px;height:52px;background:var(--accent-light);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--accent);position:relative';
+    t.textContent=i+1;
+    const d=document.createElement('span');
+    d.textContent='\u00d7';
+    d.style.cssText='position:absolute;top:-6px;right:-6px;background:var(--danger);color:#fff;width:18px;height:18px;border-radius:50%;font-size:11px;line-height:18px;text-align:center;cursor:pointer';
+    d.onclick=function(e){e.stopPropagation();removePage(p.id)};
+    t.appendChild(d);c.appendChild(t);
+  });
+  const n=pages.length;
+  document.getElementById('page-list').style.display=n>0?'block':'none';
+  document.getElementById('page-count-label').textContent=n;
+  document.getElementById('btn-pages-done').disabled=n<1;
+  document.getElementById('page-limit-warn').style.display=n>=MAX_PAGES?'block':'none';
+}
+function pagesComplete(){
+  if(pages.length>MAX_PAGES)return;
+  const el=document.getElementById('price-page-count');
+  if(el)el.textContent=pages.length;
+  goTo('s-detect');
+  setTimeout(()=>goTo('s-price'),2500);
+}
+
+// ===== PLAN =====
+let selectedPlan=null;
+function selectPlan(p){
+  selectedPlan=p;
+  ['basic','plus','premium'].forEach(x=>{
+    document.getElementById('plan-'+x).classList.remove('selected');
+  });
+  document.getElementById('plan-'+p).classList.add('selected');
+  document.getElementById('btn-pay').disabled=false;
+  updateTotal();
+  checkPayReady();
+}
+
+function updateTotal(){
+  const prices={basic:14.99,plus:19.99,premium:29.99};
+  const base=prices[selectedPlan]||0;
+  const es=document.getElementById('addon-es').checked;
+  const extraPages=Math.max(0,pages.length-INCLUDED_PAGES);
+  const extraCost=extraPages*EXTRA_PAGE_PRICE;
+  const total=base+(es?3:0)+extraCost;
+  const extraLabel=lang==='uk'?extraPages+' додатк. × $3':
+    lang==='ru'?extraPages+' доп. × $3':
+    lang==='es'?extraPages+' extra × $3':
+    extraPages+' extra × $3';
+
+  // Checkout screen
+  document.getElementById('pay-plan-price').textContent='$'+base.toFixed(2);
+  document.getElementById('pay-extra-row').style.display=extraPages>0?'flex':'none';
+  if(extraPages>0){document.getElementById('pay-extra-label').textContent=extraLabel;document.getElementById('pay-extra-price').textContent='+$'+extraCost.toFixed(2);}
+  document.getElementById('pay-es-row').style.display=es?'flex':'none';
+  document.getElementById('pay-total').textContent='$'+total.toFixed(2);
+
+  // Pricing screen breakdown
+  const pb=document.getElementById('price-breakdown');
+  if(pb&&selectedPlan){
+    pb.style.display='block';
+    document.getElementById('pb-plan').textContent=selectedPlan.charAt(0).toUpperCase()+selectedPlan.slice(1);
+    document.getElementById('pb-plan-price').textContent='$'+base.toFixed(2);
+    document.getElementById('pb-extra').style.display=extraPages>0?'flex':'none';
+    if(extraPages>0){document.getElementById('pb-extra-label').textContent=extraLabel;document.getElementById('pb-extra-price').textContent='+$'+extraCost.toFixed(2);}
+    document.getElementById('pb-es').style.display=es?'flex':'none';
+    document.getElementById('pb-total').textContent='$'+total.toFixed(2);
+  }
+
+  // Done screen ES
+  if(es){document.getElementById('done-es').style.display='flex';document.getElementById('done-es-note').style.display='block';}
+  else{document.getElementById('done-es').style.display='none';document.getElementById('done-es-note').style.display='none';}
+}
+
+// ===== CHECKOUT =====
+let profile={name:'',addr:'',phone:'',email:''};
+
+function checkPayReady(){
+  const n=document.getElementById('prof-name').value.trim();
+  const e=document.getElementById('prof-email').value.trim();
+  const p=document.getElementById('prof-phone').value.trim();
+  const a=document.getElementById('prof-addr').value.trim();
+  const emailOk=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+  const phoneOk=p.replace(/\D/g,'').length>=7;
+  const ok=!!(n&&emailOk&&phoneOk&&a&&selectedPlan);
+  document.getElementById('btn-apple').disabled=!ok;
+  document.getElementById('btn-card').disabled=!ok;
+}
+
+// ===== PAYMENT =====
+function simulatePayment(){
+  // Save profile from checkout
+  profile.name=document.getElementById('prof-name').value.trim();
+  profile.email=document.getElementById('prof-email').value.trim();
+  profile.phone=document.getElementById('prof-phone').value.trim();
+  profile.addr=document.getElementById('prof-addr').value.trim();
+  // Fill cert display
+  document.getElementById('cert-name-display').textContent=profile.name;
+  document.getElementById('cert-details-display').innerHTML=profile.addr+'<br>'+profile.phone+'<br>'+profile.email;
+  // Also fill hidden inputs for edit mode
+  document.getElementById('inp-name').value=profile.name;
+  document.getElementById('inp-addr').value=profile.addr;
+  document.getElementById('inp-phone').value=profile.phone;
+  document.getElementById('inp-email').value=profile.email;
+  // Route
+  if(selectedPlan==='basic') goTo('s-review');
+  else goTo('s-pending');
+}
+
+// ===== EDIT PROFILE (from cert screen) =====
+function editProfile(){
+  const ed=document.getElementById('profile-editor');
+  ed.style.display=ed.style.display==='none'?'block':'none';
+}
+function saveProfile(){
+  const p={
+    name:document.getElementById('inp-name').value.trim(),
+    addr:document.getElementById('inp-addr').value.trim(),
+    phone:document.getElementById('inp-phone').value.trim(),
+    email:document.getElementById('inp-email').value.trim()
+  };
+  if(!isProfileValid(p)){
+    alert(lang==='uk'?'Будь ласка, заповніть всі поля коректно':
+      lang==='ru'?'Пожалуйста, заполните все поля корректно':
+      lang==='es'?'Por favor complete todos los campos correctamente':
+      'Please fill all fields correctly');
+    return;
+  }
+  profile=p;
+  document.getElementById('cert-name-display').textContent=profile.name;
+  document.getElementById('cert-details-display').innerHTML=profile.addr+'<br>'+profile.phone+'<br>'+profile.email;
+  document.getElementById('profile-editor').style.display='none';
+  checkCert();
+}
+
+// ===== SIGNATURE PAD =====
+let canvas,ctx,drawing=false,hasDrawn=false,manualSig=false;
+
+function initSigPad(){
+  canvas=document.getElementById('sigCanvas');
+  if(!canvas||canvas._init)return;
+  canvas._init=true;
+  const r=window.devicePixelRatio||1;
+  const rect=canvas.getBoundingClientRect();
+  canvas.width=rect.width*r;
+  canvas.height=rect.height*r;
+  ctx=canvas.getContext('2d');
+  ctx.scale(r,r);
+  ctx.strokeStyle='#1a1714';ctx.lineWidth=2.5;ctx.lineCap='round';ctx.lineJoin='round';
+
+  function getXY(e){const b=canvas.getBoundingClientRect();return{x:e.clientX-b.left,y:e.clientY-b.top}}
+  canvas.addEventListener('mousedown',e=>{drawing=true;const p=getXY(e);ctx.beginPath();ctx.moveTo(p.x,p.y)});
+  canvas.addEventListener('mousemove',e=>{if(!drawing)return;const p=getXY(e);ctx.lineTo(p.x,p.y);ctx.stroke();hasDrawn=true;checkCert()});
+  canvas.addEventListener('mouseup',()=>drawing=false);
+  canvas.addEventListener('mouseleave',()=>drawing=false);
+  canvas.addEventListener('touchstart',e=>{e.preventDefault();drawing=true;const t=e.touches[0],p=getXY(t);ctx.beginPath();ctx.moveTo(p.x,p.y)},{passive:false});
+  canvas.addEventListener('touchmove',e=>{e.preventDefault();if(!drawing)return;const t=e.touches[0],p=getXY(t);ctx.lineTo(p.x,p.y);ctx.stroke();hasDrawn=true;checkCert()},{passive:false});
+  canvas.addEventListener('touchend',e=>{e.preventDefault();drawing=false},{passive:false});
+}
+function clearSig(){
+  if(!ctx)return;
+  ctx.save();ctx.setTransform(1,0,0,1,0,0);
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.restore();
+  hasDrawn=false;checkCert();
+}
+function toggleManualSig(){
+  manualSig=document.getElementById('manual-sig-check').checked;
+  const pad=document.getElementById('sigCanvas');
+  if(pad)pad.style.opacity=manualSig?'.3':'1';
+  checkCert();
+  // Update button text for manual vs signed
+  const btn=document.getElementById('btn-final');
+  const labels={uk:'Згенерувати PDF без підпису',ru:'Сгенерировать PDF без подписи',en:'Generate unsigned PDF',es:'Generar PDF sin firma'};
+  if(manualSig) btn.textContent=labels[lang]||labels.en;
+  else btn.textContent=T[lang]['c.btn']||'Generate signed PDF';
+}
+function getSignatureData(){
+  return hasDrawn?canvas.toDataURL('image/png'):null;
+}
+
+// ===== CERT VALIDATION =====
+function checkCert(){
+  const a1=document.getElementById('ack1').checked;
+  const a2=document.getElementById('ack2').checked;
+  const a3=document.getElementById('ack3').checked;
+  const sigOk=hasDrawn||manualSig;
+  const ackOk=manualSig?(a1&&a2):(a1&&a2&&a3);
+  const profileOk=isProfileValid(profile);
+  document.getElementById('btn-final').disabled=!(ackOk&&sigOk&&profileOk);
+}
+
+// Init sig pad when cert screen becomes visible
+
+// ===== RESET =====
+function resetApp(){
+  selectedPlan=null;hasDrawn=false;manualSig=false;pages=[];
+  document.getElementById('ack1').checked=false;
+  document.getElementById('ack2').checked=false;
+  document.getElementById('ack3').checked=false;
+  document.getElementById('addon-es').checked=false;
+  if(document.getElementById('manual-sig-check'))document.getElementById('manual-sig-check').checked=false;
+  if(document.getElementById('profile-editor'))document.getElementById('profile-editor').style.display='none';
+  document.getElementById('page-thumbs').innerHTML='';
+  document.getElementById('page-list').style.display='none';
+  document.getElementById('photo-tips').style.display='block';
+  ['basic','plus','premium'].forEach(x=>document.getElementById('plan-'+x).classList.remove('selected'));
+  document.getElementById('btn-pay').disabled=true;
+  document.getElementById('btn-final').disabled=true;
+  if(ctx)clearSig();
+  goTo('s-upload');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "_meta": {
+    "doc_id": "",
+    "fixture": "ead_<surname>.jpg",
+    "document_class": "us_ead",
+    "ground_truth_status": "PENDING_OWNER",
+    "owner_verified_fields": ["family_name","given_name","date_of_birth","a_number","card_number","ead_category"],
+    "verified_scope": "ONLY owner_verified_fields penalized; field names from the EAD adapter (not invented)",
+    "language_intent": "value = AS WRITTEN on the EAD card (US form, Latin); see docs/reports/GT_LANGUAGE_INTENT.md",
+    "fill_instructions": "Type exactly as printed. Dates YYYY-MM-DD. Unreadable -> null + note. Set ground_truth_status=VERIFIED_BY_OWNER. Do NOT commit filled file."
+  },
+  "family_name": "",
+  "given_name": "",
+  "date_of_birth": "",
+  "a_number": "",
+  "card_number": "",
+  "ead_category": "",
+  "uscis_number": "",
+  "ead_validity_from": "",
+  "ead_validity_to": "",
+  "country_of_birth": "",
+  "sex": "",
+  "candidate_not_verified": ["uscis_number","ead_validity_from","ead_validity_to","country_of_birth","sex"],
+  "notes": ""
+}

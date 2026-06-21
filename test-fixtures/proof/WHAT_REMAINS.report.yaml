@@ -1,0 +1,371 @@
+report: WHAT_REMAINS_BEFORE_REAL_TPS_PRODUCT
+generated_at: "2026-05-11T07:25Z"
+honesty_level: "no embellishment, no rounding up"
+
+# ── HOW TO READ THIS ────────────────────────────────────────────────────────
+# Items are grouped by what they UNBLOCK, not by how big they are.
+# Each item has:
+#   severity   how badly it blocks paid_launch
+#   readiness  0-100% — what fraction is already done
+#   effort     rough scope (hours)
+#   risk       what can go wrong
+#   blocks     what depends on this
+
+# ════════════════════════════════════════════════════════════════════════════
+# CATEGORY A — UNVERIFIED ASSUMPTIONS (block real-user launch)
+# ════════════════════════════════════════════════════════════════════════════
+
+A1_real_user_pilot:
+  severity: HIGH
+  readiness: 0
+  effort_hours: 4-8 (plus 1 week wait for USCIS receipt)
+  description: |
+    No real Ukrainian passport has ever been tested end-to-end.
+    20 synthetic-degraded variants tested; 11 survived. But "blurry
+    synthetic" ≠ "real phone photo of real passport in real lighting".
+  blocks:
+    - paid_launch
+    - confidence that this product actually works
+  risk: |
+    Synthetic MRZ has perfectly even font kerning and contrast. Real
+    passports have wear, security overlays, RFID-induced print artifacts.
+    Vision could fail on details we cannot simulate.
+  next_action: |
+    Single passport test on your phone, EXIF metadata stripped before
+    upload, delete fixture after test. Or 3-5 friends/family under NDA.
+
+A2_real_phone_photo_robustness_gap:
+  severity: MEDIUM-HIGH
+  readiness: 55  # 11/20 degraded variants pass
+  effort_hours: 8-16
+  description: |
+    Rotation ≥15° kills MRZ extraction. 600/1000px downscales fail
+    while 300px works. These are common phone-photo failure modes.
+  proposed_fix: |
+    (a) Add image deskew in preprocess (sharp.rotate + auto-orient)
+    (b) Add Laplacian variance blur detector (too_blurry code is
+        declared but never emitted)
+    (c) UI hint on upload: "Hold phone flat, no glare"
+  blocks: A1 confidence
+
+A3_PII_persistence_proof:
+  severity: MEDIUM
+  readiness: 70  # code-audited PASS, but no automated guard
+  effort_hours: 4
+  description: |
+    Banner says "files deleted after packet generation". The route
+    code is clean (no fs.writeFile, no module-scope cache). But:
+      - Vercel function logs may capture file metadata
+      - No automated test enforces "buffer never crosses to logger"
+      - No retention policy doc for the user
+  proposed_fix: |
+    (a) Add a lint rule / unit test that fails if any code path can
+        log image buffer
+    (b) Add user-facing privacy page section explaining retention
+    (c) Optional Supabase audit table for upload events (count only,
+        no payloads) — Supabase MCP tools were surfaced this session
+
+# ════════════════════════════════════════════════════════════════════════════
+# CATEGORY B — INCOMPLETE FEATURES (block "full TPS product")
+# ════════════════════════════════════════════════════════════════════════════
+
+B1_i94_ocr_routing:
+  severity: MEDIUM
+  readiness: 50
+  effort_hours: 4-6
+  description: |
+    runI94Module() exists, returns i94_admission_number + last_entry_date
+    + class_of_admission. But these don't reach the prefiller — currently
+    only the passport module's fields seed Step 6.
+  proposed_fix: |
+    Extend GeneratePacketBlock.applyPreExtracted whitelist to include
+    i94_admission_number + last_entry_date. Verify via roundtrip test.
+  blocks: "Real packet completeness when user has I-94 paper"
+
+B2_ead_ocr_routing:
+  severity: MEDIUM
+  readiness: 50
+  effort_hours: 4-6
+  description: |
+    runEadModule() returns a_number + ead_category + ead_expiration_date.
+    None reach I-765 prefiller. So a user who already has a TPS EAD and
+    is re-applying types these by hand instead of OCR-ing from the card.
+  proposed_fix: |
+    Add a_number routing to I-765 Line5 (A-Number) and ead_category to
+    the category section. New unit tests for the prefiller.
+
+B3_i912_fee_waiver_autofill:
+  severity: MEDIUM
+  readiness: 0
+  effort_hours: 8-12
+  description: |
+    Fee waiver path exists in wizard answers (wants_fee_waiver) but no
+    I-912 PDF generation. User who needs fee waiver gets I-821+I-765
+    ZIP plus a note "fill I-912 yourself".
+  proposed_fix: |
+    Build i912FieldMap.ts, include in ZIP when wants_fee_waiver=true.
+    Add household income / means-tested benefit question to wizard.
+
+B4_packet_completeness_checker:
+  severity: MEDIUM
+  readiness: 35  # README has lockbox+fee now, but no pre-download checklist
+  effort_hours: 6-8
+  description: |
+    Currently a user can hit Generate with key fields missing and get
+    a 422 with an unstyled list. Should be a pre-download checklist
+    screen with green checkmarks and "fill this" hints.
+  proposed_fix: |
+    New step between Step 6 form and ZIP download:
+      ✓ Identity (5 fields)
+      ✓ US address (4 fields)
+      ✓ Last entry date
+      ✗ Phone or email missing
+      → Fill these to generate the packet.
+
+B5_phone_number_normalization:
+  severity: LOW
+  readiness: 0
+  effort_hours: 0.5
+  description: |
+    Surfaced by the T6 fix: I-765 Pt3Line3_DaytimePhoneNumber1 has
+    maxLength=10 (digits-only). We send "555-555-5555" (12 chars).
+    Field is skipped.
+  proposed_fix: |
+    In i765FieldMap, strip non-digits from daytime_phone before
+    setText. One-line fix.
+
+B6_field_map_full_audit:
+  severity: LOW-MEDIUM
+  readiness: 60
+  effort_hours: 12-20
+  description: |
+    Only ~32 of 511 I-821 fields and ~20 of 180 I-765 fields are
+    written. The rest are intentionally left blank for the user to
+    fill manually (signatures, optional parts). But no audit
+    document exists listing "we DO write field X" vs "user must
+    write field Y" — auditors and the future-you will not know
+    which is which.
+  proposed_fix: |
+    Generate docs/uscis/forms/tps/coverage_matrix.md listing every
+    AcroForm field and our policy: AUTO / USER / NA.
+
+# ════════════════════════════════════════════════════════════════════════════
+# CATEGORY C — INFRA / SAFETY NETS (block scaling beyond pilot)
+# ════════════════════════════════════════════════════════════════════════════
+
+C1_telemetry_funnel:
+  severity: MEDIUM
+  readiness: 0
+  effort_hours: 6-10
+  description: |
+    No events fire from OCR/wizard/packet flow. We have ZERO data
+    on where users abandon, how many uploads fail, what % click
+    "Я введу данные руками", time-to-packet.
+  proposed_events:
+    - tps_started
+    - upload_started{slot}
+    - upload_quality_gate{code}
+    - ocr_completed{fields_n, manual_review}
+    - ocr_review_opened
+    - ocr_edited{field}
+    - step6_opened
+    - packet_generated{i821_applied, i765_applied}
+    - download_clicked
+    - start_over_clicked
+  proposed_fix: |
+    Use the existing analytics pipeline (apps/web/src/components/
+    analytics/Analytics.tsx). Add lightweight event hooks. NO PII.
+    Surfaced Supabase MCP tools this session could host the table.
+
+C2_playwright_e2e_in_ci:
+  severity: MEDIUM
+  readiness: 0
+  effort_hours: 6-10
+  description: |
+    Every feature so far was manually verified via Chrome MCP. No CI
+    catches regressions. Each new commit could silently break
+    upload→OCR→review→Step6→ZIP.
+  proposed_fix: |
+    Playwright test using synthetic-passport.jpg fixture:
+      - upload via /api/tps/ocr/extract
+      - assert matched=true, fields=8
+      - generate-packet → 200 + ZIP
+      - assert i821_applied >= 32, i765_applied >= 20
+      - assert README contains "WHERE TO MAIL" + "GOVERNMENT FEES"
+      - assert NO «Верно»/«Неверно» in self-review screen
+
+C3_i18n_drift_check:
+  severity: LOW
+  readiness: 30  # convention enforced manually, no automated check
+  effort_hours: 2
+  description: |
+    Every new copy string requires 4 locale entries (uk/ru/en/es).
+    Missing one falls through to raw-key rendering. No automated
+    guard.
+  proposed_fix: |
+    Unit test that walks the T object in TPSWizard.tsx and the COPY
+    objects in DocumentUploadScreen, SelfReviewScreen, OcrFieldEditModal,
+    and fails if any key exists in en but not in uk/ru/es (or vice versa).
+
+C4_adobe_visual_proof_in_ci:
+  severity: LOW-MEDIUM
+  readiness: 0  # only manual screenshots so far
+  effort_hours: 6
+  description: |
+    pdftoppm renders work but use the same poppler font fallback path
+    as our local dev. Adobe Reader / Preview render PDFs differently
+    (Adobe respects the XFA layer Vercel can't fully strip). No CI
+    check that fields are visually present in Adobe.
+  proposed_fix: |
+    Headless test using muPDF or pdfium-render (more Adobe-faithful).
+    Or: weekly cron that renders into PNG, posts to Slack/Telegram
+    for visual review.
+
+C5_attestation_gate:
+  severity: MEDIUM
+  readiness: 0
+  effort_hours: 4
+  description: |
+    v5 Translation Engine has an attestation gate ("I confirm the
+    extracted data is correct"). TPS does not. Without it, a user
+    who blindly trusts OCR has no checkpoint where THEY accept
+    responsibility for the data they're mailing to USCIS.
+  proposed_fix: |
+    Add "Attestation" step between Step 6 review and packet generation:
+      "I have reviewed the data above and confirm it is correct
+       to the best of my knowledge. I understand Messenginfo does
+       not submit forms to USCIS and is not a law firm."
+    Checkbox + timestamp logged client-side.
+
+# ════════════════════════════════════════════════════════════════════════════
+# CATEGORY D — KNOWN ENGINEERING DEBT (out of scope but visible)
+# ════════════════════════════════════════════════════════════════════════════
+
+D1_legacy_lint_overrides:
+  severity: LOW
+  description: |
+    Pre-existing classifier/registry/adapters.ts use `module` as
+    variable; scoped off via per-file overrides. Tests cover them
+    so risk is low. Real refactor would touch v5 internals.
+
+D2_tps_resume_continue_url_pattern:
+  severity: LOW
+  description: |
+    Resume banner shows "↺ Начать заново" but no "Продолжить" button
+    if you wanted to actually continue from the saved step. Current
+    behavior: defaults to Step 1 unless ?continue=1 URL param is set.
+    A UX could add an explicit "Continue from Step N" pill.
+
+D3_no_user_account_persistence:
+  severity: LOW
+  description: |
+    Wizard state is browser localStorage only. If user clears cookies
+    or switches device, all progress is lost. Supabase MCP tools were
+    surfaced this session — could host a "save and continue later"
+    flow tied to email magic link.
+
+# ════════════════════════════════════════════════════════════════════════════
+# RECOMMENDED ORDER OF NEXT 5 CYCLES (my honest preference)
+# ════════════════════════════════════════════════════════════════════════════
+
+recommended_next_cycles:
+  cycle_1:
+    name: TPS_REAL_USER_PILOT
+    priority: P0
+    depends_on: nothing — can start tomorrow
+    duration: "1-2 days actual work + 1 week real-user wait"
+    why_first: |
+      Every other improvement is building on the assumption that
+      passport OCR works on real photos. We don't know that yet.
+      One real passport test buys more confidence than 4 days of
+      I-94/EAD work on top of an unverified foundation.
+
+  cycle_2_option_a:
+    name: TPS_QUICK_WINS
+    priority: P0
+    duration: "0.5 day"
+    scope:
+      - B5 phone normalization (30 min)
+      - C3 i18n drift check (2 hours)
+      - KG2/3 better blur detection + UI hint (2 hours)
+    why: "Cheap, removes noise before bigger work."
+
+  cycle_3:
+    name: TPS_I94_EAD_OCR_ROUTING
+    priority: P0
+    depends_on: TPS_REAL_USER_PILOT or operator decision to defer
+    duration: "3-4 days"
+    why: |
+      You wanted this originally and it makes the product
+      "really useful" for re-registration users. Skip if pilot
+      reveals fundamental OCR issues.
+
+  cycle_4:
+    name: TPS_PACKET_COMPLETENESS_CHECKER
+    priority: P0
+    depends_on: cycle_3
+    duration: "2 days"
+
+  cycle_5:
+    name: TPS_TELEMETRY_AND_E2E
+    priority: P1
+    depends_on: nothing — could run in parallel
+    duration: "2-3 days"
+
+# ════════════════════════════════════════════════════════════════════════════
+# WHAT I'D ACTUALLY DO IF I WERE YOU
+# ════════════════════════════════════════════════════════════════════════════
+
+if_I_were_operator: |
+  1. Take ONE photo of your own UA passport on iPhone in normal indoor
+     light. Don't sanitize the image, don't redact MRZ — that's the
+     point. Upload via the live wizard at messenginfo.com/ru/services/
+     tps-ukraine/start (you can delete the doc_id from logs after).
+     Tell me if matched=true and review screen looks correct. 10 min.
+
+  2. If it works → run TPS_QUICK_WINS (phone normalization + i18n drift
+     check + blur UI hint) in one cycle. ~4 hours.
+
+  3. Then TPS_I94_EAD_OCR_ROUTING as planned. ~3-4 days.
+
+  4. Then packet completeness checker.
+
+  5. Then real pilot with 3-5 friends/family (NDA).
+
+  If step 1 fails on your own photo, we don't move to step 2 yet —
+  we fix OCR robustness first.
+
+# ════════════════════════════════════════════════════════════════════════════
+# NEW INFRA SURFACED THIS SESSION (not used yet)
+# ════════════════════════════════════════════════════════════════════════════
+
+newly_available_infra:
+  supabase_mcp_tools:
+    surfaced: 2026-05-11
+    potential_uses:
+      - telemetry events table (C1)
+      - audit log for OCR uploads (count only, no PII)
+      - save-and-continue user accounts (D3)
+      - manual_review_tickets already exists in v5 schema
+    note: |
+      Not used in this cycle. Should be evaluated when telemetry +
+      account-persistence cycles are scheduled.
+
+# ════════════════════════════════════════════════════════════════════════════
+# OVERALL READINESS — HONEST
+# ════════════════════════════════════════════════════════════════════════════
+
+readiness_honest:
+  internal_demo:             95  # works for live demos to investors
+  free_controlled_beta:      78  # 1-3 friendly users could use it now
+  free_public_beta:          55  # blocked by A1 real-user pilot + B4 completeness
+  paid_launch:               45  # also blocked by C1 telemetry + B3 I-912 + C5 attestation
+
+  what_would_get_paid_launch_to_85:
+    - TPS_REAL_USER_PILOT (cycle_1)
+    - TPS_I94_EAD_OCR_ROUTING (cycle_3)
+    - TPS_PACKET_COMPLETENESS_CHECKER (cycle_4)
+    - TPS_ATTESTATION_GATE (part of C5)
+    - basic telemetry (C1)
+    - playwright E2E in CI (C2)
+    estimated_total_effort: "2-3 weeks if pilot doesn't surprise us"

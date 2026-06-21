@@ -1,0 +1,29 @@
+HTTP/2 200 
+date: Thu, 14 May 2026 07:15:59 GMT
+content-type: application/zip
+cache-control: no-store
+content-disposition: attachment; filename="tps-packet-draft.zip"
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://*.supabase.co https://vercel.live; frame-ancestors 'none';
+permissions-policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
+referrer-policy: strict-origin-when-cross-origin
+server: cloudflare
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-matched-path: /api/tps/generate-packet
+x-tps-i765-applied: 0
+x-tps-i765-first-skip: 
+x-tps-i765-skipped: 0
+x-tps-i821-applied: 121
+x-tps-i821-first-skip: form1[0].Page07[0].Part7_Item4c_YN[0] (field_not_found)
+x-tps-i821-skipped: 2
+x-vercel-cache: MISS
+x-vercel-enable-rewrite-caching: 1
+x-vercel-id: sfo1::iad1::g4d5x-1778742956840-eab6395f0973
+cf-cache-status: DYNAMIC
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=fY5%2F1gFIyGAsPrgTclNbD2DQ4LygiDn7uZ5VTglNpdiT0LRd7Ip2950kFCdYzOsc%2FMrExARUHKWu5zQt2gfL1E1WQqwnaUFY8bLl6rCj9OZP5WYmZtpt%2FCY%2F769TKSFM%2BGc%2B6z7uikWj001sqTc%3D"}]}
+cf-ray: 9fb81d582c0e6049-LAX
+alt-svc: h3=":443"; ma=86400
+

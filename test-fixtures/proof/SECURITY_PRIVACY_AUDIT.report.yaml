@@ -1,0 +1,372 @@
+report: SECURITY_PRIVACY_AUDIT_TPS_V1
+generated_at: "2026-05-11T00:00:00Z"
+scope: "TPS Ukraine end-to-end pipeline + Re-Parole shared bits"
+
+summary:
+  critical: 0
+  high: 3
+  medium: 3
+  low: 3
+  info: 2
+  controlled_beta_blockers: 1
+
+verdict_for_controlled_beta: conditional_ready
+verdict_rationale: >
+  The TPS Ukraine pipeline proper is in good shape for a controlled beta. The OCR
+  upload route does not persist the image; the /api/tps/generate-packet route does
+  not touch any database — PDFs are generated in-memory and streamed back as a
+  ZIP. localStorage is used for personal fields, but that is on the user's own
+  device and Sentry/PostHog have aggressive input masking already enabled, so PII
+  does not leak to third-party telemetry. Google Vision receives the image bytes
+  only — no identity, no session id. The one finding that should be fixed BEFORE
+  controlled beta is the Re-Parole /api/packet/generate path (SP-1): it persists
+  raw applicant PII (name, address, phone, email, A-number, SSN if entered, DOB,
+  passport, I-94, country of birth) into Supabase Storage as a ZIP under a
+  durable storage key, plus the source data lives in wizard_sessions.state_json
+  indefinitely (SP-2). Both rely on the documented daily cleanup cron — which
+  exists but only purges manual_review_queue, NOT wizard_sessions or the packets
+  bucket (SP-3). For pure TPS beta (the user request scope) this is acceptable
+  if Re-Parole is feature-flagged off; if both flows ship together, SP-1+SP-3
+  must be addressed.
+
+findings:
+  - id: SP-1
+    severity: high
+    area: retention
+    file: apps/web/src/app/api/packet/generate/route.ts
+    line_range: "L699-L735"
+    observation: >
+      Re-Parole packet generation uploads the filled ZIP (containing raw applicant
+      name, US address, phone, email, A-number, SSN, DOB, passport number, I-94
+      number, country of birth) to Supabase Storage bucket "packets" under
+      `${session_id}/packet_${Date.now()}.zip`, then mints a 7-day signed URL.
+      Code: `await supabase.storage.createBucket(PACKETS_BUCKET, { public: false, fileSizeLimit: 50 * 1024 * 1024 })` and
+      `await supabase.storage.from(PACKETS_BUCKET).upload(storageKey, zipBuffer, { contentType: 'application/zip', upsert: true })`.
+    pii_exposure: >
+      Full applicant identity dossier (everything needed to file an immigration
+      form) stored at rest in Supabase Storage. Signed-URL recipient is only the
+      original user, but the underlying object persists until manually deleted —
+      and no cron purges this bucket (see SP-3). Supabase service_role can read it
+      at any time; any Supabase admin or compromised service key is enough.
+    current_mitigation: >
+      Bucket is created with `public: false`. Access is via 7-day signed URL only.
+      RLS is enabled on related tables. No raw values are written to audit_log
+      `detail` (only session_id, storage_key, filing_method, file_count).
+    recommended_fix: >
+      Either (a) do not persist the ZIP at all — stream it back like
+      /api/tps/generate-packet does, OR (b) add a daily cleanup cron that
+      deletes `packets/*` objects whose mtime > 7 days (matches signed-URL TTL).
+      If retention beyond 7d is needed, document the legal basis and the
+      delete-on-request endpoint.
+    blocker_for_controlled_beta: yes
+
+  - id: SP-2
+    severity: high
+    area: retention
+    file: apps/web/src/app/api/wizard/session/route.ts
+    line_range: "L103-L158"
+    observation: >
+      The Re-Parole wizard PATCHes `state_json` containing `manual.firstName`,
+      `manual.lastName`, `manual.address`, `manual.phone`, `manual.email`,
+      `manual.dob`, `manual.aNumber`, `manual.ssn`, `manual.passport`, etc. into
+      `public.wizard_sessions.state_json` (JSONB). Schema comment
+      `state_json may contain PII; Supabase encrypts at rest` and
+      `Session auto-expires after 90 days. Cron job should purge expired rows.`
+      acknowledges this. RLS allows service_role only.
+    pii_exposure: >
+      Durable server-side storage of every PII field a Re-Parole applicant enters.
+      Encrypted at rest by Supabase, but readable by anyone holding
+      SUPABASE_SERVICE_ROLE_KEY and by any subsequent service_role query.
+    current_mitigation: >
+      RLS is enabled with deny-by-default (`service_role_all` policy is the only
+      one). Anonymous client never holds the service key — all writes go through
+      Next.js API routes. Validation enforces UUID session ids and a size cap on
+      state_json. No localStorage of service key.
+    recommended_fix: >
+      Implement the cron that the schema comment promises: daily delete
+      wizard_sessions WHERE expires_at < now() (and cascade purges
+      session_documents, extracted_fields, manual_answers, generated_packets).
+      Consider also writing a column-level redaction for ssn before persisting.
+    blocker_for_controlled_beta: no
+
+  - id: SP-3
+    severity: high
+    area: retention
+    file: apps/web/src/app/api/cron/cleanup/route.ts
+    line_range: "L33-L80"
+    observation: >
+      The only cleanup cron purges `manual_review_queue` rows and
+      `translation-uploads` storage objects:
+      `await supabase.from('manual_review_queue').select('id, file_url').lt('expires_at', now)`.
+      It does NOT touch `wizard_sessions`, `generated_packets`, the `packets`
+      storage bucket, or any of the Re-Parole tables that SP-1/SP-2 fill.
+    pii_exposure: >
+      Every Re-Parole user's PII (state_json) and every packet ZIP (filled
+      applicant data) lives forever despite the schema declaring 90-day TTL.
+      Indirectly enables SP-1 and SP-2 to compound.
+    current_mitigation: >
+      The route is gated behind CRON_SECRET. Manual deletion via SQL is possible.
+    recommended_fix: >
+      Extend the cron handler: add a second pass that deletes
+      wizard_sessions WHERE expires_at < now() (cascade-deletes children) and a
+      third pass that lists `packets/*` and removes objects older than the
+      retention window. Surface counts in the response JSON for auditability.
+    blocker_for_controlled_beta: yes
+
+  - id: SP-4
+    severity: medium
+    area: client_state
+    file: apps/web/src/app/[locale]/services/tps-ukraine/start/GeneratePacketBlock.tsx
+    line_range: "L135, L397-L405"
+    observation: >
+      All TPS personal fields are persisted to browser localStorage under key
+      `wizard:tps-ukraine:personal:v1` on every keystroke:
+      `window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next))`. Stored
+      values include family_name, given_name, dob, passport_number, US street
+      address, city/state/zip, I-94 number, last_entry_date, daytime_phone,
+      email, a_number.
+    pii_exposure: >
+      Persistent on-device PII store. Lives across browser sessions, browser
+      restarts, and is accessible to any JS that runs in the origin (so any
+      future XSS or compromised npm dependency that ships client code can read
+      the full applicant identity). Also persists on shared devices (libraries,
+      family computers, which is a real use case for refugee help centers).
+    current_mitigation: >
+      Data is stored on the user's own device, not on our infrastructure. No
+      automatic sync. CSP and dependency hygiene are the implicit defense.
+    recommended_fix: >
+      (a) Offer a one-click "Clear my data" button on the success screen that
+      calls localStorage.removeItem(STORAGE_KEY). (b) Auto-clear localStorage
+      after a successful ZIP download. (c) Document the data-on-device fact in
+      the Privacy Notice in the user's locale.
+    blocker_for_controlled_beta: no
+
+  - id: SP-5
+    severity: medium
+    area: logging
+    file: apps/web/src/app/api/packet/generate/route.ts
+    line_range: "L717, L730, L755, L767, L780"
+    observation: >
+      Five `console.error` / `console.warn` sites in the Re-Parole packet route
+      log error messages from Supabase responses. Example:
+      `console.error('[packet/generate] upload error:', uploadError.message)`.
+      These land in Vercel structured logs (retained per Vercel plan, typically
+      30–90 days).
+    pii_exposure: >
+      Supabase error messages do not normally echo the row content, but they
+      sometimes echo storage paths (which include session_id but not raw PII).
+      Low residual risk. The fallback `console.error('[packet/generate] error:', msg)`
+      could include any exception message from buildReParoleI131 (e.g. PDF
+      field-fill errors) which may incidentally include a transliterated name or
+      a date if the underlying library quoted the failing value.
+    current_mitigation: >
+      Messages are wrapped in short labels. The Sentry server config redacts
+      email and API-key patterns from exception values before sending.
+    recommended_fix: >
+      Replace raw `e.message` in the catch-all on L780 with a sanitised
+      summary (error class, route name) — Sentry will still capture the full
+      stack, but Vercel logs won't carry name-shaped strings.
+    blocker_for_controlled_beta: no
+
+  - id: SP-6
+    severity: medium
+    area: third_party
+    file: apps/web/src/lib/ocr/providers/google-vision.ts
+    line_range: "L112-L130"
+    observation: >
+      Vision request body bundles ONLY the base64 image and a `languageHints`
+      array: `requests: [{ image: { content: imageBase64 }, features: [{ type: 'DOCUMENT_TEXT_DETECTION', maxResults: 1 }], imageContext: { languageHints: ['uk', 'en', 'ru'] } }]`.
+      No session id, no user identifier, no document hint, no IP — clean.
+      API key is passed as a query param `?key=${apiKey}`.
+    pii_exposure: >
+      Image bytes (passport scan / I-94 / EAD photo) leave our infra and hit
+      vision.googleapis.com. This is the disclosed Vision dependency. The image
+      itself contains the PII (face, name, MRZ, A-number).
+    current_mitigation: >
+      Vision call is gated by image-quality preprocessing (so bad images don't
+      reach the API). Request strips down to image + language hint only — no
+      ambient identity. The error path explicitly redacts response body text
+      before logging: `console.error('[google-vision] HTTP ${res.status} — redacted error body')`.
+    recommended_fix: >
+      No code change required. Add a sentence to the Privacy Notice in each
+      locale: "We send your uploaded image to Google Cloud Vision (Google LLC,
+      United States) for text recognition; no other identifying information is
+      attached." Optional: switch from query-string key to Authorization header
+      so the key doesn't appear in any HTTP intermediary's URL log.
+    blocker_for_controlled_beta: no
+
+  - id: SP-7
+    severity: low
+    area: logging
+    file: apps/web/src/lib/ocr/image-preprocess.ts
+    line_range: "L119"
+    observation: >
+      Single `console.warn('[image-preprocess] sharp not available, passing through unmodified')`
+      fires when the `sharp` native binary is missing. No image bytes or names
+      are logged.
+    pii_exposure: none
+    current_mitigation: "Log line is a fixed string with no template values."
+    recommended_fix: "None."
+    blocker_for_controlled_beta: no
+
+  - id: SP-8
+    severity: low
+    area: ocr_upload
+    file: apps/web/src/app/api/tps/ocr/extract/route.ts
+    line_range: "L204-L248"
+    observation: >
+      The OCR response sent back to the browser includes `raw_text`, all `words`
+      with their text, and all `lines` with their text. For a passport this is
+      the full MRZ string (= name + DOB + passport number + nationality +
+      expiry) plus the rest of the visible page text.
+    pii_exposure: >
+      The response body crosses TLS to the legitimate user only, but if the
+      browser's network panel is open, screenshotted, or piped through a
+      browser-extension request inspector, the values are visible. No server-side
+      log captures the body.
+    current_mitigation: >
+      `Cache-Control: no-store` is set on the response. The route does not
+      persist any of this server-side. Sentry replay masks all inputs/text in
+      the DOM (apps/web/sentry.client.config.ts: maskAllText, maskAllInputs,
+      blockAllMedia). PostHog session recording uses maskAllInputs.
+    recommended_fix: >
+      No mandatory change. If desired, the route could return ONLY the
+      `module.fields` array (already the per-document structured extraction)
+      and drop `raw_text` + `words` + `lines` from the response, which the
+      current UI doesn't actually read for TPS.
+    blocker_for_controlled_beta: no
+
+  - id: SP-9
+    severity: low
+    area: client_state
+    file: apps/web/src/app/[locale]/services/tps-ukraine/start/TPSWizard.tsx
+    line_range: "L77, L568-L575"
+    observation: >
+      The wizard step machine stores `{ step, answers }` to localStorage under
+      `wizard:tps-ukraine:state:v1`. `answers` is tri-state booleans plus a
+      handful of dates (`date_entered_us`, `ead_expiration_date`) and string
+      arrays (`cr_evidence`, `cpp_evidence`) — NO names, passports, addresses.
+      The OCR-extracted fields are held in React state ONLY and do NOT enter
+      this localStorage key.
+    pii_exposure: >
+      Minimal — dates of entry and EAD-expiration are weakly identifying but
+      not unique. No name / passport / address / SSN.
+    current_mitigation: >
+      The wizard deliberately separates `answers` (this file) from `personal`
+      (SP-4) and `ocrFields` (in-memory only) so that the full PII set never
+      sits in one bag.
+    recommended_fix: "None — this separation is good design."
+    blocker_for_controlled_beta: no
+
+  - id: SP-10
+    severity: info
+    area: analytics
+    file: apps/web/src/components/analytics/Analytics.tsx
+    line_range: "L33-L62"
+    observation: >
+      GA4 + PostHog are loaded conditionally on NEXT_PUBLIC_GA_MEASUREMENT_ID
+      and NEXT_PUBLIC_POSTHOG_KEY. PostHog init uses
+      `session_recording:{maskAllInputs:true,maskInputOptions:{password:true}}`
+      and `person_profiles:'identified_only'`. No `track()` calls were found
+      inside the TPS wizard, DocumentUploadScreen, SelfReviewScreen, or
+      GeneratePacketBlock.
+    pii_exposure: >
+      Pageviews (URL path only, no query) and aggregate page-leave events. No
+      form values, no OCR results, no localStorage contents.
+    current_mitigation: >
+      Input masking on PostHog, no explicit `track()` from the TPS flow,
+      Sentry beforeBreadcrumb drops posthog/ga URLs from breadcrumbs.
+    recommended_fix: "None."
+    blocker_for_controlled_beta: no
+
+  - id: SP-11
+    severity: info
+    area: pdf_fill
+    file: apps/web/src/lib/tps/pdfPrefiller.ts
+    line_range: "L105-L221"
+    observation: >
+      `prefill()` writes user values into PDF AcroForm cells in-memory via
+      pdf-lib. No `console.log` of values; the only logging-adjacent output is
+      `skipped.push({ field: op.field, reason: '...' })` which carries the
+      field name and a structural reason, never the user value. Same applies to
+      packetBuilder.ts (TPS) and reparole/packetBuilder.ts.
+    pii_exposure: none
+    current_mitigation: "By design — the file is value-clean."
+    recommended_fix: "None."
+    blocker_for_controlled_beta: no
+
+retention_policy_observed:
+  uploaded_image: >
+    The uploaded image lives only in the Node serverless function's memory for
+    the duration of the request. `const arrayBuffer = await file.arrayBuffer();
+    const rawBuffer = Buffer.from(arrayBuffer)` — then base64-encoded, posted
+    to Google Vision, and dropped. No tmpfile, no Supabase upload from this
+    route. The original buffer is GC-eligible once the response returns.
+  ocr_normalized_fields: >
+    Server-side: NOT persisted by /api/tps/ocr/extract. Client-side: held in
+    TPSWizard React state (in-memory) until the user navigates away, edits
+    them, or accepts them. Once the user clicks "Generate" in
+    GeneratePacketBlock, the PersonalFields version is mirrored to
+    localStorage `wizard:tps-ukraine:personal:v1` (SP-4). Re-Parole users go
+    through wizard_sessions.state_json (SP-2) instead.
+  generated_pdf: >
+    TPS: NEVER persisted server-side. The ZIP is streamed straight back as the
+    HTTP response body with `Content-Disposition: attachment`. The browser
+    creates a transient blob URL (`URL.createObjectURL`) which lives until tab
+    close or `revokeObjectURL`. Re-Parole: PERSISTED in Supabase Storage
+    `packets/${session_id}/packet_${Date.now()}.zip` with a 7-day signed URL
+    (SP-1). No cleanup cron for that bucket (SP-3).
+  manual_review_tickets: >
+    The TPS flow does NOT create manual_review_queue rows. The OCR module
+    surfaces `manual_review_required: true` as a flag on the OcrResult
+    response — the client uses it to colour a banner, but no DB row is
+    written. The manual_review_queue table is owned by the document
+    translation product, which is out of TPS scope.
+
+third_party_exposures:
+  google_vision: >
+    POST to https://vision.googleapis.com/v1/images:annotate?key=... with a
+    JSON body containing ONLY the base64 image and `languageHints: ['uk', 'en',
+    'ru']`. No session id, no user id, no IP forwarded by us. The API key is
+    in the URL query string (consider moving to header — minor).
+  vercel_logs: >
+    Structured logs contain only labelled messages: `[google-vision] HTTP 4xx`,
+    `[image-preprocess] sharp not available`, `[packet/generate] upload error:
+    <supabase-error-message>`, `[reparole-packet] I-131 fill failed: <err>`.
+    No PII values; storage_key contains the session_id (UUID, not personal).
+    The catch-all in /api/packet/generate L780 logs `e.message` for unknown
+    errors which could incidentally leak a transliterated string if a downstream
+    library quoted user input — low residual risk.
+  supabase: >
+    Tables holding PII (Re-Parole only, NOT TPS): public.wizard_sessions
+    (state_json with full manual answers — SP-2), public.session_members,
+    public.session_documents, public.extracted_fields, public.manual_answers,
+    public.generated_packets, public.audit_log (metadata only, no raw values).
+    Storage bucket `packets` holds the assembled ZIP (SP-1). RLS is ON on all
+    listed tables with `service_role_all` as the only policy. Anon key has no
+    direct access. Encryption at rest is Supabase default (AES-256).
+  other: >
+    Sentry (server + edge + client): server config redacts email and API-key
+    patterns from exception messages before send (sentry.server.config.ts L17-
+    L30). Client config masks all text/inputs/media in replay and strips
+    `token`/`email` query params from event URLs. PostHog (when enabled): input
+    masking ON, `person_profiles: 'identified_only'`, no `track()` calls from
+    TPS surfaces. GA4 (when enabled): pageviews only, no custom event sends
+    from the TPS pipeline. DeepSeek API (/lib/ocr/field-mapper.ts) is used only
+    by the document-translation product, NOT by the TPS pipeline — verified by
+    grepping usage of `mapFieldsWithDeepSeek` (callers are translation routes
+    only).
+
+positive_observations:
+  - "TPS OCR upload route never persists the image. The buffer is in-memory only and GC-eligible after the response (verified at /api/tps/ocr/extract L107-L143)."
+  - "TPS /api/tps/generate-packet never touches a database — no Supabase calls, no audit_log writes, no analytics. ZIP is streamed back directly (L60-L76)."
+  - "Google Vision request body is minimal — only the image bytes and language hints. No session id, no user identifier, no IP, no document type label."
+  - "pdfPrefiller.ts and both packetBuilders (TPS + Re-Parole) have ZERO console statements that include user values. Skipped-field tracking carries field names and structural reasons only, never PII."
+  - "DeepSeek (Chinese AI) is NOT in the TPS code path. The DeepSeek-based field-mapper is wired exclusively into the document-translation product."
+  - "Sentry client replay is configured with maskAllText, maskAllInputs, blockAllMedia (sentry.client.config.ts L20-L27). Server-side beforeSend redacts email + OpenAI-key + Resend-key patterns from exception messages."
+  - "PostHog session recording uses maskAllInputs:true and person_profiles:'identified_only' (Analytics.tsx L57). The TPS surfaces contain zero track() calls."
+  - "TPSWizard separates its three state buckets cleanly: tri-state answers in localStorage (low-PII), personal identity in a different localStorage key (high-PII), OCR-extracted fields in React memory only (never localStorage)."
+  - "RLS is enabled on every Supabase table that could hold PII, with service_role_all as the only policy; anon role has no direct access. Service key never leaves the Next.js server."
+  - "Rate limits are present and per-IP on every PII-touching route: 20/min on OCR, 10/5min on TPS generate, 5/min on Re-Parole generate."
+  - "TPS passport module deliberately drops RNOKPP (Ukrainian taxpayer number) after using it for check-digit math — it's never returned as an extracted field. Comment on passport.ts L23-L25 confirms intent."
+  - "Image preprocessing uses sharp in-process; no temp files written to /tmp."

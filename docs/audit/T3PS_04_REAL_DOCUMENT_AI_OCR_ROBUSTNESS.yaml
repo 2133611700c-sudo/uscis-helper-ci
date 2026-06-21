@@ -1,0 +1,39 @@
+task_id: T3PS-04-REAL-DOCUMENT-PILOT-AI-OCR-ROBUSTNESS
+commit_sha: "2b8b64bb011f090000add69b21c2005a2c2a86d9"
+production_url: "https://messenginfo.com/ru/services/tps-ukraine/start"
+verdict: FAIL
+
+health:
+  ok: true
+  sha: "00be4b64fbceb7938f7b48a40149466ae185b4a4"
+  ocr_provider: "google_vision"
+  ocr_configured: true
+
+real_files_detected_redacted:
+  - name: "Passport Ivanenko .jpg"
+    size_bytes: 4091062
+    mime: "image/jpeg"
+  - name: "0131_Passport Taras Ivanenko .jpg"
+    size_bytes: 11430
+    mime: "image/jpeg"
+
+direct_ocr_real_doc:
+  http_status: 200
+  brain_header: "off"
+  brain_added: "0"
+  provider: "google_vision"
+  module_field_count: 0
+  module_field_keys: []
+
+synthetic_checks:
+  robustness_csv: "docs/audit/T3PS_OCR_ROBUSTNESS_MATRIX.csv"
+  robustness_md: "docs/audit/T3PS_OCR_ROBUSTNESS_MATRIX.md"
+  field_count_nonzero_variants: 0
+
+manual_fallback:
+  endpoint: "/api/tps/manual-review"
+  status: PASS
+
+blockers:
+  - "real pilot file produced zero structured extracted fields"
+  - "production OCR is configured but passport module still returns zero extracted fields"

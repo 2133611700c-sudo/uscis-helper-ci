@@ -1,0 +1,122 @@
+status: PASS
+production_sha: d735a1b
+verified_at: 2026-05-19T23:55:00Z
+
+bugs_fixed:
+  language_switch_wipes_wizard:
+    severity: P0
+    root_cause: |
+      Rehydration effect set 'uploads: {}' unconditionally on mount,
+      discarding the OCR fields we had already persisted under
+      uploadsMeta. React state remounts on every locale change because
+      the wizard lives under [locale]/..., so without proper restore
+      the screen reset to Step 1 with no progress.
+    file: apps/web/src/app/[locale]/services/tps-ukraine/start/TPSWizardV2.tsx
+    fix: |
+      Rebuild uploads map from uploadsMeta (without File objects, which
+      can't survive serialization, but WITH each doc's fileName, status,
+      and OCR fields). Storage key (`wizard:tps-ukraine:v2:state`) is
+      locale-independent, so a single shared key + this restore effect
+      rebuilds every answer / extracted field / current step on each
+      new locale render.
+
+  dark_mode_no_effect_in_wizard:
+    severity: P0
+    root_cause: |
+      Every neutral color in the wizard was a hardcoded hex literal:
+        CARD_BG = '#fff', TEXT_PRIMARY = '#111', PAGE_BG = '#f4f5f7'
+      The site dark-mode toggle flips CSS variables on <html>, but
+      inline hex literals don't react. So the header / footer went
+      dark while the wizard surface stayed white.
+    file: apps/web/src/app/[locale]/services/tps-ukraine/start/TPSWizardV2.tsx
+    fix: |
+      Bind every neutral token to the site CSS variables defined in
+      globals.css:
+        PAGE_BG       -> var(--background)
+        CARD_BG       -> var(--surface-1)
+        BORDER        -> var(--border)
+        BORDER_LIGHT  -> var(--surface-3)
+        TEXT_PRIMARY  -> var(--text-1)
+        TEXT_SECONDARY-> var(--text-2)
+        TEXT_MUTED    -> var(--text-3)
+        TEXT_HINT     -> var(--text-3)
+        TEXT_FAINT    -> var(--text-3)
+      Brand colors (TPS green, pay-blue) and alert tints stay literal —
+      brand must look identical in both modes.
+    anti_flash:
+      already_present: true
+      location: apps/web/src/app/[locale]/layout.tsx:125
+      note: |
+        Inline <script> applies the dark class to <html> before React
+        hydration, so navigating to a new locale does not flash light
+        mode for users who chose dark.
+
+reusable_patterns_audit:
+  translate_document:
+    state_persistence: server-side via sessionId in URL — different model from TPS
+    css_vars: yes (re-parole status page uses var(--background), var(--surface), var(--border))
+  re_parole:
+    state_persistence: in-memory only, single-page flow — no persistence problem
+    css_vars: yes
+  decision: |
+    TPS uses localStorage because the wizard has a multi-step flow that
+    crosses Stripe checkout (full external navigation). Neither
+    translate-document nor re-parole had the same constraint, so there
+    was no existing pattern to copy — but the CSS-variable design
+    system the other pages already use was straight-applicable, and
+    that's what was wired in.
+
+production_e2e:
+  test_image: passport_mock.png (synthetic, no PII)
+  flow:
+    - goto: /ru/services/tps-ukraine/start
+    - click: Initial Registration → Через myUSCIS → Только TPS
+    - upload: passport_mock.png
+    - wait: POST /api/tps/ocr/extract → 200
+    - click: Распознать документы →
+    - observed:
+        ru_dob: "01/01/1985"
+        ru_citizenship: Ukraine
+    - goto: /uk/services/tps-ukraine/start
+    - observed:
+        uk_dob: "01/01/1985"     # preserved
+        uk_citizenship: Ukraine  # preserved
+    - goto: /es/services/tps-ukraine/start
+    - observed:
+        es_dob: "01/01/1985"     # preserved
+        es_citizenship: Ukraine  # preserved
+    - click: theme toggle (Moon icon → Switch to dark mode)
+    - observed:
+        html_dark_class_present: true
+        wizard_surface_visibly_dark: true
+        all_ocr_fields_still_visible: true
+
+verdict:
+  state_preservation_across_locales: PASS
+  dark_mode_applied_to_wizard: PASS
+  anti_flash_script: PASS
+  storage_key_locale_independent: PASS
+  brand_color_consistency: PASS
+
+remaining_polish_notes:
+  - id: language_switcher_dropdown_aria
+    priority: P3
+    description: |
+      Header LanguageSwitcher renders as a single ES/RU/UK/EN dropdown,
+      not 4 separate aria-labelled buttons. The Playwright proof used
+      direct URL navigation to bypass this UI nuance. Functionality is
+      identical (both routes do a Next.js push to /{locale}/...). If
+      anyone needs to grep by aria-label later, the wrapping <select>
+      element doesn't expose per-option buttons.
+
+  - id: alert_tints_in_dark
+    priority: P2
+    description: |
+      WARN_BG / INFO_BG kept literal light-mode tints (#fff3cd /
+      #e8f0fe). They're rare and brief — fee-waiver warning on Step 2
+      and the no-passport info box on Step 4. A separate polish pass
+      should add dark-mode equivalents.
+
+commits:
+  - sha: d735a1b
+    message: fix(tps-v2) preserve wizard state across language + theme switching

@@ -1,0 +1,21 @@
+name: Release State Guard
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  release-state:
+    name: RELEASE_STATE single-truth guard
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+      - name: Verify single source of truth (RELEASE_STATE.yaml + STATUS.md)
+        run: node scripts/verify-release-state.mjs

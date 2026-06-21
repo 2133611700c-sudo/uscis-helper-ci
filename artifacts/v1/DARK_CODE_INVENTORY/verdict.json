@@ -1,0 +1,11 @@
+{
+  "phase": "DARK_CODE_INVENTORY",
+  "commit": "db37f1b5c1392c79d6d94b713f732dd389cc430f",
+  "timestamp": "2026-06-14T07:23:30Z",
+  "environment": "local",
+  "gates": { "inventory_complete": "PASS", "content_guard": "PASS", "pii_free": "PASS" },
+  "testCounts": { "passed": 0, "failed": 0, "skipped": 0 },
+  "estimatedCostUsd": 0,
+  "actualCostUsd": 0,
+  "note": "docs/v1/DARK_CODE_INVENTORY.md. Corrections verified: TPS_AI_BRAIN + DUAL_OCR_CROSSREF effectively ON/paid in prod; certifier_override_audit dark; /api/review->reviews silent loss. Removal deferred."
+}

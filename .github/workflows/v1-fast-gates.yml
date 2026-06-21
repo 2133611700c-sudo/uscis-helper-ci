@@ -1,0 +1,32 @@
+name: V1 Fast Gates
+
+# Fast V1 contour: typecheck + V1 contract unit tests + content guard.
+# The full production build / full test suite / PII secret gate run in
+# "Content & Brand Guards" (guards.yml) on the same PR — not duplicated here.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  v1-fast-gates:
+    name: typecheck + V1 unit + content
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+      - uses: pnpm/action-setup@v6
+        with:
+          run_install: false
+      - name: Install
+        run: pnpm install --frozen-lockfile
+      - name: TypeScript check
+        run: pnpm --filter web typecheck
+      - name: V1 contract unit tests (staging / OCR cache / budget / evidence)
+        run: pnpm --filter web exec vitest run src/lib/v1/__tests__/
+      - name: Content & certification guard
+        run: pnpm --filter web guard:content

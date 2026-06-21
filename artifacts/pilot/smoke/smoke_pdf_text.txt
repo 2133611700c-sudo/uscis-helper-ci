@@ -1,0 +1,30 @@
+MESSENGINFO
+Document Translation Record
+Translation Scope:
+Language Pair: Ukrainian -> English
+Translation Date: May 9, 2026
+Session Reference: a9afd327-a44e-49
+ENGLISH TRANSLATION
+Document Type: PASSPORT
+Series: AB
+Number: 123456
+Surname: TESTOVYI
+Given Names: TEST TESTOVYCH
+Patronymic: TESTOVYCH
+Date Of Birth: 01 January 1990
+Place Of Birth: TESTKYIV CITY
+Sex: M
+Issued By: TEST MUNICIPAL AUTHORITY
+Date Of Issue: 15 March 2020
+Messenginfo is not a law firm. This is an AI-assisted translation draft reviewed and signed by a named human translator. The translator accepts
+full responsibility for accuracy under 8 CFR §103.2(b)(3). Verify current USCIS requirements at uscis.gov before filing.
+TRANSLATOR CERTIFICATION
+Self-Certification pursuant to 8 CFR §103.2(b)(3)
+I, Test Translator, residing at [address on file], certify that I am competent to translate from Ukrainian to
+English, and that the attached translation is accurate and complete to the best of my knowledge and
+belief. This certification is made pursuant to 8 CFR §103.2(b)(3). I accept full responsibility for the
+accuracy of this translation.
+Translator Name: Test Translator
+Date: May 9, 2026
+Signature (typed): Test Translator
+Certification Version: v1.0-8cfr-2026

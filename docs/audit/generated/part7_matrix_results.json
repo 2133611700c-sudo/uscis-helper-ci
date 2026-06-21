@@ -1,0 +1,242 @@
+[
+  {
+    "name": "Part7_Item4a_YN",
+    "expected": false,
+    "yes": false,
+    "no": true,
+    "status": "ok",
+    "field_base": "form1[0].Page07[0].Part7_Item4a_YN"
+  },
+  {
+    "name": "Part7_Item4b_YN",
+    "expected": false,
+    "yes": false,
+    "no": true,
+    "status": "ok",
+    "field_base": "form1[0].Page07[0].Part7_Item4b_YN"
+  },
+  {
+    "name": "Part7_Item4c_YN",
+    "expected": true,
+    "yes": false,
+    "no": false,
+    "status": "mismatch",
+    "field_base": "form1[0].Page08[0].Part7_Item4c_YN"
+  },
+  {
+    "name": "Part7_Item5a_YN",
+    "expected": true,
+    "yes": true,
+    "no": false,
+    "status": "ok",
+    "field_base": "form1[0].Page08[0].Part7_Item5a_YN"
+  },
+  {
+    "name": "Part7_Item5b_YN",
+    "expected": false,
+    "yes": false,
+    "no": true,
+    "status": "ok",
+    "field_base": "form1[0].Page08[0].Part7_Item5b_YN"
+  },
+  {
+    "name": "Part7_Item5c_YN",
+    "expected": true,
+    "yes": true,
+    "no": false,
+    "status": "ok",
+    "field_base": "form1[0].Page08[0].Part7_Item5c_YN"
+  },
+  {
+    "name": "Part7_Item7a_YN",
+    "expected": false,
+    "yes": false,
+    "no": true,
+    "status": "ok",
+    "field_base": "form1[0].Page08[0].Part7_Item7a_YN"
+  },
+  {
+    "name": "Part7_Item7b_YN",
+    "expected": true,
+    "yes": true,
+    "no": false,
+    "status": "ok",
+    "field_base": "form1[0].Page08[0].Part7_Item7b_YN"
+  },
+  {
+    "name": "Part7_Item7c_YN",
+    "expected": false,
+    "yes": false,
+    "no": true,
+    "status": "ok",
+    "field_base": "form1[0].Page08[0].Part7_Item7c_YN"
+  },
+  {
+    "name": "Part7_Item8_YN",
+    "expected": true,
+    "yes": true,
+    "no": false,
+    "status": "ok",
+    "field_base": "form1[0].Page08[0].Part7_Item8_YN"
+  },
+  {
+    "name": "Part7_Item9a_YN",
+    "expected": false,
+    "yes": false,
+    "no": true,
+    "status": "ok",
+    "field_base": "form1[0].Page08[0].Part7_Item9a_YN"
+  },
+  {
+    "name": "Part7_Item9b_YN",
+    "expected": true,
+    "yes": true,
+    "no": false,
+    "status": "ok",
+    "field_base": "form1[0].Page08[0].Part7_Item9b_YN"
+  },
+  {
+    "name": "Part7_Item9c_YN",
+    "expected": false,
+    "yes": false,
+    "no": true,
+    "status": "ok",
+    "field_base": "form1[0].Page08[0].Part7_Item9c_YN"
+  },
+  {
+    "name": "Part7_Item9d_YN",
+    "expected": true,
+    "yes": true,
+    "no": false,
+    "status": "ok",
+    "field_base": "form1[0].Page08[0].Part7_Item9d_YN"
+  },
+  {
+    "name": "Part7_Item9e_YN",
+    "expected": false,
+    "yes": false,
+    "no": true,
+    "status": "ok",
+    "field_base": "form1[0].Page08[0].Part7_Item9e_YN"
+  },
+  {
+    "name": "Part7_Item11a_YN",
+    "expected": true,
+    "yes": true,
+    "no": false,
+    "status": "ok",
+    "field_base": "form1[0].Page08[0].Part7_Item11a_YN"
+  },
+  {
+    "name": "Part7_Item11b_YN",
+    "expected": false,
+    "yes": false,
+    "no": true,
+    "status": "ok",
+    "field_base": "form1[0].Page08[0].Part7_Item11b_YN"
+  },
+  {
+    "name": "Part7_Item11c_YN",
+    "expected": true,
+    "yes": true,
+    "no": false,
+    "status": "ok",
+    "field_base": "form1[0].Page08[0].Part7_Item11c_YN"
+  },
+  {
+    "name": "Part7_Item11d_YN",
+    "expected": false,
+    "yes": false,
+    "no": true,
+    "status": "ok",
+    "field_base": "form1[0].Page08[0].Part7_Item11d_YN"
+  },
+  {
+    "name": "Part7_Item12a_YN",
+    "expected": true,
+    "yes": true,
+    "no": false,
+    "status": "ok",
+    "field_base": "form1[0].Page08[0].Part7_Item12a_YN"
+  },
+  {
+    "name": "Part7_Item12b_YN",
+    "expected": false,
+    "yes": false,
+    "no": true,
+    "status": "ok",
+    "field_base": "form1[0].Page08[0].Part7_Item12b_YN"
+  },
+  {
+    "name": "Part7_Item12c_YN",
+    "expected": true,
+    "yes": true,
+    "no": false,
+    "status": "ok",
+    "field_base": "form1[0].Page08[0].Part7_Item12c_YN"
+  },
+  {
+    "name": "Part7_Item12d_YN",
+    "expected": false,
+    "yes": false,
+    "no": true,
+    "status": "ok",
+    "field_base": "form1[0].Page08[0].Part7_Item12d_YN"
+  },
+  {
+    "name": "Part7_Item13a_YN",
+    "expected": true,
+    "yes": true,
+    "no": false,
+    "status": "ok",
+    "field_base": "form1[0].Page08[0].Part7_Item13a_YN"
+  },
+  {
+    "name": "Part7_Item13b_YN",
+    "expected": false,
+    "yes": false,
+    "no": true,
+    "status": "ok",
+    "field_base": "form1[0].Page08[0].Part7_Item13b_YN"
+  },
+  {
+    "name": "Part7_Item13c_YN",
+    "expected": true,
+    "yes": true,
+    "no": false,
+    "status": "ok",
+    "field_base": "form1[0].Page08[0].Part7_Item13c_YN"
+  },
+  {
+    "name": "Part7_Item17_YN",
+    "expected": false,
+    "yes": false,
+    "no": true,
+    "status": "ok",
+    "field_base": "form1[0].Page09[0].Part7_Item17_YN"
+  },
+  {
+    "name": "Part7_Item18a_YN",
+    "expected": true,
+    "yes": true,
+    "no": false,
+    "status": "ok",
+    "field_base": "form1[0].Page09[0].Part7_Item18a_YN"
+  },
+  {
+    "name": "Part7_Item18b_YN",
+    "expected": false,
+    "yes": false,
+    "no": true,
+    "status": "ok",
+    "field_base": "form1[0].Page09[0].Part7_Item18b_YN"
+  },
+  {
+    "name": "Part7_Item18c_YN",
+    "expected": true,
+    "yes": true,
+    "no": false,
+    "status": "ok",
+    "field_base": "form1[0].Page09[0].Part7_Item18c_YN"
+  }
+]

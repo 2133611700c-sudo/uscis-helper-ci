@@ -1,0 +1,142 @@
+status: PASS
+production_sha: a8fd065
+verified_at: 2026-05-20T00:15:22Z
+
+closed_p1_p2_gaps_from:
+  - T3PS_REAL_OCR_QUALITY_FIX (commit ab6eff4)
+
+changes:
+  source_label_accuracy:
+    severity: P1
+    before: |
+      ReviewOcr hardcoded "Паспорт → OCR" / "I-797/EAD → OCR" per field
+      name. When AI Brain filled a gap on a passport row, the UI lied
+      about provenance.
+    after: |
+      UploadEntry.fields shape upgraded from Record<string, string> to
+      Record<string, FieldExtraction> with { value, source,
+      requires_review, doc_slot }. ReviewOcr maps the ACTUAL
+      extraction_source from backend (TpsExtractionSource enum) to a
+      human label per locale. AI-derived values now show
+      "AI распознавание" (RU) / "AI розпізнавання" (UK) /
+      "AI recognition" (EN) / "Reconocimiento IA" (ES).
+    verified: |
+      Browser screenshot qa-shots/e2e-step5-review.png shows every
+      synthetic-passport row labeled correctly as "AI распознавание"
+      (since the synthetic image is parsed by Brain fallback, not the
+      MRZ rule module).
+
+  missing_field_humanization:
+    severity: P1
+    before: |
+      Empty rows rendered "—" with no explanation; users with non-tech
+      backgrounds (the 30-80yo target) had no recovery path.
+    after: |
+      Empty rows render localized "Не найдено — введите вручную" /
+      "Не знайдено — введіть вручну" / "Not found — enter manually" /
+      "No encontrado — escriba a mano" in italic muted text, with the
+      source line suppressed so it doesn't look like an extracted
+      value. The existing "Изменить" edit button still works.
+    verified: |
+      Browser screenshot shows the three I-94 rows (Admission Number,
+      Дата въезда, Статус при въезде) all displaying the new hint —
+      no document was uploaded for them, which is correct behavior.
+
+  patronymic_explainer:
+    severity: P2
+    before: |
+      Empty patronymic row shown as "—". International passports have
+      no patronymic by design, so RU/UK users (most have patronymics
+      in their internal passport) read this as OCR failure.
+    after: |
+      Special-cased: middle_name row has `notOnIntlPassportIfEmpty: true`
+      and uses a different localized hint when empty: "Нет в
+      загранпаспорте — заполните на следующем шаге" (RU equivalent
+      in all 4 locales).
+    verified: |
+      Browser screenshot shows "Отчество / Patronymic" row with the
+      correct localized note instead of a generic dash.
+
+  review_badge:
+    severity: P1 add-on
+    description: |
+      Values with extraction_source='ai_brain' OR requires_review=true
+      now get a small amber "проверьте AI" pill next to the value. The
+      pill uses WARN_BG/WARN_TEXT tokens so it stands out without
+      shouting. Tells the 30-80yo user "this came from AI, double-check
+      before generating the packet".
+    verified: |
+      Every populated row in qa-shots/e2e-step5-review.png shows the
+      pill (because synthetic passport routes through Brain).
+
+  a_number_pdf_safety:
+    severity: P2
+    before: |
+      A-number flowed into TPSAnswers as raw '000-000-000'. The I-821
+      / I-765 A-number PDF fields expect digits only.
+    after: |
+      handleGenerate strips non-digits via .replace(/\\D/g, '') before
+      assembling the answers payload. Display can keep dashes; PDF
+      layer gets clean digits.
+
+production_e2e:
+  flow:
+    - goto: /ru/services/tps-ukraine/start
+    - click: Initial Registration -> Через myUSCIS -> Только TPS
+    - upload: passport_mock.png (synthetic, no PII)
+    - wait: POST /api/tps/ocr/extract -> 200 (final_field_count=7)
+    - click: Распознать документы ->
+  observed:
+    populated_rows:
+      family_name: { value: "Shevchenko", source_label: "AI распознавание", badge: "проверьте AI" }
+      given_name: { value: "Taras", source_label: "AI распознавание", badge: "проверьте AI" }
+      dob: { value: "01/01/1985", source_label: "AI распознавание", badge: "проверьте AI" }
+      sex: { value: "M", source_label: "AI распознавание", badge: "проверьте AI" }
+      passport_number: { value: "FB1234567", source_label: "AI распознавание", badge: "проверьте AI" }
+      country_of_nationality: { value: "Ukraine", source_label: "AI распознавание", badge: "проверьте AI" }
+    explained_empty_rows:
+      patronymic: "Нет в загранпаспорте — заполните на следующем шаге"
+      i94_admission_number: "Не найдено — введите вручную"
+      last_entry_date: "Не найдено — введите вручную"
+      status_at_last_entry: "Не найдено — введите вручную"
+
+backward_compat:
+  hydration_reader: |
+    The localStorage rehydration path upgrades v1 entries
+    (Record<string, string>) to v2 (Record<string, FieldExtraction>)
+    on read. Users with an open session before the upgrade keep their
+    work; the missing source/requires_review fields default to
+    'ocr_visual' / false which renders identically to the old behavior.
+
+  language_theme_persistence: |
+    Verified still working — commit d735a1b's fix uses the same
+    uploadsMeta -> uploads restore path, which the upgrade above
+    extended without breaking.
+
+remaining_gaps:
+  - id: real_document_matrix
+    priority: P0 (carry-over)
+    description: |
+      Still need Taras's actual passport/EAD/I-94 in a redacted matrix
+      to close the carry-over real-doc quality verdict. Synthetic
+      passport hits all the new code paths but real OCR can fail at the
+      image layer (blur/glare/rotation) regardless of these UI fixes.
+
+  - id: edit_action
+    priority: P1
+    description: |
+      The "Изменить" button currently fires an alert(). Should open an
+      inline edit affordance with validator preview (so user
+      corrections improve packet quality without breaking PDF rules).
+
+  - id: ocr_learning_loop
+    priority: P1
+    description: |
+      Per Taras's controlled-learning spec (T3PS_CONTROLLED_OCR_LEARNING_LOOP),
+      the next iteration captures shape-only correction telemetry into
+      audit_log, classifies the error type, and converts repeated
+      patterns into regression fixtures.
+
+commits:
+  - sha: a8fd065
+    message: feat(tps-v2) honest source labels + humanized missing-field UX

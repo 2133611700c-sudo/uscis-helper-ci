@@ -1,0 +1,32 @@
+name: V1 Production Read-Only Smoke
+
+# READ-ONLY production health: /api/healthz + public product routes return 200.
+# NO OCR, NO DB writes, NO provider calls, NO Stripe, NO admin actions.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 13 * * *' # 13:00 UTC daily
+
+jobs:
+  prod-readonly-smoke:
+    name: health + public routes (read-only)
+    runs-on: ubuntu-latest
+    env:
+      UA: 'Mozilla/5.0 (compatible; messenginfo-v1-readonly-smoke)'
+      BASE: 'https://messenginfo.com'
+    steps:
+      - name: healthz returns 200 ok
+        run: |
+          code=$(curl -s -o /tmp/h.json -w '%{http_code}' --max-time 20 "$BASE/api/healthz")
+          echo "healthz: $code $(cat /tmp/h.json)"
+          [ "$code" = "200" ] || { echo "::error::healthz not 200"; exit 1; }
+      - name: public product routes resolve to 200 (read-only)
+        run: |
+          fail=0
+          for p in /en/services/tps-ukraine /en/services/re-parole-u4u /en/services/ead-work-permit /en/services/translate-document; do
+            code=$(curl -s -L -o /dev/null -w '%{http_code}' --max-time 30 -A "$UA" "$BASE$p")
+            echo "  $code  $p"
+            [ "$code" = "200" ] || fail=1
+          done
+          [ $fail -eq 0 ] || { echo "::error::a public route did not resolve to 200"; exit 1; }

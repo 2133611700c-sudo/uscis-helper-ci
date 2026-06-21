@@ -1,0 +1,34 @@
+name: Federal Register Monitor
+
+on:
+  schedule:
+    - cron: '0 14 * * *'  # 09:00 ET = 14:00 UTC (winter) — adjust if DST critical
+  workflow_dispatch:
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      - run: pnpm install --frozen-lockfile
+      - name: Run Federal Register monitor
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          FEDERAL_REGISTER_USER_AGENT: ${{ secrets.FEDERAL_REGISTER_USER_AGENT }}
+        run: npx tsx scripts/monitoring/monitor-federal-register.ts
+      - name: Build and send daily digest
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          CONTACT_EMAIL_DESTINATION: ${{ secrets.CONTACT_EMAIL_DESTINATION }}
+        run: npx tsx scripts/monitoring/build-digest-email.ts

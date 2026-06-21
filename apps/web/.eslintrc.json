@@ -1,0 +1,24 @@
+{
+  "extends": ["next/core-web-vitals"],
+  "plugins": ["@typescript-eslint"],
+  "overrides": [
+    {
+      "files": [
+        "src/app/global-error.tsx"
+      ],
+      "rules": {
+        "@next/next/no-html-link-for-pages": "off"
+      }
+    },
+    {
+      "files": [
+        "src/lib/translation/modules/adapters.ts",
+        "src/lib/translation/modules/classifier.ts",
+        "src/lib/translation/modules/registry.ts"
+      ],
+      "rules": {
+        "@next/next/no-assign-module-variable": "off"
+      }
+    }
+  ]
+}

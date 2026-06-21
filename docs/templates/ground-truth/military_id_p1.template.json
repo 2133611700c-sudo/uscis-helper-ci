@@ -1,0 +1,22 @@
+{
+  "_meta": {
+    "doc_id": "",
+    "fixture": "military_id_p1_<surname>.jpg",
+    "document_class": "military_id",
+    "page_type": "p1",
+    "ground_truth_status": "PENDING_OWNER",
+    "p2_relevant_fields": [
+      "issuing_authority_cyrillic",
+      "patronymic_cyrillic"
+    ],
+    "fill_instructions": "Type the EXACT value seen on the physical document. Leave \"\" if a field is genuinely absent. Set ground_truth_status to VERIFIED_BY_OWNER when done. Do NOT commit the filled file — keep it under test-fixtures/real-docs/ground-truth/ (gitignored) or qa-private/."
+  },
+  "family_name_cyrillic": "",
+  "given_name_cyrillic": "",
+  "patronymic_cyrillic": "",
+  "date_of_birth": "",
+  "military_id_number": "",
+  "issuing_authority_cyrillic": "",
+  "issuing_authority_expected_english": "",
+  "critical_fields": []
+}

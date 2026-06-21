@@ -1,0 +1,138 @@
+# TPS Ukraine — Engineering Plan, Cycles 1-6
+# Compiled: 2026-05-10
+# Owner: TARAS (product), agent (engineering)
+# Locked vision: 5-agent pipeline → user uploads photos → ready-to-mail packet
+#
+# Each cycle ends with: typecheck + tests + content-guard + build + push + Vercel READY + live smoke
+
+cycle_1:
+  name: TPS_FACTS_VERIFICATION_AND_LANDING_REFRESH
+  duration_estimate: 1 working day
+  goal: Replace any stale TPS facts on the site with verified data from notebook + USCIS direct
+  scope:
+    - Direct USCIS fetch (uscis.gov/i-821, i-765, i-912, country page) → fill gaps in TPS_UKRAINE_FACTS_2026-05-10.yaml
+    - Update TPS landing page (/services/tps-ukraine) with verified fee numbers, dates, EAD auto-extension truth
+    - Update TPS sources page (/services/tps-ukraine/sources) with all 4 form URLs + last_verified stamps
+    - Add prominent "EAD auto-extension cutoff July 22, 2026" warning banner on landing
+    - Soften copy where notebook contradicts existing copy
+  forbidden:
+    - any OCR work
+    - any new form prefill code
+    - touching wizard
+  acceptance:
+    - all fee numbers on landing match TPS_UKRAINE_FACTS_2026-05-10.yaml
+    - last_verified stamps on every page that displays facts
+    - content guard passes
+    - live smoke /en + /ru + /uk shows correct numbers
+
+cycle_2:
+  name: TPS_WIZARD_MIGRATION_TO_MULTI_SERVICE_INFRA
+  duration_estimate: 2 working days
+  goal: Move TPSWizard onto the Phase 0 WizardProvider + create TpsWizardController
+  scope:
+    - Rename Re-Parole WizardController.tsx → ReParoleWizardController.tsx
+    - Create TpsWizardController.tsx with Screens TpsS0..TpsS5 (situation router → identity → EAD/fee → evidence → summary)
+    - Migrate TPSAnswers schema to full V6 contract (5 path types, ead_category A12/C19, 4 risk flags, receipt_numbers, selected_outputs)
+    - Hook TPS into wizard_sessions Supabase persistence under service_slug=tps-ukraine
+    - Add audit_log events: tps_session_created, tps_path_determined, tps_manual_review_flagged
+    - Migrate localStorage from 'wizard:tps-ukraine:state:v1' → 'wizard:tps-ukraine:state' (one-time read-old-write-new)
+  forbidden:
+    - OCR
+    - PDF prefill
+    - I-601
+  acceptance:
+    - Re-Parole still works (regression test)
+    - TPS wizard saves to Supabase, audit events fire
+    - typecheck/test/guard/build pass
+    - live smoke shows TPS wizard with new screens
+
+cycle_3:
+  name: TPS_AGENT_1_OCR_EXTRACTOR
+  duration_estimate: 3 working days
+  goal: User uploads passport + I-94 + (optional) prior EAD → structured fields appear in wizard
+  scope:
+    - Wire Google Vision API key (env var, secret manager)
+    - Reuse mrzParser, zoneExtractor for passport
+    - New: i94Parser.ts (admission number, COA, dates)
+    - New: eadCardParser.ts (USCIS#, category, expiry)
+    - DeepSeek vision-mapper fallback when Vision API confidence < threshold
+    - Wire upload UI into TpsWizardController screen S2
+    - All extracted fields displayed for user confirmation (NEVER auto-submitted without review)
+  forbidden:
+    - PDF prefill (next cycle)
+    - claiming auto-fill is "ready to mail"
+  acceptance:
+    - real passport photo → MRZ + visual zone fields extracted with ≥90% accuracy on test fixtures
+    - real I-94 screenshot → 5 fields extracted
+    - manual_review triggered if Vision confidence too low
+    - audit event tps_ocr_completed fires with PII-safe metadata
+
+cycle_4:
+  name: TPS_AGENT_2_PATH_CLASSIFIER_AND_AGENT_5_QA
+  duration_estimate: 2 working days
+  goal: After OCR, system tells user which path they're on and what's missing
+  scope:
+    - classifyPath.ts (rule engine, deterministic — NOT LLM)
+    - qaVerifier.ts (cross-checks per architecture doc)
+    - Wire decision into TpsWizardController final screen
+    - Manual review routing (reuses existing Manual Review Queue v1)
+    - User-facing summary card: "You're on path X. Forms Y. Evidence missing: Z."
+  forbidden:
+    - PDF generation (next cycle)
+  acceptance:
+    - test fixtures cover all 5 path types
+    - test fixtures cover all manual_review_triggers
+    - audit events fire correctly
+
+cycle_5:
+  name: TPS_AGENT_3_FORM_PREFILLER
+  duration_estimate: 4 working days
+  goal: User clicks "Generate my packet" → gets prefilled I-821 + I-765 + (optional) I-912 PDFs
+  scope:
+    - Download official PDFs from USCIS (current editions)
+    - Build i821FieldMap.ts mapping our schema → PDF field names (use pdf-lib field enumeration)
+    - Build i765FieldMap.ts with A12 vs C19 branching
+    - Build i912FieldMap.ts with income calc
+    - Generic pdfPrefiller.ts engine
+    - Watermark on every page: "DRAFT — Review and sign before mailing. You file yourself."
+    - 8 CFR §103.2(b)(3) self-certification cover sheet
+  forbidden:
+    - claiming "USCIS accepted"
+    - claiming "we file for you"
+    - shipping without watermark
+  acceptance:
+    - 3 fixture cases (initial single adult, re-registration single adult, family with child<14) all produce correct PDFs
+    - content guard passes
+    - real eye-test by Taras on output PDF
+
+cycle_6:
+  name: TPS_AGENT_4_EVIDENCE_BUILDER_AND_FEDERAL_REGISTER_MONITOR
+  duration_estimate: 3 working days
+  goal: User uploads evidence files → system organizes into packet + weekly cron checks USCIS for changes
+  scope:
+    - Evidence packet builder (index PDF + grouped folder)
+    - Federal Register weekly cron (Vercel cron + check uscis.gov form pages for edition_date changes)
+    - If any fact changes → flip last_verified banner to "Information may be outdated" and notify operator
+    - Mailing cover sheet generator
+  acceptance:
+    - cron runs weekly, logs each check
+    - manual flip-the-banner endpoint for operator override
+    - test that simulated USCIS edition change triggers banner
+
+shared_engineering_principles:
+  - every cycle ends with passing gates and Vercel READY
+  - every fact in product copy traces back to TPS_UKRAINE_FACTS YAML
+  - no claim of legal advice, USCIS acceptance, or "we file for you" — ever
+  - all PII handled via existing safeMetadata whitelist
+  - Manual Review Queue v1 is the safety net for everything that doesn't pass QA
+  - copy guard CI enforces all of the above
+
+what_I_need_from_you_to_start_cycle_1:
+  - confirm "yes proceed with cycle 1" OR redirect to a different cycle order
+  - confirm acceptable that fees displayed are stamped "as of YYYY-MM-DD per USCIS, subject to change"
+  - confirm we'll handle online filing path later (paper-output-only for first version)
+  - if any of the notebook facts contradict your own knowledge of TPS, correct me now before I bake them into the site
+
+after_all_6_cycles_done:
+  - same engine pattern applied to: Re-Parole (already half built), EAD-only renewal, Translation
+  - product becomes the "trust system" you described: human-readable, auto-filled, with manual review fallback

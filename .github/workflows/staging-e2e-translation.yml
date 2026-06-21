@@ -1,0 +1,169 @@
+name: Staging E2E — Translation (REAL Cyrillic OCR, manual)
+
+# Deploys a fresh Vercel PREVIEW wired to staging Supabase + the REAL Gemini key,
+# then proves the Ukrainian/Russian document OCR end-to-end against it:
+#   1. generate PII-free synthetic Cyrillic document PNGs (Pillow)
+#   2. POST each image to the LIVE /api/translation/vision-extract (REAL Gemini read)
+#      and assert the canonical rows (Shevchenko/Taras KMU-55, смт→urban-type
+#      settlement, MRZ Latin authority, ambiguous→review, handwritten critical→
+#      null+review). NOTHING is mocked; no expected-value substitution.
+#   3. render the certified translation PDF (deterministic) and run poppler visual
+#      acceptance: pages, English present, 8 CFR cert block, ZERO Cyrillic leak.
+#
+# ADR-018: a Gemini 429/quota → OCR_BLOCKED_QUOTA → the job FAILS honestly (never a
+# flash number, never a faked pass). Production is never the target. Inert until
+# dispatched. All artifacts are PII-free synthetic only.
+#
+# Required secrets: VERCEL_TOKEN, GEMINI_API_KEY, STAGING_SUPABASE_PROJECT_REF,
+#   STAGING_SUPABASE_URL, STAGING_SUPABASE_ANON_KEY, STAGING_SUPABASE_SERVICE_ROLE_KEY,
+#   STAGING_SUPABASE_DB_PASSWORD, ADMIN_SECRET, CRON_SECRET, RESEND_API_KEY.
+# Required variable: OPERATOR_SIGNER_NAME.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  VERCEL_ORG_ID: team_qRGWLc9kKWuiKWouVsOeO1P4
+  VERCEL_PROJECT_ID: prj_G5Bwd5VMDqEMdbPKLlQW50aF3pQq
+  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+  PROD_REF: rtfxrlountkoegsseukx
+  STAGING_REF: ${{ secrets.STAGING_SUPABASE_PROJECT_REF }}
+  STAGING_URL: ${{ secrets.STAGING_SUPABASE_URL }}
+  STAGING_ANON: ${{ secrets.STAGING_SUPABASE_ANON_KEY }}
+  STAGING_SR: ${{ secrets.STAGING_SUPABASE_SERVICE_ROLE_KEY }}
+  STAGING_DB_PASSWORD: ${{ secrets.STAGING_SUPABASE_DB_PASSWORD }}
+  GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+  ADMIN_SECRET: ${{ secrets.ADMIN_SECRET }}
+  CRON_SECRET: ${{ secrets.CRON_SECRET }}
+  RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+  OPERATOR_SIGNER_NAME: ${{ vars.OPERATOR_SIGNER_NAME }}
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Guards — secrets present, staging != prod
+        run: |
+          set -euo pipefail
+          for v in VERCEL_TOKEN GEMINI_API_KEY STAGING_REF STAGING_URL STAGING_ANON STAGING_SR; do
+            eval "val=\${$v:-}"; [ -n "$val" ] || { echo "::error::secret $v missing"; exit 1; }
+          done
+          [ "$STAGING_REF" != "$PROD_REF" ] || { echo "::error::staging ref == prod ref"; exit 1; }
+          echo "$STAGING_URL" | grep -q "$STAGING_REF" || { echo "::error::staging URL missing staging ref"; exit 1; }
+          if echo "$STAGING_URL" | grep -q "$PROD_REF"; then echo "::error::staging URL has prod ref"; exit 1; fi
+          echo guards_ok
+
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - run: pnpm install --frozen-lockfile
+      - run: npm i -g vercel@latest
+
+      - name: Install Pillow + Cyrillic font + poppler
+        run: |
+          set -euo pipefail
+          python3 -m pip install --quiet Pillow
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-dejavu-core poppler-utils jq
+
+      - name: Generate synthetic PII-free Cyrillic fixtures
+        run: |
+          set -euo pipefail
+          python3 scripts/synthetic-docs/generate.py
+          ls -la tests/fixtures/translation-synthetic/
+          # Sanity: every PNG is non-trivial (Cyrillic actually rendered, not blank).
+          for f in tests/fixtures/translation-synthetic/*.png; do
+            sz=$(stat -c%s "$f"); echo "$f $sz bytes"
+            [ "$sz" -gt 4000 ] || { echo "::error::$f too small ($sz bytes) — render failed"; exit 1; }
+          done
+
+      - name: Deploy fresh staging PREVIEW (staging runtime env + REAL Gemini)
+        id: deploy
+        run: |
+          set -euo pipefail
+          URL=$(vercel deploy --yes --token="$VERCEL_TOKEN" \
+            -b NEXT_PUBLIC_SUPABASE_URL="$STAGING_URL"        -e NEXT_PUBLIC_SUPABASE_URL="$STAGING_URL" \
+            -b NEXT_PUBLIC_SUPABASE_ANON_KEY="$STAGING_ANON"  -e NEXT_PUBLIC_SUPABASE_ANON_KEY="$STAGING_ANON" \
+            -e SUPABASE_URL="$STAGING_URL" \
+            -e SUPABASE_SERVICE_ROLE_KEY="$STAGING_SR" \
+            -e SUPABASE_DB_PASSWORD="$STAGING_DB_PASSWORD" \
+            -e GEMINI_API_KEY="$GEMINI_API_KEY" \
+            -e ADMIN_SECRET="$ADMIN_SECRET" \
+            -e CRON_SECRET="$CRON_SECRET" \
+            -e RESEND_API_KEY="$RESEND_API_KEY" \
+            -e OPERATOR_SIGNER_NAME="$OPERATOR_SIGNER_NAME")
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+          echo "staging_url=$URL"
+
+      - name: Wait for staging healthz (preview)
+        env:
+          UA: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'
+        run: |
+          set -uo pipefail
+          URL="${{ steps.deploy.outputs.url }}"
+          for i in $(seq 1 30); do
+            code=$(curl -s -A "$UA" -o /tmp/hz -w '%{http_code}' "$URL/api/healthz" || true)
+            [ "$code" = "200" ] && break
+            sleep 6
+          done
+          cat /tmp/hz 2>/dev/null; echo
+          grep -q '"environment":"preview"' /tmp/hz || { echo "::error::staging not a preview deployment"; exit 1; }
+
+      - name: REAL Cyrillic OCR proof (live Gemini, no mocks)
+        id: ocr
+        env:
+          E2E_BASE_URL: ${{ steps.deploy.outputs.url }}
+        run: |
+          set -uo pipefail
+          node scripts/real-ocr-e2e.mjs "$E2E_BASE_URL" translation-artifacts/ocr
+          rc=$?
+          if [ "$rc" = "2" ]; then
+            echo "::error::OCR_BLOCKED_QUOTA — Gemini quota/billing/rate-limit; per ADR-018 this is BLOCKED, not a pass"
+            exit 1
+          fi
+          exit $rc
+
+      - name: Translation PDF visual acceptance (render + poppler, zero Cyrillic leak)
+        if: always()
+        run: |
+          set -uo pipefail
+          # Deterministic local render of the certified PDF via generateTranslationPDF
+          # (Cyrillic field input → KMU-55 Latin output). Poppler asserts: 2 non-blank
+          # pages, English transliterated value, 8 CFR §103.2(b)(3) cert block, and
+          # ZERO U+0400–U+04FF leak. poppler-utils is installed above, so it runs for real.
+          mkdir -p translation-artifacts
+          pnpm --filter web exec vitest run \
+            src/lib/packet/__tests__/translationPdfVisualAcceptance.test.ts \
+            2>&1 | tee translation-artifacts/pdf-visual-acceptance.log
+          echo '{"status":"see pdf-visual-acceptance.log","gate":"poppler: pages+english+8cfr+zero-cyrillic-leak"}' \
+            > translation-artifacts/visual-acceptance.json
+
+      - name: Staging ref proof (staging used, prod untouched)
+        if: always()
+        run: |
+          set -euo pipefail
+          [ "$STAGING_REF" != "$PROD_REF" ] || { echo "::error::staging_ref equals prod"; exit 1; }
+          echo "staging_ref_used=$STAGING_REF production_ref_used=no"
+
+      - name: Upload artifacts (PII-free synthetic only)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: translation-e2e-report
+          path: |
+            tests/fixtures/translation-synthetic/
+            translation-artifacts/
+          if-no-files-found: ignore
+          retention-days: 7

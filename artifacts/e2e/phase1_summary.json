@@ -1,0 +1,15 @@
+{
+  "generated_at": "2026-05-09T09:43:46.860Z",
+  "live_ocr_session": "92567d4f-e950-417c-88d7-271615eb9714",
+  "live_ocr_fields_count": 14,
+  "all_11_critical_present": true,
+  "synthetic_session_id": "a9afd327-a44e-49e2-b4a9-1aa53bc37182",
+  "fields_seeded": 11,
+  "fields_confirmed": 8,
+  "correction_applied": true,
+  "payment_confirmed_mock": true,
+  "pdf_bytes": 3162,
+  "audit_log_count": 11,
+  "pii_violations": 0,
+  "verdict": "PASS"
+}

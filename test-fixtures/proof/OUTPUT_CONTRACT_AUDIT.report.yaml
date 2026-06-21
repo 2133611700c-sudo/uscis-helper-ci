@@ -1,0 +1,216 @@
+report: OUTPUT_CONTRACT_AUDIT_V1
+generated_at: "2026-05-11T00:00:00Z"
+scope: "Checker UI + README generator + Landing pages, locales uk/ru/en/es"
+
+surfaces_audited:
+  checker_ui:
+    file: apps/web/src/components/tps/PacketCompletenessChecker.tsx
+    locales: [uk, ru, en, es]
+    promises:
+      - "ZIP contains I-821 (13 pages, edition 01/20/25); I-765 (7 pages, edition 08/21/25) only when wantsEad === true."
+      - "Explicit i765NotIncluded line when EAD not requested, in all 4 locales."
+      - "Signing happens on paper after print; component states 'We do NOT sign for you' (signWarning) per locale."
+      - "Lockbox: hardcoded copy reads 'USCIS Lockbox in Phoenix (for Ukrainian nationals filing TPS / U4U)' across uk/ru/en/es — qualified by 'exact address for your state will appear on the USCIS page' after generation."
+      - "No mention of I-912 anywhere in checker copy (consistent with packetBuilder not generating I-912)."
+      - "No dollar amount in the checker; no fee statement at all (defers to USCIS page)."
+  readme_generator:
+    file: apps/web/src/lib/tps/packetBuilder.ts
+    promises:
+      - "ZIP file labelled: 'Messenginfo — TPS Ukraine packet draft'."
+      - "Forms enumerated in WHAT THIS IS section: I-821 (edition 01/20/25, applied count); I-765 (edition 08/21/25, applied count) only when answers.wants_ead is true; explicit fallback line 'I-765 was not generated (you chose not to request an EAD).'."
+      - "WHAT TO DO steps 1–6: open in Acrobat/Preview, review, complete missing fields, print and sign in INK, pay USCIS government fee (see below), mail to address below."
+      - "Lockbox section resolved per state via lockboxFor() from apps/web/src/lib/tps/filingGuidance.ts. State table maps half of US states to Phoenix and half to Chicago (Chicago: AL, AZ, FL, GA, IL, NY, OH, … ; Phoenix: CA, MI, NJ, NV, TX, …). Fallback prints 'We could not resolve a lockbox address' + link to official USCIS page."
+      - "GOVERNMENT FEES section header reads: 'GOVERNMENT FEES (verify current amounts on uscis.gov before mailing)'. Enumerates applicable forms (I-821, biometrics, I-765 if requested, I-912 if requested) with G-1055 deep links. Notes include 'The exact dollar amounts above can change. Always verify the current fee on the official USCIS Fee Schedule (G-1055).'"
+      - "WHAT WE DID NOT DO section reads: 'We did NOT submit anything to USCIS on your behalf. / We did NOT give you legal advice. / We did NOT determine your eligibility — please verify on uscis.gov.'"
+      - "I-912 itself is NOT placed inside the ZIP — only mentioned by name when the fee-waiver question was answered yes (feeGuidance produces a I-912 line). README does not promise an I-912 PDF."
+      - "README is English-only — no uk/ru/es localization of the README contents."
+  landing_pages:
+    files:
+      - apps/web/src/app/[locale]/services/tps-ukraine/page.tsx
+      - apps/web/src/app/[locale]/services/tps-ukraine/sources/page.tsx
+      - apps/web/src/app/[locale]/services/tps-ukraine/start/page.tsx
+      - apps/web/src/app/[locale]/services/tps-ukraine/start/TPSWizard.tsx
+      - apps/web/src/app/[locale]/services/tps-ukraine/start/GeneratePacketBlock.tsx
+    promises:
+      - "Hero badge: 'TPS Ukraine — extended through Oct 19, 2026'."
+      - "Landing tagline (en): 'We prepare. You file through USCIS.' (trustCards) and 'Submit through my.uscis.gov online or by mail. We do not file on your behalf.' (howSteps[3])."
+      - "FAQ explicitly says: 'Does Messenginfo file TPS for me?' — 'No. We prepare answers, the checklist, and transfer instructions. You file yourself.'"
+      - "Landing repeatedly references Forms I-821, I-765, AND I-912 as if they were part of the wizard's deliverable: e.g. metaDesc 'Prepare all the information needed for filing TPS Ukraine (Form I-821, I-765, I-912)'; howSteps[2] 'instructions for what to enter in I-821 / I-765 / I-912'; priceUSCISDesc 'Depends on forms and eligibility for a fee waiver (I-912)'."
+      - "Landing pricing: '$15 / $25 / $35 / $45' tiers for the Messenginfo PREPARATION fee (not USCIS fee). The USCIS row text deliberately says 'see calculator' and links to uscis.gov/feecalculator — no dollar amount."
+      - "Sub-CTA under hero (en): 'From $15 — our preparation fee. The USCIS government fee is paid separately.' This is a Messenginfo fee, not a USCIS fee — wording is unambiguous."
+      - "TPSWizard final summary screen disclaimer (s5Disclaimer, en): 'Messenginfo does not file documents for you. We are not a law firm. We do not guarantee USCIS acceptance.'"
+      - "TPSWizard s6Body (en): 'You enter your data, we generate PDFs with your answers already in the boxes. You print, sign, and mail to USCIS yourself.'"
+      - "GeneratePacketBlock attestation (en): 'I have reviewed the information above. I understand Messenginfo does not file documents on my behalf and is not a law firm.'"
+      - "GeneratePacketBlock nsZip section says 'I-821.pdf — TPS application (13 pages)' and 'I-765.pdf — work permit application (7 pages), if you requested one' — matches Checker and README."
+
+cross_check:
+  i821_edition:
+    checker: "01/20/25"
+    readme: "01/20/25"
+    landing: "not stated as edition string anywhere on landing or wizard intro"
+    match: yes
+    note: "Both Checker (PacketCompletenessChecker.tsx L218 `I821_EDITION = '01/20/25'`) and README (packetBuilder.ts L24) carry identical edition; landing does not publish an edition string."
+  i821_pages:
+    checker: 13
+    readme: "not stated as a number — README says 'AcroForm cells written' instead of pages"
+    landing: 13
+    match: yes
+    note: "Checker L219 `I821_PAGES = 13`; GeneratePacketBlock nsZipI821 (all 4 locales) says '13 pages'/'13 pág.'/'13 стор.'/'13 страниц'. README intentionally omits a page count and reports `applied` AcroForm-cell count; no contradiction."
+  i765_edition:
+    checker: "08/21/25"
+    readme: "08/21/25"
+    landing: "not stated"
+    match: yes
+    note: "Checker L220, packetBuilder.ts L25. Identical."
+  i765_pages:
+    checker: 7
+    readme: "not stated (AcroForm cells reported instead)"
+    landing: 7
+    match: yes
+    note: "Checker L221; GeneratePacketBlock nsZipI765 (all 4 locales) says '7 pages'."
+  i912_status:
+    checker: "not mentioned at all (correct — not generated)"
+    readme: "mentioned only in the fee table when wants_fee_waiver === true, as a fee-lookup pointer; no I-912.pdf is added to the ZIP"
+    landing: "MENTIONED REPEATEDLY as a form the wizard helps with: metaDesc lists 'Form I-821, I-765, I-912'; howSteps says 'instructions for what to enter in I-821 / I-765 / I-912'; pricing block references I-912; FAQ explains I-912"
+    consistent: no
+    note: "Drift: landing implies wizard prepares/instructs on I-912; README + Checker + actual generator do not produce or instruct on I-912."
+  lockbox:
+    checker: "USCIS Lockbox in Phoenix (for Ukrainian nationals filing TPS / U4U) — hardcoded in all 4 locales"
+    readme: "Resolved per state — Chicago OR Phoenix, via STATE_TO_LOCKBOX table in filingGuidance.ts. ~30 states route to Chicago, ~30 to Phoenix."
+    landing: "Not specified; defers to USCIS official I-821 mailing-addresses page (GeneratePacketBlock nsAddressBody)."
+    consistent: no
+    note: "Drift: Checker hardcodes 'Phoenix' for every user, but the underlying business logic routes ~half of users (e.g. NY, IL, FL, GA, OH) to Chicago. A NY filer reads 'Phoenix' in the Checker, gets a Chicago address in their README, and gets confused."
+  fee_language:
+    has_hardcoded_dollar: no
+    details: |
+      Checker: no fee mention at all.
+      README: 'GOVERNMENT FEES (verify current amounts on uscis.gov before mailing)' + per-form G-1055 deep links + explicit note 'The exact dollar amounts above can change. Always verify on the official USCIS Fee Schedule (G-1055).' No hardcoded $.
+      Landing: USCIS row says 'see calculator' and links to uscis.gov/feecalculator. The $15/$25/$35/$45 amounts on the landing are the Messenginfo PREPARATION fee, clearly labelled as such (priceService 'Our preparation fee' + priceUSCIS row separate). No hardcoded USCIS fee anywhere.
+  not_a_law_firm_appears:
+    checker:
+      present: no
+      note: "PacketCompletenessChecker.tsx does NOT contain a 'not a law firm' or 'Messenginfo does not file' line. The signing warning ('We do NOT sign for you') is adjacent in spirit but not equivalent. Adjacent surface (GeneratePacketBlock attestation) does carry it — but the Checker card itself, as a standalone surface, does not."
+    readme:
+      present: yes
+      note: "packetBuilder.ts L176-179 'WHAT WE DID NOT DO: We did NOT submit anything to USCIS on your behalf / give legal advice / determine your eligibility.'"
+    landing:
+      present: yes
+      note: "Landing legalOne pill: 'Not a law firm · You file with USCIS yourself · For guidance only'. FAQ 'Is this legal advice?' = 'No. … not a law firm and do not provide legal advice'. Footer: 'Messenginfo does not file on your behalf'. TPSWizard s5Disclaimer carries identical promise."
+
+forbidden_phrase_scan:
+  - phrase: "we file"
+    hits: []
+    note: "All occurrences are negations ('we do not file', 'We do NOT file') — not violations."
+  - phrase: "we submit"
+    hits: []
+    note: "Only appears in README as 'We did NOT submit anything to USCIS on your behalf' — negation, not violation."
+  - phrase: "USCIS-approved"
+    hits: []
+  - phrase: "USCIS approved"
+    hits: []
+  - phrase: "USCIS accepted"
+    hits: []
+    note: "Only appears in source-code comment (TPSWizard.tsx L20) as a forbidden-phrases list."
+  - phrase: "guaranteed"
+    hits: []
+    note: "Only appears as negation ('We do not guarantee USCIS acceptance' / 'Не гарантуємо' / 'Не гарантируем' / 'No garantizamos') in TPSWizard s5Disclaimer — these are explicit anti-promises, not violations."
+  - phrase: "certified"
+    hits: []
+  - phrase: "official USCIS partner"
+    hits: []
+  - phrase: "attorney"
+    hits:
+      - file: apps/web/src/app/[locale]/services/tps-ukraine/page.tsx
+        line: 97
+        text: "consult a licensed immigration attorney"
+        verdict: not_a_violation
+        reason: "Recommending the user consult an attorney is the OPPOSITE of claiming to BE one — this is a safe-harbor disclaimer."
+      - file: apps/web/src/app/[locale]/services/tps-ukraine/start/TPSWizard.tsx
+        line: 307
+        text: "we recommend consulting a licensed immigration attorney before filing"
+        verdict: not_a_violation
+        reason: "Recommendation to consult attorney for high-risk cases (criminal flag). Allowed."
+      - file: apps/web/src/app/[locale]/services/tps-ukraine/start/GeneratePacketBlock.tsx
+        line: 715
+        text: "immigration attorney / DOJ-accredited representative"
+        verdict: not_a_violation
+        reason: "User-facing recommendation to seek qualified help."
+  - phrase: "legal advice"
+    hits:
+      - file: multiple
+        text: "Messenginfo does not provide legal advice / not a law firm / do not provide legal advice"
+        verdict: not_a_violation
+        reason: "All occurrences are negations. Required disclaimer language."
+
+findings:
+  - id: OC-1
+    severity: high
+    surface: landing
+    file: apps/web/src/app/[locale]/services/tps-ukraine/page.tsx
+    line_range: "L36, L52, L67, L89, L116-117, L124, L140, L155, L177, L204-205, L212, L228, L243, L265, L292-293, L300, L316, L331, L353, L380-381"
+    drift_description: |
+      Landing aggressively promises I-912 handling. Examples:
+        L36 (uk metaDesc): "Підготуйте всю інформацію для подання TPS Ukraine (Form I-821, I-765, I-912)"
+        L228 (en): "instructions for what to enter in I-821 / I-765 / I-912"
+        L292-293 (en FAQ): "What is a fee waiver / I-912? — Form I-912 lets you request..."
+      However:
+        - packetBuilder.ts buildPacket() ONLY writes I-821.pdf and conditionally I-765.pdf into the ZIP. There is no I-912 prefiller, no I-912 field map (apps/web/src/lib/tps/forms/ has only i821FieldMap.ts and i765FieldMap.ts), no I-912 PDF in apps/web/public/uscis/tps/.
+        - Checker UI never displays an I-912 line.
+        - README only mentions I-912 as a fee-lookup pointer when wants_fee_waiver is true.
+      A user who selects "I want a fee waiver" in the wizard expects an I-912 PDF in their ZIP based on the landing; they get a README note instead. Trust-loss vector.
+    recommended_fix: |
+      Either (a) drop I-912 from the landing copy until an I-912 prefiller ships (preferred for controlled beta), or (b) add explicit phrasing like "We tell you how to fill I-912 by hand on the official USCIS form — we do not yet generate it" everywhere I-912 is mentioned on the landing.
+  - id: OC-2
+    severity: high
+    surface: checker
+    file: apps/web/src/components/tps/PacketCompletenessChecker.tsx
+    line_range: "L112, L138, L164, L190"
+    drift_description: |
+      Checker hardcodes the lockbox as "Phoenix" for every user in every locale:
+        L164 (en): "USCIS Lockbox in Phoenix (for Ukrainian nationals filing TPS / U4U)."
+      But filingGuidance.ts STATE_TO_LOCKBOX maps about half of US states to the Chicago lockbox (AL, AZ, FL, GA, IL, IN, NY, OH, …) and the other half to Phoenix (CA, MI, NJ, NV, TX, …). A user filing from New York will read "Phoenix" on the pre-download Checker card, then open the README to see a Chicago address. This is exactly the trust-loss pattern the audit targets.
+    recommended_fix: |
+      Pass the user's us_address_state into PacketCompletenessChecker via props, call lockboxFor(state), and render the resolved lockbox display_name (or render a neutral "Your USCIS lockbox depends on your state — the exact address appears in the README" if state is unknown). Drop the hardcoded "Phoenix" string.
+  - id: OC-3
+    severity: medium
+    surface: readme
+    file: apps/web/src/lib/tps/packetBuilder.ts
+    line_range: "L153-189"
+    drift_description: |
+      README is generated in English only. The Checker UI and the landing both ship four locales (uk/ru/en/es) for the same content. A Ukrainian-language user goes through a fully Ukrainian wizard, sees a Ukrainian Checker card, opens README.txt and gets English. This is a consistency gap, not a contradiction — but it weakens the contract because the same user cannot read the post-download instructions in their own language.
+    recommended_fix: |
+      Either localize the README (pass locale through generate-packet route and switch buildReadme), or add a short Ukrainian/Russian/Spanish header section to the README that mirrors the most important promises (especially "WHAT WE DID NOT DO" and the lockbox).
+  - id: OC-4
+    severity: low
+    surface: checker
+    file: apps/web/src/components/tps/PacketCompletenessChecker.tsx
+    line_range: "L99-202 (all four COPY blocks)"
+    drift_description: |
+      The Checker has no "Messenginfo does not file" / "We are not a law firm" message of its own. The sibling GeneratePacketBlock attestation row carries it, and the post-download success block repeats it, so the user does see it before clicking Generate. But the Checker card — which the audit names as one of the three surfaces — is silent on this. Spec asks "must appear in README + landing + Checker (in spirit, locale-aware)"; the spirit appears in the attestation row directly below the Checker, but not inside the Checker section itself.
+    recommended_fix: |
+      Add one final small line at the bottom of the Checker card: e.g. "Messenginfo prepares the packet. You file with USCIS yourself." in each locale, sized at 11px var(--text-3), so the Checker is self-contained.
+  - id: OC-5
+    severity: low
+    surface: landing
+    file: apps/web/src/app/[locale]/services/tps-ukraine/page.tsx
+    line_range: "L41, L129, L217, L305 (legalOne pill in all 4 locales)"
+    drift_description: |
+      The "For guidance only" / "Тільки для довідки" / "Только для справки" / "Solo orientativo" legalOne pill on the landing is shorter than the parallel README disclaimer. The README says "We did NOT determine your eligibility — please verify on uscis.gov." The landing FAQ covers legal advice but does NOT include the eligibility-determination disclaimer. Not a contradiction, but the README is stricter than the landing on one specific dimension.
+    recommended_fix: |
+      Add a one-line eligibility-determination disclaimer to the landing FAQ (or trustCards) so the landing matches the README's commitment level. Example: "Eligibility is decided by USCIS — we cannot tell you if you qualify."
+
+positive_observations:
+  - "I-821 edition string (01/20/25) and I-765 edition string (08/21/25) match exactly between Checker (PacketCompletenessChecker.tsx L218/L220) and README (packetBuilder.ts L24/L25), with a code comment stating the refresh script will fail until both move in lockstep."
+  - "I-821 page count (13) and I-765 page count (7) match between Checker, GeneratePacketBlock nsZip section, and the actual PDFs."
+  - "No hardcoded USCIS-fee dollar amount appears anywhere in Checker, README, or landing. README header literally says 'GOVERNMENT FEES (verify current amounts on uscis.gov before mailing)'. Landing's $15/$25/$35/$45 are unambiguously the Messenginfo preparation fee, clearly separated from the USCIS-fee row."
+  - "The forbidden-phrase list (we file / USCIS-approved / guaranteed / certified / official USCIS partner) returns zero user-facing hits. Every appearance is either inside a source-code comment listing the forbidden phrases or inside a negation (e.g. 'We do NOT guarantee USCIS acceptance')."
+  - "The README's WHAT WE DID NOT DO section (L176-179), landing's legalOne pill, landing's FAQ, footer, TPSWizard s5Disclaimer, and GeneratePacketBlock attestation all carry consistent 'Messenginfo does not file / not a law firm / no guarantee' language."
+  - "I-765 conditional logic is consistent across surfaces: Checker shows i765NotIncluded when wantsEad !== true; packetBuilder skips I-765 prefill when answers.wants_ead is falsy; README explicitly writes 'I-765 was not generated (you chose not to request an EAD).'."
+  - "filingGuidance.ts is a clean source-of-truth module: lockboxes are snapshotted with date + URL, fees are computed by enumeration not by dollar amount, and the public API never invents an address."
+  - "GeneratePacketBlock attestation gate (L270, L327, L213, L156) requires the user to explicitly check 'I understand Messenginfo does not file documents on my behalf and is not a law firm' before the Generate button enables — same disclaimer language on all 4 locales."
+
+verdict_for_controlled_beta:
+  drift_blocks_beta: yes
+  forbidden_phrases_found: no
+  one_paragraph_summary: |
+    Forbidden-phrase scan is clean and the edition/page-count contract is tight, but two drift findings should block controlled beta. OC-1: the landing markets I-912 as part of the wizard's deliverable in all four locales (meta, how-it-works, pricing, FAQ) while the packet generator does not produce an I-912 PDF and the Checker does not mention I-912 — a fee-waiver user will feel misled when they unzip and find no I-912. OC-2: the Checker hardcodes "USCIS Lockbox in Phoenix" for every user, but ~half of states route to Chicago in the README — a New York filer will see Phoenix in the Checker and Chicago in the README within five seconds. Fix OC-1 by trimming I-912 from the landing copy (or adding "we do not generate this form yet"), and fix OC-2 by passing the user's state into the Checker and rendering the resolved lockbox name. The medium-severity README-localization gap (OC-3) and the two low-severity polish items (OC-4, OC-5) can ship as follow-ups.

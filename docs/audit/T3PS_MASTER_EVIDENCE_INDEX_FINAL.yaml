@@ -1,0 +1,107 @@
+report: T3PS_MASTER_EVIDENCE_INDEX_FINAL
+generated_at: "2026-05-16T22:02:30Z"
+evidence:
+  - id: sha_truth_current
+    category: sha
+    path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_MASTER_RELEASE_TRUTH_SNAPSHOT.yaml
+    exists: true
+    status: PASS
+    notes: local/origin/health sha aligned at 63e735629bfd8d453c06b19e7974adf231f3a60c
+
+  - id: gates_reverify_110
+    category: gates
+    path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_FINAL_GATES_RERUN.yaml
+    exists: true
+    status: PASS
+    notes: fresh full gate rerun recorded PASS
+
+  - id: browser_flow_a
+    category: browser
+    path: /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-final-release/browser-run-clean/browser_summary.json
+    exists: true
+    status: PASS
+    notes: scenario A authoritative run generate 200 and zip intercept stored
+
+  - id: browser_flow_b
+    category: browser
+    path: /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-functional-closeout/scenario_B/browser_summary.json
+    exists: true
+    status: PASS
+    notes: scenario B generate 200 and zip download true
+
+  - id: ocr_matrix_reverify
+    category: ocr
+    path: /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-final-browser/ocr_matrix_fresh.json
+    exists: true
+    status: PASS
+    notes: required stage I docs PASS; uscis_notice marked NOT_REQUIRED
+
+  - id: pdf_summary
+    category: pdf
+    path: /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-final-pdf/zip_listing.json
+    exists: true
+    status: PASS
+    notes: fresh A/B zip listing and pypdf key presence with no cyrillic fields
+
+  - id: i821_dump_redacted_a
+    category: pdf
+    path: /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-final-pdf/A_i821_only_i821_field_dump_redacted.txt
+    exists: true
+    status: PASS
+    notes: redacted keys-only dump present
+
+  - id: i821_dump_redacted_b
+    category: pdf
+    path: /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-final-pdf/B_i821_i765_i821_field_dump_redacted.txt
+    exists: true
+    status: PASS
+    notes: redacted keys-only dump present
+
+  - id: i765_dump_redacted_b
+    category: pdf
+    path: /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-final-pdf/B_i821_i765_i765_field_dump_redacted.txt
+    exists: true
+    status: PASS
+    notes: redacted keys-only dump present
+
+  - id: legal_risk_yes_cases
+    category: real_doc
+    path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_FINAL_PART7_LEGAL_RISK_PROOF.md
+    exists: true
+    status: PASS
+    notes: criminal/removal/prior_denial yes-case screenshots captured
+
+  - id: state_conflict
+    category: real_doc
+    path: /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-final-browser/state_conflict/state_conflict_summary.json
+    exists: true
+    status: PASS
+    notes: stale localStorage seed did not silently override OCR review values
+
+  - id: zip_listing
+    category: pdf
+    path: /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-final-pdf/zip_listing.json
+    exists: true
+    status: PASS
+    notes: both scenario zip structures recorded (A no-I765, B includes I765)
+
+  - id: original_5_reconciliation
+    category: release_doc
+    path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_ORIGINAL_5_PROMPTS_FINAL_RECONCILIATION.yaml
+    exists: true
+    status: PASS
+    notes: prompt history resolved with PASS/PARTIAL/SUPERSEDED and blocker flag
+
+  - id: master_closeout_previous
+    category: release_doc
+    path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_MASTER_CLOSEOUT_REPORT.yaml
+    exists: true
+    status: PASS
+    notes: prior consolidated report used as source context
+
+  - id: final_go_no_go_legacy
+    category: release_doc
+    path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_FINAL_GO_NO_GO_RELEASE_REPORT.yaml
+    exists: true
+    status: NOT_REQUIRED
+    notes: legacy NO_GO snapshot is historical and superseded by fresh evidence chain

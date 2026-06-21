@@ -1,0 +1,27 @@
+{
+  "name": "uscis-helper",
+  "private": true,
+  "packageManager": "pnpm@10.33.2",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@sentry/cli",
+      "sharp"
+    ]
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^20.19.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.8.3"
+  },
+  "scripts": {
+    "dev": "pnpm --filter web dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test",
+    "guard:session-docs": "bash scripts/guards/require-session-docs.sh --ci"
+  }
+}

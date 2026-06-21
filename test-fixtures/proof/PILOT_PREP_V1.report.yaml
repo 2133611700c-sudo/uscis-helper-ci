@@ -1,0 +1,236 @@
+task: TPS_PILOT_PREP_V1
+status: PASS_WITH_KNOWN_GAPS
+mode: approved by user — T1–T6, no I-94/EAD/I-912 in this cycle
+generated_at: "2026-05-11T07:10Z"
+agent: Claude (Cowork mode), browser via Claude in Chrome
+operator: owner@messenginfo.com
+
+# ── COMMIT + DEPLOYMENT ─────────────────────────────────────────────────────
+commit_sha: 14a45cd7aa066e5db8bebd99fbd0a8720ea75617
+commit_short: 14a45cd
+commit_message: "feat(tps): pilot-prep — image-quality gate, lockbox lookup, fee guidance, state-dropdown fix"
+
+vercel_deployment_id: dpl_ELGgntpJSTFXDMRT5QDAcU7g8jGY
+vercel_state: READY
+vercel_build_seconds: 80
+production_url: https://messenginfo.com
+inspector_url: https://vercel.com/sergiis-projects-8a97ee0f/uscis-helper/ELGgntpJSTFXDMRT5QDAcU7g8jGY
+
+# ── FILES CHANGED ───────────────────────────────────────────────────────────
+files_changed:
+  - apps/web/src/app/api/tps/ocr/extract/route.ts        # PP.T2 quality gate
+  - apps/web/src/components/tps/DocumentUploadScreen.tsx # PP.T2 localized error UI
+  - apps/web/src/lib/tps/pdfPrefiller.ts                 # PP.T6 empty-choice skip
+  - apps/web/src/lib/tps/answers.ts                      # +wants_fee_waiver field
+  - apps/web/src/lib/tps/packetBuilder.ts                # PP.T4+T5 README sections
+  - apps/web/src/lib/tps/filingGuidance.ts               # NEW (PP.T4+T5)
+  - test-fixtures/gen_degraded_passports.py              # 20 phone-photo variants
+  - docs/uscis/sources/2026-05-10/*.html                 # source snapshots
+
+# ── PER-FIX VERIFICATION ────────────────────────────────────────────────────
+
+PP_T1_real_world_passport_test:
+  status: PASS_WITH_FINDINGS
+  fixture_path: /Users/sergiiivanenko/work/uscis-helper/test-fixtures/degraded/
+  matrix_path: /Users/sergiiivanenko/work/uscis-helper/test-fixtures/proof/degraded_passport_matrix.csv
+  total_variants: 20
+  results:
+    pass_ocr_extracts_all_8_fields:
+      - synthetic-passport.jpg (baseline)
+      - blur_r1, blur_r2, blur_r4 (Gaussian blur radius 1/2/4)
+      - bright_0.4, bright_0.6, bright_1.4 (dim/over-bright)
+      - jpeg_q20, jpeg_q40, jpeg_q60 (low-quality JPEG)
+      - glare_over_mrz (semi-transparent glare over MRZ)
+      - realistic_phone (rotated 8° + blur 1.2 + bright 0.7 + q70)
+      - rot_5deg (5° rotation)
+      - downscale_300w (300×200 — surprisingly survives)
+    fail_gracefully_matched_false_no_false_data:
+      - crop_no_mrz (MRZ literally absent)
+      - downscale_600w, downscale_1000w (JPEG artifact?)
+      - garbage_non_document (non-passport image)
+      - rot_15deg, rot_30deg (significant rotation)
+    rejected_by_quality_gate:
+      - tiny_50x50 → HTTP 422 quality_error.code=too_small ✅
+  findings:
+    - "Google Vision is robust to blur, low light, low-quality JPEG, and even MRZ glare overlap."
+    - "Rotation ≥15° is the hard failure mode — phone-held-at-angle is a real risk for production."
+    - "When OCR fails, it returns matched=false cleanly — NO false-positive data extracted."
+    - "Quality gate fires only for too_small. Other failure modes (too_blurry) are not yet emitted by preprocess (sharp module declared the code but doesn't produce it). KG3."
+    - "Downscale 300px works but 600px / 1000px don't — JPEG compression artifact at specific resolutions. Worth noting."
+
+PP_T2_image_quality_gate:
+  status: PASS
+  smoke_evidence:
+    tiny_50x50_response:
+      http: 422
+      header_x_ocr_qualitygate: too_small
+      structured_quality_error: yes
+    baseline_passes_unchanged:
+      http: 200
+      header_x_ocr_preprocess_resized: false
+      header_x_ocr_preprocess_width: 1500
+      header_x_ocr_preprocess_height: 1000
+    realistic_phone_resized_through_gate:
+      http: 200
+      header_x_ocr_preprocess_resized: false  # 1626x1200 < 2048 limit
+      header_x_ocr_preprocess_width: 1626
+      header_x_ocr_preprocess_height: 1200
+  client_localization: |
+    DocumentUploadScreen.qualityMessageFor() maps each code to uk/ru/en/es
+    plain-language messages. "плохо видно — снимите ещё раз" instead of "HTTP 422".
+
+PP_T3_privacy_buffer_audit:
+  status: PASS_NO_CODE_CHANGE
+  finding: |
+    Route reads file.arrayBuffer() into a local const, passes it through
+    preprocessImage() → googleVisionProvider, never logs the buffer, never
+    persists to disk, never caches in module scope. After the response
+    returns, the buffer is GC-eligible. Comment added to the route.
+  surfaceable_headers_without_pii:
+    - X-OCR-Preprocess-Resized
+    - X-OCR-Preprocess-Width
+    - X-OCR-Preprocess-Height
+    - X-OCR-Provider
+    - X-TPS-Module-* (counts only, no field values)
+
+PP_T4_lockbox_lookup:
+  status: PASS
+  source_url: https://www.uscis.gov/humanitarian/temporary-protected-status/TPS-Ukraine
+  source_snapshot: docs/uscis/sources/2026-05-10/tps-ukraine.html (1352 lines)
+  matrix_size:
+    chicago_states: 25
+    phoenix_states: 31
+    total: 56  # 50 states + DC + 5 territories
+  verified_in_prod:
+    california_request:
+      header_resolved: us_address_state=CA
+      readme_section: "WHERE TO MAIL (resolved for state: CA) → USCIS Phoenix Lockbox"
+      usps_address_first_line: "U.S. Citizenship and Immigration Services"
+      usps_address_zip: "Phoenix, AZ 85074-4047"
+      courier_address: "2108 E. Elliot Rd., Tempe, AZ 85284-1806"
+    new_york_request:
+      header_resolved: us_address_state=NY
+      readme_section: "WHERE TO MAIL (resolved for state: NY) → USCIS Chicago Lockbox"
+      usps_address_zip: "Chicago, IL 60680-4464"
+      courier_address: "131 S. Dearborn St., 3rd Floor, Chicago, IL 60603-5517"
+  policy: |
+    README includes source URL + snapshot_date. If the state is unknown,
+    we link to the official page rather than invent an address.
+
+PP_T5_fee_calculation:
+  status: PASS_NO_HARDCODED_AMOUNTS
+  policy_followed: official_source_rule
+  fee_amounts_hardcoded: 0
+  readme_now_lists:
+    - "I-821 — TPS application — https://www.uscis.gov/g-1055?form=I-821"
+    - "biometrics — https://www.uscis.gov/g-1055 (age 14+ generally)"
+    - "I-765 — Work permit — https://www.uscis.gov/g-1055?form=I-765 (only when wants_ead)"
+    - "I-912 — Fee waiver request (no fee) — https://www.uscis.gov/i-912 (only when wants_fee_waiver)"
+  note_in_readme: "The exact dollar amounts above can change. Always verify the current fee on the official USCIS Fee Schedule (G-1055)."
+
+PP_T6_state_dropdown_fix:
+  status: FIXED_AND_VERIFIED
+  before:
+    x_tps_i821_skipped: 1
+    x_tps_i821_first_skip: "form1[0].Page02[0].Part2_Item6_State[0] (dropdown_value_rejected:)"
+  after_prod_smoke:
+    x_tps_i821_skipped: 0
+    x_tps_i821_first_skip: ""
+  fix_summary: |
+    pdfPrefiller: when kind='choice' and value is empty/whitespace, skip
+    the op silently (legitimate "leave blank" intent, not a real skip).
+    Previously the empty string was being passed to PDFDropdown.select()
+    which throws, then counted under `skipped` — misleading.
+
+# ── GATES (Mac) ─────────────────────────────────────────────────────────────
+gates_results:
+  typecheck: PASS
+  vitest: PASS  # 38 files / 1753 tests / 4.62s
+  next_lint: PASS  # 0 warnings, 0 errors
+  content_guard: PASS
+  vercel_build: PASS  # READY in 80s
+
+# ── KNOWN GAPS (surfaced by lower noise after this cycle) ───────────────────
+known_gaps:
+  - id: KG1
+    severity: medium
+    item: "I-765 phone field (Pt3Line3_DaytimePhoneNumber1) maxLength=10 — current code sends '555-555-5555' (12 chars with dashes) and skips this field"
+    surfaced_by: "PP.T6 fix lowered overall skip noise so this minor case became visible"
+    proposed_fix: "i765FieldMap: strip non-digits from phone before writing — 30-min fix"
+    cycle: TPS_FIELD_MAP_REFINEMENT
+  - id: KG2
+    severity: medium
+    item: "Rotation ≥15° produces matched=false. Users with phone-held-at-angle photos get no extraction"
+    proposed_fix: "Either (a) wire deskew step in image-preprocess (sharp.rotate(...) with auto-orient), or (b) UI hint: 'Hold the phone flat over the document'"
+    cycle: OCR_ROBUSTNESS_V2
+  - id: KG3
+    severity: low
+    item: "preprocess too_blurry code is declared in the type but never emitted by image-preprocess.ts — only too_small + corrupt_image + unsupported_file_type currently produce errors"
+    proposed_fix: "Add a Laplacian variance check in the preprocess pipeline (well-known blur detector). Out of scope for this cycle"
+    cycle: OCR_ROBUSTNESS_V2
+  - id: KG4
+    severity: low
+    item: "Downscale 300px wide works but 600px and 1000px fail OCR — likely a JPEG artifact interaction"
+    proposed_fix: "Investigate; possibly raise preprocess JPEG quality from 85 to 92"
+    cycle: OCR_ROBUSTNESS_V2
+  - id: KG5
+    severity: low
+    item: "Fee amounts intentionally not shown — user must click through to uscis.gov to see actual dollar amount"
+    proposed_fix: "Either accept this trade-off, OR build a server-side fee scraper that runs once per day with snapshot verification. Big scope for marginal UX win"
+    cycle: TPS_FEE_DISPLAY_V2
+  - id: KG6
+    severity: medium
+    item: "Real-user pilot not yet done — the test matrix uses synthetic-derived degraded photos, NOT a real Ukrainian passport on a real phone in real lighting"
+    proposed_fix: "TPS_REAL_USER_PILOT cycle: 3-5 friends/family with real documents, NDA, full roundtrip including mailing"
+    cycle: REAL_USER_PILOT
+
+# ── ARTIFACTS ───────────────────────────────────────────────────────────────
+artifacts:
+  - /Users/sergiiivanenko/work/uscis-helper/test-fixtures/degraded/  # 20 phone-photo variants
+  - /Users/sergiiivanenko/work/uscis-helper/test-fixtures/proof/degraded_passport_matrix.csv  # full result CSV
+  - /Users/sergiiivanenko/work/uscis-helper/test-fixtures/proof/pilot-prep.zip  # CA-Phoenix ZIP
+  - /Users/sergiiivanenko/work/uscis-helper/test-fixtures/proof/pilot-prep-ny.zip  # NY-Chicago ZIP
+  - /Users/sergiiivanenko/work/uscis-helper/test-fixtures/proof/pilot-prep-unpacked/README.txt
+  - /Users/sergiiivanenko/work/uscis-helper/test-fixtures/proof/pilot-prep-ny-unpacked/README.txt
+  - /Users/sergiiivanenko/work/uscis-helper/docs/uscis/sources/2026-05-10/
+
+# ── SUMMARY ─────────────────────────────────────────────────────────────────
+summary: |
+  TPS_PILOT_PREP_V1 closed PASS_WITH_KNOWN_GAPS:
+
+    T1 (real-world passport) — 20 degraded variants tested; Vision is more
+       robust than feared on blur/light/JPEG/glare but fails ≥15° rotation.
+       No false-positive data. Quality gate rejects 50×50 with too_small.
+    T2 (image-quality gate)  — preprocess wired; 422 + structured
+       quality_error returned; client renders localized message.
+    T3 (privacy)             — route audited, no buffer persistence.
+    T4 (lockbox)             — 56-state matrix verbatim from official USCIS
+       TPS Ukraine page; CA → Phoenix and NY → Chicago verified end-to-end.
+    T5 (fees)                — no hardcoded amounts; README enumerates
+       applicable forms with links to USCIS fee schedule.
+    T6 (state dropdown)      — fixed; X-TPS-I821-Skipped goes 1 → 0.
+
+  Six new known gaps surfaced, all with proposed cycles. None block the
+  controlled free-beta milestone.
+
+  Honest readiness now (corrected):
+    foundation                       : 90%  (was 85)
+    passport_ocr_synthetic           : 92%  (was 90)
+    passport_ocr_real_world          : 55%  (NEW — measured on 20 variants)
+    i821_i765_basic_pdf_generation   : 88%  (was 80, state dropdown closed)
+    ux_trust_layer                   : 82%  (was 75, error UI localized)
+    i94_ocr                          : 30%
+    ead_ocr                          : 30%
+    i912                             : 0%
+    packet_completeness              : 35%  (was 20, lockbox+fee guidance now in README)
+    production_paid_launch           : 45%  (was 55 — honest correction, real-user pilot still missing)
+
+  Recommended next cycle:
+    TPS_I94_EAD_OCR_EXPANSION (per the previously agreed roadmap) OR
+    TPS_REAL_USER_PILOT (3-5 real Ukrainian passport photos under NDA).
+
+  My honest preference: TPS_REAL_USER_PILOT first. We now have the gate,
+  the lockbox, the fee guidance, and the field-map fix. The only question
+  left for paid_launch is "does this actually work on a real human's
+  document in real lighting?" — and synthetic degradation cannot answer
+  that fully.

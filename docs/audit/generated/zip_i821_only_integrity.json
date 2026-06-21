@@ -1,0 +1,16 @@
+{
+  "zip": "/Users/sergiiivanenko/work/uscis-helper/test-fixtures/proof/t3ps-closeout/i821_only/packet.zip",
+  "ok": true,
+  "files": [
+    {
+      "name": "I-821.pdf",
+      "size": 1822113,
+      "compressed": 1822113
+    },
+    {
+      "name": "README.txt",
+      "size": 3314,
+      "compressed": 3314
+    }
+  ]
+}

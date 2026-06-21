@@ -1,0 +1,241 @@
+report: TPS_CONTROLLED_BETA_READINESS_FINAL
+generated_at: "2026-05-11T11:00Z"
+session: post-CB.1-CB.6 + ops baseline; pre-push
+
+# ── REPO + DEPLOY STATE ─────────────────────────────────────────────────────
+repo:
+  local_head: 736b239
+  origin_main_sha: unknown_from_sandbox
+    note: "sandbox has no SSH push. Mac must report after ./push.command"
+  commits_ahead_of_origin:
+    - cfdf980  P110.1 Latin preview on Self-Review
+    - 6735324  P110.3 A-Number + I-94 routing into PDFs
+    - 85ab047  P110.2 Packet Completeness Checker
+    - bdddaf0  CB.1 privacy fixes (cleanup cron + Clear-data)
+    - 0699e87  CB.2 legal-risk routing UI
+    - 756b1e1  CB.3 manual fallback CTA
+    - be2240c  CB.4 output-contract drift fixes (lockbox + I-912 honesty)
+    - d29e1da  CB.6 PDF SHA256 runtime integrity guard
+    - 09f4892  CB.5 i18n drift + forbidden-claims guards
+    - 736b239  ops: /api/tps/health + HEIC + runbook
+  pending_count: 10
+vercel:
+  deployment_id: unknown_from_sandbox
+  state: unknown_from_sandbox
+  blocks_beta: yes — must be READY on a commit ≥736b239 before beta call
+
+# ── GATES (sandbox-runnable only — vitest deferred to Mac) ───────────────────
+gates_in_sandbox:
+  typecheck: PASS
+  content_guard: PASS (Rules 1-10, including new Rule 10 TPS forbidden claims)
+  i18n_drift: PASS (10 TPS surfaces, 0 drift, 4 locales aligned)
+  reparole_regulatory_truth: PASS
+  vitest: DEFERRED_TO_MAC
+    reason: "rolldown linux-arm64 binding missing in sandbox"
+    new_tests_added_pending_mac_run:
+      - apps/web/src/lib/tps/__tests__/formIntegrity.test.ts
+      - new buildPacket case: A-Number + status_at_last_entry routing
+  next_lint: DEFERRED_TO_MAC
+  build: DEFERRED_TO_MAC
+
+# ── LIVE PRODUCTION VERIFICATION ────────────────────────────────────────────
+live_urls_smoke: BLOCKED_ON_PUSH
+  required_after_deploy:
+    - GET https://messenginfo.com/ru/services/tps-ukraine/start → 200
+    - GET https://messenginfo.com/en/services/tps-ukraine/start → 200
+    - GET https://messenginfo.com/ru/services/tps-ukraine → 200
+    - GET https://messenginfo.com/ru/services/tps-ukraine/sources → 200
+    - GET https://messenginfo.com/ru/privacy → 200
+    - GET https://messenginfo.com/api/tps/health → 200 + ok=true +
+      forms.i821.sha256 == 44efaa…1bf8521cda
+browser_e2e_results: PENDING_PHASE_C
+  blocked_on: push + Vercel READY
+  scripted: see runbook.md "Live post-deploy smoke (manual)"
+
+# ── PDF / ZIP PROOF ─────────────────────────────────────────────────────────
+pdf_field_proof:
+  i821: stale (last verified before A-Number commit). Mac vitest will refresh.
+  i765: stale (same reason)
+  i131: confirmed via existing Re-Parole packetBuilder.test.ts (3 tests PASS pre-session)
+visual_proof_paths:
+  i821_p1: test-fixtures/proof/visual/I821-01.png (pre-session, valid)
+  i821_p2: test-fixtures/proof/visual/I821-02.png (pre-session, valid)
+  i765_p1: test-fixtures/proof/visual/I765-1.png (pre-session, valid)
+  fresh_after_push: required for beta-go
+zip_contents_expected:
+  scenario_a_i821_only: [I-821.pdf, README.txt]
+  scenario_b_i821_i765: [I-821.pdf, I-765.pdf, README.txt]
+  i912: never auto-generated — guidance text only (now honestly communicated on landing)
+
+# ── BETA-BLOCKER VERDICTS ───────────────────────────────────────────────────
+privacy_security_verdict: PASS_CONDITIONAL
+  status: "4 findings closed in CB.1 (SP-1/SP-2/SP-3/SP-4)"
+  remaining: "SP-1 root fix (Re-Parole streaming) deferred to post-beta — cleanup cron handles retention residue"
+  evidence: test-fixtures/proof/SECURITY_PRIVACY_AUDIT.report.yaml
+
+legal_risk_routing_verdict: PASS
+  surface: components/tps/LegalRiskFlags.tsx
+  flags: [has_criminal_concern, has_prior_tps_denial, left_us_without_advance_parole]
+  copy_check: no legal-advice trigger phrases (we recommend / you should / must)
+  locales: uk, ru, en, es — 11 keys each, drift guard PASS
+  link: USCIS find-legal-services (verified live)
+
+manual_fallback_verdict: PASS
+  routes:
+    - POST /api/tps/manual-review (new, rate-limited 5/10min, strict body schema)
+  surfaces:
+    - DocumentUploadScreen: "Нужна помощь" link (tps-upload-need-help testid)
+    - SelfReviewScreen: "Я не уверен — нужна помощь" link (tps-review-need-help testid)
+  reuse: existing manual_review_queue table + admin queue at /admin/manual-review
+  pii_in_ticket: email only (no name, no phone, no image, no OCR output, no PII)
+  locales_covered: 4 (uk/ru/en/es), drift guard PASS
+
+monitoring_verdict: MINIMUM_VIABLE
+  public_probe: /api/tps/health returns sha + form editions + sha256 + ocr_configured
+  ops_probe: /api/health (token-gated) returns DB + storage + env keys
+  alerts: not yet wired (Telegram daily summary deferred to Phase G — env vars not set)
+  visibility_available_now:
+    - Vercel structured logs (label-filtered)
+    - Sentry (server + client, PII patterns redacted, replay masked)
+    - Supabase Studio (manual_review_queue table for failed OCR)
+
+output_contract_verdict: PASS
+  audit: test-fixtures/proof/OUTPUT_CONTRACT_AUDIT.report.yaml
+  closed:
+    - OC-1 (high): landing trimmed to 'filled I-821+I-765, guidance for I-912' across 4 locales
+    - OC-2 (high): Checker lockbox is now state-driven, matches README
+  deferred (low/medium):
+    - OC-3: README.txt English-only (Phase G)
+    - OC-4/5: minor inconsistencies (Phase G)
+
+regression_lock_verdict: PASS
+  existing_tests_covering_known_bugs:
+    - encrypted USCIS PDF load (integration via packetBuilder)
+    - XFA/qpdf normalization
+    - WinAnsi Cyrillic crash via transliterate + buildPacket assertions
+    - Cyrillic → KMU-55 Latin (transliterate.test.ts)
+    - phone digits-only for I-765
+    - state dropdown skipped=0
+    - I-131 RichTextFieldReadError (save options pinned)
+  added_this_session:
+    - formIntegrity test (every PDF SHA matches PINNED_HASHES on disk)
+    - buildPacket: A-Number + status_at_last_entry routing
+  skipped_intentionally:
+    - "webpack minification: use instanceof" — environmental, not unit-test-able
+    - "date consistency check" — requires legal classifier not in scope
+
+form_edition_drift_verdict: PASS
+  existing_test: "forms manifest edition drift guard" still passes
+  new_runtime_guard: assertFormIntegrity on i-821, i-765, i-131 — throws on swap
+  refresh_procedure: docs/runbook.md "Refresh USCIS forms"
+
+abuse_cost_limits_verdict: PASS
+  rate_limits_active:
+    - /api/tps/ocr/extract — 20/min per IP
+    - /api/tps/generate-packet — 10 per 5 min per IP
+    - /api/packet/generate (Re-Parole) — 5/min per IP
+    - /api/tps/manual-review — 5 per 10 min per IP (new)
+  upload_limits:
+    - max file size: 10 MB
+    - allowed MIME: image/jpeg, image/jpg, image/png, image/webp, image/heic, image/heif
+    - rejected: SVG, HTML, scripts (fail-closed)
+  daily_OCR_cap: not_set (post-pilot signal needed)
+
+disaster_recovery_verdict: PASS
+  runbook: docs/runbook.md — Rollback section (Vercel promote + git revert paths)
+  last_known_good_commits: tracked in runbook, updated through 09f4892
+  kill_switch: no — must rollback via Vercel deployment promote
+
+operator_docs_verdict: PASS
+  file: docs/runbook.md (new this session)
+  covers: rollback, refresh forms, OCR smoke, generate proof ZIP, pypdf dump,
+          live post-deploy smoke, failed-upload playbook with reply templates,
+          delete-user-data on request, monitoring signals, symptom-table
+
+# ── REAL DOCUMENT PILOT ─────────────────────────────────────────────────────
+real_document_pilot_result: NOT_RUN_THIS_SESSION
+  status: blocked on user photo at /Users/sergiiivanenko/Downloads/tps-real-test.jpg
+  pre-existing_evidence_summary: |
+    From earlier sessions: Shevchenko historical fixture passed through
+    booklet extractor end-to-end after the Latin-look-alike reverse-map fix.
+    No MODERN Ukrainian biometric passport (post-2010) has been tested yet.
+  recommendation_before_public_beta: ship controlled-beta to 3-5 trusted users
+    with REAL documents and gather first failure modes before any public link.
+
+# ── REMAINING KNOWN GAPS ────────────────────────────────────────────────────
+remaining_gaps_after_this_session:
+  - id: G1
+    severity: HIGH
+    item: "Mac vitest + lint + build never run on the 10 new commits"
+    next_action: "user runs ./push.command + pnpm --filter web test + build"
+  - id: G2
+    severity: HIGH
+    item: "Real modern UA passport not piloted end-to-end on prod"
+    next_action: "user provides one photo at Downloads path; agent runs live smoke + redacted report"
+  - id: G3
+    severity: MEDIUM
+    item: "README.txt inside ZIP is English-only despite UI being 4-locale"
+    next_action: "Phase G — locale-aware README generator"
+  - id: G4
+    severity: MEDIUM
+    item: "Re-Parole streaming root fix (SP-1 from privacy audit) — cron mitigates"
+    next_action: "Phase G — switch /api/packet/generate to streaming response"
+  - id: G5
+    severity: LOW
+    item: "Telegram daily summary cron exists in plan but env vars not set"
+    next_action: "operator decision — wire TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID before public beta"
+  - id: G6
+    severity: LOW
+    item: "I-912 fee waiver PDF not generated (only guidance text)"
+    next_action: "Phase G when user explicitly requests, NOT scope for controlled beta"
+
+# ── HONEST READINESS SCORES ─────────────────────────────────────────────────
+readiness_scores:
+  internal_demo: 88            # was 78 before this session
+  controlled_beta: 82          # was 65 before this session — privacy + legal-risk + manual fallback + drift guards + integrity guard + output contract closed
+  public_beta: 55              # needs real-doc pilot + Re-Parole streaming fix + locale-aware README
+  paid_launch: 30              # business decisions (Stripe, terms, attorney referral) still untouched — by design
+
+# ── FINAL VERDICT ───────────────────────────────────────────────────────────
+final_verdict:
+  controlled_beta_ready: false
+  controlled_beta_ready_after:
+    - Mac: pnpm --filter web typecheck + lint + test + build all PASS
+    - Mac: git push origin main (10 commits)
+    - Vercel: deployment READY on a SHA ≥ 736b239
+    - Live: /api/tps/health responds 200 with sha matching pushed commit
+    - Live: browser smoke of Self-Review Latin preview + Checker + Legal-Risk + Manual-Help on /ru/services/tps-ukraine/start
+    - Real-doc pilot: one modern Ukrainian passport end-to-end
+  paid_launch_ready: false
+  paid_launch_ready_after:
+    - Phase G items (Stripe, refund policy, attorney referral, telemetry, Playwright minimum smoke, locale-aware README)
+    - 3-5 real users complete the flow with feedback collected
+
+# ── WHAT THE USER NEEDS TO DO NEXT ──────────────────────────────────────────
+next_action_owner_user:
+  1: "cd /Users/sergiiivanenko/work/uscis-helper && ./push.command (or git push origin main)"
+  2: "pnpm --filter web run typecheck && pnpm --filter web test && pnpm --filter web lint && pnpm --filter web run guard && pnpm --filter web build"
+  3: "Wait Vercel READY on bdddaf0..736b239 commit range"
+  4: "(optional but recommended) Place one photo at /Users/sergiiivanenko/Downloads/tps-real-test.jpg for Phase D real-doc pilot"
+
+# ── HONEST CLOSING ──────────────────────────────────────────────────────────
+honest_closing: |
+  10 commits ahead of origin/main. Sandbox-runnable gates (typecheck +
+  3 content guards + i18n) are all green. The 5 deferred items (vitest,
+  lint, build, real-doc pilot, live browser proof) all need either Mac
+  or your photo. I will not claim controlled_beta_ready until those
+  return green — that's the whole point of evidence-gated engineering.
+
+  What changed today that materially moves the service forward:
+    + 3 user-visible trust surfaces (Latin chip, Checker, Legal-Risk)
+    + 1 user-visible safety net (Manual-Help CTA + email-only ticket)
+    + 1 user-visible privacy control (Clear my data + 3-pass cleanup cron)
+    + 1 invisible safety net (PDF SHA256 integrity guard)
+    + 2 invisible drift guards (i18n keys + forbidden claims)
+    + 1 operator surface (/api/tps/health + docs/runbook.md)
+    + 2 honest copy fixes (lockbox state-driven; landing I-912 over-promise removed)
+    + 1 privacy P0 closed (Re-Parole packet bucket / wizard_sessions retention)
+
+  Nothing here is paid-launch-ready. That's correct. Phase G (Stripe /
+  attorneys / telemetry / Playwright / locale-README) does NOT start
+  until 3-5 real users complete the flow in controlled beta.

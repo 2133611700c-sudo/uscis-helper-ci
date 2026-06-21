@@ -1,0 +1,134 @@
+status: GO_REVIEW_FLOW_READY
+production_sha: 11a4281
+verified_at: 2026-05-20T01:30:00Z
+
+your_critique_was_correct: |
+  Previous GO_SLOT_FIREWALL_READY verdict was premature. The API layer
+  did filter forbidden fields from new responses, but localStorage from
+  pre-firewall sessions still resurrected the hallucinated A-number on
+  page reload. That's exactly what you saw on screen, and that's what
+  this commit fixes. NO_GO was the right call until now.
+
+p0_fixes_applied:
+  stale_ocr_state:
+    layer_1_schema_bump:
+      key_old: wizard:tps-ukraine:v2:state
+      key_new: wizard:tps-ukraine:v3:state
+      schema_constant: STORAGE_SCHEMA = 3 (written into payload)
+      behavior: hydration discards payload if schema !== 3
+    layer_2_proactive_wipe:
+      keys_removed_on_mount:
+        - wizard:tps-ukraine:v2:state
+        - wizard:tps-ukraine:state
+      behavior: even if a user reloads with stale v2 data, it's gone
+        before the first render — no race, no flash
+    layer_3_contract_filter_on_read:
+      table: SLOT_ALLOWED_FIELDS (mirror of server contract)
+      behavior: rebuilt uploads run through the per-slot allowed-set;
+        any field outside the set is dropped silently
+      result: even if a v3 payload somehow contains a forbidden field
+        (manually planted, future regression, etc.) the UI never sees it
+
+  reset_visible_everywhere:
+    location: top of wizard, above progress bar, on every step (1-6)
+    label: localized "↺ С начала" / "↺ Спочатку" / "↺ Restart" / "↺ Reiniciar"
+    behavior: window.confirm before wiping; calls existing restart()
+      which removes STORAGE_KEY and resets React state to defaults
+
+  edit_button:
+    was: onEdit={() => alert(...)}  — pure no-op
+    now: |
+      ReviewOcr accepts onEdit(key, label, currentValue). Wizard
+      handler opens window.prompt() pre-filled with the current value.
+      Saved value is written back as a FieldExtraction with
+      source='user_corrected' so the row label becomes "Введено
+      вручную" / "Entered manually". If the field had no extraction
+      yet, value lands in a synthetic 'manual' slot so it still flows
+      to Step 6. Persists across reload / locale switch (uses the same
+      uploadsMeta path that survives navigation).
+    accessibility_note: |
+      window.prompt is the universally-accessible affordance —
+      screen-reader friendly, no modal-library dependency. A richer
+      inline editor with validator preview is the P1 follow-up.
+
+  pay_button_price:
+    constant: TPS_TIER1_PRICE_DISPLAY = '$15'
+    rendered: "💳 Оплатить — $15" (ru), "💳 Pay — $15" (en), etc.
+    note: server-side Stripe Price ID unchanged (still $15.00 one-time
+      in lib/stripe/client.ts)
+
+browser_fresh_session_proof:
+  scenario: |
+    Playwright Chromium, fresh context, pre-seeded with a PRE-FIREWALL
+    v2 localStorage payload containing the exact "Ghost" family_name
+    and the hallucinated A-number 000-000-000 under the passport slot.
+    Then full walkthrough Step 1 → upload realistic UA passport →
+    Step 5 review → Step 6 pay button label.
+  results:
+    stale_ghost_suppressed: PASS  (v2 store discarded; "Ghost" and the
+      A-number never appear on screen)
+    v2_key_wiped: PASS  (wizard:tps-ukraine:v2:state is null after mount)
+    restart_link_visible_from_step_1: PASS
+    no_a_number_on_passport_step_5: PASS  (firewall + UI re-filter
+      together block this — no row labelled "A-Number" appears for a
+      passport-only upload)
+    pay_button_label: PASS  ("💳 Оплатить — $15")
+  screenshots:
+    - qa-shots/fresh-1-after-load.png
+    - qa-shots/fresh-2-step5.png
+    - qa-shots/fresh-3-step6.png
+
+unresolved_p1_p2:
+  - id: tooltip_help_icons
+    priority: P1
+    description: |
+      The "?" pills next to manual fields (phone / email / marital /
+      EAD category) carry tooltip data attributes from the prototype
+      but the hover handler that surfaces them was not ported to the
+      React build. 35-80yo users on touch devices need a click/tap
+      affordance, not hover-only. P1 follow-up: wire a small popover
+      that shows on click and dismisses on outside-tap.
+
+  - id: name_recognition_stability
+    priority: P1
+    description: |
+      Taras observed unstable spelling between sessions:
+      "Kuropyatnyk" vs "Ivanenko", "Taras" vs "Sergi". This is
+      DeepSeek non-determinism on transliteration of low-confidence
+      Cyrillic when MRZ isn't crisply visible. Fix path: prefer MRZ
+      Latin always when present; for visual-only inputs, lower Brain
+      temperature and add explicit "do not invent letters" rule to
+      the system prompt; flag review_required when MRZ disagrees with
+      visual transliteration.
+
+  - id: inline_editor_richness
+    priority: P1
+    description: |
+      window.prompt() works but is plain. Richer inline editor that
+      shows validator feedback live (date format hint, country
+      normalization preview, A-number digit-count meter) is the
+      polish step after this lands.
+
+  - id: identity_conflict_guard
+    priority: P1 (carry-over)
+    description: |
+      Same as prior report. When passport and EAD both populate
+      family_name with different values, mark conflict and require
+      review. Currently first-wins.
+
+next_action: |
+  Taras does a fresh-session test on production:
+  1. Clear browser localStorage for messenginfo.com (or open in a
+     private window).
+  2. Upload the same real passport.
+  3. Expected: A-Number row is GONE (firewall + UI filter), DOB
+     and SEX visible, country = "Ukraine", Pay button shows "$15".
+  4. Click Изменить on any row — prompt opens, edit, refresh,
+     value persists.
+  5. Click "↺ С начала" from any step — wizard resets to Step 1.
+
+commits:
+  - sha: 0abba53  feat(tps-ocr) document-slot firewall (API layer)
+  - sha: b7cfabf  fix(tps-ocr) docHint form field name fallback
+  - sha: 215bed6  docs verdict GO_SLOT_FIREWALL_READY (PREMATURE — see note above)
+  - sha: 11a4281  fix(tps-v2) stale-state firewall + real edit + reset + $15

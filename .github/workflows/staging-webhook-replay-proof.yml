@@ -1,0 +1,116 @@
+name: Staging Webhook/Replay Idempotency Proof (manual)
+
+# Runtime proof for #184 against the ISOLATED staging Supabase project: the
+# dedupe ledger (record_stripe_processed_event) and the durable packet-token
+# replay store (consume_stripe_packet_token) actually exist and behave
+# idempotently — including under CONCURRENCY (two connections = two Vercel
+# instances). PII-free synthetic ids only. All test rows use the PHASE2_TEST_
+# prefix so the append-only guards permit their cleanup.
+#
+# Requires the same staging secrets as staging-provision.yml.
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+env:
+  PROD_REF: rtfxrlountkoegsseukx
+  STAGING_REF: ${{ secrets.STAGING_SUPABASE_PROJECT_REF }}
+  SUPABASE_DB_PASSWORD: ${{ secrets.STAGING_SUPABASE_DB_PASSWORD }}
+
+jobs:
+  proof:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard — staging ref present and != production
+        run: |
+          if [ -z "$STAGING_REF" ]; then echo "::error::STAGING_SUPABASE_PROJECT_REF secret missing"; exit 1; fi
+          if [ "$STAGING_REF" = "$PROD_REF" ]; then echo "::error::GUARD FAIL: staging ref equals production ref"; exit 1; fi
+
+      - name: Idempotency + concurrency proof (psql against staging)
+        env:
+          POOLER_HOST: ${{ secrets.STAGING_DB_POOLER_HOST || 'aws-1-us-west-1.pooler.supabase.com' }}
+        run: |
+          set -euo pipefail
+          DB="postgresql://postgres.${STAGING_REF}:${SUPABASE_DB_PASSWORD}@${POOLER_HOST}:5432/postgres?sslmode=require"
+          q(){ psql "$DB" -tAc "$1" | tr -d '[:space:]'; }
+          fail(){ echo "::error::$1"; exit 1; }
+
+          # Unique-ish synthetic ids for this run (no Date/random in app code; CI can use $GITHUB_RUN_ID).
+          EVT="PHASE2_TEST_evt_${GITHUB_RUN_ID}"
+          CSID="PHASE2_TEST_cs_${GITHUB_RUN_ID}"
+          TOK="PHASE2_TEST_tok_${GITHUB_RUN_ID}"
+          CTOK="PHASE2_TEST_ctok_${GITHUB_RUN_ID}"
+
+          echo "::group::0. objects exist"
+          [ "$(q "select to_regclass('public.stripe_processed_events') is not null;")" = "t" ] || fail "stripe_processed_events table missing"
+          [ "$(q "select to_regclass('public.stripe_consumed_tokens') is not null;")" = "t" ] || fail "stripe_consumed_tokens table missing"
+          [ "$(q "select count(*) from pg_proc where proname='record_stripe_processed_event';")" -ge 1 ] || fail "record_stripe_processed_event RPC missing"
+          [ "$(q "select count(*) from pg_proc where proname='consume_stripe_packet_token';")" -ge 1 ] || fail "consume_stripe_packet_token RPC missing"
+          echo "objects_present=yes"
+          echo "::endgroup::"
+
+          echo "::group::1. webhook event dedup (single → duplicate)"
+          R1=$(q "select inserted from record_stripe_processed_event('${EVT}','checkout.session.completed','${CSID}',null,'received');")
+          R2=$(q "select inserted from record_stripe_processed_event('${EVT}','checkout.session.completed','${CSID}',null,'received');")
+          echo "first_insert=$R1 second_insert=$R2"
+          [ "$R1" = "t" ] || fail "first record should be inserted=true"
+          [ "$R2" = "f" ] || fail "duplicate record should be inserted=false (no-op)"
+          # exactly ONE ledger row for the event id
+          [ "$(q "select count(*) from stripe_processed_events where stripe_event_id='${EVT}';")" = "1" ] || fail "expected exactly 1 ledger row for the event"
+          echo "::endgroup::"
+
+          echo "::group::2. durable token replay (paid token, two 'instances')"
+          T1=$(q "select inserted from consume_stripe_packet_token('tps-ukraine','${TOK}');")
+          T2=$(q "select inserted from consume_stripe_packet_token('tps-ukraine','${TOK}');")
+          echo "first_consume=$T1 second_consume=$T2"
+          [ "$T1" = "t" ] || fail "first consume should be inserted=true"
+          [ "$T2" = "f" ] || fail "replay consume should be inserted=false (rejected)"
+          echo "::endgroup::"
+
+          echo "::group::3. CONCURRENCY — two parallel consumes of the SAME token → exactly one winner"
+          # Two separate psql connections fired in parallel model two Vercel instances.
+          psql "$DB" -tAc "select inserted from consume_stripe_packet_token('tps-ukraine','${CTOK}');" | tr -d '[:space:]' > /tmp/c1 &
+          psql "$DB" -tAc "select inserted from consume_stripe_packet_token('tps-ukraine','${CTOK}');" | tr -d '[:space:]' > /tmp/c2 &
+          wait
+          C1=$(cat /tmp/c1); C2=$(cat /tmp/c2)
+          echo "concurrent_results=[$C1,$C2]"
+          WINNERS=0; [ "$C1" = "t" ] && WINNERS=$((WINNERS+1)); [ "$C2" = "t" ] && WINNERS=$((WINNERS+1))
+          [ "$WINNERS" = "1" ] || fail "concurrency: expected exactly ONE winner (got $WINNERS)"
+          [ "$(q "select count(*) from stripe_consumed_tokens where product='tps-ukraine' and token='${CTOK}';")" = "1" ] || fail "concurrency: expected exactly 1 consumed-token row"
+          # Same parallel proof for the event ledger (two concurrent identical webhooks → one row).
+          CEVT="PHASE2_TEST_cevt_${GITHUB_RUN_ID}"
+          psql "$DB" -tAc "select inserted from record_stripe_processed_event('${CEVT}','checkout.session.completed','${CSID}',null,'received');" | tr -d '[:space:]' > /tmp/e1 &
+          psql "$DB" -tAc "select inserted from record_stripe_processed_event('${CEVT}','checkout.session.completed','${CSID}',null,'received');" | tr -d '[:space:]' > /tmp/e2 &
+          wait
+          E1=$(cat /tmp/e1); E2=$(cat /tmp/e2)
+          echo "concurrent_event_results=[$E1,$E2]"
+          EW=0; [ "$E1" = "t" ] && EW=$((EW+1)); [ "$E2" = "t" ] && EW=$((EW+1))
+          [ "$EW" = "1" ] || fail "concurrency: expected exactly ONE event winner (got $EW)"
+          echo "::endgroup::"
+
+          echo "::group::4. append-only guard holds (UPDATE/DELETE rejected outside guarded cleanup)"
+          if psql "$DB" -tAc "update stripe_consumed_tokens set consumed_at=now() where token='${TOK}';" 2>/tmp/upderr; then
+            fail "append-only guard FAILED: UPDATE on stripe_consumed_tokens was allowed"
+          fi
+          grep -q "APPEND_ONLY" /tmp/upderr || echo "::warning::update rejected but not via the append-only guard message"
+          echo "append_only_enforced=yes"
+          echo "::endgroup::"
+
+          echo "::group::5. cleanup synthetic rows (guarded, PHASE2_TEST_ only)"
+          psql "$DB" <<SQL
+          begin;
+          select set_config('translation_orders.allow_admin_cleanup','on',true);
+          delete from public.stripe_consumed_tokens where token like 'PHASE2_TEST_%';
+          delete from public.stripe_processed_events where stripe_event_id like 'PHASE2_TEST_%';
+          commit;
+          SQL
+          LEFT_T=$(q "select count(*) from stripe_consumed_tokens where token like 'PHASE2_TEST_%';")
+          LEFT_E=$(q "select count(*) from stripe_processed_events where stripe_event_id like 'PHASE2_TEST_%';")
+          echo "leftover_tokens=$LEFT_T leftover_events=$LEFT_E"
+          [ "$LEFT_T" = "0" ] && [ "$LEFT_E" = "0" ] || fail "cleanup left synthetic rows behind"
+          echo "::endgroup::"
+
+          echo "WEBHOOK_REPLAY_PROOF=GREEN (dedup + durable replay + concurrency single-winner + append-only + clean)"

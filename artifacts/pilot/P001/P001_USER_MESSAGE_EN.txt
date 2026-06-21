@@ -1,0 +1,28 @@
+Hello,
+
+Thank you for participating in our passport translation pilot.
+
+Please use the link below to start your translation:
+
+https://uscis-helper-sergiis-projects-8a97ee0f.vercel.app/en/services/translate-document/start
+
+Before you begin, please take a clear photo of your Ukrainian passport data page:
+- Place the passport on a flat, well-lit surface
+- No flash — flash causes glare
+- Include the entire page — do not crop the edges
+- Make sure all numbers and text are visible
+
+Once you upload, please check every field carefully:
+- If something is wrong, tap Correct and type the correct value from your document
+- Only tap Confirm when the field matches your physical passport exactly
+- Do not sign the certification until all fields match your document
+
+This is the first test run. No payment is required from you now. We will provide a free pilot code/link and manually review the PDF before delivery.
+
+This tool does not provide legal advice. You are responsible for verifying the translation matches your document before signing.
+
+After you complete the steps, our team will manually review your document before sending your PDF.
+
+If you have questions, reply to this message.
+
+Thank you.

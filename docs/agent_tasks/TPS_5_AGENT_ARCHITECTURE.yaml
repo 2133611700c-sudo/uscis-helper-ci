@@ -1,0 +1,171 @@
+# TPS Ukraine — 5-Agent Pipeline Architecture
+# Compiled: 2026-05-10
+# Vision (locked, owner: TARAS):
+#   Human uploads photos → 5 AI agents do their parts → user gets a packet
+#   that's already filled out and only needs to be reviewed and submitted.
+#
+# Same engine pattern is later reused for Re-Parole, EAD-only renewal, and
+# Translation Engine. Different schema, different prompts, same pipeline.
+
+pipeline_overview:
+  input:
+    - passport_photo (Ukrainian international passport — primary)
+    - I-94_photo (printout or screenshot from i94.cbp.dhs.gov)
+    - prior_EAD_photo (if re-registration)
+    - evidence_photos[]  (lease, pay stubs, utility bills, school/med records)
+  output:
+    - prefilled_I-821_pdf
+    - prefilled_I-765_pdf
+    - prefilled_I-912_pdf (if user qualifies for fee waiver)
+    - evidence_packet_index.pdf  (table of contents pointing at each file)
+    - mailing_cover_sheet.pdf
+    - operator_review_artifact.json (QA agent's findings, for human-in-the-loop)
+
+agents:
+
+  agent_1_OCR_EXTRACTOR:
+    role: Read pixels, produce structured fields
+    inputs:
+      - photo_or_pdf
+      - document_type_hint
+    backend: Google Vision API (primary) + Tesseract fallback
+    enrichment: DeepSeek LLM "vision mapper" for layout-aware field extraction
+    outputs:
+      passport:
+        - mrz_line1, mrz_line2 (parsed via existing mrzParser.ts)
+        - surname, given_names (Cyrillic + Latin)
+        - passport_number
+        - nationality
+        - dob, sex
+        - issuing_country, issue_date, expiry_date
+      I-94:
+        - admission_number
+        - class_of_admission (e.g., UH for Uniting for Ukraine parolee)
+        - date_of_entry
+        - admit_until_date
+      prior_EAD:
+        - uscis_number_or_A-number
+        - card_number
+        - category_on_card (A12 / C19 etc.)
+        - card_expires
+    reuses_from_existing_code:
+      - apps/web/src/lib/translation/identity/mrzParser.ts
+      - apps/web/src/lib/translation/zoneExtractor.ts
+      - apps/web/src/lib/translation/numericAccuracy/digitShapeComparator.ts
+    new_code_required:
+      - I-94 layout parser
+      - EAD card layout parser
+
+  agent_2_PATH_CLASSIFIER:
+    role: Decide which TPS path the user is on
+    inputs:
+      - extracted_passport_fields
+      - extracted_I-94_fields
+      - extracted_prior_EAD_fields (nullable)
+      - user_answers_from_situation_router
+    decision_tree:
+      - if has_prior_TPS_grant=true → path=re_registration, ead_category=C19
+      - if has_prior_TPS_grant=false AND entered_US_on_or_before=2023-08-16 → path=initial, ead_category=A12
+      - if has_pending_application_filed_before_extension → path=pending_auto_extended, no_action_needed
+      - if entered_US_after=2023-08-16 AND has_prior_TPS_grant=false → INELIGIBLE_FOR_TPS_UKRAINE
+      - if missed_re_registration_window AND no_good_cause → ROUTE_TO_MANUAL_REVIEW
+    outputs:
+      - path_type: enum
+      - ead_category: A12 | C19 | null
+      - eligibility_status: eligible | ineligible | manual_review_required
+      - eligibility_reasoning: human_readable_explanation
+    rules_source: docs/agent_tasks/TPS_UKRAINE_FACTS_2026-05-10.yaml
+
+  agent_3_FORM_PREFILLER:
+    role: Map structured data → exact PDF field names → write into PDF
+    inputs:
+      - extracted_fields (from agent 1)
+      - path_type, ead_category (from agent 2)
+    outputs:
+      - prefilled_I-821.pdf (Part 1 Identity, Part 2 Status, Part 3 Eligibility)
+      - prefilled_I-765.pdf (with correct ead_category)
+      - prefilled_I-912.pdf (only if income-eligible)
+    forms_we_need_to_map:
+      - I-821 edition (TBD — fetch in next cycle)
+      - I-765 edition 08/21/25
+      - I-912 edition 07/22/25
+    reuses_from_existing_code:
+      - pdf-lib already in dependencies
+      - Re-Parole I-131 prefill scaffolding (if exists)
+    new_code_required:
+      - i821FieldMap.ts (PDF field-name → our schema)
+      - i765FieldMap.ts (with A12 vs C19 branching)
+      - i912FieldMap.ts (with income calculation)
+      - pdfPrefiller.ts (generic engine that takes a map + data + pdf and writes)
+
+  agent_4_EVIDENCE_BUILDER:
+    role: Organize uploaded evidence into USCIS-readable packet
+    inputs:
+      - user_uploaded_files[] (lease, paystubs, bills, etc.)
+      - path_type (initial vs re-registration)
+      - user_answers (which evidence is for residence vs physical presence)
+    outputs:
+      - evidence_packet_index.pdf with table of contents
+      - re-categorized PDFs grouped by purpose
+      - flag if a category is empty (e.g., no proof for 2024)
+    re_registration_special:
+      - if path=re_registration AND no_change_of_circumstance → evidence packet empty (USCIS already has it)
+    rules_source: USCIS I-821 instructions evidence section
+
+  agent_5_QA_VERIFIER:
+    role: Final sanity check, decide if packet is ready or needs manual review
+    inputs:
+      - everything from agents 1-4
+    cross_checks:
+      - MRZ surname/dob match passport visual zone
+      - passport not expired
+      - I-94 date_of_entry ≤ 2023-08-16 for initial path
+      - I-94 nationality matches passport nationality
+      - prior EAD category matches selected ead_category
+      - all required I-821 fields filled (no blanks)
+      - all evidence categories have at least one document for initial path
+    manual_review_triggers:
+      - any cross_check fails
+      - user answered yes to criminal_record question
+      - user answered yes to prior_TPS_denial
+      - user answered yes to departure_from_US_without_advance_parole
+      - inconsistent dates between any two documents
+    outputs:
+      - readiness: ready | manual_review | blocked
+      - operator_review_artifact.json (JSON-only, PII-safe per existing v5 standard)
+      - user-facing summary
+
+data_contracts:
+  storage:
+    - reuse wizard_sessions table (Phase 0 done)
+    - reuse manual_review_tickets table (already in prod, Manual Review Queue v1)
+  audit_events:
+    - tps_session_created
+    - tps_documents_uploaded
+    - tps_ocr_completed
+    - tps_path_determined
+    - tps_pdfs_generated
+    - tps_manual_review_flagged
+    - tps_packet_ready
+  PII_safety:
+    - all audit metadata goes through existing PII whitelist (apps/web/src/lib/translation/manualReview/safeMetadata.ts)
+    - encrypted_at_rest in Supabase (already configured for wizard_sessions)
+    - 90-day TTL on state_json
+
+reuse_from_existing_codebase:
+  - WizardProvider (Phase 0 multi-service refactor done)
+  - Manual Review Queue v1 (full pipeline already wired)
+  - Translation Engine v5 OCR primitives (mrzParser, zoneExtractor, digitShapeComparator)
+  - Service Claims Policy + content-guard CI
+  - PII-safe metadata layer
+  - Audit log infrastructure
+  - 8 CFR §103.2(b)(3) self-certification helper
+  - Stripe scaffolding (mock mode for now)
+  - pdf-lib for PDF generation
+
+NOT_in_scope_for_first_implementation:
+  - filing the application for the user (NEVER — copy guard enforces this)
+  - claiming "USCIS accepted" (NEVER — copy guard enforces this)
+  - I-601 prefill (low-volume, manual review path)
+  - I-131 advance parole for TPS holders (separate cycle)
+  - online filing via my.uscis.gov API (paper-output only for now)

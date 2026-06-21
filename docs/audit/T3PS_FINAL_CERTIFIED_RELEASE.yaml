@@ -1,0 +1,84 @@
+task_id: T3PS-08-CONTROLLED-BETA-STABILIZATION-AND-LAUNCH
+generated_at: "2026-05-15T23:40:00Z"
+
+final_status: GO_CONTROLLED_BETA_LOCKED
+paid_launch_ready: false
+
+production:
+  commit_sha: 94ac67ec8a3f881acae3b3fbe1238ccdc8626d28
+  deployment_id: sfo1::aqvrr-1778888056841-c1a50fbe7808
+  vercel_state: READY
+  health_ok: true
+  health_sha: 94ac67ec8a3f881acae3b3fbe1238ccdc8626d28
+  health_sha_match: true
+
+gates:
+  typecheck: PASS
+  vitest: PASS
+  lint: PASS
+  guard: PASS
+  build: PASS
+  evidence: /Users/sergiiivanenko/work/uscis-helper/test-fixtures/proof/RUN_ALL_GATES.report.yaml
+
+browser_smoke:
+  status: PASS
+  viewport: 390x844
+  selectors_present:
+    tps-passport-number-input: true
+    tps-passport-expiration-input: true
+  evidence:
+    - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-final-release/browser-run-clean/browser_summary.json
+    - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-final-release/browser-run-clean/screenshots-redacted/07_step6_screen.png
+    - /Users/sergiiivanenko/work/uscis-helper/apps/web/src/lib/tps/__tests__/controlledBetaLock.test.ts
+
+http_smoke:
+  status: PASS
+  evidence_dir: /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-final-release/t3ps08-smoke
+  notes:
+    - Browser-style user-agent used for status verification.
+
+pdf_proof:
+  status: PASS
+  critical_fields_present:
+    family_name: true
+    given_name: true
+    dob: true
+    passport_number: true
+    passport_expiration_date: true
+    marital_status: true
+    part7: true
+  cyrillic_leak: NONE
+
+monitoring_status:
+  policy: counts_only_no_pii
+  health_monitoring_documented: true
+  ocr_5xx_alert_documented: true
+  generate_5xx_alert_documented: true
+  daily_summary_documented: true
+  alert_transport: BLOCKED
+  missing_env_keys:
+    - TELEGRAM_OWNER_WEBHOOK_URL
+    - TELEGRAM_BOT_TOKEN
+    - TELEGRAM_CHAT_ID
+    - TELEGRAM_ALERT_CHAT_ID
+
+operating_pack:
+  plan_path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_CONTROLLED_BETA_OPERATING_PLAN.md
+  checklist_path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_CONTROLLED_BETA_CHECKLIST.yaml
+  risk_register_path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_POST_GO_RISK_REGISTER.yaml
+
+open_p1_risks:
+  - id: T3PS-P1-001
+    description: Vercel insights script 404 noise in browser console.
+  - id: T3PS-P1-002
+    description: I-912 PDF generation is not included.
+  - id: T3PS-P1-003
+    description: Paid launch readiness remains false.
+  - id: T3PS-P1-004
+    description: Controlled beta sample size is still limited.
+  - id: T3PS-P1-005
+    description: External legal review is not completed.
+  - id: T3PS-P1-006
+    description: Telemetry depth is minimal.
+
+next_action: Start 3-5 user controlled beta with manual fallback monitoring enabled.

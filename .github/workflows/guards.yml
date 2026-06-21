@@ -1,0 +1,242 @@
+name: Content & Brand Guards
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  guards:
+    name: Forbidden patterns + typecheck + build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: Cache pnpm store
+        uses: actions/cache@v5
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # ───────────────────────────────────────────────────────────────
+      # Forbidden-string guards (per CLAUDE.md and execution doc)
+      # Each step exits non-zero if its pattern is found in source.
+      # faqAnswers.ts is excluded from the risk-language guard — that
+      # file holds narrative FAQ text where "риск" appears in normal
+      # prose, not as a UI label. Cleanup is tracked separately.
+      # ───────────────────────────────────────────────────────────────
+
+      - name: Guard — hardcoded USCIS dollar amounts
+        run: |
+          set +e
+          HITS=$(grep -REn '\$580|\$630|\$1[,]?0[02]0' apps/web/src apps/web/messages 2>/dev/null | grep -v node_modules)
+          if [ -n "$HITS" ]; then
+            echo "::error::Hardcoded USCIS amount found. Use https://www.uscis.gov/feecalculator link instead."
+            echo "$HITS"
+            exit 1
+          fi
+          echo "OK — no hardcoded USCIS amounts."
+
+      - name: Guard — risk language in UI
+        run: |
+          set +e
+          HITS=$(grep -REn "high risk|low risk|medium risk|riskLevel|bg-risk-|risk-high|risk-low|RiskBadge" \
+            apps/web/src apps/web/messages 2>/dev/null \
+            | grep -v node_modules \
+            | grep -v faqAnswers.ts)
+          if [ -n "$HITS" ]; then
+            echo "::error::Risk language in UI. Move narrative to faqAnswers.ts or rephrase."
+            echo "$HITS"
+            exit 1
+          fi
+          echo "OK — no risk language in UI."
+
+      - name: Guard — forbidden legal liability strings
+        run: |
+          set +e
+          HITS=$(grep -REn "AI lawyer|we determine eligibility|we guarantee approval|we file for you" \
+            apps/web/src apps/web/messages 2>/dev/null | grep -v node_modules)
+          if [ -n "$HITS" ]; then
+            echo "::error::Forbidden legal liability string."
+            echo "$HITS"
+            exit 1
+          fi
+          echo "OK — no forbidden legal liability strings."
+
+      - name: Guard — stale I-131 edition or wrong item for Ukraine re-parole
+        run: |
+          set +e
+          # VERIFIED FACTS (live uscis.gov/i-131, verified 2026-05-04, USCIS page last reviewed 03/30/2026):
+          # - I-131 current accepted edition: 01/20/25  ← CORRECT, required in source
+          # - "02/27/26" was the Feb 27 2024 U4U program announcement date — NOT a form edition
+          # - Paper filing Ukrainian re-parole: Part 2, Item 1.e (select even if inside US)
+          # - Online filing Ukrainian re-parole (my.uscis.gov): Box 10.C
+          # - Item 10.G = Ms. L. Settlement Class Members / FRTF — NOT standard Ukrainian re-parole
+          #
+          # Block 02/27/26 appearing as the I-131 form edition in user-visible strings.
+          # Allow 02/27/26 only in comments/documentation explaining it is WRONG.
+          HITS_WRONG=$(grep -REn "I-131.*02/27/26|02/27/26.*I-131|edition.*02/27/26|02/27/26.*edition" \
+            apps/web/src apps/web/messages 2>/dev/null \
+            | grep -v node_modules \
+            | grep -Ev "WRONG|NOT a form|program announcement|NOT the form|DO NOT|Do NOT|#|//")
+          # Block 10.G being incorrectly associated with standard Ukrainian re-parole
+          HITS_ITEM=$(grep -REn "10\.G.*[Uu]kraine.*re-parole|[Uu]kraine.*re-parole.*10\.G" \
+            apps/web/src apps/web/messages 2>/dev/null | grep -v node_modules)
+          FAIL=0
+          if [ -n "$HITS_WRONG" ]; then
+            echo "::error::Wrong I-131 edition 02/27/26 used as current. Correct edition is 01/20/25 (verified uscis.gov/i-131, 2026-05-04)."
+            echo "$HITS_WRONG"
+            FAIL=1
+          fi
+          if [ -n "$HITS_ITEM" ]; then
+            echo "::error::Item 10.G incorrectly associated with standard Ukrainian re-parole. 10.G = Ms. L. Settlement only."
+            echo "$HITS_ITEM"
+            FAIL=1
+          fi
+          [ $FAIL -eq 0 ] && echo "OK — I-131 edition 01/20/25 correct, no wrong edition 02/27/26 in user-visible strings."
+          exit $FAIL
+
+      # (The old hardcoded master-email guard was removed — it stored the owner's
+      # real email literal in this tracked file. The owner email is now one of the
+      # patterns in the OWNER_PII_PATTERNS_B64 secret, checked by the step below.)
+
+      # PII gate self-test — proves the detection logic actually fires, using a
+      # SYNTHETIC marker (never real PII). Positive: a line with the marker must
+      # match; negative: clean text must not.
+      - name: PII gate self-test (synthetic)
+        run: |
+          set -eu
+          MARK="ZZSELFTESTPIIMARKERZZ"
+          PF="$(mktemp)"; chmod 600 "$PF"; trap 'rm -f "$PF"' EXIT
+          printf '%s\n' "$MARK" > "$PF"
+          printf 'hello %s world\n' "$MARK" | grep -qIE -f "$PF" \
+            || { echo "::error::self-test FAILED — gate would not detect PII"; exit 1; }
+          if printf 'clean text\n' | grep -qIE -f "$PF"; then
+            echo "::error::self-test FAILED — false positive on clean text"; exit 1
+          fi
+          echo "PII gate self-test: positive+negative OK."
+
+      # Block the OWNER's REAL PII from ever re-entering tracked files. The EXACT
+      # tokens are NEVER stored in the repo — they come from the GitHub secret
+      # OWNER_PII_PATTERNS_B64 (base64 of a newline-separated grep -E pattern list).
+      # FAIL-CLOSED: on CI (push/PR to main) a missing/empty secret is a HARD FAIL,
+      # not a skip — a security gate must not silently disable itself. A local run
+      # may opt out with ALLOW_MISSING_PII_SECRET=1. Decoded patterns go to a 0600
+      # temp file removed via trap; logs print ONLY file:line, never the value.
+      - name: Block real owner PII
+        env:
+          OWNER_PII_PATTERNS_B64: ${{ secrets.OWNER_PII_PATTERNS_B64 }}
+        run: |
+          set -eu
+          if [ -z "${OWNER_PII_PATTERNS_B64:-}" ]; then
+            if [ "${ALLOW_MISSING_PII_SECRET:-}" = "1" ]; then
+              echo "PII gate skipped (ALLOW_MISSING_PII_SECRET=1 — local only)."
+              exit 0
+            fi
+            echo "::error::OWNER_PII_PATTERNS_B64 is not configured"
+            exit 1
+          fi
+          PAT_FILE="$(mktemp)"; chmod 600 "$PAT_FILE"
+          trap 'rm -f "$PAT_FILE"' EXIT
+          printf '%s' "$OWNER_PII_PATTERNS_B64" | base64 -d > "$PAT_FILE" 2>/dev/null \
+            || { echo "::error::failed to decode OWNER_PII_PATTERNS_B64"; exit 1; }
+          HITS=$(git grep -nIE -f "$PAT_FILE" -- ':!*.lock' ':!pnpm-lock.yaml' 2>/dev/null | awk -F: '{print $1":"$2}')
+          if [ -n "$HITS" ]; then
+            echo "::error::Owner PII detected (values redacted) — replace with fake placeholders:"
+            echo "$HITS"
+            exit 1
+          fi
+          echo "OK — no owner PII in tracked files."
+
+      - name: Guard — DeepSeek model names in client UI
+        run: |
+          set +e
+          # DeepSeek allowed in server-side code (app/api/, lib/, packages/).
+          # Block only in client-visible locations: messages, [locale] pages, components.
+          HITS=$(grep -REn "DeepSeek|deepseek-(chat|reasoner|ocr|v4)" \
+            apps/web/messages \
+            apps/web/src/components \
+            "apps/web/src/app/[locale]" \
+            2>/dev/null \
+            | grep -v node_modules)
+          if [ -n "$HITS" ]; then
+            echo "::error::DeepSeek model name in client-visible code. Use 'assistant' in UI."
+            echo "$HITS"
+            exit 1
+          fi
+          echo "OK — no DeepSeek leak in client UI."
+
+      # ───────────────────────────────────────────────────────────────
+      # Content & brand guard script (self-certification language)
+      # ───────────────────────────────────────────────────────────────
+
+      - name: Guard — content & certification language
+        run: pnpm --filter web guard:content
+
+      # ───────────────────────────────────────────────────────────────
+      # Type and build verification
+      # ───────────────────────────────────────────────────────────────
+
+      - name: TypeScript check
+        run: pnpm --filter web typecheck
+
+      # ───────────────────────────────────────────────────────────────
+      # Booklet allowed-fields drift gate
+      #
+      # Session 17 (2026-05-25) shipped a server contract change that
+      # added family_name to documentContracts.booklet.allowed_fields,
+      # but did not update the three corresponding client filters
+      # (BOOKLET_WAVE1_FIELDS, SLOT_ALLOWED_FIELDS.booklet, and the
+      # ExtractionSource/SourceType unions). The server returned the
+      # field; the client silently dropped it; "10/10 production
+      # verified" measured the API, not the user.
+      #
+      # This step parses the three set literals out of source at CI
+      # time and fails the build on drift. The proper long-term fix is
+      # to refactor the client filters to import from
+      # documentContracts.ts directly, after which this gate collapses
+      # to a typecheck. Until then, this is the gate.
+      # ───────────────────────────────────────────────────────────────
+      - name: Guard — booklet contract drift (server vs client filters)
+        run: node scripts/check-booklet-contract-drift.mjs
+
+      - name: Production build
+        run: pnpm --filter web build
+
+      # ───────────────────────────────────────────────────────────────
+      # Test suite — includes PDF readback via pdftotext (poppler)
+      # ───────────────────────────────────────────────────────────────
+
+      - name: Install poppler-utils for PDF readback tests
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils
+          echo "pdftotext version:"
+          pdftotext -v 2>&1 | head -1
+
+      - name: Run tests
+        run: pnpm --filter web test
+
+      - name: Run knowledge-package tests (dictionary/transliteration/normalize)
+        run: pnpm --filter @uscis-helper/knowledge test

@@ -1,0 +1,58 @@
+report: T3PS_110_FUNCTIONAL_REVERIFY
+generated_at: "2026-05-16T09:35:00Z"
+sha: "11c7f978bef35de6eef4380b316bdd3af5fbf115"
+repo_gates:
+  typecheck: PASS
+  vitest: PASS
+  lint: PASS
+  guard: PASS
+  build: PASS
+production_health:
+  ok: true
+  sha_matches_origin: true
+  health_json_path: /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/health.json
+production_smoke:
+  ru_start: PASS
+  en_start: PASS
+  ru_landing: PASS
+  ru_sources: PASS
+  ru_privacy: PASS
+  headers:
+    - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/smoke_ru_start.headers.txt
+    - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/smoke_en_start.headers.txt
+    - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/smoke_ru_landing.headers.txt
+    - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/smoke_ru_sources.headers.txt
+    - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/smoke_ru_privacy.headers.txt
+browser:
+  scenario_A_i821_only:
+    status: PASS
+    ocr_status: 200
+    generate_status: 200
+    zip_downloaded: true
+    summary_path: /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/browser_summary_A.json
+  scenario_B_i821_i765:
+    status: PASS
+    ocr_status: 200
+    generate_status: 200
+    zip_downloaded: true
+    summary_path: /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/browser_summary_B.json
+  known_nonblocking_console_noise:
+    - _vercel_insights_404
+    - csp_blocked_cloudflare_beacon
+ocr_matrix:
+  source: /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/ocr_matrix_reverify.json
+  international_passport: PASS
+  ukrainian_internal_passport: PASS
+  i94: PASS
+  ead: PASS
+  uscis_notice: NOT_REQUIRED
+pdf:
+  source: /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/pdf_reverify_summary.json
+  i821_critical_fields: PASS
+  i765_critical_fields_when_ead: PASS
+  part7_presence: PASS
+  marital_status_presence: PASS
+  passport_number_presence: PASS
+  passport_expiration_presence: PASS
+  cyrillic_leak: NONE
+overall: PASS

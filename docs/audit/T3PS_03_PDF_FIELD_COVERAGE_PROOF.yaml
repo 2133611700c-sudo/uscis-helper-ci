@@ -1,0 +1,34 @@
+task_id: T3PS-03-PDF-FIELD-COVERAGE-AND-USCIS-FORM-PROOF
+commit_sha: "00be4b64fbceb7938f7b48a40149466ae185b4a4"
+verdict: PASS
+
+generated_zip_path: "test-fixtures/proof/tps-packet-with-ead.zip"
+generated_pdf_paths:
+  - "/tmp/t3ps-audit/I-821.pdf"
+  - "/tmp/t3ps-audit/I-765.pdf"
+blank_pdf_paths:
+  - "apps/web/public/uscis/tps/i-821.pdf"
+  - "apps/web/public/uscis/tps/i-765.pdf"
+
+counts:
+  i821_total: 511
+  i821_filled: 29
+  i821_blank: 482
+  i765_total: 180
+  i765_filled: 23
+  i765_blank: 157
+  i821_mapped_refs: 51
+  i765_mapped_refs: 40
+  i821_invalid_map_refs: 0
+  i765_invalid_map_refs: 0
+
+evidence:
+  dumps_dir: "docs/audit/generated"
+  render_dir: "docs/reports/evidence/t3ps-pdf-proof/rendered"
+  summary_txt: "docs/reports/evidence/t3ps-pdf-proof/summary.txt"
+  part7_yes_zip: "docs/reports/evidence/t3ps-pdf-proof/part7-yes/part7-yes-1778832785601.zip"
+  part7_yes_matrix: "docs/audit/generated/part7_yes_cases_assertions.json"
+  semantic_assertions: "docs/audit/generated/pdf_semantic_assertions.yaml"
+
+notes:
+  - "Unmapped advanced USCIS fields remain documented in gap register as non-blocking for current TPS draft scope."

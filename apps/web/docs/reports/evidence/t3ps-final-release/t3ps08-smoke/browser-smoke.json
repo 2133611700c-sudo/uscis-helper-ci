@@ -1,0 +1,10 @@
+{
+  "ok": true,
+  "selectors": {
+    "hasPassport": true,
+    "hasPassportExp": true,
+    "hasChecker": true,
+    "hasAttestation": true
+  },
+  "url": "https://messenginfo.com/ru/services/tps-ukraine/start?continue=1"
+}

@@ -1,0 +1,136 @@
+release_after_r1a: GO_TPS_R1A_LOCKED + GO_TPS_R1B_LOCKED
+sha: 1447188
+captured_at: 2026-05-20T03:55:00Z
+
+# Items that did NOT block R1A/R1B sign-off but should be picked up
+# in R2 (the next milestone, per the MESSENGINFO_DOCUMENT_INTELLIGENCE
+# roadmap). Each entry has an honest priority and a clear definition
+# of done — no vague "improve OCR" lines.
+
+p1_followups_for_r2:
+  - id: inline_editor_modal
+    priority: P1
+    severity: UX_polish_only
+    user_impact: low
+    description: |
+      window.prompt() works (R1A commit 11a4281). Replace with an
+      in-page modal that shows live validator feedback:
+        - date format hint as user types
+        - country normalization preview ('Ukraina' → 'Ukraine')
+        - A-number digit counter (7-9)
+        - passport_number length + Cyrillic detector
+      Modal stays accessible (focus trap, ESC, screen reader).
+    done_when:
+      - native <dialog> or controlled overlay renders in-place
+      - validation hint updates on each keystroke
+      - Save updates merged state; Cancel leaves untouched
+      - keyboard + touch parity
+      - browser screenshot proving live feedback
+
+  - id: identity_conflict_browser_proof
+    priority: P1
+    severity: evidence_gap
+    user_impact: low
+    description: |
+      R1B-4 commit (4ca08aa) ships the passport-authoritative merge
+      logic and the conflict banner UI. Synthetic browser proof
+      with a passport+EAD-with-name-mismatch fixture not done — I
+      deliberately did not fake one to avoid claiming PASS on
+      contrived data.
+    done_when:
+      - generate two synthetic-but-realistic fixtures with
+        intentionally different family_name on passport vs EAD
+      - upload both via Playwright, reach Step 5
+      - assert banner visible with the right field key listed
+      - assert merged value = passport value
+      - screenshot in qa-shots/
+
+  - id: ocr_learning_loop
+    priority: P1 → R2 by spec
+    severity: future_capability
+    user_impact: high_over_time
+    description: |
+      Taras's T3PS_CONTROLLED_OCR_LEARNING_LOOP spec calls for
+      shape-only correction telemetry into audit_log, a classifier
+      (OCR_ERROR / NORMALIZATION_ERROR / VALIDATOR_ERROR /
+      USER_PREFERENCE / UNKNOWN), and regression-fixture generation.
+      R1A/R1B explicitly excluded this to keep blast radius small
+      while the OCR/state safety holes were closed.
+    done_when:
+      - new audit_log shape captures shape-only field-correction
+        deltas (no PII)
+      - background sweep classifies UNKNOWN entries weekly
+      - top-N classified patterns become regression fixtures in
+        apps/web/src/lib/tps/ai/__tests__/ocrLearningRegression
+      - first 50 real corrections drive a measurable accuracy bump
+        on a held-out matrix
+
+p2_followups:
+  - id: azure_id_document_shadow_benchmark
+    priority: P2 / R2 scope
+    description: |
+      Azure prebuilt-idDocument supports structured passport
+      extraction (name / DOB / document number / expiry /
+      nationality / sex / MRZ). Run in SHADOW mode — Google Vision
+      + DeepSeek stays the default; Azure result is recorded for
+      benchmark only, no production routing. Compare per-field
+      accuracy on a real-document matrix.
+    done_when:
+      - apps/web/src/lib/ocr/providers/azure-id-document.ts
+        gated by AZURE_ID_DOC_ENABLED env, defaults OFF
+      - shadow runner records both providers per upload, writes
+        shape-only diff into audit_log
+      - 4-week shadow report with per-field accuracy table
+
+  - id: aws_textract_analyzeid_benchmark
+    priority: P3 / R2 scope
+    description: same shadow pattern as Azure; lower priority because
+      AWS AnalyzeID is more expensive per call.
+
+  - id: mindee_benchmark
+    priority: P3 / R2 scope
+    description: same shadow pattern; cheapest of the three but less
+      coverage on Cyrillic biographic zones.
+
+  - id: passport_alt_formats
+    priority: P2
+    description: |
+      Today the pipeline is locked to TD3 (international passport)
+      and approximate Ukrainian internal passport handling. The
+      Ukrainian ID card (TD1) parser exists in
+      lib/translation/identity/mrzParser but is not yet plumbed
+      into the TPS slot contracts.
+    done_when:
+      - TPS passport slot accepts both TD3 and TD1
+      - ID-card TD1 parsing wired into the rule module
+      - new contract entry for ukrainian_id_card if needed
+
+  - id: i94_realdocument_matrix
+    priority: P2
+    description: |
+      I-94 contract exists. Real-document matrix used a synthetic
+      I-94 only. Need to pull a handful of real (redacted) I-94
+      screenshots and confirm extraction holds across CBP layout
+      variations.
+
+  - id: ead_realdocument_matrix
+    priority: P2
+    description: same as I-94 but for the USCIS EAD card.
+
+  - id: telegram_payment_part7_redesign
+    priority: out_of_scope
+    note: |
+      Explicitly excluded by both R1A spec and Taras's
+      hard_rules — out of R2 scope as well.
+
+dev_env_notes:
+  - id: packetbuilder_test_timeout_in_local_dev
+    severity: dev_only
+    description: |
+      `vitest run` with default 5s timeout flags 5 packetBuilder
+      tests as failed because pdf-lib loading + AcroForm
+      transforms exceed 5s on a typical dev laptop. Running with
+      --testTimeout=30000 produces 7/7 PASS. CI should set
+      VITEST_TEST_TIMEOUT=30000 or move pdf-lib tests behind a
+      slower-suite filter. Not blocking R1A — production code is
+      unaffected.

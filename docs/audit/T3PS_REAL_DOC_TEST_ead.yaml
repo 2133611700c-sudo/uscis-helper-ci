@@ -1,0 +1,79 @@
+test: T3PS_REAL_DOC_TEST_ead
+date: 2026-05-20
+sha_pre_fix: dfa5bc0
+sha_post_fix: c4c8cea
+file_under_test: qa-shots/private/Ead1.jpg
+file_shape: { width_px: 1264, height_px: 1985, mime: image/jpeg, bytes: 1454587 }
+hint_used: ead
+
+pre_fix_run:
+  http_status: 200
+  vision_text_length: 319
+  detected_document_type: ead
+  slot: ead
+  slot_mismatch: false
+  brain_status: ran
+  module_matched: true
+  module_field_count: 7
+  final_field_count: 7
+  rejected_field_count: 1
+  final_field_keys:
+    - a_number
+    - dob
+    - ead_category_on_card
+    - ead_expiration_date
+    - family_name
+    - given_name
+    - sex
+  rejected_fields:
+    - { field: country_of_birth, reason: FIELD_NOT_ALLOWED_FOR_DOCUMENT_SLOT }
+  field_shape_check:
+    family_name:          { shape: "11 chars Latin",       source: ocr_keyword,  matches_truth: true }
+    given_name:           { shape: "6 chars Latin",        source: ocr_keyword,  matches_truth: true }
+    dob:                  { shape: "MM/DD/YYYY",            source: ai_brain,     matches_truth: true }
+    sex:                  { shape: "single char M/F/X",     source: ai_brain,     matches_truth: true }
+    a_number:             { shape: "9 digits with dashes (NNN-NNN-NNN)", source: ai_brain, matches_truth: true }
+    ead_category_on_card: { shape: "letter+2 digits",       source: ai_brain,     matches_truth: true }
+    ead_expiration_date:  { shape: "MM/DD/YYYY",            source: ai_brain,     matches_truth: true }
+  status: PARTIAL
+  partial_reason: |
+    All 7 fields surfaced and shape-match what's printed on the card.
+    But country_of_birth (which IS printed on every EAD as a
+    bilingual line) was extracted by Brain and then silently rejected
+    by the slot firewall because it wasn't in ead allowed_fields.
+    Not blocking (passport is authoritative for country anyway) but
+    sloppy.
+  critical_fields_matched: 7 of 7   # EAD has no protocol-specified
+                                     # critical-field list — these are
+                                     # the ones the wizard expects
+
+fix_applied_in_commit: c4c8cea
+fix_summary:
+  - documentContracts.ts: added 'country_of_birth' to both ead and
+    ead_old allowed_fields lists. Comment explains it is read-only
+    and identity guard makes passport authoritative on any conflict.
+
+post_fix_run:
+  sha_tested: abbc3ff
+  http_status: 200
+  vision_text_length: 319
+  brain_status: ran
+  brain_added_count: 8
+  module_field_count: 8
+  final_field_count: 8
+  rejected_field_count: 0
+  final_field_keys:
+    - a_number
+    - country_of_birth
+    - dob
+    - ead_category_on_card
+    - ead_expiration_date
+    - family_name
+    - given_name
+    - sex
+  status: PASS
+
+notes:
+  - country_of_birth now surfaces (was 1 rejected). All 7
+    previously-extracted fields still present, no regression.
+  - All committed values here are SHAPES only — no PII leaks.

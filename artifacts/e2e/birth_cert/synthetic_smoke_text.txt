@@ -1,0 +1,72 @@
+MESSENGINFO
+Document Translation Record
+
+
+Translation Scope:                   English Translation of Ukrainian Birth Certificate
+Language Pair:                       Ukrainian -> English
+Translation Date:                    May 9, 2026
+Session Reference:                   658e664f-7448-47
+
+
+
+
+ENGLISH TRANSLATION
+Document Type:                                     BIRTH CERTIFICATE
+
+Certificate Series:                                I-XX
+
+Certificate Number:                                111111
+
+Act Record Number:                                 222
+
+Act Record Date:                                   01/15/2010
+
+Child Surname:                                     TEST_FAKEFAMILY
+
+Child Given Name:                                  TESTONE
+
+Child Patronymic:                                  SAMPLEVYCH
+
+Date Of Birth:                                     03/01/2010
+
+Place Of Birth:                                    Kyiv, Ukraine
+
+Father Full Name:                                  TEST_FATHER SAMPLEOVYCH FAKEFAMILY
+
+Mother Full Name:                                  TEST_MOTHER SAMPLEIVNA FAKEFAMILY
+
+Issuing Authority:                                 Kyiv Civil Registry Office
+
+Date Of Issue:                                     01/20/2010
+
+
+
+
+Messenginfo is not a law firm. This is an AI-assisted translation draft reviewed and signed by a named human translator. The translator accepts
+
+full responsibility for accuracy under 8 CFR §103.2(b)(3). Verify current USCIS requirements at uscis.gov before filing.
+TRANSLATOR CERTIFICATION
+Self-Certification pursuant to 8 CFR §103.2(b)(3)
+
+
+
+I, Test Translator, residing at 123 Sample St, Anytown, USA, certify that I am competent to translate from
+Ukrainian to English, and that the attached translation is accurate and complete to the best of my
+knowledge and belief. This certification is made pursuant to 8 CFR §103.2(b)(3). I accept full
+responsibility for the accuracy of this translation.
+
+
+
+
+Translator Name:                        Test Translator
+
+Date:                                   May 9, 2026
+
+Address:                                123 Sample St, Anytown, USA
+
+
+
+
+Signature (typed): Test Translator
+Certification Version: v1.0-8cfr-2026
+

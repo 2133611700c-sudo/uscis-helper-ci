@@ -1,0 +1,68 @@
+name: OCR Availability Probe
+
+# P1 (2026-06-14). The paid OCR availability check that USED to run on every
+# production deploy (burning Vision quota + failing on transient rate-limits)
+# now runs HERE, on a schedule, rate-limited to ONE minimal request per run.
+#
+# Goal: detect a SUSTAINED OCR outage (provider hard-down / billing disabled /
+# credentials broken), NOT a momentary rate-limit. Because vision-extract now
+# degrades HONESTLY (typed error + non-2xx), this probe treats a typed transient
+# error (429 OCR_RATE_LIMITED / 503 OCR_PROVIDER_UNAVAILABLE) as EXPECTED and
+# does NOT page — only a successful read OR a TERMINAL typed error
+# (OCR_BILLING_DISABLED / OCR_QUOTA_EXHAUSTED) OR a non-typed 5xx/404/timeout is
+# actionable. No PII (committed synthetic passport). No auto re-run loop —
+# one request, one verdict.
+on:
+  schedule:
+    - cron: '17 * * * *'   # hourly, offset :17 to avoid top-of-hour cron pileup
+  workflow_dispatch:
+
+concurrency:
+  group: ocr-availability-probe
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - name: One minimal vision-extract probe (synthetic, no PII)
+        run: |
+          # EXACTLY ONE paid request per run. The committed synthetic passport
+          # carries zero real PII.
+          code=$(curl -s -o /tmp/p.json -w "%{http_code}" --max-time 150 -X POST \
+            https://messenginfo.com/api/translation/vision-extract \
+            -F "file=@test-fixtures/synthetic-passport.jpg;type=image/jpeg")
+          echo "vision-extract probe HTTP=$code"
+          head -c 300 /tmp/p.json; echo
+          python3 - "$code" <<'PY'
+          import json, sys
+          code = sys.argv[1]
+          try:
+              d = json.load(open('/tmp/p.json'))
+          except Exception:
+              d = {}
+          error_code = d.get('error_code')
+
+          # 1) Successful read → provider healthy.
+          if code == '200' and d.get('ok'):
+              fields = d.get('fields') or []
+              vals = sum(1 for f in fields if (f.get('value') or '').strip())
+              print(f"OCR healthy: fields={len(fields)} values_set={vals}")
+              sys.exit(0)
+
+          # 2) Honest TRANSIENT degradation → expected, do NOT page.
+          if error_code in ('OCR_RATE_LIMITED', 'OCR_PROVIDER_UNAVAILABLE'):
+              print(f"OCR transient ({error_code}) — honest degradation, not paging.")
+              sys.exit(0)
+
+          # 3) Honest TERMINAL degradation → actionable (account/config problem).
+          if error_code in ('OCR_BILLING_DISABLED', 'OCR_QUOTA_EXHAUSTED', 'OCR_BUDGET_EXCEEDED'):
+              print(f"::error::OCR TERMINAL condition: {error_code} — provider account/quota/budget needs attention.")
+              sys.exit(1)
+
+          # 4) Anything else (untyped 5xx/404/timeout, malformed) → actionable outage.
+          print(f"::error::OCR probe FAILED (HTTP {code}, error_code={error_code}) — possible sustained outage. Investigate provider + deployed artifact.")
+          sys.exit(1)
+          PY

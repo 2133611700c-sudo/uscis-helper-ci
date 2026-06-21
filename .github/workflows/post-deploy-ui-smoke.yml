@@ -1,0 +1,33 @@
+name: Post-Deploy UI Smoke
+
+# Wizard-level E2E against the live deployment with SYNTHETIC fixtures (no PII).
+# Catches wizard-CONFIG bugs the API smoke cannot (autoread flag, label whitelist —
+# the 2026-06-11 class). Runs after every successful production deployment.
+on:
+  deployment_status:
+  workflow_dispatch:
+
+jobs:
+  ui-smoke:
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.deployment_status.state == 'success' &&
+       (github.event.deployment.environment == 'Production' ||
+        github.event.deployment.environment == 'production'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          run_install: false
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - run: npx playwright install --with-deps chromium
+      - name: Wizard E2E smoke (synthetic fixtures, live prod)
+        run: npx playwright test tests/e2e-ui/wizard-smoke.spec.ts

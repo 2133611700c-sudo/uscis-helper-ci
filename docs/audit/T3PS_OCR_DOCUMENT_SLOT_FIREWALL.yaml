@@ -1,0 +1,150 @@
+status: GO_SLOT_FIREWALL_READY
+production_sha: b7cfabf
+verified_at: 2026-05-20T01:06:10Z
+
+before:
+  symptom: |
+    Real passport upload showed A-Number "000-000-000" on Step 5.
+    Passports cannot legitimately contain A-numbers — that data only
+    exists on EAD / I-797 / manual entry. The value came either from a
+    Brain hallucination or from a previous EAD upload in the same
+    session merging silently into the passport row. Either way, nothing
+    in the pipeline blocked the field from reaching review.
+  risk: |
+    USCIS packet would look polished but carry fabricated data — worse
+    than empty fields because the 60–80yo target user can't tell the
+    difference between AI-confident wrong data and a real OCR result.
+
+architecture_change:
+  layer: apps/web/src/lib/tps/ocr/documentContracts.ts (new)
+  applied_at: /api/tps/ocr/extract (server-side, BEFORE response build)
+  pattern: |
+    Single registry of per-slot contracts. Each slot declares:
+      allowed_document_types: which Brain document_type values match
+      allowed_fields: positive list of permissible field keys
+      forbidden_fields: explicit deny list (auditable per slot)
+    applyContract(slotId, fieldKeys, brainDocType) returns
+    accepted_field_keys, rejected_fields[{field, reason}], slot_mismatch.
+    The route filters mergedModule.fields through accepted_field_keys
+    BEFORE serializing the response — the wizard literally cannot see
+    rejected fields.
+
+slot_contracts:
+  passport:
+    allowed_document_types: [passport]
+    allowed_fields: [family_name, given_name, middle_name, dob, sex,
+      country_of_birth, country_of_nationality, passport_number,
+      passport_country_of_issuance, passport_expiration_date]
+    forbidden_fields: [a_number, i94_admission_number,
+      i94_class_of_admission, last_entry_date, status_at_last_entry,
+      ead_category_on_card, ead_expiration_date, address, us_address_*]
+  i94:
+    allowed_document_types: [i94]
+    allowed_fields: [i94_admission_number, last_entry_date,
+      i94_class_of_admission, status_at_last_entry, passport_number,
+      passport_country_of_issuance, family_name, given_name, dob]
+    forbidden_fields: [a_number, ead_category_on_card,
+      ead_expiration_date, passport_expiration_date]
+  ead:
+    allowed_document_types: [ead]
+    allowed_fields: [a_number, ead_category_on_card,
+      ead_expiration_date, family_name, given_name, dob, sex]
+    forbidden_fields: [passport_expiration_date, i94_admission_number,
+      i94_class_of_admission, last_entry_date]
+  ead_old:
+    same_as: ead
+  tps_notice:
+    allowed_document_types: [i797]
+    allowed_fields: [a_number, family_name, given_name, dob, address,
+      us_address_*]
+    forbidden_fields: [i94_*, ead_*, passport_expiration_date]
+  photo:
+    allowed_document_types: []
+    allowed_fields: []
+    note: no OCR fields expected; rejects every identity field defensively
+
+production_e2e_tests:
+  test_a_correct_slot:
+    upload: realistic UA passport → docHint=passport
+    slot: passport
+    slot_mismatch: false
+    final_field_keys: [country_of_nationality, family_name, given_name,
+      passport_country_of_issuance, passport_number]
+    rejected_field_count: 0
+    verdict: PASS — correct uploads flow through clean
+  test_b_passport_in_i94_slot:
+    upload: realistic UA passport → docHint=i94
+    slot: i94
+    slot_mismatch: true
+    detected_document_type: passport
+    final_field_keys: [dob, family_name, given_name,
+      passport_country_of_issuance, passport_number]
+    rejected_fields:
+      - { field: sex, reason: FIELD_NOT_ALLOWED_FOR_DOCUMENT_SLOT }
+      - { field: country_of_nationality, reason: FIELD_NOT_ALLOWED_FOR_DOCUMENT_SLOT }
+      - { field: passport_expiration_date, reason: FORBIDDEN_FIELD_FOR_DOCUMENT_SLOT }
+    verdict: PASS — passport-only fields dropped from an i94 slot; mismatch flagged
+  test_c_passport_in_ead_slot:
+    upload: realistic UA passport → docHint=ead
+    slot: ead
+    slot_mismatch: true
+    rejected_fields: [country_of_nationality, passport_number,
+      passport_country_of_issuance, passport_expiration_date]
+    verdict: PASS — passport identity fields cannot bleed into EAD slot;
+      a_number (the hallucination case) would also be rejected here
+      because it's not even in EAD's allowed list when source is passport
+
+a_number_from_passport_test: PASS
+identity_conflict_guard: NOT_YET_IMPLEMENTED  (passport-authoritative
+  override logic deferred to next iteration — current pipeline already
+  takes first-wins which makes passport win when uploaded first; explicit
+  conflict detection + UI badge is the follow-up)
+unit_tests:
+  documentContracts.test.ts: 20/20 pass
+  documentBrain.test.ts:    38/38 pass
+  total:                    58/58
+
+what_the_wizard_sees:
+  - For a correctly-placed upload: the merged extraction object only
+    contains slot-legal fields. UI rendering is unchanged.
+  - For a misplaced upload: rejected_fields populated + slot_mismatch=true.
+    The wizard's UI banner that surfaces this state is the next deliverable
+    (see remaining_gaps below). The API layer already prevents bad data
+    from reaching review, but the visual warning makes the cause obvious
+    to the user.
+
+remaining_gaps:
+  - id: wizard_slot_mismatch_banner
+    priority: P1
+    description: |
+      Show a red/amber banner on Step 5 when any upload returned
+      slot_mismatch=true: "Похоже, в слот 'I-94' вы загрузили паспорт.
+      Загрузите I-94 или подтвердите, что хотите оставить только
+      доступные поля." Today the banner is not yet wired; rejected
+      fields simply don't appear (safe but silent).
+  - id: identity_conflict_guard
+    priority: P1
+    description: |
+      When passport and EAD both populate family_name with different
+      values, mark conflict and require user review. Right now first-wins
+      merge keeps the earlier upload's value silently.
+  - id: a_number_format_strict
+    priority: P2
+    description: |
+      a_number validator accepts 7-9 digits but does not enforce that
+      the value matches the USCIS '#########' shape. Add stricter
+      shape check (no letters in normalized value).
+  - id: real_user_documents_matrix
+    priority: P0 (carry-over)
+    description: |
+      Taras to re-upload the exact same passport. Expected: A-Number
+      row is GONE (firewall blocks it at API). dob/sex/expiration are
+      visible (parser fixes still in place). If anything else looks
+      off, the new diagnostics (slot, slot_mismatch, rejected_fields,
+      detected_document_type) pinpoint the cause without log diving.
+
+commits:
+  - sha: 0abba53
+    message: feat(tps-ocr) document-slot firewall — block hallucinated fields
+  - sha: b7cfabf
+    message: fix(tps-ocr) accept both docHint and doc_type_hint form names

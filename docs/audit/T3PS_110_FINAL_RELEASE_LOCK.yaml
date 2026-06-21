@@ -1,0 +1,49 @@
+report: T3PS_110_FINAL_RELEASE_LOCK
+generated_at: "2026-05-16T09:35:00Z"
+production:
+  local_sha: "11c7f978bef35de6eef4380b316bdd3af5fbf115"
+  origin_main_sha: "11c7f978bef35de6eef4380b316bdd3af5fbf115"
+  health_sha: "11c7f978bef35de6eef4380b316bdd3af5fbf115"
+  sha_aligned: true
+  health_ok: true
+  deployment_ready: true
+gates:
+  typecheck: PASS
+  vitest: PASS
+  lint: PASS
+  guard: PASS
+  build: PASS
+functional_evidence:
+  ocr_matrix: PASS
+  browser_A_i821_only: PASS
+  browser_B_i821_i765: PASS
+  generate_packet_200: true
+  zip_downloaded: true
+  pdf_proof: PASS
+  cyrillic_leak: NONE
+original_prompt_reconciliation:
+  t3ps_01: PASS
+  t3ps_02: PASS
+  t3ps_03: PASS
+  t3ps_04: PARTIAL
+  t3ps_05: SUPERSEDED
+  historical_evidence_status: PARTIAL_WITH_SUPERSEDED_ITEMS
+residual_gaps:
+  open_p0_count: 0
+  open_p1_count: 2
+  open_p2_count: 0
+  accepted_risks:
+    - id: T3PS-110-GAP-001
+      reason: telegram_out_of_scope
+    - id: T3PS-110-GAP-003
+      reason: uscis_notice_not_required_stage1
+    - id: T3PS-110-GAP-004
+      reason: i912_out_of_scope_stage1
+final_verdict:
+  functional_product_status: GO
+  controlled_beta_status: GO_CONTROLLED_BETA_110_LOCKED
+  historical_prompt_status: PARTIAL_WITH_SUPERSEDED_ITEMS
+  paid_launch_ready: false
+  telegram_required: false
+next_action:
+  one_sentence: "Proceed with small controlled beta cohort under Stage I scope freeze and track P1 items separately."

@@ -1,0 +1,23 @@
+{
+  "criminal": {
+    "zip": "/Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-pdf-proof/part7-yes/part7-yes-1778884461758-criminal.zip",
+    "yes_field": "form1[0].Page07[0].Part7_Item4a_YN[0]",
+    "yes_value": "/Y",
+    "no_field": "form1[0].Page07[0].Part7_Item4a_YN[1]",
+    "no_value": "/Off"
+  },
+  "removal": {
+    "zip": "/Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-pdf-proof/part7-yes/part7-yes-1778884478693-removal.zip",
+    "yes_field": "form1[0].Page08[0].Part7_Item11d_YN[0]",
+    "yes_value": "/Y",
+    "no_field": "form1[0].Page08[0].Part7_Item11d_YN[1]",
+    "no_value": "/Off"
+  },
+  "prior_denial": {
+    "zip": "/Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-pdf-proof/part7-yes/part7-yes-1778884497095-prior_denial.zip",
+    "yes_field": "form1[0].Page08[0].Part7_Item12d_YN[0]",
+    "yes_value": "/Y",
+    "no_field": "form1[0].Page08[0].Part7_Item12d_YN[1]",
+    "no_value": "/Off"
+  }
+}

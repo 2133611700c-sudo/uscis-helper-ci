@@ -1,0 +1,19 @@
+{
+  "_note": "Hand-verified truth for ONE real document. Read it with your eyes and fill the CORRECT values. Latin = as printed in MRZ / official transliteration; Cyrillic = as printed. Dates as YYYY-MM-DD. Leave a field empty ('') if it is not present on the document. The benchmark scores each reader (old TPS / old Translation / MRZ / new Core) against this; metric = critical_wrong_count must be 0.",
+  "document_id": "SAMPLE-1",
+  "document_type": "international_passport_or_internal_booklet",
+  "family_name_latin": "",
+  "given_name_latin": "",
+  "family_name_cyrillic": "",
+  "given_name_cyrillic": "",
+  "patronymic_cyrillic": "",
+  "patronymic_latin": "",
+  "dob": "",
+  "sex": "",
+  "passport_number": "",
+  "expiry_date": "",
+  "citizenship": "Ukraine",
+  "place_of_birth_raw": "",
+  "place_of_birth_english": "",
+  "province": ""
+}

@@ -1,0 +1,21 @@
+report: T3PS_FINAL_GATES_RERUN
+generated_at: "2026-05-16T22:02:30Z"
+commands:
+  - command: pnpm --filter web run typecheck
+    status: PASS
+    exit_code: 0
+  - command: pnpm --filter web test
+    status: PASS
+    exit_code: 0
+    tests_passed: 1795
+    test_files_passed: 44
+  - command: pnpm --filter web run lint
+    status: PASS
+    exit_code: 0
+  - command: pnpm --filter web run guard
+    status: PASS
+    exit_code: 0
+  - command: pnpm --filter web run build
+    status: PASS
+    exit_code: 0
+overall: PASS

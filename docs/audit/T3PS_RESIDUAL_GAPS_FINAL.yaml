@@ -1,0 +1,47 @@
+report: T3PS_RESIDUAL_GAPS_FINAL
+generated_at: "2026-05-16T09:36:00Z"
+open_p0_count: 0
+accepted_risk_count: 3
+non_blocking_p1_count: 2
+paid_launch_blockers_count: 2
+stage_i_blocked: false
+gaps:
+  - id: T3PS-GAP-TELEGRAM-001
+    priority: P1
+    title: monitoring_transport_not_enabled
+    decision: accepted_operational_risk
+    accepted_for_controlled_beta: true
+    owner: ops
+    next_action: "Enable monitoring transport before public beta; not required for Stage I functional release lock."
+
+  - id: T3PS-GAP-USCIS-NOTICE-001
+    priority: P1
+    title: uscis_notice_ocr_not_in_stage_i_scope
+    decision: not_required_stage_i
+    accepted_for_controlled_beta: true
+    owner: product
+    next_action: "Add only if scope expands and a fixture-backed workflow is promised."
+
+  - id: T3PS-GAP-INSIGHTS-001
+    priority: P1
+    title: vercel_insights_404_and_csp_noise
+    decision: non_blocking
+    accepted_for_controlled_beta: true
+    owner: web_ops
+    next_action: "Triage in post-beta hardening if it starts affecting execution."
+
+  - id: T3PS-GAP-I912-001
+    priority: P2
+    title: i912_pdf_not_generated
+    decision: out_of_scope_stage_i
+    accepted_for_controlled_beta: true
+    owner: product
+    next_action: "Track separately for paid/public readiness."
+
+  - id: T3PS-GAP-LAUNCH-001
+    priority: P2
+    title: public_paid_launch_not_ready
+    decision: explicitly_false
+    accepted_for_controlled_beta: true
+    owner: release
+    next_action: "Keep paid_launch_ready=false until broader operational controls are complete."

@@ -1,0 +1,56 @@
+MESSENGINFO
+Document Translation Record
+Translation Scope:
+Language Pair: Ukrainian -> English
+Translation Date: May 9, 2026
+Session Reference: 51c01a2b-dc72-4f
+ENGLISH TRANSLATION
+Date Of Birth: 01 January 1990
+Date Of Issue: 15 March 2020
+Document Type: PASSPORT
+Given Names: TEST TESTOVYCH
+Issued By: TEST MUNICIPAL AUTHORITY
+Number: 123456
+Patronymic: TESTOVYCH
+Place Of Birth: TESTKYIV CITY
+Series: AB
+Sex: M
+Surname: TESTOVYI
+Messenginfo is not a law firm. This is an AI-assisted translation draft reviewed and signed by a named human translator. The translator accepts
+full responsibility for accuracy under 8 CFR §103.2(b)(3). Verify current USCIS requirements at uscis.gov before filing.
+TRANSLATOR CERTIFICATION
+Self-Certification pursuant to 8 CFR §103.2(b)(3)
+I, Test Translator, residing at [address on file], certify that I am competent to translate from Ukrainian to
+English, and that the attached translation is accurate and complete to the best of my knowledge and
+belief. This certification is made pursuant to 8 CFR §103.2(b)(3). I accept full responsibility for the
+accuracy of this translation.
+Translator Name: Test Translator
+Date: May 9, 2026
+Signature (typed): Test Translator
+Certification Version: v1.0-8cfr-2026
+SOURCE TRACE - QA/AUDIT RECORD
+This page is for audit/QA purposes only. It is not part of the translation document.
+date_of_birth zone: birth_block conf: 0.97
+raw: 01 ????? 1990 -> 01 January 1990
+date_of_issue zone: issuance_block conf: 0.96
+raw: 15 ??????? 2020 -> 15 March 2020
+document_type zone: header_block conf: 0.98
+raw: ??????? -> PASSPORT
+given_names zone: personal_data conf: 0.94
+raw: ???? ???????? -> TEST TESTOVYCH
+issued_by zone: administrative_block conf: 0.88
+raw: ??? ???? ??? ???? -> TEST MUNICIPAL AUTHORITY
+number zone: id_block conf: 0.92
+raw: 123456 -> 123456
+patronymic zone: personal_data conf: 0.93
+raw: ???????? -> TESTOVYCH
+place_of_birth zone: birth_block conf: 0.91
+raw: ?. ???????? -> TESTKYIV CITY
+series zone: id_block conf: 0.85
+raw: ?? -> AB
+sex zone: personal_data conf: 0.99
+raw: ? -> M
+surname zone: personal_data conf: 0.96
+raw: ???????? -> TESTOVYI
+QA WARNINGS:
+• No OCR run found for this session — fields may be manually entered.

@@ -1,0 +1,23 @@
+form1[0].#pageSet[0].Page1[0].PDF417BarCode1[0]|/Tx|I-765|08/21/25|1
+form1[0].#pageSet[0].Page1[1].PDF417BarCode1[0]|/Tx|I-765|08/21/25|2
+form1[0].#pageSet[0].Page1[2].PDF417BarCode1[0]|/Tx|I-765|08/21/25|3
+form1[0].#pageSet[0].Page1[3].PDF417BarCode1[0]|/Tx|I-765|08/21/25|4
+form1[0].#pageSet[0].Page1[4].PDF417BarCode1[0]|/Tx|I-765|08/21/25|5
+form1[0].#pageSet[0].Page1[5].PDF417BarCode1[0]|/Tx|I-765|08/21/25|6
+form1[0].#pageSet[0].Page1[6].PDF417BarCode1[0]|/Tx|I-765|08/21/25|7
+form1[0].Page1[0].Line1a_FamilyName[0]|/Tx|Testsurname
+form1[0].Page1[0].Line1b_GivenName[0]|/Tx|Testgiven
+form1[0].Page2[0].Line4b_StreetNumberName[0]|/Tx|123 Main St
+form1[0].Page2[0].Pt2Line5_CityOrTown[0]|/Tx|Sacramento
+form1[0].Page2[0].Pt2Line5_State[0]|/Ch|CA
+form1[0].Page2[0].Pt2Line5_ZipCode[0]|/Tx|95814
+form1[0].Page3[0].#area[1].section_1[0]|/Tx|a
+form1[0].Page3[0].#area[1].section_2[0]|/Tx|12
+form1[0].Page3[0].Line18c_CountryOfBirth[0]|/Tx|Ukraine
+form1[0].Page3[0].Line19_DOB[0]|/Tx|07/12/1985
+form1[0].Page3[0].Line20a_I94Number[0]|/Tx|12345678901
+form1[0].Page3[0].Line20b_Passport[0]|/Tx|AB1234567
+form1[0].Page3[0].Line20d_CountryOfIssuance[0]|/Tx|Ukraine
+form1[0].Page3[0].Line20e_ExpDate[0]|/Tx|06/30/2029
+form1[0].Page3[0].Line21_DateOfLastEntry[0]|/Tx|03/15/2024
+form1[0].Page4[0].Pt3Line5_Email[0]|/Tx|test@example.com

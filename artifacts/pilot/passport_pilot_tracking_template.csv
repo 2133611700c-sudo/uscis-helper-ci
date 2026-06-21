@@ -1,0 +1,4 @@
+pilot_user_id,session_id,date_started,device_type,browser,document_type,photo_quality_good_yes_no,ocr_completed_yes_no,critical_fields_count,fields_confirmed_count,fields_corrected_count,fields_review_required_count,passport_series_correct_yes_no,passport_number_correct_yes_no,name_correct_yes_no,dob_correct_yes_no,issuing_authority_correct_yes_no,pdf_generated_yes_no,pdf_clean_yes_no,manual_operator_reviewed_yes_no,user_completed_without_help_yes_no,time_to_complete_minutes,bugs_found,user_confusion_points,final_status,operator_notes
+P001,pending,2026-05-09,unknown,unknown,ukrainian_internal_passport_booklet,pending,pending,11,0,0,0,pending,pending,pending,pending,pending,no,pending,no,pending,pending,none,none,pending,awaiting_upload — messages prepared and ready to send
+P002,,,,,,,,,,,,,,,,,,,,,,,,
+P003,,,,,,,,,,,,,,,,,,,,,,,,

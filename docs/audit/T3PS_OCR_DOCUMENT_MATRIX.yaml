@@ -1,0 +1,119 @@
+{
+  "generated_at": "2026-05-16T07:35:06.986780Z",
+  "endpoint": "https://messenginfo.com/api/tps/ocr/extract",
+  "production_sha": "0627cba5fe5a3b0a94ccf0b05e62476eed96dca0",
+  "cases": [
+    {
+      "doc_type": "international_passport",
+      "fixture": "/Users/sergiiivanenko/work/uscis-helper/test-fixtures/synthetic-passport.jpg",
+      "expected_module": "passport",
+      "doc_type_hint": "passport",
+      "http_status": 200,
+      "ok": true,
+      "module": "passport",
+      "module_matched": true,
+      "module_field_count": 8,
+      "module_field_keys": [
+        "country_of_nationality",
+        "dob",
+        "family_name",
+        "given_name",
+        "passport_country_of_issuance",
+        "passport_expiration_date",
+        "passport_number",
+        "sex"
+      ],
+      "review_required_count": 0,
+      "brain_status": false,
+      "brain_detail": "NOT_RUN",
+      "acceptance": "PASS",
+      "acceptance_reason": null
+    },
+    {
+      "doc_type": "ukrainian_internal_passport",
+      "fixture": "/Users/sergiiivanenko/work/uscis-helper/test-fixtures/synthetic-passport.jpg",
+      "expected_module": "passportBooklet_or_passport",
+      "doc_type_hint": "passport",
+      "http_status": 200,
+      "ok": true,
+      "module": "passport",
+      "module_matched": true,
+      "module_field_count": 8,
+      "module_field_keys": [
+        "country_of_nationality",
+        "dob",
+        "family_name",
+        "given_name",
+        "passport_country_of_issuance",
+        "passport_expiration_date",
+        "passport_number",
+        "sex"
+      ],
+      "review_required_count": 0,
+      "brain_status": false,
+      "brain_detail": "NOT_RUN",
+      "acceptance": "PASS",
+      "acceptance_reason": null
+    },
+    {
+      "doc_type": "i94",
+      "fixture": "/Users/sergiiivanenko/work/uscis-helper/test-fixtures/generated/synthetic-i94.jpg",
+      "expected_module": "i94",
+      "doc_type_hint": "i94",
+      "http_status": 200,
+      "ok": true,
+      "module": "i94",
+      "module_matched": true,
+      "module_field_count": 4,
+      "module_field_keys": [
+        "i94_admission_number",
+        "i94_admit_until",
+        "i94_class_of_admission",
+        "last_entry_date"
+      ],
+      "review_required_count": 0,
+      "brain_status": false,
+      "brain_detail": "NOT_RUN",
+      "acceptance": "PASS",
+      "acceptance_reason": null
+    },
+    {
+      "doc_type": "ead",
+      "fixture": "/Users/sergiiivanenko/work/uscis-helper/test-fixtures/generated/synthetic-ead.jpg",
+      "expected_module": "ead",
+      "doc_type_hint": "ead",
+      "http_status": 200,
+      "ok": true,
+      "module": "ead",
+      "module_matched": true,
+      "module_field_count": 3,
+      "module_field_keys": [
+        "a_number",
+        "ead_category_on_card",
+        "ead_expiration_date"
+      ],
+      "review_required_count": 0,
+      "brain_status": false,
+      "brain_detail": "NOT_RUN",
+      "acceptance": "PASS",
+      "acceptance_reason": null
+    },
+    {
+      "doc_type": "uscis_notice",
+      "fixture": "/Users/sergiiivanenko/work/uscis-helper/test-fixtures/generated/synthetic-uscis-notice.jpg",
+      "expected_module": "unsupported_in_prod",
+      "doc_type_hint": "uscis_notice",
+      "http_status": 200,
+      "ok": true,
+      "module": null,
+      "module_matched": null,
+      "module_field_count": 0,
+      "module_field_keys": [],
+      "review_required_count": 0,
+      "brain_status": false,
+      "brain_detail": "NOT_RUN",
+      "acceptance": "NOT_REQUIRED",
+      "acceptance_reason": "No uscis_notice module/doc_type_hint support in current production route."
+    }
+  ]
+}

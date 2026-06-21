@@ -1,0 +1,11 @@
+{
+  "name": "@uscis-helper/knowledge",
+  "version": "1.2.0",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "test": "npx tsx src/__tests__/transliterate.test.ts && npx tsx src/__tests__/patronymic.test.ts && npx tsx src/__tests__/normalize.test.ts && npx tsx src/__tests__/e2e-passport.test.ts && npx tsx src/__tests__/goldenDictionaryVectors.test.ts"
+  },
+  "dependencies": {}
+}

@@ -1,0 +1,66 @@
+prompts:
+  t3ps_01:
+    status: PASS
+    original_goal: repo_deploy_baseline_and_gate_truth
+    what_was_done: baseline truth was established and later reconfirmed at aligned production SHA
+    evidence_paths:
+      - /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_01_PRODUCTION_TRUTH_BASELINE.yaml
+      - /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_110_TRUTH_BASELINE.yaml
+    superseded_by: null
+    remaining_gap: null
+    beta_blocker: false
+
+  t3ps_02:
+    status: PASS
+    original_goal: live_browser_contour_upload_to_generate_zip
+    what_was_done: browser flow A/B rerun on production with generate 200 and zip downloaded in same run
+    evidence_paths:
+      - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/browser_summary_A.json
+      - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/browser_summary_B.json
+    superseded_by: null
+    remaining_gap: null
+    beta_blocker: false
+
+  t3ps_03:
+    status: PASS
+    original_goal: pdf_field_coverage_and_semantic_proof
+    what_was_done: fresh zip/pdf dumps generated with no cyrillic leak and required stage1 fields present
+    evidence_paths:
+      - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/pdf_reverify_summary.json
+      - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/i821_field_dump_redacted.txt
+      - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/i765_field_dump_redacted.txt
+    superseded_by: null
+    remaining_gap: null
+    beta_blocker: false
+
+  t3ps_04:
+    status: PARTIAL
+    original_goal: real_document_pilot_ai_ocr_robustness
+    what_was_done: OCR robustness and production OCR contour verified with synthetic/redacted fixtures; real-doc pilot constraints documented
+    evidence_paths:
+      - /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_04_REAL_DOCUMENT_AI_OCR_ROBUSTNESS.yaml
+      - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/ocr_matrix_reverify.json
+    superseded_by:
+      - T3PS_FINAL_FUNCTIONAL_CLOSEOUT
+      - T3PS_FINAL_110_CLOSEOUT
+    remaining_gap: real_doc_depth_limited_by_privacy_and_fixture_policy
+    beta_blocker: false
+
+  t3ps_05:
+    status: SUPERSEDED
+    original_goal: final_go_no_go_release_ops
+    what_was_done: replaced by stronger consolidated closeout chain and current 110 release lock verdict
+    evidence_paths:
+      - /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_FINAL_GO_NO_GO_RELEASE_REPORT.yaml
+      - /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_110_FINAL_RELEASE_LOCK.yaml
+    superseded_by:
+      - T3PS_06
+      - T3PS_07
+      - T3PS_08
+      - T3PS_09
+      - T3PS_FINAL_110_CLOSEOUT
+    remaining_gap: null
+    beta_blocker: false
+
+historical_evidence_status: PARTIAL_WITH_SUPERSEDED_ITEMS
+can_controlled_beta_proceed: true

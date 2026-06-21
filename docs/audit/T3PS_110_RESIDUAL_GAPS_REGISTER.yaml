@@ -1,0 +1,67 @@
+gaps:
+  - id: T3PS-110-GAP-001
+    priority: ACCEPTED
+    title: Telegram monitoring transport out of scope
+    description: Telegram alerts are explicitly excluded from this closeout and are not required for Stage I functional beta readiness.
+    evidence:
+      - /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_SCOPE_FREEZE_110.yaml
+    risk: operational_observability_only
+    decision: accepted_non_blocking
+    owner: Taras
+    next_step: configure later if scaling beta operations
+    accepted_for_controlled_beta: true
+
+  - id: T3PS-110-GAP-002
+    priority: P1
+    title: _vercel insights script 404 and CSP beacon block
+    description: Repeated browser console/network noise on analytics script path and blocked beacon script.
+    evidence:
+      - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/browser_summary_A.json
+      - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/browser_summary_B.json
+    risk: signal_noise_not_flow_break
+    decision: non_blocking_for_stage1
+    owner: Engineering
+    next_step: separate P1 cleanup task for analytics/CSP alignment
+    accepted_for_controlled_beta: true
+
+  - id: T3PS-110-GAP-003
+    priority: ACCEPTED
+    title: USCIS notice OCR not in Stage I contour
+    description: uscis_notice is not wired to wizard/PDF in current Stage I and is marked NOT_REQUIRED.
+    evidence:
+      - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/ocr_matrix_reverify.json
+    risk: document_type_not_supported_in_stage1
+    decision: accepted_scope_boundary
+    owner: Product
+    next_step: evaluate for Stage II
+    accepted_for_controlled_beta: true
+
+  - id: T3PS-110-GAP-004
+    priority: ACCEPTED
+    title: I-912 PDF generation not implemented
+    description: Current health metadata marks i912 filled=false; Stage I excludes I-912 packet generation.
+    evidence:
+      - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/health.json
+    risk: fee_waiver_packet_not_generated
+    decision: accepted_out_of_scope_stage1
+    owner: Product
+    next_step: keep clear product copy; separate backlog item
+    accepted_for_controlled_beta: true
+
+  - id: T3PS-110-GAP-005
+    priority: P1
+    title: Original 5 prompt historical closure includes superseded/partial items
+    description: Historical package completeness is PARTIAL_WITH_SUPERSEDED_ITEMS though current functionality is verified.
+    evidence:
+      - /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_ORIGINAL_5_PROMPTS_FINAL_RECONCILIATION.yaml
+    risk: governance_traceability_not_functional_break
+    decision: accepted_for_functional_lock
+    owner: Release
+    next_step: preserve reconciliation as authoritative history
+    accepted_for_controlled_beta: true
+
+summary:
+  open_p0_count: 0
+  open_p1_count: 2
+  open_p2_count: 0
+  controlled_beta_blocked: false

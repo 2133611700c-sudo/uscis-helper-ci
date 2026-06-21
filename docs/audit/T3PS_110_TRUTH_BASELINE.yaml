@@ -1,0 +1,20 @@
+report: T3PS_110_TRUTH_BASELINE
+generated_at: "2026-05-16T08:23:00Z"
+repo:
+  branch: main
+  local_sha: "11c7f978bef35de6eef4380b316bdd3af5fbf115"
+  origin_sha: "11c7f978bef35de6eef4380b316bdd3af5fbf115"
+production:
+  health_url: "https://messenginfo.com/api/tps/health"
+  health_ok: true
+  production_sha: "11c7f978bef35de6eef4380b316bdd3af5fbf115"
+  deployment_state: READY
+sha_alignment:
+  local_equals_origin: true
+  origin_equals_production: true
+  go_blocked_by_sha: false
+dirty_workspace:
+  present: true
+  snapshot_path: "/Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/git_status_short.txt"
+notes:
+  - "Workspace contains unrelated modified/untracked files; strict scoped staging is required."

@@ -1,0 +1,48 @@
+task_id: T3PS-FINAL-FUNCTIONAL-CLOSEOUT
+generated_at: "2026-05-16T08:20:00Z"
+status: GO_CONTROLLED_BETA
+production_sha: "5d713b40d919f559f19e6a0e3ff5127322de065d"
+gates:
+  typecheck: PASS
+  vitest: PASS
+  lint: PASS
+  guard: PASS
+  build: PASS
+ocr_matrix:
+  international_passport: PASS
+  ukrainian_internal_passport: PASS
+  i94: PASS
+  ead: PASS
+  uscis_notice: NOT_REQUIRED
+browser:
+  i821_only_flow: PASS
+  i821_i765_flow: PASS
+  generate_download_same_run: PASS
+  ocr_status: 200
+  generate_status: 200
+pdf:
+  i821_pypdf: PASS
+  i765_pypdf: PASS
+  cyrillic_leak: NONE
+accepted_operational_risks:
+  - telegram_alert_transport_missing
+remaining_functional_gaps:
+  - id: T3PS-FUNC-GAP-001
+    priority: P2
+    description: "uscis_notice doc_type_hint/module is not implemented in current production OCR route."
+    accepted: true
+  - id: T3PS-FUNC-GAP-002
+    priority: P1
+    description: "Non-blocking browser noise: /_vercel/insights/script.js 404 + CSP blocked beacon."
+    accepted: true
+final_verdict:
+  controlled_beta_ready: true
+  paid_launch_ready: false
+artifacts:
+  baseline: "docs/audit/T3PS_FUNCTIONAL_CLOSEOUT_BASELINE.yaml"
+  ocr_matrix: "docs/audit/T3PS_OCR_DOCUMENT_MATRIX.yaml"
+  live_browser: "docs/audit/T3PS_LIVE_BROWSER_FUNCTIONAL_PROOF.md"
+  trace: "docs/audit/T3PS_OCR_TO_PDF_TRACE.yaml"
+  field_coverage: "docs/audit/T3PS_FIELD_COVERAGE_FINAL.yaml"
+  pdf_zip: "docs/audit/T3PS_PDF_ZIP_FINAL_PROOF.yaml"
+  deepseek: "docs/audit/T3PS_DEEPSEEK_BRAIN_VERIFICATION.yaml"

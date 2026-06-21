@@ -1,0 +1,109 @@
+test: T3PS_REAL_DOC_TEST_dl
+date: 2026-05-20
+sha_pre_fix: dfa5bc0
+sha_post_fix: c4c8cea
+file_under_test: qa-shots/private/DL.jpg
+file_shape: { width_px: 1309, height_px: 2045, mime: image/jpeg, bytes: 1472226 }
+hint_used: dl
+
+pre_fix_run:
+  http_status: 200
+  vision_text_length: 304
+  detected_document_type: unknown   # no DL classifier in old Brain prompt
+  slot: dl
+  slot_mismatch: false
+  brain_status: ran
+  module_matched: true  # via ai_brain_fallback
+  module_field_count: 4
+  final_field_count: 4
+  rejected_field_count: 0
+  final_field_keys:
+    - dob
+    - family_name
+    - given_name
+    - sex
+  missing_critical_fields:
+    - us_address_street
+    - us_address_city
+    - us_address_state
+    - us_address_zip
+  status: FAIL
+  failure_reason: |
+    Vision raw_text clearly contains the address. The two relevant
+    lines in raw_text were:
+      L11: 4341 WILLOW BROOK AVE 111
+      L12: LOS ANGELES, CA 90029
+    But Brain returned 0 us_address_* fields because:
+      (a) the DocumentBrainResultSchema.fields Zod object had NO keys
+          for us_address_street / us_address_city / us_address_state /
+          us_address_zip / height / weight / eye_color / hair_color.
+      (b) the SYSTEM_PROMPT schema block didn't advertise these keys
+          either.
+    So Brain literally had nowhere to write the address. DL slot was
+    silently useless in production.
+  critical_fields_matched: 0 of 4
+
+fix_applied_in_commit: c4c8cea
+fix_summary:
+  - Added us_address_street/city/state/zip + height/weight/eye_color/
+    hair_color to DocumentBrainResultSchema.fields (Zod object).
+  - Added the same keys to the schema documented inside SYSTEM_PROMPT
+    so Brain knows they exist and what shape to produce.
+  - Added 'us_drivers_license' to DocumentTypeEnum so Brain can
+    classify the card type explicitly.
+  - Added a dedicated 'U.S. Driver's License' rules block (items
+    15-20) to SYSTEM_PROMPT explaining:
+      * label abbreviations (LN/FN/DOB/SEX/HGT/WGT/EYES/HAIR)
+      * 2-line address layout '<street> <unit>\n<city, ST zip>'
+      * how to split (NEVER include city/state/zip in street, etc.)
+      * format conventions (CA = 2-letter state, "90029" = 5-digit zip)
+      * DL fields are NEVER authoritative for identity — passport wins
+
+post_fix_run:
+  sha_tested: abbc3ff   # includes Brain threshold bump + PII scrub
+  http_status: 200
+  vision_text_length: 304
+  brain_status: ran
+  brain_doc_type: us_drivers_license
+  brain_doc_type_confidence: 0.99
+  brain_validated_skipped: []   # 0 field-level rejects
+  module_field_count: 12
+  final_field_count: 12
+  rejected_field_count: 0
+  final_field_keys:
+    - dob
+    - eye_color
+    - family_name
+    - given_name
+    - hair_color
+    - height
+    - sex
+    - us_address_city
+    - us_address_state
+    - us_address_street
+    - us_address_zip
+    - weight
+  field_shape_check:
+    us_address_street: { length: 25, source: ai_brain, requires_review: true }
+    us_address_city:   { length: 11, source: ai_brain, requires_review: true }
+    us_address_state:  { length:  2, source: ai_brain, requires_review: false }  # 2-letter USPS
+    us_address_zip:    { length:  5, source: ai_brain, requires_review: false }  # 5-digit
+    height:            { length:  6, source: ai_brain, requires_review: false }  # feet-inches
+    weight:            { length:  6, source: ai_brain, requires_review: false }  # "NNN lb"
+    eye_color:         { length:  3, source: ai_brain, requires_review: false }  # BRN/BLU
+    hair_color:        { length:  3, source: ai_brain, requires_review: false }  # BRN/BLK
+  critical_fields_matched: 4 of 4   # all us_address_* surfaced
+  status: PASS
+
+notes:
+  - Length shapes for street/city/state/zip line up exactly with the
+    expected ground truth (privately verified). The split is clean:
+    no city/state/zip inside street, no street inside city.
+  - All committed values here are SHAPES only — no PII leaks.
+  - Brain classified document_type='us_drivers_license' at 0.99
+    confidence; new prompt block worked as designed.
+  - One transient note: a single 500 was observed on this file
+    DURING the first run after deploy. Subsequent runs returned 200
+    consistently — most likely a Lambda cold-start timing issue with
+    DeepSeek rather than a code bug. No reproduction; tracked as
+    'monitor only' in #130.

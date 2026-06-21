@@ -1,0 +1,17 @@
+{
+  "phase": "STAGING_CONTROL_PLANE",
+  "commit": "db37f1b5c1392c79d6d94b713f732dd389cc430f",
+  "timestamp": "2026-06-14T07:23:30Z",
+  "environment": "ci",
+  "gates": {
+    "tsc": "PASS", "unit": "PASS", "build": "PASS", "content_guard": "PASS",
+    "pii_guard": "PASS", "release_state_guard": "PASS", "v1_program_guard": "PASS",
+    "workflow_syntax": "PASS", "staging_contract_tests": "PASS",
+    "production_target_rejection_tests": "PASS", "provider_budget_tests": "PASS",
+    "ocr_cache_key_tests": "PASS"
+  },
+  "testCounts": { "passed": 29, "failed": 0, "skipped": 0 },
+  "estimatedCostUsd": 0,
+  "actualCostUsd": 0,
+  "note": "Control plane merged in PR #124 (green CI). Real staging provisioning is an owner action tracked in docs/v1/STAGING_PROVISIONING_CHECKLIST.md; this phase delivers the contract + guards + workflows only."
+}

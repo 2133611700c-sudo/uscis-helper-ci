@@ -1,0 +1,202 @@
+---
+# TPS Ukraine Feature Gap List
+# Generated: 2026-05-13
+# See: docs/audit/TPS_UKRAINE_FEATURE_GAP_AUDIT.md for full evidence
+#
+# Priority definitions:
+#   P0 = blocks production — form is legally deficient as shipped
+#   P1 = significant user-facing defect — form is incomplete or wrong data
+#   P2 = quality / correctness — missing tests, dead code, architecture gap
+
+gaps:
+  - id: GAP-001
+    priority: P0
+    title: "I-821 applicant phone + email never written to PDF"
+    description: >
+      TPSAnswers.daytime_phone and TPSAnswers.email are collected by the wizard
+      and correctly written to I-765 (Pt3Line3 and Pt3Line5), but buildI821Ops()
+      never emits ops for Part8_Item3_DayPhone[0] or Part8_Item5_Email[0] on Page 11.
+      USCIS Part 8 contact fields will be blank on every generated I-821.
+    file: "apps/web/src/lib/tps/forms/i821FieldMap.ts"
+    line: null
+    fix_estimate: "30 minutes — add 2 ops.push calls to buildI821Ops"
+    missing_pdf_fields:
+      - "form1[0].Page11[0].Part8_Item3_DayPhone[0]"
+      - "form1[0].Page11[0].Part8_Item5_Email[0]"
+
+  - id: GAP-002
+    priority: P0
+    title: "I-821 Date of Last Entry never written to PDF"
+    description: >
+      TPSAnswers.last_entry_date is collected and written to I-765 Line 21 correctly,
+      but the I-821 equivalent field form1[0].Page03[0].P2_Line7_DateOfBirth[0]
+      (TU confirmed: "19. Enter Date of Last Entry into the United States") is never
+      mapped. The field has a misleading name which caused the miss. Every I-821 will
+      have a blank last-entry date.
+    file: "apps/web/src/lib/tps/forms/i821FieldMap.ts"
+    line: null
+    fix_estimate: "15 minutes — add 1 ops.push call with the correct field name"
+    missing_pdf_fields:
+      - "form1[0].Page03[0].P2_Line7_DateOfBirth[0]"
+
+  - id: GAP-003
+    priority: P0
+    title: "I-765 physical address block entirely blank"
+    description: >
+      I-765 has two address sections: mailing (Lines 4-5, mapped correctly) and
+      physical (Line 7, completely unmapped). The 'Is mailing same as physical?'
+      checkbox (Part2Line5_Checkbox, Line 6) is also never set. When mailing =
+      physical (the common case), USCIS sees a blank physical address section.
+      TU confirmed: Pt2Line7_StreetNumberName = "7. A. Enter Street Number and Name"
+      under "U.S. Physical Address".
+    file: "apps/web/src/lib/tps/forms/i765FieldMap.ts"
+    line: null
+    fix_estimate: "45 minutes — add checkbox + 8 address field ops to buildI765Ops"
+    missing_pdf_fields:
+      - "form1[0].Page2[0].Part2Line5_Checkbox[0]"
+      - "form1[0].Page2[0].Part2Line5_Checkbox[1]"
+      - "form1[0].Page2[0].Pt2Line7_StreetNumberName[0]"
+      - "form1[0].Page2[0].Pt2Line7_AptSteFlrNumber[0]"
+      - "form1[0].Page2[0].Pt2Line7_Unit[0]"
+      - "form1[0].Page2[0].Pt2Line7_Unit[1]"
+      - "form1[0].Page2[0].Pt2Line7_Unit[2]"
+      - "form1[0].Page2[0].Pt2Line7_CityOrTown[0]"
+      - "form1[0].Page2[0].Pt2Line7_State[0]"
+      - "form1[0].Page2[0].Pt2Line7_ZipCode[0]"
+
+  - id: GAP-004
+    priority: P0
+    title: "I-765 Place of Last Arrival never collected or written"
+    description: >
+      form1[0].Page3[0].place_entry[0] is a required I-765 field (TU: "23. Enter Place
+      of Last Arrival into the United States"). It is not mapped in i765FieldMap.ts,
+      not in PersonalFields in GeneratePacketBlock.tsx, and not in TPSAnswers. The user
+      is never asked for it. Every I-765 will have a blank place-of-entry field.
+    file: "apps/web/src/lib/tps/forms/i765FieldMap.ts"
+    line: null
+    fix_estimate: "1 hour — add field to TPSAnswers + PersonalFields + wizard input + i765FieldMap"
+    missing_pdf_fields:
+      - "form1[0].Page3[0].place_entry[0]"
+
+  - id: GAP-005
+    priority: P1
+    title: "SSN in TPSAnswers never written to I-821 or I-765"
+    description: >
+      TPSAnswers.ssn is defined in answers.ts line 32 but no field map writes it.
+      i821FieldMap.ts does not emit Part2_Item9_SocialSecurityNumber[0].
+      i765FieldMap.ts does not emit Line12b_SSN[0].
+      PersonalFields in GeneratePacketBlock.tsx has no ssn field, so the user
+      is never even asked to provide it.
+    file: "apps/web/src/lib/tps/answers.ts"
+    line: 32
+    fix_estimate: "45 minutes — add ssn to PersonalFields, wizard input, and both field maps"
+    missing_pdf_fields:
+      - "form1[0].Page02[0].Part2_Item9_SocialSecurityNumber[0]"
+      - "form1[0].Page2[0].Line12b_SSN[0]"
+
+  - id: GAP-006
+    priority: P1
+    title: "City of birth hardcoded as empty string on I-821 and I-765"
+    description: >
+      i821FieldMap.ts line 165 explicitly writes '' to Part2_Item13_CityOrTown[0]
+      with comment 'not captured this cycle'. i765FieldMap.ts line 52 does the same
+      for Line18a_CityTownOfBirth[0]. USCIS requires city of birth. The user will
+      see blank boxes with no prompt in the wizard.
+    file: "apps/web/src/lib/tps/forms/i821FieldMap.ts"
+    line: 165
+    fix_estimate: "45 minutes — add city_of_birth to PersonalFields, wizard input, and replace '' in both maps"
+
+  - id: GAP-007
+    priority: P1
+    title: "ead_category_on_card extracted from EAD OCR but silently discarded — wrong eligibility category can ship"
+    description: >
+      modules/ead.ts extracts ead_category_on_card (e.g. "C19") from the EAD card photo.
+      applyPreExtracted in GeneratePacketBlock.tsx (lines 58-61) deliberately excludes it
+      from the fieldMap. The ead_category is derived solely from filing_path (line 529).
+      If a re-registrant selects 'initial' by mistake, the packet ships with category A12
+      even though their EAD card clearly shows C19.
+    file: "apps/web/src/app/[locale]/services/tps-ukraine/start/GeneratePacketBlock.tsx"
+    line: 58
+    fix_estimate: "1 hour — use ead_category_on_card to suggest/validate ead_category; warn on mismatch"
+
+  - id: GAP-008
+    priority: P1
+    title: "I-821 immigration status at last entry never written"
+    description: >
+      TPSAnswers.status_at_last_entry is populated from I-94 OCR (i94_class_of_admission)
+      and written to I-765 Line 23 correctly. But I-821 Part2_Item19_ImmigrationStatus[0]
+      (TU: "20. Enter Immigration Status When You Last Entered") is never mapped in
+      i821FieldMap.ts. Every I-821 will have a blank immigration-status-at-entry field.
+    file: "apps/web/src/lib/tps/forms/i821FieldMap.ts"
+    line: null
+    fix_estimate: "15 minutes — add 1 conditional ops.push to buildI821Ops"
+    missing_pdf_fields:
+      - "form1[0].Page03[0].Part2_Item19_ImmigrationStatus[0]"
+
+  - id: GAP-009
+    priority: P2
+    title: "No unit tests for I-94 extraction module"
+    description: >
+      modules/i94.ts has zero test coverage. Only passport.test.ts exists in
+      modules/__tests__/. Any CBP layout change, regex bug, or date-format regression
+      in runI94Module will be silently undetected.
+    file: "apps/web/src/lib/tps/modules/i94.ts"
+    line: null
+    fix_estimate: "2 hours — create i94.test.ts with 4-5 synthetic OcrResult fixtures"
+
+  - id: GAP-010
+    priority: P2
+    title: "No unit tests for EAD extraction module"
+    description: >
+      modules/ead.ts has zero test coverage. A-number extraction, category parsing,
+      and expiry date logic are all untested. Silent regression risk.
+    file: "apps/web/src/lib/tps/modules/ead.ts"
+    line: null
+    fix_estimate: "2 hours — create ead.test.ts mirroring passport.test.ts pattern"
+
+  - id: GAP-011
+    priority: P2
+    title: "No unit tests for passport-booklet extraction module"
+    description: >
+      modules/passportBooklet.ts has zero test coverage. The booklet module has
+      significantly more complex logic than the TD3 passport module (label-based
+      extraction, Latin/Cyrillic look-alike mapping, date parsing in two languages).
+      Any regression is invisible until a real user reports a broken output.
+    file: "apps/web/src/lib/tps/modules/passportBooklet.ts"
+    line: null
+    fix_estimate: "3 hours — create passportBooklet.test.ts with strong + weak signal fixtures"
+
+  - id: GAP-012
+    priority: P2
+    title: "packetBuilder test does not assert I-821 Part8 phone/email — hides GAP-001"
+    description: >
+      packetBuilder.test.ts line 109 checks I-765 email but never checks that I-821
+      Part8 phone and email are written. The test suite passes while GAP-001 is live.
+      This is a test-coverage gap that masks a P0 bug.
+    file: "apps/web/src/lib/tps/__tests__/packetBuilder.test.ts"
+    line: 109
+    fix_estimate: "30 minutes — add readAcroFieldValue assertions for Part8_Item3_DayPhone and Part8_Item5_Email after GAP-001 is fixed"
+
+  - id: GAP-013
+    priority: P2
+    title: "i94_admit_until extracted but never used — dead field"
+    description: >
+      modules/i94.ts line 178 extracts i94_admit_until into TpsExtractedField[].
+      It is not in applyPreExtracted fieldMap, not in PersonalFields, not in TPSAnswers,
+      and there is no PDF field that receives it. The extraction logic runs on every I-94
+      upload but the result is discarded.
+    file: "apps/web/src/lib/tps/modules/i94.ts"
+    line: 178
+    fix_estimate: "1 hour — either wire it as a display-only reference field on the review screen, or document why it is intentionally discarded"
+
+  - id: GAP-014
+    priority: P2
+    title: "TpsPacketState.qa_result always PENDING — QA validator referenced in architecture doc does not exist"
+    description: >
+      types.ts defines qa_result: { status: 'PASS' | 'FAIL' | 'PENDING', ... } on
+      TpsPacketState. docs/tps/ARCHITECTURE_V1.md pipeline diagram references a
+      'tpsPacketQaValidator' and 'sourceToFormFieldAudit'. Neither file exists.
+      The attestation gate in GeneratePacketBlock.tsx is the only current guard.
+    file: "apps/web/src/lib/tps/types.ts"
+    line: null
+    fix_estimate: "Either implement a minimal qa_result writer or remove the dead type field to reduce confusion"

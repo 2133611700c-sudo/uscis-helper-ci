@@ -1,0 +1,181 @@
+# Saved from ChatGPT "AI-перевод для USCIS" chat (Uscis helper project)
+# https://chatgpt.com/c/69fe54d5-60ac-83e8-8a0d-ce4af31dab56
+# Captured 2026-05-10 by Claude (Cowork mode) on Taras's request.
+# This file is source of truth. Do NOT re-scrape ChatGPT for this task.
+
+task: BUILD_TPS_UKRAINE_SERVICE_PARITY_WITH_REPAROLE
+
+mode: execute
+deliverable: >
+  Implement a production TPS Ukraine service on messenginfo.com with
+  Re-Parole-level UX parity: route/page, navigation/service entry, guided
+  packet-prep flow, official-source facts, evidence checklist, USCIS
+  transfer guide, and older-user usability.
+
+context:
+  project: uscis-helper / messenginfo.com
+  baseline:
+    last_verified_commit: 106a8dc3a2fcddd84160cbb4ee35b2db3193920d
+    vercel: READY
+  product_rule:
+    primary_user: "30-80 years old, non-lawyer, low USCIS/online-form experience"
+    product_type: "guided packet-preparation + transfer-assistance tool"
+    user_goal: >
+      User prepares answers/evidence with Messenginfo, then independently
+      transfers data into official USCIS online account/forms.
+  source_of_truth:
+    - "USCIS TPS Ukraine page"
+    - "USCIS general TPS page"
+    - "Existing Re-Parole implementation in repo"
+
+official_facts_to_verify_from_uscis_before_coding:
+  tps_ukraine:
+    designation_through: "Oct. 19, 2026"
+    re_registration_period: "Jan. 17, 2025 - Mar. 18, 2025"
+    ead_auto_extension: "Apr. 19, 2026 for certain TPS Ukraine EADs"
+    cr_date: "Aug. 16, 2023"
+    cpp_date: "Oct. 20, 2023"
+    forms:
+      - I-821
+      - I-765
+      - I-912
+      - I-131
+    official_url: "https://www.uscis.gov/humanitarian/temporary-protected-status/TPS-Ukraine"
+
+read_first:
+  - "Find Re-Parole service route/components/messages/API/session flow."
+  - "Find current TPS page/route if exists."
+  - "Find services navigation/index entries."
+  - "Find packet/session schema used by Re-Parole."
+  - "Find Telegram/admin routing used by Re-Parole."
+
+implementation_requirements:
+  re_parole_parity:
+    - TPS page must visually and structurally match Re-Parole quality.
+    - Same design language, spacing, cards, CTA structure, colors, mobile behavior.
+    - Same or equivalent service navigation visibility.
+    - Do not regress Re-Parole.
+
+  tps_service_flow:
+    screens:
+      - landing
+      - start
+      - situation_router
+      - initial_vs_reregistration
+      - ead_needed
+      - fee_waiver_needed
+      - identity_and_arrival_dates
+      - continuous_residence_evidence
+      - criminal_ineligibility_warning_plain_language
+      - evidence_checklist
+      - uscisdotgov_transfer_guide
+      - summary_packet
+      - support_or_manual_help
+    routes_or_components:
+      - reuse Re-Parole patterns where possible
+      - avoid one-off messy architecture
+
+  user_copy_rules:
+    - plain language
+    - short blocks
+    - 18px+ readable body where applicable
+    - one screen = one task
+    - clear next button labels
+    - no fear language
+    - no legal advice claims
+    - say clearly: "We help you prepare. You submit through official USCIS."
+
+  functional_content:
+    must_include:
+      - "Who this is for"
+      - "Initial TPS vs re-registration"
+      - "TPS + EAD choice"
+      - "Fee waiver path / I-912 path"
+      - "Documents/evidence checklist"
+      - "What to copy into USCIS form sections"
+      - "Official USCIS links"
+      - "When to ask for help"
+    must_not_claim:
+      - guaranteed approval
+      - USCIS accepted
+      - legal advice
+      - attorney filing
+      - we submit for you
+
+  data_contract:
+    create_or_reuse_session_fields:
+      service_slug: "tps-ukraine"
+      locale:
+      filing_path: "initial|re_registration|unknown"
+      wants_ead: boolean|null
+      wants_fee_waiver: boolean|null
+      has_prior_tps: boolean|null
+      has_ead: boolean|null
+      ead_expiration_date:
+      nationality:
+      date_entered_us:
+      cr_evidence_types:
+      cpp_evidence_types:
+      documents_checklist:
+      user_questions:
+    audit_log:
+      - record session creation/summary if existing Re-Parole pattern supports it
+
+acceptance_criteria:
+  repo_inventory:
+    - Re-Parole implementation identified and summarized.
+    - Current TPS implementation identified and gap-listed before edits.
+
+  product:
+    - TPS Ukraine visible from services/navigation wherever Re-Parole is visible.
+    - TPS page has Re-Parole-level structure and design.
+    - TPS start/guided flow exists and is usable.
+    - User can understand: prepare with Messenginfo, submit through USCIS.
+
+  official_facts:
+    - Facts match current USCIS TPS Ukraine page.
+    - Official links open to USCIS.
+    - No unsupported dates from memory.
+
+  older_user_usability:
+    - Mobile readable.
+    - Clear CTA.
+    - No dense legal paragraphs.
+    - Every screen has one primary action.
+    - A 65-80 year old user can understand what to do next.
+
+  engineering:
+    - typecheck PASS
+    - tests PASS
+    - content guard PASS
+    - build PASS
+    - live curl/browser check Re-parole URL
+
+report_format: yaml
+final_report_required:
+  verdict:
+  commit:
+  vercel_deployment_id:
+  urls:
+    tps:
+    reparole:
+  files_changed:
+  reparole_inventory:
+  tps_features_built:
+  official_facts_verified:
+  older_user_usability_check:
+  quality_gates:
+  live_verification:
+  risks:
+  next_recommended_step:
+
+constraints:
+  - Do not rewrite unrelated translation engine work.
+  - Do not touch Stripe unless Re-Parole TPS parity requires only existing pattern reuse.
+  - Do not add fake legal claims.
+  - Do not ship if TPS facts cannot be verified from USCIS.
+  - Keep scope to functional TPS product skeleton/parity, not full legal finalization.
+
+# Final directive (verbatim from ChatGPT):
+# "execute this as one focused TPS parity cycle. First inventory Re-Parole,
+#  then build TPS from that pattern, then test/deploy/verify."

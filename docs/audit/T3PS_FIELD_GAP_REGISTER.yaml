@@ -1,0 +1,4472 @@
+- form: I-821
+  pdf_field_name: form1[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].#pageSet[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].#pageSet[0].Page1[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].#pageSet[0].Page1[0].PDF417BarCode1[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].#pageSet[0].Page1[10]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].#pageSet[0].Page1[10].PDF417BarCode1[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].#pageSet[0].Page1[11]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].#pageSet[0].Page1[11].PDF417BarCode1[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].#pageSet[0].Page1[12]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].#pageSet[0].Page1[12].PDF417BarCode1[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].#pageSet[0].Page1[13]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].#pageSet[0].Page1[13].PDF417BarCode1[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].#pageSet[0].Page1[1]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].#pageSet[0].Page1[1].PDF417BarCode1[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].#pageSet[0].Page1[2]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].#pageSet[0].Page1[2].PDF417BarCode1[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].#pageSet[0].Page1[4]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].#pageSet[0].Page1[4].PDF417BarCode1[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].#pageSet[0].Page1[5]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].#pageSet[0].Page1[5].PDF417BarCode1[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].#pageSet[0].Page1[6]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].#pageSet[0].Page1[6].PDF417BarCode1[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].#pageSet[0].Page1[7]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].#pageSet[0].Page1[7].PDF417BarCode1[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].#pageSet[0].Page1[8]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].#pageSet[0].Page1[8].PDF417BarCode1[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].#pageSet[0].Page1[9]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].#pageSet[0].Page1[9].PDF417BarCode1[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page01[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page01[0].BarNumber_Txt[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page01[0].G28CheckBox[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page01[0].Part1_Item2_GrantedTPSI[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page01[0].Part1_Item2_GrantedTPSU[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page01[0].USCISNumber_Txt[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page02[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page02[0].#area[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page02[0].Part2_Item15d[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page02[0].Part2_Item16d[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page02[0].Part2_Item17_MaritalStatusOther[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page02[0].Part2_Item2_FamilyName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page02[0].Part2_Item2_GivenName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page02[0].Part2_Item2_MiddleName[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page02[0].Part2_Item3_FamilyName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page02[0].Part2_Item3_GivenName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page02[0].Part2_Item3_MiddleName[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page03[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page03[0].P2_Line7_DateOfBirth[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page03[0].Part2_Item10_DateOfBirth[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page03[0].Part2_Item20_PortofEntry[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page03[0].Part2_Item22_Passport[1]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page03[0].Part2_Item23a_AddlPassport[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page03[0].Part2_Item23b_AddlPassport[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page03[0].Part2_Item25_ImmigrationProceedings[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page03[0].Part2_Item25_ImmigrationProceedings[1]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page03[0].Part2_Item25_ImmigrationStatus[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page03[0].Part2_Item27_ProceedingType[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page03[0].Part2_Item27_ProceedingType[1]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page03[0].Part2_Item27_ProceedingType[2]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page03[0].Part2_Item28_LocDOJProceedings[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page03[0].Part2_Item29_LocFedCtProceedings[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page03[0].Part2_Item31a_ProceedingDateFrom[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page03[0].Part2_Item31b_ProceedingDateTo[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page03[0].Part2_Item31e_Present[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].#area[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].#area[0].Part4_Item1_USCISNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item10b_DateFrom[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item10c_DateTo[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item10d_Present[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item10e_IDK[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item2_AlienNumber[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item3_FamilyName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item3_GivenName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item3_MiddleName[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item4_AptSteFlrNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item4_CityOrTown[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item4_Country[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item4_PostalCode[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item4_Province[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item4_State[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item4_StreetNumberName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item4_Unit[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item4_Unit[1]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item4_Unit[2]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item4_ZipCode[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item5_DateOfBirth[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item6_DateOfMarriage[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item7_PlaceofMarriage[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item8_CityOrTown[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item8_Country[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item8_Province[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item8_State[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item9_TPSN[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Part4_Item9_TPSY[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Pt2Line3_HeightFeet[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Pt2Line3_HeightInches[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Pt2Line4_HeightInches1[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Pt2Line4_HeightInches2[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0].Pt2Line4_HeightInches3[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0]._YesNoDontKnow[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0]._YesNoDontKnow[1]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page04[0].Page04[0]._YesNoDontKnow[2]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item10_YNI[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item10_YNI[1]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item10_YNI[2]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item11_FamilyName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item11_GivenName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item11_MiddleName[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item12_FSpouseNationalities[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item13_AlienNumber[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item14_FSpouseDOB[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item15_FSpouseDOD[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item16_MarriageFrom[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item16_MarriageTo[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item17_MarriageEnded[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item18_YNI[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item18_YNI[1]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item18_YNI[2]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item19a_DateFrom[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item19b_DateTo[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item19c_Present[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item19d_IDK[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item1_FamilyName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item1_GivenName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item1_MiddleName[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item20_YNI[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item20_YNI[1]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item20_YNI[2]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item2_FSpouseNationalities[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item3_AlienNumber[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item4_FSpouseDOB[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item5_FSpouseDOD[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item6_MarriageFrom[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item6_MarriageTo[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item7_MarriageEnded[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item8_YDI[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item8_YDI[1]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item8_YDI[2]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item9a_DateFrom[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item9b_DateTo[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item9c_Present[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page05[0].Part5_Item9d_IDK[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].#area[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].#area[0].Part6_Item2_USCISNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].#area[1]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].#area[1].Part4_Item1_USCISNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part5_Item7_ChildAppTPS[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part5_Item7_ChildAppTPS[1]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item10_AlienNumber[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item11_DateOfBirth[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item12_AptSteFlrNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item12_ChildTPSTo[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item12_CityOrTown[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item12_Country[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item12_PostalCode[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item12_Province[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item12_State[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item12_StreetNumberName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item12_Unit[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item12_Unit[1]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item12_Unit[2]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item12_ZipCode[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item13_ChildTPSFrom[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item14_ChildAppTPS[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item14_ChildAppTPS[1]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item1_FamilyName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item1_GivenName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item1_MiddleName[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item3_AlienNumber[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item4_DateOfBirth[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item5_AptSteFlrNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item5_CityOrTown[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item5_Country[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item5_PostalCode[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item5_Province[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item5_State[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item5_StreetNumberName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item5_Unit[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item5_Unit[1]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item5_Unit[2]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item5_ZipCode[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item6_ChildTPSFrom[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item6_ChildTPSTo[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item8_FamilyName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item8_GivenName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part6_Item8_MiddleName[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page06[0].Part7_Item1_CountryResidence[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page07[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page07[0].Part7_Item1_EnterUS[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page07[0].Part7_Item1_Travel[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page07[0].Part7_Item1_Travel[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page07[0].Part7_Item2_CountriesTraveledFrom[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page07[0].Part7_Item2_CountriesTraveledTo[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page07[0].Part7_Item2_CountriesTraveled[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page07[0].Part7_Item2_DescribeCountries[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page07[0].Part7_Item2_DidNotAccept[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page07[0].Part7_Item2_ImmigrationOffer[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page07[0].Part7_Item2_ImmigrationOffer[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page07[0].Part7_Item2_ImmigrationStatus[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page07[0].Part7_Item4a_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page07[0].Part7_Item4a_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page07[0].Part7_Item4b_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page07[0].Part7_Item4b_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item11a_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item11a_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item11b_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item11b_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item11c_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item11c_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item11d_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item11d_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item12a_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item12a_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item12b_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item12b_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item12c_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item12c_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item12d_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item12d_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item13a_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item13a_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item13b_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item13b_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item13c_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item13c_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item4c_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item4c_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item5a_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item5a_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item5b_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item5b_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item5c_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item5c_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item7a_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item7a_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item7b_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item7b_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item7c_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item7c_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item8_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item8_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item9a_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item9a_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item9b_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item9b_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item9c_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item9c_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item9d_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item9d_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item9e_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page08[0].Part7_Item9e_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item14_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item14_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item15_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item15_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item16a_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item16a_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item16b_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item16b_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item16c_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item16c_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item17_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item17_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item18a_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item18a_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item18b_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item18b_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item18c_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item18c_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item18d_YND[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item18d_YND[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item18d_YND[2]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item18e_YND[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item18e_YND[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item19_YND[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item19_YND[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item20_YND[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item20_YND[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item21a_YND[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item21a_YND[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item21b_YND[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item21b_YND[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item21c_YND[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item21c_YND[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item22_YND[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item22_YND[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item23_YND[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item23_YND[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item24_YND[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item24_YND[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item25_YND[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item25_YND[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item26_YND[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item26_YND[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item27_YND[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item27_YND[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item29a_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item29a_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item29b_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item29b_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item29c_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item29c_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item29d_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item29d_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item29e_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page09[0].Part7_Item29e_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item31a_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item31a_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item31b_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item31b_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item32_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item32_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item33_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item33_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item34_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item34_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item35_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item35_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item36_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item36_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item37a_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item37a_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item37b_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item37b_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item38a_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item38a_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item38b_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item38b_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item38c_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item38c_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item38d_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item38d_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item38e_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item38e_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item39a_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item39a_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item39b_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item39b_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item40a_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item40a_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item41_YN[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part7_Item41_YN[1]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part8_Item1_AppStmt[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part8_Item1_AppStmt[1]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part8_Item1_Language[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part8_Item2_PrepName[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page10[0].Part8_Item2_Preparer[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: keep manual (paper signing flow)
+- form: I-821
+  pdf_field_name: form1[0].Page11[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page11[0].Part10_Item5_MobilePhone[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page11[0].Part6_Item12_Province[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page11[0].Part8_Item4_MobilePhone[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page11[0].Part8_Item6a_Signature[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: keep manual (paper signing flow)
+- form: I-821
+  pdf_field_name: form1[0].Page11[0].Part8_Item6b_DateofSignature[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: keep manual (paper signing flow)
+- form: I-821
+  pdf_field_name: form1[0].Page11[0].Part9_Item1_FamilyName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page11[0].Part9_Item1_GivenName[1]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page11[0].Part9_Item2_OrgName[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page11[0].Part9_Item3_AptSteFlrNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page11[0].Part9_Item3_CityOrTown[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page11[0].Part9_Item3_Country[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page11[0].Part9_Item3_PostalCode[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page11[0].Part9_Item3_Province[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page11[0].Part9_Item3_State[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page11[0].Part9_Item3_StreetNumberName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page11[0].Part9_Item3_Unit[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page11[0].Part9_Item3_Unit[1]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page11[0].Part9_Item3_Unit[2]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page11[0].Part9_Item3_ZipCode[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page11[0].Part9_Item4_DaytimePhone[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page11[0].Part9_Item5_Email[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page12[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page12[0].Part10_Item1_FamilyName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page12[0].Part10_Item1_GivenName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page12[0].Part10_Item2_OrgName[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page12[0].Part10_Item3_AptSteFlrNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page12[0].Part10_Item3_CityOrTown[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page12[0].Part10_Item3_Country[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page12[0].Part10_Item3_PostalCode[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page12[0].Part10_Item3_Province[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page12[0].Part10_Item3_State[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page12[0].Part10_Item3_StreetNumberName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page12[0].Part10_Item3_Unit[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page12[0].Part10_Item3_Unit[1]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page12[0].Part10_Item3_Unit[2]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page12[0].Part10_Item3_ZipCode[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page12[0].Part10_Item4_DaytimePhone[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page12[0].Part10_Item5_MobilePhone[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page12[0].Part10_Item6_Email[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page12[0].Part10_Item7_PreparerStmt[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: keep manual (paper signing flow)
+- form: I-821
+  pdf_field_name: form1[0].Page12[0].Part10_Item7_PreparerStmt[1]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: keep manual (paper signing flow)
+- form: I-821
+  pdf_field_name: form1[0].Page12[0].Part10_Item7b_Extend[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page12[0].Part10_Item7b_NotExtend[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page12[0].Part10_Item8a_Signature[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: keep manual (paper signing flow)
+- form: I-821
+  pdf_field_name: form1[0].Page12[0].Part10_Item8b_DateofSignature[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: keep manual (paper signing flow)
+- form: I-821
+  pdf_field_name: form1[0].Page12[0].Part9_Item6_DateofSignature[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: keep manual (paper signing flow)
+- form: I-821
+  pdf_field_name: form1[0].Page12[0].Part9_Item6_Signature[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: keep manual (paper signing flow)
+- form: I-821
+  pdf_field_name: form1[0].Page13[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page13[0].AI_3a_PageNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page13[0].AI_3b_PartNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page13[0].AI_3c_ItemNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page13[0].AI_3d_AdditionalInfo[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page13[0].AI_4a_PageNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page13[0].AI_4b_PartNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page13[0].AI_4c_ItemNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page13[0].AI_4d_AdditionalInfo[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page13[0].AI_5a_PageNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page13[0].AI_5b_PartNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page13[0].AI_5c_ItemNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page13[0].AI_5d_AdditionalInfo[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page13[0].AI_6a_PageNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page13[0].AI_6b_PartNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page13[0].AI_6c_ItemNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page13[0].AI_6d_AdditionalInfo[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page13[0].AI_7a_PageNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page13[0].AI_7b_PartNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page13[0].AI_7c_ItemNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page13[0].AI_7d_AdditionalInfo[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page13[0].Part2_Item1_FamilyName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page13[0].Part2_Item1_GivenName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-821
+  pdf_field_name: form1[0].Page13[0].Part2_Item1_MiddleName[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-821
+  pdf_field_name: form1[0].Page13[0].Part2_Item7_AlienNumber[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-765
+  pdf_field_name: form1[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].#pageSet[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].#pageSet[0].Page1[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].#pageSet[0].Page1[0].PDF417BarCode1[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].#pageSet[0].Page1[1]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].#pageSet[0].Page1[1].PDF417BarCode1[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].#pageSet[0].Page1[2]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].#pageSet[0].Page1[2].PDF417BarCode1[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].#pageSet[0].Page1[3]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].#pageSet[0].Page1[3].PDF417BarCode1[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].#pageSet[0].Page1[4]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].#pageSet[0].Page1[4].PDF417BarCode1[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].#pageSet[0].Page1[5]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].#pageSet[0].Page1[5].PDF417BarCode1[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].#pageSet[0].Page1[6]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].#pageSet[0].Page1[6].PDF417BarCode1[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page1[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page1[0].Attorney-Rep[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page1[0].Attorney-Rep[0].CheckBox1[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page1[0].Attorney-Rep[0].USCISELISAcctNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page1[0].Attorney-Rep[0].attorneyBarNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page1[0].Line2a_FamilyName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page1[0].Line2b_GivenName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page1[0].Line2c_MiddleName[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page1[0].Line3a_FamilyName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page1[0].Line3a_FamilyName[1]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page1[0].Line3b_GivenName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page1[0].Line3b_GivenName[1]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page1[0].Line3c_MiddleName[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page1[0].Line3c_MiddleName[1]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page2[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page2[0].Line17a_CountryOfBirth[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page2[0].Line17b_CountryOfBirth[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page2[0].Line19_Checkbox[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page2[0].Line19_Checkbox[1]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page2[0].Line4a_InCareofName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page2[0].Line8_ElisAccountNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page3[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page3[0].#area[1]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page3[0].Line18a_Receipt[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page3[0].Line18a_Receipt[0].Line30a_ReceiptNumber[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page3[0].Line18b_CityTownOfBirth[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page3[0].Line20c_TravelDoc[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page3[0].Line26_SEVISnumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page3[0].Line27a_Degree[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page3[0].Line27b_Everify[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page3[0].Line27c_EverifyIDNumber[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page3[0].Line28_ReceiptNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page3[0].PtLine29_YesNo[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page3[0].PtLine29_YesNo[1]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page3[0].PtLine30b_YesNo[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page3[0].PtLine30b_YesNo[1]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page3[0].place_entry[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page4[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page4[0].Part3_Checkbox[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page4[0].Pt3Line1Checkbox[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page4[0].Pt3Line1Checkbox[1]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page4[0].Pt3Line1b_Language[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page4[0].Pt3Line2_RepresentativeName[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page4[0].Pt3Line4_MobileNumber1[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page4[0].Pt3Line7a_Signature[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: keep manual (paper signing flow)
+- form: I-765
+  pdf_field_name: form1[0].Page4[0].Pt3Line7b_DateofSignature[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: keep manual (paper signing flow)
+- form: I-765
+  pdf_field_name: form1[0].Page4[0].Pt4Line1a_InterpreterFamilyName[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: keep manual (paper signing flow)
+- form: I-765
+  pdf_field_name: form1[0].Page4[0].Pt4Line1b_InterpreterGivenName[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: keep manual (paper signing flow)
+- form: I-765
+  pdf_field_name: form1[0].Page4[0].Pt4Line2_InterpreterBusinessorOrg[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: keep manual (paper signing flow)
+- form: I-765
+  pdf_field_name: form1[0].Page4[0].Pt4Line6_Checkbox[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Part4_NameofLanguage[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt4Line4_InterpreterDaytimeTelephone[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: keep manual (paper signing flow)
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt4Line5_MobileNumber[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt4Line6_Email[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt4Line6a_Signature[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: keep manual (paper signing flow)
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt4Line6b_DateofSignature[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: keep manual (paper signing flow)
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt5Line1a_PreparerFamilyName[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: keep manual (paper signing flow)
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt5Line1b_PreparerGivenName[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: keep manual (paper signing flow)
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt5Line2_BusinessName[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt5Line3a_StreetNumberName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt5Line3b_AptSteFlrNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt5Line3b_Unit[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt5Line3b_Unit[1]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt5Line3b_Unit[2]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt5Line3c_CityOrTown[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt5Line3d_State[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt5Line3e_ZipCode[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt5Line3f_Province[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt5Line3g_PostalCode[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt5Line3h_Country[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt5Line4_DaytimePhoneNumber1[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt5Line5_PreparerFaxNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: keep manual (paper signing flow)
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt5Line6_Email[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt6Line3a_StreetNumberName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt6Line3b_AptSteFlrNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt6Line3b_Unit[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt6Line3b_Unit[1]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt6Line3b_Unit[2]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt6Line3c_CityOrTown[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt6Line3d_State[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt6Line3e_ZipCode[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt6Line3f_Province[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt6Line3g_PostalCode[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page5[0].Pt6Line3h_Country[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page6[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page6[0].Part5Line7_Checkbox[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page6[0].Part5Line7_Checkbox[1]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page6[0].Part5Line7b_Checkbox[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page6[0].Part5Line7b_Checkbox[1]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page6[0].Pt5Line8a_Signature[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: keep manual (paper signing flow)
+- form: I-765
+  pdf_field_name: form1[0].Page6[0].Pt5Line8b_DateofSignature[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: keep manual (paper signing flow)
+- form: I-765
+  pdf_field_name: form1[0].Page7[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page7[0].Line1a_FamilyName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page7[0].Line1b_GivenName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page7[0].Line1c_MiddleName[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page7[0].Line7_AlienNumber[0]
+  mapped: false
+  user_visible_input: true
+  required_level: conditional
+  risk: high
+  fix_estimate: now
+  recommendation: map/verify before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page7[0].Pt6Line3a_PageNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page7[0].Pt6Line3b_PartNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page7[0].Pt6Line3c_ItemNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page7[0].Pt6Line4a_PageNumber[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page7[0].Pt6Line4b_PartNumber[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page7[0].Pt6Line4c_ItemNumber[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page7[0].Pt6Line4d_AdditionalInfo[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page7[0].Pt6Line4d_AdditionalInfo[1]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page7[0].Pt6Line5a_PageNumber[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page7[0].Pt6Line5b_PartNumber[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page7[0].Pt6Line5c_ItemNumber[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page7[0].Pt6Line5d_AdditionalInfo[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page7[0].Pt6Line6a_PageNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page7[0].Pt6Line6b_PartNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page7[0].Pt6Line6c_ItemNumber[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page7[0].Pt6Line6d_AdditionalInfo[0]
+  mapped: false
+  user_visible_input: false
+  required_level: optional
+  risk: low
+  fix_estimate: later
+  recommendation: manual ok for beta
+- form: I-765
+  pdf_field_name: form1[0].Page7[0].Pt6Line7a_PageNumber[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page7[0].Pt6Line7b_PartNumber[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page7[0].Pt6Line7c_ItemNumber[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta
+- form: I-765
+  pdf_field_name: form1[0].Page7[0].Pt6Line7d_AdditionalInfo[0]
+  mapped: false
+  user_visible_input: true
+  required_level: required
+  risk: high
+  fix_estimate: now
+  recommendation: map before controlled beta

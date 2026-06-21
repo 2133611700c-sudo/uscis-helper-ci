@@ -1,0 +1,521 @@
+plan: TPS_FINISH_PLAN_V2_REV2
+# REV2 — user critique applied 2026-05-11T10:30Z:
+#   1. Split Phase B into B1 (TPS beta blockers) + B2 (safety cleanup)
+#   2. Re-Parole streaming root-fix moved OUT of B — not a TPS beta blocker
+#      (CB.1 cleanup cron already mitigates retention). Becomes pre-G item.
+#   3. Added minimal post-deploy smoke script (scripts/post-deploy-smoke.sh,
+#      bash + curl). REJECTED full Playwright wiring; smoke script does the
+#      same insurance job in ~30min vs 2-3h CI config.
+#   4. User pushes existing 4 commits in PARALLEL with my B1 sandbox work
+#      — earlier Mac-build feedback = less stacked rework.
+plan_original: TPS_FINISH_PLAN_V2
+supersedes: TPS_FINISH_PLAN_V1.yaml
+merged_from:
+  - TPS_FINISH_PLAN_V1 (Phase A-G structure)
+  - TPS_CONTROLLED_BETA_READINESS_FINAL prompt-pack (regression-lock, edition drift, abuse limits, runbook, forbidden claims)
+generated_at: "2026-05-11T10:00Z"
+
+# ── ARCHITECT'S MERGE DECISIONS ──────────────────────────────────────────────
+merge_decisions:
+  kept_from_pack:
+    - id: K1
+      from: phase_16_regression_lock
+      what: "Explicit list of past-bug tests"
+      action: "Add as Phase B sub-task. Most already exist; gap-fill missing ones."
+    - id: K2
+      from: phase_17_form_edition_drift_guard
+      what: "PDF SHA256 integrity check at runtime + manifest snapshot date"
+      action: "Add to Phase B as B.5 extension."
+    - id: K3
+      from: phase_19_abuse_and_cost_limits
+      what: "Max file size + MIME whitelist on /api/tps/ocr/extract"
+      action: "Add to Phase E as E.4."
+    - id: K4
+      from: phase_20_operator_documentation
+      what: "/docs/runbook.md for refresh, smoke, delete-user-data"
+      action: "Add to Phase F as F.6 (single file, not a phase)."
+    - id: K5
+      from: forbidden_final_claims
+      what: "Hard list of phrases that must never appear in any output"
+      action: "Add to scripts/check-content-guards.sh as new Rule. Extend at Phase B.4 (CB.5 → CB.5+)."
+    - id: K6
+      from: phase_18_disaster_recovery
+      what: "Rollback command + last-known-good commit"
+      action: "ONE section in /docs/runbook.md, not a phase."
+
+  rejected_from_pack:
+    - id: R1
+      from: phase_3 + phase_4 + phase_5 + phase_6 + phase_7
+      reason: "All five are the same step — verify-after-deploy. Folding into single 'Phase Verify' (was Phase A.4)."
+    - id: R2
+      from: phase_18 as a phase
+      reason: "Disaster recovery for a pre-pilot service is one rollback command. Not a phase. Documented in runbook."
+    - id: R3
+      from: phase_20 as a phase
+      reason: "Operator documentation is one markdown file. Not a phase. Created as F.6."
+    - id: R4
+      from: phase_16 'test for webpack minification (use instanceof)'
+      reason: "Not unit-test-able — environmental. Already mitigated in pdfPrefiller with instanceof checks. Adding a fixture build test would be premature CI overhead. Keeping as code comment + existing build gate."
+    - id: R5
+      from: phase_10 'add risk-flag questions for inconsistent dates'
+      reason: "Out of scope for v1 — date-consistency rules require legal-classifier logic we deliberately don't ship. Keep only the existing 3 flags (criminal, prior denial, AP)."
+
+  reordered:
+    - "User's pack: push (phase_2) BEFORE source→final finish (phase_5). My order: finish all sandbox-doable work FIRST, ONE push, ONE verify. Fewer Mac round-trips."
+
+# ── PHASES (consolidated A-G + integrated additions) ─────────────────────────
+
+phase_A_baseline:
+  goal: "Establish exact local vs origin vs prod state — no work before this is clear"
+  owner: me
+  hours: 0.2
+  status: COMPLETED
+  evidence:
+    local_head: bdddaf0
+    origin_head_unknown: "sandbox cannot read remote — Mac must report"
+    deployed_commit_unknown: "Vercel CLI not in sandbox"
+    commits_ahead: [cfdf980, 6735324, 85ab047, bdddaf0]
+  gate: PASS (all 4 commits visible locally)
+
+phase_B_sandbox_completeness:
+  title: "Everything I can finish without push/Mac/photo"
+  owner: me
+  hours: 12
+  gate:
+    - "All sub-tasks compile + typecheck PASS"
+    - "Content guards PASS including new forbidden-claims rule"
+    - "All new components have at least 1 vitest case (deferred run to Mac)"
+  tasks:
+    - id: B.1
+      task: "CB.2 — Legal-risk routing UI surface"
+      hours: 2.5
+      from: pack_phase_10
+      detail: |
+        Existing TPSAnswers fields: has_criminal_concern, has_prior_tps_denial,
+        left_us_without_advance_parole. Surface as 3 yes/no questions in
+        GeneratePacketBlock above the PacketCompletenessChecker. On any yes →
+        amber notice 'This may require licensed immigration attorney review'.
+        Link to https://www.uscis.gov/scams-fraud-and-misconduct/avoid-scams/find-legal-services
+        Locales: uk/ru/en/es. data-testids: legal-risk-{key}, legal-risk-notice.
+        Do NOT block generate — informed user decision.
+
+    - id: B.2
+      task: "CB.3 — Manual fallback wiring"
+      hours: 2
+      from: pack_phase_11
+      detail: |
+        Reuse existing manual_review_queue table (built in phases 1-15).
+        Add 'Нужна помощь' / 'I need help' button to:
+          - DocumentUploadScreen (after OCR failure or image-quality reject)
+          - SelfReviewScreen (after user clicks 'I'm not sure')
+        POST to /api/tps/manual-review (new route) with: session_id, locale,
+        contact_email, what_failed_label. NO image, NO PII beyond email.
+        Server inserts row in manual_review_queue.
+
+    - id: B.3
+      task: "CB.4 — Output contract drift audit"
+      hours: 1.5
+      from: pack_phase_13
+      detail: |
+        Agent run: compare promised content in:
+          - PacketCompletenessChecker (all 4 locales)
+          - README.txt generator inside packetBuilder
+          - landing page tpsHowSteps copy
+        For each: forms included, edition strings, page counts, lockbox name,
+        fee guidance language, no-USCIS-partner language, signature locations.
+        Findings to OUTPUT_CONTRACT_AUDIT.report.yaml. Fix mismatches to a
+        single source of truth (forms_manifest.json + lib/tps/lockbox.ts).
+
+    - id: B.4
+      task: "CB.5+ — i18n drift script + forbidden-claims content guard"
+      hours: 1.5
+      from: pack_forbidden_final_claims + pack_phase_14_i18n
+      detail: |
+        scripts/check-i18n-drift.mjs:
+          - parse every TSX with COPY object having 'uk'|'ru'|'en'|'es' keys
+          - for each key: all 4 locales must have a non-empty string
+          - non-EN locale strings: warn on >= 3 chunked Latin words
+            (whitelist: I-821, I-765, USCIS, EAD, ZIP, PDF, MRZ, U4U,
+             Messenginfo, USCIS-Latin proper names like Phoenix Lockbox)
+        scripts/check-content-guards.sh — add Rule 10 'Forbidden Claims':
+          - 'fully done', 'paid launch ready', 'USCIS accepted', 'guaranteed',
+            'we file for you', 'legal advice', 'certified', 'official USCIS partner'
+          Search across apps/web/src/app and apps/web/src/components.
+
+    - id: B.5
+      task: "CB.6 — PDF SHA256 runtime guard + README snapshot date"
+      hours: 1.5
+      from: pack_phase_17
+      detail: |
+        - Compute SHA256 of each pinned USCIS PDF, add to forms_manifest.json
+        - packetBuilder reads manifest at startup; if SHA256(public/uscis/.../X.pdf)
+          != manifest, throw 'Form PDF tampered or replaced' with 500.
+        - README.txt generator reads manifest.snapshot_date and writes:
+          'Forms snapshot: 2026-05-10. Verify current editions at uscis.gov before mailing.'
+        - Existing edition_match test already passes; add SHA test alongside.
+
+    - id: B.6
+      task: "Regression-lock test gap-fill"
+      hours: 1.5
+      from: pack_phase_16
+      detail: |
+        Existing tests already cover:
+          - XFA/qpdf normalization (packetBuilder integration)
+          - Cyrillic → KMU-55 Latin (transliterate.test.ts)
+          - phone digits-only for I-765 (packetBuilder asserts no skip)
+          - state dropdown skipped=0 (packetBuilder zero-skip assertion)
+          - A-Number + class of admission routing (packetBuilder.test.ts, new in 6735324)
+          - encrypted USCIS PDF load (covered by buildPacket throwing if not normalised)
+        Adding:
+          - PacketCompletenessChecker.test.ts: complete fixture → no missing-footer; incomplete → footer visible + missing key listed
+          - attestation gate (existing component test — verify)
+          - WinAnsi crash regression: explicit test calling toWinAnsiSafe('Шевченко') and asserting no '?' in output
+          - latinPreview rendering: SelfReviewScreen with Cyrillic row produces review-latin-{key} testid
+        SKIP (pack item): 'webpack minification: use instanceof' — environmental,
+        not unit-test-able, already mitigated in pdfPrefiller code path.
+
+    - id: B.7
+      task: "Re-Parole SP-1 root fix — streaming response"
+      hours: 2
+      from: my_plan_B.7
+      detail: |
+        /api/packet/generate currently uploads ZIP to Supabase Storage + signed URL.
+        Switch to streaming response (same pattern as /api/tps/generate-packet).
+        Remove createBucket / upload / createSignedUrl calls. Update Re-Parole
+        wizard to consume blob URL like TPS does.
+        Risk: existing sessions with open signed URLs lose access on cutover.
+        Mitigation: 7-day grace window is fine — old URLs were 7-day TTL anyway.
+
+    - id: B.8
+      task: "Sandbox gates run after each commit + final consolidation"
+      hours: 0.5
+
+phase_C_mac_push_verify:
+  title: "Single Mac round-trip — gates, push, deploy, live verify"
+  owner: "mac + me"
+  hours: 2
+  gate:
+    - "pnpm --filter web {typecheck,lint,test,build} all PASS on Mac"
+    - "git push origin main success"
+    - "Vercel deployment READY on bdddaf0+B.x SHA"
+    - "5 core URLs return 200"
+    - "Live browser smoke catches no regression"
+  tasks:
+    - id: C.1
+      task: "Mac: full gate run"
+      owner: mac
+      hours: 0.5
+    - id: C.2
+      task: "Mac: ./push.command (or git push)"
+      owner: mac
+      hours: 0.1
+    - id: C.3
+      task: "Vercel READY verification"
+      owner: mac
+      hours: 0.2
+    - id: C.4
+      task: "Live browser smoke via Chrome MCP — folds pack phases 3+4+5+6+7"
+      owner: me
+      hours: 1
+      script:
+        synthetic_fixture_flow:
+          - "Open /ru/services/tps-ukraine/start, clear localStorage"
+          - "Step 1: Подаю впервые"
+          - "Continue through wizard, upload synthetic passport"
+          - "OCR review screen — verify green latin chip on Cyrillic rows"
+          - "Verify zero Верно/Неверно labels, one Изменить per row"
+          - "Edit modal roundtrip"
+          - "Step 6: PacketCompletenessChecker visible above attestation"
+          - "Attestation checkbox blocks Generate"
+          - "Tick attestation → Generate → ZIP downloads"
+          - "Clear-data button works (success → confirmation state)"
+          - "Open ZIP — verify I-821.pdf + I-765.pdf + README.txt"
+        manual_flow_regression:
+          - "Clear localStorage, start S1 → S6 without OCR"
+          - "Type fields by hand, generate, verify ZIP"
+        evidence_dir: "test-fixtures/proof/phase_C_live/"
+        evidence_files:
+          - "step1.png, upload.png, ocr-review-latin.png"
+          - "edit-modal.png, checker.png, attestation.png, success-with-clear-data.png"
+          - "manual-flow-success.png"
+
+phase_D_real_doc_pilot:
+  title: "Real Ukrainian document end-to-end"
+  status: BLOCKED_ON_USER_PHOTO
+  owner: "user + me"
+  hours: "1.5-6 (variable per OCR failure class)"
+  gate:
+    - "One real document processed end-to-end on prod URL"
+    - "Latin transliteration visually matches user's passport"
+    - "Zero critical fields missing in resulting PDF"
+    - "Image deleted, redacted-only YAML report"
+  privacy_locked:
+    - "DO NOT commit image"
+    - "DO NOT include full passport_number, full DOB, full address in report"
+    - "DO NOT include image bytes or hash in report"
+    - "DELETE photo from Downloads/ via bash immediately after test"
+  tasks:
+    - id: D.1
+      task: "User places photo at /Users/sergiiivanenko/Downloads/tps-real-test.jpg"
+      owner: user
+      hours: 0.1
+    - id: D.2
+      task: "Live pilot via Chrome MCP (synthetic skip — real fixture only)"
+      owner: me
+      hours: 1
+    - id: D.3
+      task: "Redacted report: matched/not_matched per field, confidence flags, PDF gen success"
+      owner: me
+      hours: 0.3
+      output: "test-fixtures/proof/phase_D_real_pilot.report.yaml (REDACTED)"
+    - id: D.4
+      task: "Delete photo via bash"
+      owner: me
+      hours: 0.1
+    - id: D.5
+      task: "If OCR failure mode found — fix module, push, re-pilot"
+      owner: me
+      hours: "0-5 per class"
+
+phase_E_ops_basics:
+  title: "Minimal ops surface — health, abuse limits, daily summary"
+  owner: me
+  hours: 4
+  gate:
+    - "/api/health returns JSON with sha + form_editions + snapshot_date"
+    - "File size cap rejects > 10 MB upload with friendly 413"
+    - "MIME whitelist on OCR upload"
+    - "Telegram daily summary cron exists (skip wire if TELEGRAM_* env not set)"
+  tasks:
+    - id: E.1
+      task: "/api/health endpoint"
+      hours: 1
+      from: pack_phase_12
+      detail: |
+        Returns: { ok, sha, form_editions, snapshot_date, ocr_configured, build_time }
+        No PII. Public endpoint. Vercel readiness check probe.
+
+    - id: E.2
+      task: "Telegram daily summary"
+      hours: 1.5
+      from: pack_phase_12
+      detail: |
+        /api/cron/daily-summary — wired in vercel.json. Reads audit_log for
+        last 24h, counts: tps_packets_generated, reparole_packets_generated,
+        ocr_attempted/succeeded/failed, image_quality_rejects,
+        manual_review_tickets_created. Posts to Telegram with counts only.
+        Skip if TELEGRAM_BOT_TOKEN absent — return 200 'not configured'.
+
+    - id: E.3
+      task: "Sentry PII pattern test"
+      hours: 0.5
+      from: pack_phase_9_acceptance
+      detail: "Unit test: mock Sentry event with email + 9-digit string; beforeSend strips both."
+
+    - id: E.4
+      task: "Abuse / cost limits — file size + MIME whitelist"
+      hours: 1
+      from: pack_phase_19
+      detail: |
+        /api/tps/ocr/extract route:
+          - Reject if file.size > 10 * 1024 * 1024 with 413 + locale message
+          - Reject if file.type not in ['image/jpeg', 'image/png', 'image/webp', 'image/heic']
+          - Reject SVG explicitly (potential JS).
+        Existing rate-limit 20/min stays.
+        OCR daily cap deferred to Phase G (telemetry needed first).
+
+phase_F_go_no_go:
+  title: "Controlled beta GO/NO-GO + runbook + privacy notice"
+  owner: "me + user"
+  hours: 4
+  gate:
+    - "All Phase A-E complete"
+    - "Phase D (real-doc pilot) PASS"
+    - "Final YAML written"
+    - "User explicit yes/no on shipping to first 3-5 users"
+  tasks:
+    - id: F.1
+      task: "README in packetBuilder accuracy final review"
+      hours: 0.3
+      detail: "Edition + page counts + lockbox + fee links match manifest + checker"
+
+    - id: F.2
+      task: "Privacy notice update in /[locale]/privacy"
+      hours: 1
+      from: pack_phase_9
+      detail: |
+        Add (uk/ru/en/es):
+          - 'Document image is sent to Google Cloud Vision (Google LLC, USA) for text recognition. No other identifying information is attached. We do not store the image.'
+          - 'Extracted text is stored only in your browser (localStorage) until you click "Clear my data" or close the tab.'
+          - 'Re-Parole sessions are retained 90 days, packet ZIPs 7 days (auto-purged).'
+
+    - id: F.3
+      task: "Landing page truth audit"
+      hours: 0.7
+      from: pack_phase_13
+      method: "Agent run on tps-ukraine landing + service description + sources page"
+      look_for: ["we file", "USCIS-approved", "USCIS accepted", "guaranteed", "attorney", "legal advice", "certified", "official USCIS partner", "fully done", "paid launch"]
+      action: "Any hit → fix to neutral language. Re-run new forbidden-claims content guard from B.4."
+
+    - id: F.4
+      task: "Final 110%-grade YAML — TPS_CONTROLLED_BETA_READINESS_FINAL.report.yaml"
+      hours: 0.5
+      schema:
+        - commit_sha
+        - origin_main_sha
+        - vercel_deployment_id
+        - vercel_state
+        - live_urls
+        - gates: { typecheck, lint, vitest, build, content_guard, i18n_drift, pdf_sha }
+        - browser_e2e_results
+        - pdf_field_proof
+        - visual_proof_paths
+        - zip_contents
+        - privacy_security_verdict
+        - legal_risk_routing_verdict
+        - manual_fallback_verdict
+        - monitoring_verdict
+        - real_document_pilot_result
+        - remaining_known_gaps
+        - readiness_scores: { internal_demo, controlled_beta, public_beta, paid_launch }
+        - final_verdict: { controlled_beta_ready, paid_launch_ready: false }
+
+    - id: F.5
+      task: "User decision: ship to 3-5 real users or hold"
+      owner: user
+
+    - id: F.6
+      task: "/docs/runbook.md — single operator file (replaces pack phases 18+20)"
+      hours: 0.5
+      from: pack_phase_18 + pack_phase_20
+      sections:
+        - "Rollback: `vercel rollback <DEPLOYMENT_ID>` or `git revert HEAD && push`"
+        - "Last-known-good commit log (update on each ship)"
+        - "Refresh USCIS forms: run scripts/refresh-tps-forms.sh + commit manifest"
+        - "Verify OCR locally: scripts/smoke-ocr.sh with fixture"
+        - "Generate proof ZIP: scripts/smoke-generate.sh"
+        - "Read pypdf field dump: scripts/dump-pdf-fields.py"
+        - "Live smoke (post-deploy): scripts/post-deploy-smoke.sh"
+        - "Handle failed user upload: respond from manual_review_queue admin /admin/queue"
+        - "Delete user data on request: SQL snippet for wizard_sessions + audit_log entry"
+        - "Disable TPS service temporarily: maintenance flag NEXT_PUBLIC_TPS_DISABLED=1 + redeploy"
+
+phase_G_post_pilot:
+  title: "AFTER first 3-5 users — not before F.5"
+  status: FUTURE
+  rationale: "Premature optimization without real-user signal kills startups. We don't start G items unless F.5 = yes AND first user data is in."
+  items:
+    - "Telemetry funnel events"
+    - "Service Engine extraction (only after Re-Parole OCR also lands)"
+    - "Playwright E2E in CI"
+    - "I-912 fee waiver"
+    - "Stripe / payments — needs business+legal first"
+    - "Attorney referral path — business deal, not code"
+    - "Full WCAG axe-core audit"
+    - "save-and-continue via Supabase Auth"
+
+# ── DEPENDENCY GRAPH ─────────────────────────────────────────────────────────
+deps:
+  A: []
+  B: [A]
+  C: [B]
+  D: [C, user_photo]
+  E: [B]              # can parallel with C but easier serial
+  F: [C, D, E]
+  G: [F.5 == yes]
+
+# ── HONEST TIME ESTIMATE ─────────────────────────────────────────────────────
+estimate_hours:
+  optimistic:  { A: 0.2, B: 10, C: 1.5, D: 1.5, E: 3, F: 3, total: 19.2 }
+  realistic:   { A: 0.2, B: 12, C: 2,   D: 4,   E: 4, F: 4, total: 26.2 }
+  pessimistic: { A: 0.2, B: 14, C: 3,   D: 8,   E: 5, F: 5, total: 35.2 }
+
+# ── RISK MATRIX (TOP 5) ──────────────────────────────────────────────────────
+risks:
+  - id: R1
+    severity: high
+    item: "Push without Mac vitest run"
+    mitigation: "Phase C gate explicit — pnpm test MUST pass before push"
+  - id: R2
+    severity: high
+    item: "Real-doc pilot reveals OCR failure mode that requires new module"
+    mitigation: "Variable hours budgeted in D.5. If 2+ failures → escalate to user before more fixes"
+  - id: R3
+    severity: medium
+    item: "Re-Parole streaming refactor (B.7) breaks existing user sessions"
+    mitigation: "7-day grace already implicit in signed-URL TTL. Old sessions die naturally."
+  - id: R4
+    severity: medium
+    item: "Forbidden-claims content guard catches existing copy → bigger fix than expected"
+    mitigation: "Audit pass (B.4) before applying guard hard-fail. Soft-warn first."
+  - id: R5
+    severity: low
+    item: "Telegram bot token missing → daily summary returns 'not configured'"
+    mitigation: "Designed. Not a blocker."
+
+# ── DEFINITION OF DONE ───────────────────────────────────────────────────────
+done_criteria:
+  controlled_beta_ready:
+    - "Phase A-F complete"
+    - "Final YAML shows controlled_beta_ready: true"
+    - "Real document pilot PASS"
+    - "Zero critical privacy findings open for TPS-only path"
+    - "/docs/runbook.md exists"
+  must_not_claim:
+    - "fully done"
+    - "paid launch ready"
+    - "USCIS accepted"
+    - "guaranteed"
+    - "we file for you"
+    - "legal advice"
+    - "certified"
+    - "official USCIS partner"
+
+# ── EXECUTION ORDER NOW ──────────────────────────────────────────────────────
+execution_order:
+  immediate_sandbox_work:
+    - B.1 CB.2 legal-risk routing UI
+    - B.2 CB.3 manual fallback wiring
+    - B.3 CB.4 output contract audit
+    - B.4 CB.5+ i18n drift + forbidden-claims guard
+    - B.5 CB.6 PDF SHA256 guard
+    - B.6 regression-lock gap-fill tests
+    - B.7 Re-Parole streaming root fix
+    - E.1 health endpoint
+    - E.4 file-size + MIME whitelist
+    - F.6 runbook draft
+  hands_off_to_user_after:
+    - "Single push: 'TPS controlled-beta sandbox pack' bundle"
+    - "User runs Mac gates + Vercel READY"
+  resume_with:
+    - C.4 live verify
+    - D.1 real-doc pilot (when photo ready)
+    - F.4 final YAML
+
+# ── HOW WE TRACK ─────────────────────────────────────────────────────────────
+tracking:
+  source_of_truth: "TaskList in Cowork mode"
+  per_phase_reports: "test-fixtures/proof/phase_{B|C|D|E|F}_*.report.yaml"
+  final: "test-fixtures/proof/TPS_CONTROLLED_BETA_READINESS_FINAL.report.yaml"
+
+# ── ANSWER TO USER'S 'CHECK + USE WHAT'S NEEDED' ─────────────────────────────
+architect_summary: |
+  Your 20-phase pack was useful as a checklist but heavy as a plan. I kept:
+    - regression-lock test list (B.6)
+    - PDF SHA256 + snapshot date guard (B.5)
+    - file size + MIME whitelist (E.4)
+    - forbidden-claims content guard rule (B.4)
+    - operator runbook as a single file, not a phase (F.6)
+    - rollback path inside runbook (not a separate phase)
+
+  I rejected:
+    - Splitting verification into 5 separate phases (3+4+5+6+7) — folded into one Phase C.4.
+    - 'Disaster recovery' as a phase — it's one line in a runbook before there are users.
+    - 'Operator documentation' as a phase — same.
+    - Webpack-minification regression test — not unit-test-able, mitigated in code.
+    - Date-consistency risk flag — requires legal classifier we deliberately don't ship.
+
+  Total honest hours to controlled-beta-ready: 19-35 (depending on real-doc pilot outcome).
+  Phases A-B-E are sandbox-doable now without waiting on Mac/photo.
+  Phase C and D are sequential and require you.
+  Phase G stays untouched until F.5 explicit go.

@@ -1,0 +1,191 @@
+---
+# TPS USCIS Rule Update — Final Proof Report
+# Task: TPS_USCIS_RULE_UPDATE_AND_PRODUCT_HARDENING / SHIP_TPS_RULE_HARDENING_NOW
+# Generated: 2026-05-13
+# Operator: Claude (Cowork mode)
+
+meta:
+  report_version: "1.0"
+  generated_at: "2026-05-13"
+  task_ids:
+    - TPS_USCIS_RULE_UPDATE_AND_PRODUCT_HARDENING
+    - SHIP_TPS_RULE_HARDENING_NOW
+
+# ── Git ────────────────────────────────────────────────────────────────────────
+git:
+  commit_sha: "24fc7269c9273315b57d2403426e474b111b7549"
+  commit_message: "feat(tps): USCIS rule hardening — H.R.1 fees + signature deny rule + stale EAD cleanup"
+  branch: main
+  pushed_to_github: true
+
+# ── Local Mac gate results ─────────────────────────────────────────────────────
+local_gates:
+  typecheck:
+    status: PASS
+    command: "pnpm --filter web exec tsc --noEmit"
+    errors: 0
+    note: "Fixed curly-quote string delimiters (U+2018/U+2019) in PacketCompletenessChecker.tsx"
+  tests:
+    status: PASS
+    command: "pnpm --filter web test"
+    suite: "buildPacket — TPS Ukraine initial-path fixture"
+    tests_passed: 6
+    tests_failed: 0
+    note: "Added readAcroFieldValue helper; fixed I-821 A-Number split-cell AcroForm assertion"
+  lint:
+    status: PASS
+    command: "pnpm --filter web run lint"
+    errors: 0
+  content_guard:
+    status: PASS
+    command: "bash apps/web/scripts/check-content-guards.sh"
+    rules_checked: 12
+    violations: 0
+    note: "Rule 11a/11b/11c (sign deny+fee warnings) and Rule 12 (stale EAD date) added and passing"
+  build:
+    status: PASS
+    command: "pnpm --filter web build"
+    errors: 0
+
+# ── Vercel deployment ──────────────────────────────────────────────────────────
+vercel:
+  deployment_id: "dpl_AvHxLAD1FgxLyobpXqyerBoF35EW"
+  state: READY
+  commit_sha_verified: "24fc7269c9273315b57d2403426e474b111b7549"
+  health_check_url: "https://messenginfo.com/api/tps/health"
+  health_snapshot_date: "2026-05-12"
+
+# ── Browser smoke tests ────────────────────────────────────────────────────────
+browser_smoke:
+  landing_alert_banner:
+    url: "https://messenginfo.com/ru/services/tps-ukraine"
+    status: PASS
+    evidence: "Alert banner '⚠ Новые правила USCIS — проверьте перед подачей' visible with H.R.1 and signature rule content"
+
+  sources_2026_rules_section:
+    url: "https://messenginfo.com/ru/services/tps-ukraine/sources"
+    status: PASS
+    evidence: "Section '⚠ Новые правила 2026' present with FR 2026-08333 (H.R.1 fees) and FR 2026-09289 (signature deny rule) entries. Snapshot date 12 мая 2026 confirmed."
+
+  wizard_step1_loads:
+    url: "https://messenginfo.com/ru/services/tps-ukraine/start"
+    status: PASS
+    evidence: "Step 1 renders without JS errors; 'Подаю впервые' option selectable"
+
+  packet_checker_sign_deny_fee_warning:
+    url: "https://messenginfo.com/ru/services/tps-ukraine/start"
+    step: "Step 6 (GeneratePacketBlock)"
+    status: PASS
+    testid: "checker-sign-deny-fee-warning"
+    text_confirmed: "⚠ Важно (с 10 июля 2026): USCIS может ОТКЛОНИТЬ заявление и УДЕРЖАТЬ ВАШ СБОР, если подпись недействительна — скопирована, напечатана текстом или создана программой. Подписывайте только от руки ручкой."
+
+  packet_checker_hr1_fee_warning:
+    url: "https://messenginfo.com/ru/services/tps-ukraine/start"
+    step: "Step 6 (GeneratePacketBlock)"
+    status: PASS
+    testid: "checker-hr1-fee-warning"
+    text_confirmed: "⚠ Сборы, установленные законом H.R.1 (с 29 мая 2026), НЕ отменяются через I-912. Проверьте текущие сборы перед отправкой."
+
+  no_stale_ead_date:
+    status: PASS
+    evidence: "Content guard Rule 12 passes (0 violations). TPSWizard.tsx s3EadAutoNote updated to mark Apr 19, 2026 as expired."
+
+  packet_generation:
+    status: PASS
+    evidence: "ZIP generated via API — 2,624,861 bytes. Contains I-821.pdf, I-765.pdf, README.txt. All 16 form fields filled, 0 skipped."
+
+# ── README.txt verification ────────────────────────────────────────────────────
+readme_verification:
+  file: "README.txt (inside downloaded ZIP)"
+  status: PASS
+  checks:
+    signature_deny_fee_warning:
+      status: PRESENT
+      location: "packetBuilder.ts line 177-180"
+      text: "*** SIGNATURE WARNING (Federal Register doc 2026-09289, effective 2026-07-10) *** USCIS may DENY your application AND RETAIN YOUR FILING FEE if it later finds an invalid signature."
+    hr1_non_waivable_fee:
+      status: PRESENT
+      location: "packetBuilder.ts line 182-183"
+      text: "Note: fees required by H.R.1 (TPS employment authorization fee, I-94 fee) CANNOT be waived via Form I-912 — they are non-waivable by statute."
+    not_legal_advice:
+      status: PRESENT
+      location: "packetBuilder.ts WHAT WE DID NOT DO section"
+      text: "We did NOT give you legal advice."
+    submit_yourself:
+      status: PRESENT
+      location: "packetBuilder.ts WHAT WE DID NOT DO section"
+      text: "We did NOT submit anything to USCIS on your behalf."
+    source_snapshot:
+      status: PRESENT
+      location: "packetBuilder.ts SOURCE FORMS section"
+      text: "These PDFs were generated from the official USCIS PDFs verified against uscis.gov pages and PDF footer edition stamps on [SNAPSHOT_DATE]."
+
+# ── Code changes summary ───────────────────────────────────────────────────────
+code_changes:
+  - file: "apps/web/src/app/[locale]/services/tps-ukraine/start/GeneratePacketBlock.tsx"
+    change: "nsSignPenWarning strengthened for all 4 locales (uk/ru/en/es) to include FR 2026-09289 cite, deny+fee consequence language"
+
+  - file: "apps/web/src/components/tps/PacketCompletenessChecker.tsx"
+    changes:
+      - "Added signDenyFeeWarning amber box (data-testid=checker-sign-deny-fee-warning) with FR 2026-09289 deny+fee warning"
+      - "Added feeHr1Note amber box (data-testid=checker-hr1-fee-warning) with H.R.1 non-waivable fee warning"
+      - "Fixed critical bug: curly/typographic quotes (U+2018/U+2019) used as string delimiters → replaced with ASCII apostrophes"
+
+  - file: "apps/web/src/app/[locale]/services/tps-ukraine/start/TPSWizard.tsx"
+    change: "s3EadAutoNote (en locale) updated to mark Apr 19, 2026 EAD auto-extension as expired as of May 2026"
+
+  - file: "apps/web/src/app/[locale]/services/tps-ukraine/sources/page.tsx"
+    change: "Added ES locale '⚠ Nuevas reglas 2026' CATEGORIES block with FR 2026-08333 and FR 2026-09289 entries"
+
+  - file: "apps/web/src/lib/tps/packetBuilder.ts"
+    changes:
+      - "README.txt SIGNATURE WARNING block added (FR 2026-09289, effective 2026-07-10)"
+      - "README.txt H.R.1 non-waivable fee note added"
+
+  - file: "apps/web/src/lib/tps/__tests__/packetBuilder.test.ts"
+    changes:
+      - "Added pdf-lib import and readAcroFieldValue() helper for AcroForm split-cell field verification"
+      - "Fixed I-821 A-Number test: changed from pdftotext assertion to AcroForm field read (split-cell fields not reassembled by pdftotext)"
+
+  - file: "apps/web/scripts/check-content-guards.sh"
+    changes:
+      - "Rule 11a: signature deny+fee warning MUST be present in packetBuilder.ts"
+      - "Rule 11b: signature deny+fee warning MUST be present in GeneratePacketBlock.tsx"
+      - "Rule 11c: signature deny+fee warning MUST be present in PacketCompletenessChecker.tsx"
+      - "Rule 12: no unconditional stale EAD auto-extension date (Apr 19, 2026) in EAD context without expired marker"
+
+  - file: "apps/web/test-fixtures/proof/USCIS_RULE_SNAPSHOT_2026-05-12.report.yaml"
+    change: "New file — evidence record for all rule changes, traceable to FR docs"
+
+# ── Legal rules covered ────────────────────────────────────────────────────────
+legal_rules:
+  - rule: "FR doc 2026-09289 (91 FR 25479)"
+    description: "USCIS may deny application and retain filing fee for invalid signature (effective 2026-07-10)"
+    covered_in:
+      - PacketCompletenessChecker.tsx (checker-sign-deny-fee-warning)
+      - GeneratePacketBlock.tsx (nsSignPenWarning, all 4 locales)
+      - packetBuilder.ts README.txt (SIGNATURE WARNING block)
+      - check-content-guards.sh (Rules 11a/11b/11c)
+
+  - rule: "H.R.1 P.L. 119-21 / FR doc 2026-08333 (91 FR 22952)"
+    description: "TPS EAD 1-year validity cap; TPS employment authorization fee and I-94 fee non-waivable via I-912 (effective 2026-05-29)"
+    covered_in:
+      - PacketCompletenessChecker.tsx (checker-hr1-fee-warning)
+      - packetBuilder.ts README.txt (H.R.1 note)
+      - sources/page.tsx (all 4 locales, '⚠ Nuevas reglas 2026' / equivalent sections)
+      - check-content-guards.sh (Rule 12 EAD date staleness guard)
+
+# ── Acceptance criteria verdict ────────────────────────────────────────────────
+acceptance_criteria:
+  all_local_gates_green: PASS
+  commit_on_github_main: PASS
+  vercel_ready_with_correct_sha: PASS
+  landing_alert_banner_live: PASS
+  sources_2026_rules_section_live: PASS
+  wizard_loads_without_errors: PASS
+  checker_has_signature_warning: PASS
+  checker_has_fee_verification_warning: PASS
+  no_unconditional_stale_ead_date: PASS
+  zip_readme_contains_signature_plus_fee_plus_snapshot_warning: PASS
+
+overall: PASS — all acceptance criteria met

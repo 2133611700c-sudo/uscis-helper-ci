@@ -1,0 +1,27 @@
+task: T3PS_FINAL_110_CLOSEOUT
+generated_at: "2026-05-16T08:22:00Z"
+stage: "TPS Stage I Controlled Beta"
+in_scope_required:
+  - tps_stage1_functional_verification
+  - production_sha_truth_and_alignment
+  - gates_reverify
+  - browser_flow_A_and_B_evidence
+  - ocr_matrix_reverify_for_stage1_docs
+  - pdf_zip_reverify_redacted
+  - original_5_prompt_reconciliation
+  - residual_gap_classification
+out_of_scope_explicit:
+  - telegram_monitoring_and_alerting
+  - stripe_or_payment_work
+  - i912_pdf_implementation
+  - public_launch_readiness
+  - paid_launch_readiness
+  - uscis_notice_ocr_module_for_stage1
+  - redesign_or_new_services
+scope_rules:
+  - no_validation_weakening
+  - no_server_bypass
+  - no_raw_pii_or_real_passport_images_in_git
+target_status:
+  controlled_beta: true
+  paid_launch_ready: false

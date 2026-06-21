@@ -1,0 +1,202 @@
+{
+  "_version": "2.0.0",
+  "_purpose": "Civil registry terminology for Ukrainian birth, marriage, and divorce certificate extraction and translation.",
+  "_notes": [
+    "HISTORICAL ACCURACY RULES:",
+    "1. ЗАГС is Soviet-era. Do NOT modernize to ДРАЦС silently.",
+    "2. РАЦС is older Ukrainian civil registry name. Do NOT modernize to ДРАЦС.",
+    "3. ДРАЦС is modern Ukraine (2016+). Use only if source document supports it.",
+    "4. certificate_number is NOT act_record_number. These are different fields.",
+    "5. Unknown civil registry abbreviation → review_required=true, reason=civil_registry_abbreviation_not_verified.",
+    "6. 'Повторно' marker on certificate → review_required=true for repeated_certificate_marker.",
+    "7. Historical registry names must be preserved as printed in source document.",
+    "8. act_record_date is NOT date_of_marriage, NOT date_of_divorce, NOT date_of_issue.",
+    "9. basis_of_divorce must come from a visible source label — never inferred.",
+    "10. court_decision_details must only be extracted when explicitly present on document."
+  ],
+  "registry_agencies": {
+    "ЗАГС": {
+      "uk_full": "Запис актів громадянського стану",
+      "en": "Civil Registry Office (ZAGS)",
+      "era": "soviet-1991",
+      "note": "Soviet-era civil registry. Do NOT silently modernize to ДРАЦС.",
+      "review_required": false,
+      "confidence": "high"
+    },
+    "РАЦС": {
+      "uk_full": "Реєстрація актів цивільного стану",
+      "en": "Civil Status Registration Office",
+      "era": "1991-2016",
+      "note": "Older Ukrainian civil registry designation.",
+      "review_required": false,
+      "confidence": "high"
+    },
+    "ДРАЦС": {
+      "uk_full": "Департамент державної реєстрації актів цивільного стану",
+      "en": "Department of State Registration of Civil Status Acts",
+      "era": "2016-present",
+      "review_required": false,
+      "confidence": "high"
+    },
+    "ВІДДІЛ РАЦС": {
+      "uk_full": "Відділ реєстрації актів цивільного стану",
+      "en": "Civil Status Registration Office Department",
+      "era": "1991-2016",
+      "review_required": false,
+      "confidence": "high"
+    },
+    "ВІДДІЛ ДРАЦС": {
+      "uk_full": "Відділ державної реєстрації актів цивільного стану",
+      "en": "Department of State Registration of Civil Status Acts",
+      "era": "2016-present",
+      "review_required": false,
+      "confidence": "high"
+    },
+    "ВІДДІЛ ДЕРЖАВНОЇ РЕЄСТРАЦІЇ АКТІВ ЦИВІЛЬНОГО СТАНУ": {
+      "uk_full": "Відділ державної реєстрації актів цивільного стану",
+      "en": "Department of State Registration of Civil Status Acts",
+      "era": "2016-present",
+      "review_required": false,
+      "confidence": "high"
+    }
+  },
+  "document_terms": {
+    "СВІДОЦТВО": {
+      "en": "Certificate",
+      "field_hint": "document_type"
+    },
+    "СВІДОЦТВО ПРО НАРОДЖЕННЯ": {
+      "en": "Birth Certificate",
+      "field_hint": "document_type"
+    },
+    "СВІДОЦТВО ПРО ШЛЮБ": {
+      "en": "Marriage Certificate",
+      "field_hint": "document_type"
+    },
+    "СВІДОЦТВО ПРО РОЗІРВАННЯ ШЛЮБУ": {
+      "en": "Divorce Certificate",
+      "field_hint": "document_type",
+      "note": "Also known as Certificate of Dissolution of Marriage."
+    },
+    "СЕРІЯ": {
+      "en": "Series",
+      "field_hint": "certificate_series"
+    },
+    "НОМЕР": {
+      "en": "Number",
+      "field_hint": "certificate_number or act_record_number — must distinguish by label zone"
+    },
+    "АКТОВИЙ ЗАПИС": {
+      "en": "Act Record",
+      "field_hint": "act_record_number",
+      "note": "The civil registry act entry. Different from certificate_number."
+    },
+    "АКТОВИЙ ЗАПИС №": {
+      "en": "Act Record Number",
+      "field_hint": "act_record_number"
+    },
+    "НОМЕР АКТОВОГО ЗАПИСУ": {
+      "en": "Act Record Number",
+      "field_hint": "act_record_number"
+    },
+    "ДАТА СКЛАДАННЯ АКТОВОГО ЗАПИСУ": {
+      "en": "Date of Act Record",
+      "field_hint": "act_record_date"
+    },
+    "ДАТА СКЛАДАННЯ ЗАПИСУ": {
+      "en": "Date of Act Record",
+      "field_hint": "act_record_date"
+    },
+    "ШЛЮБ ЗАРЕЄСТРОВАНО": {
+      "en": "Marriage Registered",
+      "field_hint": "date_of_marriage",
+      "note": "Phrase indicates marriage registration event and date."
+    },
+    "ШЛЮБ РОЗІРВАНО": {
+      "en": "Marriage Dissolved",
+      "field_hint": "date_of_divorce",
+      "note": "Phrase indicates marriage dissolution event and date."
+    },
+    "ДАТА РЕЄСТРАЦІЇ ШЛЮБУ": {
+      "en": "Date of Marriage Registration",
+      "field_hint": "date_of_marriage"
+    },
+    "ДАТА РОЗІРВАННЯ ШЛЮБУ": {
+      "en": "Date of Dissolution of Marriage",
+      "field_hint": "date_of_divorce"
+    },
+    "ПІДСТАВА РОЗІРВАННЯ ШЛЮБУ": {
+      "en": "Basis for Dissolution of Marriage",
+      "field_hint": "basis_of_divorce",
+      "note": "Must come from visible label. Do NOT infer. Long/complex text → manual_review."
+    },
+    "ПІДСТАВА": {
+      "en": "Basis",
+      "field_hint": "basis_of_divorce"
+    },
+    "РІШЕННЯ СУДУ": {
+      "en": "Court Decision",
+      "field_hint": "basis_of_divorce or court_decision_number",
+      "note": "Only extract court decision details if explicitly present on document."
+    },
+    "ПРІЗВИЩЕ ДО ДЕРЖАВНОЇ РЕЄСТРАЦІЇ ШЛЮБУ": {
+      "en": "Surname before State Registration of Marriage",
+      "field_hint": "spouse_N_surname_before_marriage"
+    },
+    "ПРІЗВИЩЕ ПІСЛЯ ДЕРЖАВНОЇ РЕЄСТРАЦІЇ ШЛЮБУ": {
+      "en": "Surname after State Registration of Marriage",
+      "field_hint": "spouse_N_surname_after_marriage"
+    },
+    "ПІСЛЯ ДЕРЖАВНОЇ РЕЄСТРАЦІЇ ШЛЮБУ ПРИСВОЄНО ПРІЗВИЩЕ": {
+      "en": "Surname assigned after State Registration of Marriage",
+      "field_hint": "spouse_N_surname_after_marriage"
+    },
+    "ПОВТОРНО": {
+      "en": "Duplicate / Issued Again",
+      "field_hint": "repeated_certificate_marker",
+      "review_required": true,
+      "note": "Indicates this is a re-issued certificate. Must be shown in Evidence Review."
+    },
+    "ОРГАН РЕЄСТРАЦІЇ": {
+      "en": "Registering Authority",
+      "field_hint": "issuing_authority"
+    },
+    "ОРГАН РЕЄСТРАЦІЇ ШЛЮБУ": {
+      "en": "Marriage Registering Authority",
+      "field_hint": "issuing_authority"
+    },
+    "ДАТА ВИДАЧІ": {
+      "en": "Date of Issue",
+      "field_hint": "date_of_issue"
+    },
+    "ДАТА НАРОДЖЕННЯ": {
+      "en": "Date of Birth",
+      "field_hint": "date_of_birth"
+    },
+    "МІСЦЕ НАРОДЖЕННЯ": {
+      "en": "Place of Birth",
+      "field_hint": "place_of_birth"
+    },
+    "ПРІЗВИЩЕ ДИТИНИ": {
+      "en": "Child's Surname",
+      "field_hint": "child_surname"
+    },
+    "ІМ'Я ДИТИНИ": {
+      "en": "Child's Given Name",
+      "field_hint": "child_given_name"
+    },
+    "ПО БАТЬКОВІ ДИТИНИ": {
+      "en": "Child's Patronymic",
+      "field_hint": "child_patronymic",
+      "note": "Must be rendered as Patronymic, not Middle Name."
+    },
+    "БАТЬКО": {
+      "en": "Father",
+      "field_hint": "father_full_name"
+    },
+    "МАТИ": {
+      "en": "Mother",
+      "field_hint": "mother_full_name"
+    }
+  }
+}

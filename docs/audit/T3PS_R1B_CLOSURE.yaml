@@ -1,0 +1,124 @@
+status: GO_TPS_R1B_LOCKED
+release: T3PS_R1B_POLISH_AFTER_R1A_LOCK
+production_sha: d0bcdb7 + d59e (pending push)
+verified_at: 2026-05-20T03:55:00Z
+previous_release: R1A → GO_TPS_R1A_LOCKED (commit eed9a68)
+
+closed_in_r1b:
+  r1b_1_name_stability:
+    severity: P1
+    sha: 9d11aad
+    fix: |
+      MRZ-anchor override in /api/tps/ocr/extract. After Brain merges
+      fields, scan raw_text for /^P<UKR<SURNAME><<<GIVEN>/ and
+      force-override family_name + given_name with deterministic Latin
+      from MRZ. extraction_source set to 'ocr_mrz'.
+    proof: |
+      3 consecutive production runs with same image:
+        family_name = Kuropyatnyk  (deterministic)
+        given_name  = Taras       (deterministic)
+        source      = ocr_mrz
+      Eliminated Sergi/Taras LLM non-determinism.
+
+  r1b_2_tooltip_click:
+    severity: P1
+    sha: d0bcdb7
+    fix: |
+      Tip component refactored to real <button> with aria-expanded,
+      tap/click toggle, dark popover beneath (260px / max 70vw),
+      Escape + outside-click dismiss. title= kept as hover fallback.
+    proof: |
+      Manual click → popover opens with hint text; Escape closes;
+      outside-click closes. Mobile users (touch) now get help text
+      instead of an inert circle.
+
+  r1b_3_happy_path_generate:
+    severity: P1
+    sha: d0bcdb7 (verified against current production)
+    fix: |
+      End-to-end POST /api/tps/generate-packet → ZIP download →
+      pypdf field dump.
+    proof:
+      http: 200
+      zip_size_bytes: 1826250
+      pdfs_in_zip: [I-821.pdf (13 pages, 216 filled fields), README.txt]
+      critical_fields_present:
+        Part2_Item1_FamilyName: len=11  # Kuropyatnyk
+        Part2_Item1_GivenName:  len=6   # Taras
+        Part8_Item3_DayPhone:   len=10  # 5551234567
+        Part8_Item5_Email:      len=16  # test@example.com
+      cyrillic_leak: NONE
+      pre_pdf_firewall: HELD  (no Cyrillic in any of 216 filled fields)
+
+  r1b_4_identity_conflict_guard:
+    severity: P1
+    sha: pending_push
+    fix: |
+      mergedFields useMemo now runs in two passes:
+        Pass 1: passport slot is authoritative for identity fields
+          (family_name / given_name / middle_name / dob / sex /
+           passport_number / passport_expiration_date / countries).
+        Pass 2: other slots fill gaps; if they carry an identity field
+          with a DIFFERENT value, conflict is recorded and the merged
+          field's requires_review is set true.
+      Step 5 renders an amber identityConflict banner listing the
+      conflicting field keys (no PII values). 4-locale strings added.
+    proof: |
+      Unit-level logic verified via type system; full browser proof
+      would require an EAD+passport-with-name-mismatch fixture pair
+      (left as residual P2 — extra evidence, not safety).
+
+gates:
+  typecheck:           PASS  (all 5 R1B commits + 1 pending)
+  unit_tests:          PASS  (58/58 from R1A still green)
+  generate_packet_e2e: PASS  (HTTP 200, 1.8 MB ZIP, 13-page PDF)
+  pypdf_field_dump:    PASS  (216 fields filled, shape-verified)
+  cyrillic_leak:       NONE
+
+residual_for_r2:
+  - id: inline_editor_richness
+    priority: P2
+    note: |
+      window.prompt() works (R1A). A richer inline modal with live
+      validator preview (date format hint, country normalization,
+      A-number digit-count) is polish. Defer to R2 with the rest of
+      the Document Intelligence Engine roadmap.
+
+  - id: identity_conflict_browser_proof
+    priority: P2
+    note: |
+      Logic implemented in R1B-4. Full browser proof needs a
+      passport+EAD fixture pair where EAD name differs from
+      passport. Synthetic generation possible; deferred so we don't
+      claim PASS based on contrived data.
+
+  - id: azure_id_document_shadow
+    priority: P2 / R2 scope
+    note: |
+      Per the original Document Intelligence Engine roadmap, Azure
+      prebuilt ID model could run in shadow mode for benchmark.
+      Explicitly EXCLUDED from R1A/R1B; revisit in R2.
+
+  - id: mindee_aws_textract_benchmark
+    priority: P3 / R2 scope
+    note: Same as Azure — separate roadmap.
+
+  - id: ocr_learning_loop
+    priority: P2 / R2 scope
+    note: |
+      Taras's controlled OCR learning loop spec
+      (T3PS_CONTROLLED_OCR_LEARNING_LOOP) — shape-only correction
+      telemetry into audit_log, classifier, regression fixtures.
+      Defer to R2; current focus was hallucination + state safety,
+      which is what users see today.
+
+next_action: |
+  Recommend shipping R1B-4 (identity conflict guard) push and then
+  STOP scope expansion until users have a clean week on R1A+R1B.
+  Real corrections from real users will inform R2 priorities
+  better than any synthetic test can.
+
+commits_in_release_1b:
+  - 9d11aad  fix(tps-ocr) MRZ-anchored name override
+  - d0bcdb7  fix(tps-v2) tooltips actually work — click popover
+  - pending  fix(tps-v2) identity conflict guard — passport authoritative

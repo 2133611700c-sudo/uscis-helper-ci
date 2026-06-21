@@ -1,0 +1,112 @@
+# V1_COMPLETION.yaml — the completion control plane.
+#
+# PURPOSE: stop the "audit → micro-fix → new audit" loop. Exactly ONE active
+# phase at a time, formal gates, and machine-checked rules (scripts/verify-v1-
+# completion.mjs + .github/workflows/v1-program-guard.yml).
+#
+# RULES (guard-enforced):
+#  - exactly one active phase (status IN_PROGRESS|BLOCKED|FAILED) == active_phase
+#  - phases before the active one must be PASS; phases after must be NOT_STARTED
+#  - a phase may be PASS only if its evidence file exists
+#  - production is FORBIDDEN as a benchmark/E2E target (staging only)
+#  - handwriting is NOT in V1 auto-final
+#  - PR #119 stays frozen; global enforce + new products forbidden
+#  - positive hosted Stripe delivery stays RUNTIME_UNVERIFIED until staging E2E
+#  - V1_STATUS.md is generated (scripts/gen-v1-status.mjs), never hand-edited
+schema_version: 1
+program: V1_COMPLETION
+active_phase: GROUND_TRUTH_CORPUS_AND_CACHE
+
+status_enum: [NOT_STARTED, IN_PROGRESS, BLOCKED, PASS, FAILED]
+
+policies:
+  pr_119: frozen
+  global_enforce: forbidden
+  new_products: forbidden
+  production_as_benchmark_target: forbidden
+  benchmark_target: staging_only
+  handwriting_in_v1_auto_final: false
+  positive_stripe_delivery: RUNTIME_UNVERIFIED
+  canonical_core_rewrite: forbidden
+
+deployed_truth:
+  security_hotfix_pr_122: DEPLOYED
+  per_action_auth: DEPLOYED
+  stripe_recipient_reverification: DEPLOYED
+  negative_security_smoke: VERIFIED
+  positive_paid_delivery: RUNTIME_UNVERIFIED
+  browser_pii: containment_only
+  dedicated_staging: false
+
+phases:
+  - name: STAGING_CONTROL_PLANE
+    status: PASS
+    blocked_by: []
+    gates: [tsc, unit, build, content_guard, pii_guard, release_state_guard, v1_program_guard, workflow_syntax, staging_contract_tests, production_target_rejection_tests, provider_budget_tests, ocr_cache_key_tests]
+    exit_criteria:
+      - staging contract committed
+      - env validator tests pass
+      - production-target rejection tests pass
+      - provider budget guard tests pass
+      - OCR cache key tests pass
+      - workflows pass syntax validation
+      - nightly staging workflow is dry-run only
+      - no real provider calls
+      - no Stripe calls
+      - no production changes
+      - PR #119 unchanged
+    evidence: artifacts/v1/STAGING_CONTROL_PLANE/verdict.json
+  - name: DARK_CODE_INVENTORY
+    status: PASS
+    blocked_by: [STAGING_CONTROL_PLANE]
+    evidence: artifacts/v1/DARK_CODE_INVENTORY/verdict.json
+  - name: PRIVATE_DOCUMENT_REGISTRY
+    status: PASS
+    blocked_by: [DARK_CODE_INVENTORY]
+    evidence: artifacts/v1/PRIVATE_DOCUMENT_REGISTRY/verdict.json
+  - name: GROUND_TRUTH_CORPUS_AND_CACHE
+    status: IN_PROGRESS
+    blocked_by: [PRIVATE_DOCUMENT_REGISTRY]
+    evidence: artifacts/v1/GROUND_TRUTH_CORPUS_AND_CACHE/verdict.json
+  - name: PRINTED_CYRILLIC_AND_IMAGE_QUALITY
+    status: NOT_STARTED
+    blocked_by: [GROUND_TRUTH_CORPUS_AND_CACHE]
+    evidence: artifacts/v1/PRINTED_CYRILLIC_AND_IMAGE_QUALITY/verdict.json
+  - name: BRAIN_AND_DICTIONARIES
+    status: NOT_STARTED
+    blocked_by: [PRINTED_CYRILLIC_AND_IMAGE_QUALITY]
+    evidence: artifacts/v1/BRAIN_AND_DICTIONARIES/verdict.json
+  - name: USCIS_PDF_FIELD_PROOF
+    status: NOT_STARTED
+    blocked_by: [BRAIN_AND_DICTIONARIES]
+    evidence: artifacts/v1/USCIS_PDF_FIELD_PROOF/verdict.json
+  - name: TRANSLATION_V2_REBASE_AND_TEST
+    status: NOT_STARTED
+    blocked_by: [USCIS_PDF_FIELD_PROOF]
+    evidence: artifacts/v1/TRANSLATION_V2_REBASE_AND_TEST/verdict.json
+  - name: HOSTED_STRIPE_TEST_MODE_E2E
+    status: NOT_STARTED
+    blocked_by: [TRANSLATION_V2_REBASE_AND_TEST]
+    evidence: artifacts/v1/HOSTED_STRIPE_TEST_MODE_E2E/verdict.json
+  - name: TRANSLATION_V2_SHADOW_CANARY_CUTOVER
+    status: NOT_STARTED
+    blocked_by: [HOSTED_STRIPE_TEST_MODE_E2E]
+    evidence: artifacts/v1/TRANSLATION_V2_SHADOW_CANARY_CUTOVER/verdict.json
+  - name: SERVER_LEDGER_PHASE_B
+    status: NOT_STARTED
+    blocked_by: [TRANSLATION_V2_SHADOW_CANARY_CUTOVER]
+    evidence: artifacts/v1/SERVER_LEDGER_PHASE_B/verdict.json
+  - name: PRODUCT_SCOPED_ENFORCE
+    status: NOT_STARTED
+    blocked_by: [SERVER_LEDGER_PHASE_B]
+    evidence: artifacts/v1/PRODUCT_SCOPED_ENFORCE/verdict.json
+  - name: P2_OPERATIONS
+    status: NOT_STARTED
+    blocked_by: [PRODUCT_SCOPED_ENFORCE]
+    evidence: artifacts/v1/P2_OPERATIONS/verdict.json
+
+handwriting:
+  track: research
+  blocks_v1: false
+  automatic_final: forbidden
+  policy: candidate_plus_assisted_manual_review

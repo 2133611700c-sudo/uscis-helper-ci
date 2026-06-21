@@ -1,0 +1,57 @@
+gaps:
+  - id: T3PS-GAP-001
+    priority: ACCEPTED
+    title: Telegram monitoring transport not required for functional closeout
+    description: TELEGRAM_BOT_TOKEN/CHAT_ID transport is operational monitoring scope, not TPS functional correctness scope.
+    evidence:
+      - /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_CONTROLLED_BETA_DAY1_REPORT.yaml
+    risk: Monitoring alerts may be delayed or absent unless transport is configured.
+    decision: accepted_non_blocking_for_stage_i_functional_closeout
+    owner: Taras
+    next_action: Enable transport before broader beta scale-up.
+
+  - id: T3PS-GAP-002
+    priority: P1
+    title: _vercel insights 404 and CSP beacon noise in browser console
+    description: Browser runs consistently show 404 for /_vercel/insights/script.js and CSP-blocked Cloudflare beacon script.
+    evidence:
+      - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-master/browser_summary_A.json
+      - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-master/browser_summary_B.json
+    risk: Console noise may hide future real client-side issues.
+    decision: non_blocking_for_tps_generate_flow
+    owner: Engineering
+    next_action: Clean analytics/CSP configuration in separate P1 task.
+
+  - id: T3PS-GAP-003
+    priority: ACCEPTED
+    title: USCIS notice OCR module not in Stage I route
+    description: doc_type_hint=uscis_notice returns module_field_count=0 and is not wired to wizard/PDF in current Stage I scope.
+    evidence:
+      - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-master/ocr_matrix_reverify.json
+    risk: USCIS notice uploads are not auto-extracted in this contour.
+    decision: not_required_stage_i
+    owner: Product
+    next_action: Reassess for Stage II scope.
+
+  - id: T3PS-GAP-004
+    priority: ACCEPTED
+    title: I-912 is not generated
+    description: health/form metadata confirms I-912 filled=false; no I-912 PDF generation in current TPS packet.
+    evidence:
+      - https://messenginfo.com/api/tps/health
+    risk: Users expecting fee-waiver packet generation will not receive I-912.
+    decision: out_of_scope_current_release
+    owner: Product
+    next_action: Keep explicit user-facing disclaimer; evaluate separate implementation.
+
+  - id: T3PS-GAP-005
+    priority: P1
+    title: Real-document pilot completeness varies across historical reports
+    description: Real-doc evidence exists but historical runs include environment and privacy constraints; consolidated rerun used synthetic/redacted fixtures.
+    evidence:
+      - /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_04_REAL_DOCUMENT_AI_OCR_ROBUSTNESS.md
+      - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-master/ocr_matrix_reverify.json
+    risk: Confidence for messy real-world scans is lower than synthetic fixtures.
+    decision: non_blocking_for_controlled_beta_small_cohort
+    owner: Operations
+    next_action: Run supervised real-doc pilot in controlled beta with strict redaction.

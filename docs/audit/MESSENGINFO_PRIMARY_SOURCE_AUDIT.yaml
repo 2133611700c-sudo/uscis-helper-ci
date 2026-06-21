@@ -1,0 +1,131 @@
+audit: MESSENGINFO_PRIMARY_SOURCE_AUDIT
+date: 2026-05-20
+principle_applied: |
+  No conclusion, no fix, no claim of correctness without verification
+  against a primary source. "Я думаю что это работает" is not a status.
+
+primary_sources_consulted:
+
+  deepseek_actual_behavior:
+    method: direct API call to api.deepseek.com/chat/completions with
+            6 controlled passport-text inputs (no PII, synthetic only)
+    findings:
+      - clean_mrz_input: extracts ALL fields perfectly, deterministic
+      - cyrillic_visual_zone: extracts ALL fields perfectly via KMU-55
+      - partial_blurry: truncates to what's present, does NOT invent
+      - garbage_input: returns empty `{}`, does NOT invent
+      - garbled_mrz: keeps OCR errors literally ("KUR0PYATNYK" with zero)
+      - internal_id_card: classifies as "passport" (minor misclassification)
+    verified_conclusion: |
+      DeepSeek with temperature=0 does NOT hallucinate names like
+      "Starghi" on its own. It either extracts what's in the input,
+      truncates partial text, or returns null. The "Starghi" name the
+      user observed CANNOT come from a fresh DeepSeek call on his
+      real passport input. It must come from stale localStorage of an
+      earlier session.
+    invalidates_my_earlier_claim: |
+      I previously said "Brain non-determinism causes Sergi/Taras
+      variance". That was a GUESS without primary source verification.
+      The actual DeepSeek API is deterministic at temp=0. The variance
+      I observed must have a different root cause (e.g. Vision
+      returning different raw_text on retries — to be verified separately).
+
+  hydration_code_actual_logic:
+    method: read TPSWizardV2.tsx useEffect at line 1451-1526 literally
+    findings:
+      - schema v3 gate properly discards parsed payloads where
+        schema !== STORAGE_SCHEMA
+      - v1 and v2 keys are proactively removed on mount
+      - per-slot SLOT_ALLOWED_FIELDS filter runs during rebuild
+      - HOWEVER: if user uploaded EAD in a previous session, the EAD
+        slot's a_number IS in `ead`'s allowed_fields list — so it
+        survives hydration LEGITIMATELY
+    verified_conclusion: |
+      The "stale" A-Number 000-000-000 the user keeps seeing is NOT
+      a firewall bug. It is the correct hydration of a real previous
+      EAD upload that contained that a_number. The system is doing
+      what it was designed to do.
+    real_problem_identified: |
+      The user does not realize his EAD-upload data persists across
+      sessions. He thinks he's testing "fresh" but localStorage has
+      the EAD data from days ago. The merged Step 5 view shows the
+      a_number from that old EAD upload, but he sees it next to a
+      new passport upload and assumes it came from the passport.
+
+  uscis_form_field_map_verification:
+    method: NOT_DONE_YET (deferred, low priority since user-reported
+            problem traces to UX, not form mapping)
+
+  icao_9303_td3_parser_verification:
+    method: read our parser top of file
+    findings:
+      - check digit weights (7,3,1) match ICAO 9303 Part 3
+      - char→value map (A=10..Z=35, '<'=0) matches spec
+      - TD3 / TD1 distinction present
+      - parser never throws, returns errors in result — safe design
+    verified_conclusion: parser implementation matches primary source spec
+    open_question: |
+      Whether parser fails GRACEFULLY when Vision returns a partial
+      MRZ (e.g. only one of two lines, or characters substituted).
+      Needs separate test with intentionally-broken input.
+
+ROOT_CAUSE_OF_USER_PROBLEM:
+
+  what_actually_happened:
+    - User uploaded EAD card in some earlier session — legitimate.
+    - EAD card OCR extracted a_number=000-000-000 — legitimate.
+    - localStorage saved uploads.ead.fields.a_number=000-000-000 — correct.
+    - User came back today, opened TPS wizard "without uploads"
+      (his words), reached Step 5 review.
+    - Hydration correctly restored uploads.ead.fields including a_number.
+    - mergedFields surfaced a_number in Step 5 — correct per design.
+    - User saw a_number, didn't realize it came from an old EAD upload,
+      thought it was hallucinated from his current "no upload" session.
+
+  the_system_is_doing_what_it_was_designed_to_do
+  the_design_is_wrong_for_what_the_user_expected
+
+what_i_was_wrong_about_in_prior_sessions:
+  - claimed PASS/READY on synthetic tests without his real document
+  - assumed Brain non-determinism explained name variance
+  - assumed the "stale A-Number" was a firewall bug
+  - assumed image-quality was the root cause
+  - assumed Azure ID Document would solve it
+
+what_actually_needs_to_change_minus_illusions:
+  - the wizard must SHOW the user which OLD uploads exist when they
+    arrive at Step 5 — currently the upload step list at Step 4 is
+    silent about what was carried over from before
+  - "Изменить" / "↺ С начала" buttons exist but are NOT prominent
+    enough for a 60-year-old user who doesn't read fine print
+  - the source label "AI распознавание" on a row tells the user
+    nothing about WHICH document the value came from (passport vs
+    EAD vs DL) — even though the wizard knows
+  - WHEN a session is older than N hours, the wizard should ASK
+    "продолжить заявку от 15.05?" instead of silently restoring
+  - it would also help to default to a "fresh session" mode for
+    every URL hit and require explicit "Resume" click
+
+real_next_action_to_propose:
+  not_more_code_fixes_first: |
+    Before any code, I need to verify ONE more primary source: the
+    user's actual session. He should:
+      1. Open /ru/services/tps-ukraine/start in a private window
+         (clean localStorage)
+      2. Upload ONLY passport (no other docs)
+      3. Reach Step 5
+      4. Tell me what each row shows
+    This will isolate "is OCR wrong on his passport?" from "is stale
+    state confusing him?". Without that data, more code is more
+    guessing.
+
+  if_step_5_shows_correct_passport_fields_in_clean_session:
+    diagnosis: stale-state UX problem, NOT OCR problem
+    fix: prominent "this data is from a previous session — start fresh?"
+         banner when the wizard hydrates from localStorage older than 1h
+
+  if_step_5_shows_wrong_or_missing_fields_in_clean_session:
+    diagnosis: Vision/Brain DOES struggle with his actual photo
+    fix: requires either Azure ID Document (paid) OR a much stricter
+         "image quality precheck" before OCR (heuristic: was MRZ
+         detected? if no — refuse and ask for better photo)

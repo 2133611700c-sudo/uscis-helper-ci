@@ -1,0 +1,174 @@
+status: GO_REAL_OCR_READY
+production_sha: 66de140
+verified_at: 2026-05-20T00:41:34Z
+scope: TPS Ukraine, international passport biographic page (Cyrillic + Latin)
+
+documents_tested:
+  realistic_ukrainian_intl_passport_visual_zone:
+    fixture: synthetic but real-shape — bilingual Cyrillic labels, 2-digit
+      year dates (13.07.85, 01.01.30), bilingual sex (Ч / M), bilingual
+      nationality (УКРАЇНА / UKRAINE), MRZ at bottom
+    no_pii_committed: true
+
+passport:
+  family_name: PASS  (value: Kuropyatnyk)
+  given_name: PASS   (value: Taras)
+  dob: PASS          (source 13.07.85 -> 07/13/1985)
+  sex: PASS          (source "Ч / M" -> M)
+  passport_number: PASS  (value: EK790396)
+  passport_expiration: PASS  (source 01.01.30 -> 01/01/2030)
+  country_normalization: PASS  ("Ukraina / Ukraine" -> "Ukraine")
+  patronymic: NOT_PRESENT_BY_DESIGN  (intl passport has no patronymic; UI shows explainer copy)
+
+i94: NOT_EXERCISED_IN_THIS_ROUND
+ead: NOT_EXERCISED_IN_THIS_ROUND
+
+critical_failures: []
+
+root_causes_fixed:
+  - id: parseDate_two_digit_year
+    description: |
+      parseDate only accepted 4-digit years. Real Ukrainian passport
+      visual zone is "DD.MM.YY" (e.g. "13.07.85"). Validator
+      dropped dob into validated_skipped['date not parseable'].
+    fix: |
+      Added DD.MM.YY and DD/MM/YY formats with century-resolve
+      (YY > currentYear%100 + 10 ⇒ 19YY else 20YY) so '85' → 1985,
+      '30' → 2030.
+
+  - id: parseDate_cyrillic_months
+    description: |
+      Visual zone also stamps "D MMM YYYY" with Cyrillic month tokens
+      (СІЧ / ЛЮТ / БЕР / ... / ГРУ for Ukrainian; ЯНВ / ФЕВ / ... / ДЕК
+      for Russian). Old token map was Latin-only.
+    fix: |
+      Added full Ukrainian + Russian month abbreviation tables. Visual
+      regex char class extended to include Cyrillic + Ukrainian-
+      specific letters (Іі Її Єє Ґґ). 2-digit-year branch reused.
+
+  - id: sex_validator_too_strict
+    description: |
+      validateBrainField checked .toUpperCase().charAt(0) against
+      M/F/X — Cyrillic Ч / Ж / "Ч / M" all rejected.
+    fix: |
+      Sex normalizer pads input with spaces, strips non-letters, and
+      scans for any recognizable marker anywhere: Latin M/F/X, Cyrillic
+      Ч/Ж, ЧОЛ/ЖІН/МУЖ/ЖЕН full words. Writes canonical Latin back to
+      final_value so PDF prefill never sees Cyrillic.
+
+  - id: cyrillic_safety_guard_ordering
+    description: |
+      Validator started with hasCyrillic(final_value) hard-reject. That
+      gated dob/sex/country normalization — they never got a chance to
+      convert Cyrillic to Latin/numeric form.
+    fix: |
+      Guard now skipped for fieldKey ∈ {dob, *_date, sex,
+      country_of_nationality, passport_country_of_issuance} — those
+      fields normalize themselves and write back canonical Latin.
+
+  - id: country_bilingual_stamp
+    description: |
+      Brain pulled "Ukraina / Ukraine" as one token from the bilingual
+      stamp. Single-shot normalizeCountry didn't recognize the joined
+      form.
+    fix: |
+      Country validator splits on / and runs each half through
+      normalizeCountry; first successful alias match wins.
+
+  - id: brain_prompt_ukrainian_rules
+    description: |
+      SYSTEM_PROMPT didn't explicitly teach the LLM about Cyrillic sex
+      markers, 2-digit years, Cyrillic months, or the dob-vs-issue-date
+      safety rule.
+    fix: |
+      Prompt extended with rules 9-14: sex Ч/Ж → M/F, Cyrillic month
+      table, 2-digit year normalization, do-not-confuse dob with issue
+      or expiration date, Ukrainian passport number shape, a_number
+      digits-only with no A prefix.
+
+best_practices_collected_from_other_services:
+  - id: vision_language_hints
+    where: apps/web/src/lib/ocr/providers/google-vision.ts:117
+    pattern: 'languageHints: ["uk", "en", "ru"]'
+    reuse: already applied to TPS (single shared OCR provider)
+  - id: shared_deepseek_client
+    where: apps/web/src/lib/deepseek/client.ts
+    pattern: one client, one DEEPSEEK_API_KEY, environment-driven
+    reuse: TPS Brain uses the same client, no duplicate config
+  - id: mrz_parser
+    where: apps/web/src/lib/translation/identity/mrzParser.ts
+    pattern: TD3 + TD1 with check-digit validation
+    reuse: TPS passport module imports parseTd3 directly
+  - id: kmu55_transliteration
+    where: apps/web/src/lib/tps/transliterate.ts
+    pattern: Ukrainian KMU-55 official Latin transliteration
+    reuse: used by Brain hardening to enforce non-Cyrillic name finals
+
+production_e2e:
+  curl_against_prod:
+    POST /api/tps/ocr/extract with realistic UA passport fixture:
+      vision_text_length: 411
+      brain_status: ran
+      final_field_count: 8
+      validated_skipped: []
+      extracted:
+        family_name: Kuropyatnyk
+        given_name: Taras
+        dob: "07/13/1985"
+        sex: M
+        country_of_nationality: Ukraine
+        passport_number: EK790396
+        passport_country_of_issuance: Ukraine
+        passport_expiration_date: "01/01/2030"
+  health_endpoint:
+    sha_at_test_time: 66de140 (deploy READY before curl)
+    note: CDN may serve cached /api/tps/health SHA briefly; OCR endpoint
+      is dynamic so the test above runs against the live code.
+
+remaining_gaps:
+  - id: real_user_image_quality
+    priority: P1
+    description: |
+      Synthetic-but-realistic UA passport now passes 8/8. Real photo
+      uploads can still fail at the IMAGE layer (blur, glare, severe
+      rotation, missing biographic zone). These are pre-OCR problems
+      — the recommendation is to ship the existing improvements,
+      monitor real uploads, then add image-quality hints (P1 from the
+      learning-loop spec — smart retake).
+
+  - id: i94_real_world_matrix
+    priority: P1
+    description: |
+      I-94 PDF screenshots from cbp.dhs.gov vary in layout. Pull a
+      handful of real (redacted) samples and confirm
+      i94_admission_number / class_of_admission / last_entry_date
+      extraction holds.
+
+  - id: ead_real_world_matrix
+    priority: P1
+    description: |
+      EAD card photo orientation can be either landscape or portrait;
+      A-number / category / expiration extraction should be tested
+      against both with real samples.
+
+  - id: brain_dob_safety
+    priority: P2
+    description: |
+      Brain prompt now tells the LLM not to use issue/expiration as
+      dob, but there's no programmatic check that the chosen dob
+      isn't equal to either. Add an anti-confusion check inside
+      validateBrainField: if dob == passport_expiration_date or
+      dob == issue date, force review_required.
+
+next_action:
+  - Taras uploads the SAME real passport that previously failed.
+  - Expected: dob, sex, expiration all populated; country = Ukraine.
+  - If anything still missing, the OCR diagnostics
+    (brain_status / validated_skipped[] / final_field_keys) pinpoint
+    the exact layer in one look.
+
+commits:
+  - sha: 91f85a2
+    message: fix(tps-ai) real UA passport — DOB 2-digit year, Cyrillic month, Ч/Ж sex
+  - sha: 66de140
+    message: fix(tps-ai) sex "Ч / M" bilingual + country "Ukraina / Ukraine" split

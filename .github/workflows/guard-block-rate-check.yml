@@ -1,0 +1,31 @@
+name: L1 Guard-Block Rate Check
+
+on:
+  schedule:
+    - cron: '0 * * * *' # hourly
+  workflow_dispatch:
+
+jobs:
+  rate-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          run_install: false
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - name: Guard-block rate check
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          TELEGRAM_OWNER_WEBHOOK_URL: ${{ secrets.TELEGRAM_OWNER_WEBHOOK_URL }}
+          # Calibrated AFTER the baseline window. UNSET ⇒ Infinity ⇒ never alerts (safe).
+          GUARD_BLOCK_RATE_THRESHOLD: ${{ vars.GUARD_BLOCK_RATE_THRESHOLD }}
+        run: npx tsx scripts/monitoring/guard-block-rate-check.ts

@@ -1,0 +1,49 @@
+report: T3PS_ORIGINAL_5_PROMPTS_LOCK_FINAL
+generated_at: "2026-05-16T09:36:00Z"
+prompts:
+  t3ps_01:
+    classification: PASS_AS_WRITTEN
+    stage_i_blocker: false
+    evidence:
+      - /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_01_PRODUCTION_TRUTH_BASELINE.yaml
+      - /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_110_TRUTH_BASELINE.yaml
+    note: baseline and sha/deploy truth reconfirmed
+
+  t3ps_02:
+    classification: PASS_BY_SUPERSEDING_EVIDENCE
+    stage_i_blocker: false
+    evidence:
+      - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/browser_summary_A.json
+      - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/browser_summary_B.json
+    note: stronger A/B rerun evidence supersedes earlier contour snapshots
+
+  t3ps_03:
+    classification: PASS_BY_SUPERSEDING_EVIDENCE
+    stage_i_blocker: false
+    evidence:
+      - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/pdf_reverify_summary.json
+      - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/i821_field_dump_redacted.txt
+      - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/i765_field_dump_redacted.txt
+    note: fresh pypdf/zip proof is stronger than older coverage reports
+
+  t3ps_04:
+    classification: PARTIAL_NON_BLOCKING
+    stage_i_blocker: false
+    evidence:
+      - /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_04_REAL_DOCUMENT_AI_OCR_ROBUSTNESS.yaml
+      - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-110/ocr_matrix_reverify.json
+    note: real-doc depth constrained by redaction/privacy policy; stage I functional contour still proven
+
+  t3ps_05:
+    classification: PASS_BY_SUPERSEDING_EVIDENCE
+    stage_i_blocker: false
+    evidence:
+      - /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_110_FINAL_RELEASE_LOCK.yaml
+      - /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_MASTER_RELEASE_LOCK_FINAL.yaml
+    note: earlier no-go snapshot superseded by stronger consolidated evidence chain
+
+summary:
+  original_5_prompts_block_stage_i: false
+  open_blocking_items_count: 0
+  superseded_items_count: 3
+  conclusion: "Original five prompt accounting is complete by superseding evidence; no current Stage I blocker remains."

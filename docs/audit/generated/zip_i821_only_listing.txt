@@ -1,0 +1,7 @@
+Archive:  test-fixtures/proof/t3ps-closeout/i821_only/packet.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+  1822113  05-14-2026 07:15   I-821.pdf
+     3314  05-14-2026 07:15   README.txt
+---------                     -------
+  1825427                     2 files

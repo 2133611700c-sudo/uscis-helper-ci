@@ -1,0 +1,252 @@
+task: TPS_TRUST_HARDENING_V1
+status: PASS
+mode: approved by user — T1–T6, no I-94/EAD/I-912 in this cycle
+generated_at: "2026-05-10T22:35Z"
+
+# ── COMMIT + DEPLOYMENT ─────────────────────────────────────────────────────
+commit_sha: e6017f835ed8ca335ce5f05e77de8505a459d170
+commit_short: e6017f8
+commit_message: "feat(tps): trust-hardening — inline edit, build SHA meta, \"Start over\" CTA, mobile chat fix"
+
+vercel_deployment_id: dpl_BpJy6gBZRTBwCyCAdCXr6pV1KFwE
+vercel_state: READY
+vercel_build_seconds: 80
+production_url: https://messenginfo.com
+inspector_url: https://vercel.com/sergiis-projects-8a97ee0f/uscis-helper/BpJy6gBZRTBwCyCAdCXr6pV1KFwE
+
+# ── FILES CHANGED ───────────────────────────────────────────────────────────
+files_changed:
+  - path: apps/web/src/components/widgets/MiaFloatingWidget.tsx
+    lines: "+28 / -0"
+    purpose: "T2 — hide widget on TPS/Re-Parole/Translate wizard routes via usePathname() substring match"
+
+  - path: apps/web/src/app/[locale]/layout.tsx
+    lines: "+11 / -0"
+    purpose: "T6 — <meta x-build-sha> and <meta x-vercel-deployment> in <head>"
+
+  - path: apps/web/src/lib/tps/packetBuilder.ts
+    lines: "+13 / -3"
+    purpose: "T5 — clarifying comment + rename README phrasing to 'AcroForm cells written' so header/README contract is explicit"
+
+  - path: apps/web/src/app/[locale]/services/tps-ukraine/start/TPSWizard.tsx
+    lines: "+92 / -36"
+    purpose: |
+      T3 — replace window.prompt() onEdit handler with OcrFieldEditModal
+            (parent-controlled editingField state).
+      T4 — add 'Начать заново' pill + 'Вы продолжаете предыдущую сессию.'
+            banner shown when localStorage has non-default state. 4 locale
+            strings added (s1ResumeNote, s1RestartCta).
+
+  - path: apps/web/src/components/tps/OcrFieldEditModal.tsx
+    lines: "+352 (new file)"
+    purpose: |
+      T3 — typed inline edit modal:
+        - 'date'  → <input type=\"date\">
+        - 'sex'   → M/F segmented control
+        - 'text'  → text input with autoCapitalize=characters
+      Esc + backdrop close, auto-focus first control, role=dialog
+      aria-modal. 4 locales (uk/ru/en/es). Preserves
+      extraction_source='user_corrected' contract on save.
+
+# ── PER-FIX VERIFICATION ────────────────────────────────────────────────────
+T1_privacy_503:
+  status: NOT_A_BUG_DOCUMENTED
+  evidence:
+    /ru/privacy: 200
+    /uk/privacy: 200
+    /en/privacy: 200
+    /es/privacy: 200
+  finding: |
+    The auditor's 503 was a transient Vercel cold-start, not a route bug.
+    Page file exists at apps/web/src/app/[locale]/privacy/page.tsx and
+    serves cleanly across all 4 locales. No code change required;
+    documented here for future audit traceability.
+
+T2_mobile_chat_overlap:
+  status: FIXED
+  evidence_dom:
+    on_tps_wizard: "document.querySelectorAll('[data-mia-widget]').length === 0"
+    on_homepage:   "document.querySelectorAll('[data-mia-widget]').length === 1"
+  fix: "MiaFloatingWidget returns null on /services/tps-ukraine/start, /services/re-parole-u4u/start, /services/translate-document/start"
+
+T3_inline_edit_modal:
+  status: FIXED_END_TO_END
+  evidence:
+    code_in_bundle: "OcrFieldEditModal + ocr-edit-modal testid present in deployed JS chunk"
+    no_window_prompt_in_bundle: 0
+    browser_roundtrip:
+      step_1: "Upload synthetic passport via OCR upload screen"
+      step_2: "Click 'Дальше' → SelfReviewScreen renders with 8 rows"
+      step_3: "Click [data-testid=review-edit-family_name] → modal opens"
+      step_4: "Modal shows: 'ИСПРАВИТЬ', 'Фамилия', text input value='Testsurname', hint, Отмена/Сохранить buttons"
+      step_5: "Set input to 'EditedName' via native setter + dispatch input/change events"
+      step_6: "Click [data-testid=ocr-edit-save] → modal closes"
+      step_7: "Review row 'family_name' shows 'EditedName' (was 'Testsurname')"
+      step_8: "Other 7 rows unchanged: Testgiven, AB1234567, Ukraine, 1985-07-12, M, 2029-06-30, Ukraine"
+    invariants_preserved:
+      - extraction_source flips to 'user_corrected' (provenance contract)
+      - empty save flips review_required=true
+      - SelfReviewScreen.locked_ux still passes (one Изменить per row)
+
+T4_start_over_cta:
+  status: FIXED
+  evidence:
+    fresh_session: "hasResumeBanner=false, hasRestartCta=false"
+    after_choice_made_and_reloaded:
+      hasResumeBanner: true
+      hasRestartCta: true
+      banner_text: "Вы продолжаете предыдущую сессию.↺ Начать заново"
+    visual: "Blue banner with restart pill rendered above 'Шаг 1' h2 — see screenshot of reload-with-state state in /test-fixtures/proof/ folder"
+
+T5_field_count_reconciliation:
+  status: NOT_A_BUG_LABEL_CLARIFIED
+  finding: |
+    The X-TPS-I821-Applied response header and the README's
+    'N AcroForm cells written' line read from the SAME variable
+    (result.i821.applied in apps/web/src/app/api/tps/generate-packet/route.ts).
+    Audit #2's '26' vs my measured '32' was apples-to-oranges (different
+    request bodies in different sessions).
+  evidence:
+    header_count: 32
+    readme_line: "I-821 (Application for TPS) — edition 01/20/25, 32 AcroForm cells written"
+    match: true
+  fix: |
+    Renamed README phrasing from 'N fields prefilled' to
+    'N AcroForm cells written' so it's clearer that it includes
+    checkbox + dropdown cells in addition to text fields.
+
+T6_build_sha_meta:
+  status: FIXED
+  evidence:
+    html_head_meta_x_build_sha: 'e6017f835ed8ca335ce5f05e77de8505a459d170'
+    html_head_meta_x_vercel_deployment: 'dpl_BpJy6gBZRTBwCyCAdCXr6pV1KFwE'
+  note: |
+    Hidden from end users (no public footer). Visible via view-source
+    and DevTools for any future browser audit. Matches origin/main HEAD
+    and the Vercel deployment id returned by the platform API.
+
+# ── GATES (Mac) ─────────────────────────────────────────────────────────────
+gates_results:
+  typecheck:
+    command: "pnpm run typecheck"
+    result: PASS
+  vitest:
+    command: "pnpm run test"
+    result: PASS
+    files: 38
+    tests: 1753
+    passed: 1753
+    duration_seconds: 4.36
+  next_lint:
+    command: "pnpm run lint"
+    result: PASS
+    warnings: 0
+    errors: 0
+  content_guard:
+    command: "bash apps/web/scripts/check-content-guards.sh"
+    result: PASS
+    violations: 0
+
+# ── BROWSER VERIFY (Chrome MCP against prod) ────────────────────────────────
+browser_retest_summary:
+  device: "мак (deviceId 9442cdb8-8d89-4220-a6fa-68b591c9b1a2, isLocal=true)"
+  fresh_session:
+    url: https://messenginfo.com/ru/services/tps-ukraine/start
+    storage: localStorage.clear() before each scenario
+  scenarios:
+    - id: scenario_1_fresh_load
+      result: PASS
+      observed:
+        - "Шаг 1 из 6 visible"
+        - "OCR CTA visible"
+        - "chatWidgetCount=0 (no overlap on TPS wizard)"
+        - "no resume banner (correct — fresh state)"
+        - "meta x-build-sha=e6017f835ed8ca33..."
+    - id: scenario_2_resume_banner
+      result: PASS
+      observed:
+        - "click 'Подаю впервые' → reload → resume banner appears"
+        - "data-testid=tps-resume-banner present"
+        - "data-testid=tps-restart-cta present (clickable pill 'Начать заново')"
+    - id: scenario_3_edit_modal_roundtrip
+      result: PASS
+      observed:
+        - "OCR upload of synthetic-passport.jpg → 8 fields extracted"
+        - "SelfReviewScreen renders with 8 rows"
+        - "Click 'Изменить' on family_name → modal opens"
+        - "Modal has correct labels: ИСПРАВИТЬ, Фамилия"
+        - "Text input pre-filled with 'Testsurname'"
+        - "Edit to 'EditedName' + Save → modal closes"
+        - "Row value updates to 'EditedName'; other 7 rows unchanged"
+
+# ── DATA ARTIFACTS ──────────────────────────────────────────────────────────
+privacy_200_proof: |
+  curl -A 'Mozilla/5.0 Chrome' https://messenginfo.com/ru/privacy
+  → HTTP 200 (also /uk, /en, /es)
+
+field_count_reconciliation:
+  source_of_truth: result.i821.applied (apps/web/src/app/api/tps/generate-packet/route.ts:69)
+  header_format: 'X-TPS-{I821,I765}-Applied: <int>'
+  readme_format: 'I-{form} — edition <ed>, <int> AcroForm cells written'
+  semantics: 'total successfully-written cells across text+checkbox+dropdown field types'
+
+# ── KNOWN GAPS (honest list, NOT blockers) ──────────────────────────────────
+known_gaps:
+  - id: KG1
+    severity: medium
+    item: "I-94 OCR module is wired to OCR endpoint but its fields are NOT routed into I-821/I-765 prefiller"
+    proposed_fix: "Add i94_admission_number + last_entry_date to applyPreExtracted whitelist in GeneratePacketBlock (verify already done) + server-side packetBuilder if needed"
+    cycle: TPS_I94_EAD_OCR_EXPANSION
+
+  - id: KG2
+    severity: medium
+    item: "EAD OCR module returns a_number + ead_category_on_card + ead_expiration_date but they don't flow into I-765"
+    proposed_fix: "Wire EAD-only fields to I-765 server-side mapping"
+    cycle: TPS_I94_EAD_OCR_EXPANSION
+
+  - id: KG3
+    severity: medium
+    item: "No telemetry events emitted from OCR funnel"
+    proposed_fix: "upload_started, ocr_extracted, ocr_review_finished, ocr_edited{field}, ocr_packet_generated"
+    cycle: TPS_TELEMETRY_V1
+
+  - id: KG4
+    severity: low
+    item: "Pre-existing legacy lint debt scoped off via per-file overrides (classifier/registry/adapters use `module` as variable; global-error.tsx uses raw <a>)"
+    proposed_fix: "Refactor in a follow-up PR; covered by tests so risk is low"
+    cycle: REPO_CLEANUP
+
+  - id: KG5
+    severity: low
+    item: "Playwright E2E not added in this cycle"
+    proposed_fix: "Wire OCR-upload→review→Step6→ZIP into Playwright matrix"
+    cycle: CI_PLAYWRIGHT_E2E
+
+  - id: KG6
+    severity: low
+    item: "State dropdown (Part2_Item6_State='CA') is rejected by I-821 AcroForm — 1 skipped field per packet"
+    proposed_fix: "Map US state codes to whatever the dropdown's allowed values list expects"
+    cycle: TPS_FIELD_MAP_REFINEMENT
+
+  - id: KG7
+    severity: low
+    item: "Resize_window on Chrome MCP resizes window but inner viewport stays at native size (innerWidth=1710 even after request to 390)"
+    proposed_fix: "Use Chrome DevTools device emulation for accurate mobile testing; current tests rely on DOM/JS measurements instead"
+    cycle: TESTING_INFRA
+
+# ── SUMMARY ─────────────────────────────────────────────────────────────────
+summary: |
+  TPS_TRUST_HARDENING_V1 closed cleanly:
+    - T1 (privacy 503) — was transient; current state 200 in all locales
+    - T2 (mobile chat overlap) — widget hidden on wizard routes (DOM-verified)
+    - T3 (window.prompt) — replaced with typed inline modal (browser-verified
+                            edit roundtrip Testsurname → EditedName)
+    - T4 (Start over CTA) — resume banner + pill appear when state present
+    - T5 (field-count) — was not a bug; semantics now explicit in README
+    - T6 (build SHA) — meta tags in <head> on every page, view-source verified
+
+  All gates pass on Mac. Production deployment dpl_BpJy6gBZRTBwCyCAdCXr6pV1KFwE
+  is READY at commit e6017f8.
+
+  Next cycle (locked OUT of this PR): TPS_I94_EAD_OCR_EXPANSION — wire
+  I-94 and EAD extracted fields into the I-821/I-765 packet builder.

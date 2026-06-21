@@ -1,0 +1,158 @@
+{
+  "title": "CYRILLIC_PILOT_ACCEPTANCE_COMPLETE",
+  "note": "Apparatus + small-sample pilot. EMPTY/review/null are NEVER counted as success.",
+  "runner_status": "READY",
+  "provider_status": "ok",
+  "pilot_result": "NOT_READY",
+  "private_images_found": 3,
+  "verified_gt_found": 4,
+  "matched_image_gt_pairs": 4,
+  "duplicate_images": [
+    {
+      "opaque_id": "doc-C",
+      "duplicate_of": "doc-B"
+    }
+  ],
+  "document_types_tested": [
+    "ua_birth_certificate",
+    "ua_military_id",
+    "ua_international_passport"
+  ],
+  "critical_fields_expected": 13,
+  "critical_exact_matches": 12,
+  "critical_empty": 0,
+  "fabricated_critical": 0,
+  "false_final_critical": 0,
+  "inventory": [
+    {
+      "opaque_id": "doc-B",
+      "doc_type": "ua_birth_certificate",
+      "image_present": true,
+      "image_sha256_prefix": "3188741189ef",
+      "bytes": 7072376,
+      "duplicate_of": null,
+      "verified_critical_fields": 1,
+      "provider_status": "ok",
+      "model_used": "gemini-3.1-pro-preview",
+      "primary_reader_required": "gemini-3.1-pro-preview",
+      "acceptance_scored": true,
+      "read_status": "ok:gemini-3.1-pro-preview:27680ms:12f",
+      "fields_returned": 12,
+      "raw_cyrillic_reached": "0/0",
+      "application_required_not_document_sourced": [
+        {
+          "field": "sex",
+          "applicability": "DERIVABLE"
+        }
+      ],
+      "counted_in_accuracy": true
+    },
+    {
+      "opaque_id": "doc-C",
+      "doc_type": "ua_birth_certificate",
+      "image_present": true,
+      "image_sha256_prefix": "3188741189ef",
+      "bytes": 7072376,
+      "duplicate_of": "doc-B",
+      "verified_critical_fields": 1,
+      "provider_status": "ok",
+      "model_used": "gemini-3.1-pro-preview",
+      "primary_reader_required": "gemini-3.1-pro-preview",
+      "acceptance_scored": true,
+      "read_status": "ok:gemini-3.1-pro-preview:26893ms:12f",
+      "fields_returned": 12,
+      "raw_cyrillic_reached": "0/0",
+      "application_required_not_document_sourced": [
+        {
+          "field": "sex",
+          "applicability": "DERIVABLE"
+        }
+      ],
+      "counted_in_accuracy": false
+    },
+    {
+      "opaque_id": "doc-D",
+      "doc_type": "ua_military_id",
+      "image_present": true,
+      "image_sha256_prefix": "f5dbc268836b",
+      "bytes": 4787506,
+      "duplicate_of": null,
+      "verified_critical_fields": 4,
+      "provider_status": "ok",
+      "model_used": "gemini-3.1-pro-preview",
+      "primary_reader_required": "gemini-3.1-pro-preview",
+      "acceptance_scored": true,
+      "read_status": "ok:gemini-3.1-pro-preview:6512ms:5f",
+      "fields_returned": 5,
+      "raw_cyrillic_reached": "3/3",
+      "application_required_not_document_sourced": [
+        {
+          "field": "sex",
+          "applicability": "NOT_PRESENT"
+        }
+      ],
+      "counted_in_accuracy": true
+    },
+    {
+      "opaque_id": "doc-E",
+      "doc_type": "ua_international_passport",
+      "image_present": true,
+      "image_sha256_prefix": "ec2de594c234",
+      "bytes": 716605,
+      "duplicate_of": null,
+      "verified_critical_fields": 8,
+      "provider_status": "ok",
+      "model_used": "gemini-3.1-pro-preview",
+      "primary_reader_required": "gemini-3.1-pro-preview",
+      "acceptance_scored": true,
+      "read_status": "ok:gemini-3.1-pro-preview:5554ms:8f",
+      "fields_returned": 8,
+      "raw_cyrillic_reached": "2/2",
+      "application_required_not_document_sourced": [],
+      "counted_in_accuracy": true
+    }
+  ],
+  "per_type": [
+    {
+      "doc_type": "ua_birth_certificate",
+      "documents": 1,
+      "critical_fields_total": 1,
+      "critical_exact_match": 0,
+      "empty_critical_fields": 0,
+      "fabricated_critical_fields": 0,
+      "wrong_transliterations": 0,
+      "mrz_conflicts": 0,
+      "review_required": 1,
+      "production_ready": false,
+      "not_ready_reasons": [
+        "critical_exact_match=0.0% (<95%)"
+      ]
+    },
+    {
+      "doc_type": "ua_military_id",
+      "documents": 1,
+      "critical_fields_total": 4,
+      "critical_exact_match": 1,
+      "empty_critical_fields": 0,
+      "fabricated_critical_fields": 0,
+      "wrong_transliterations": 0,
+      "mrz_conflicts": 0,
+      "review_required": 4,
+      "production_ready": true,
+      "not_ready_reasons": []
+    },
+    {
+      "doc_type": "ua_international_passport",
+      "documents": 1,
+      "critical_fields_total": 8,
+      "critical_exact_match": 1,
+      "empty_critical_fields": 0,
+      "fabricated_critical_fields": 0,
+      "wrong_transliterations": 0,
+      "mrz_conflicts": 0,
+      "review_required": 0,
+      "production_ready": true,
+      "not_ready_reasons": []
+    }
+  ]
+}

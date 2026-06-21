@@ -1,0 +1,1238 @@
+{
+  "metadata": {
+    "title": "Messenginfo – USCIS Help for Ukrainians in the U.S.",
+    "description": "Official-source USCIS guidance for Ukrainians: U4U re-parole, TPS, EAD, I-94, case status, and document translation. 4 languages. Not a law firm.",
+    "keywords": "USCIS help, Ukraine immigration, re-parole U4U, TPS Ukraine, EAD work permit, I-94, case status checker, immigration self-help"
+  },
+  "header": {
+    "logoLabel": "Messenginfo",
+    "nav": {
+      "services": "Services",
+      "documents": "Documents",
+      "faq": "FAQ",
+      "sources": "Sources",
+      "home": "Home",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "disclaimer": "Disclaimer",
+      "pillars": {
+        "translate": {
+          "label": "Translate",
+          "translateDoc": "Translate a document",
+          "supportedDocs": "Supported documents",
+          "pricing": "Pricing"
+        },
+        "forms": {
+          "label": "Forms",
+          "ead": "EAD Work Permit",
+          "reparole": "Re-Parole U4U",
+          "tps": "TPS Ukraine",
+          "all": "All services"
+        },
+        "status": {
+          "label": "Status",
+          "uscisStatus": "USCIS case status",
+          "tpsStatus": "TPS status",
+          "i94Guide": "I-94 guide"
+        },
+        "info": {
+          "label": "Info",
+          "faq": "FAQ",
+          "attorneys": "Legal help",
+          "sources": "Official sources",
+          "about": "About",
+          "contact": "Contact"
+        }
+      }
+    },
+    "ctaStatus": "Check Status",
+    "signIn": "Sign in",
+    "languageSelector": {
+      "label": "Select language"
+    },
+    "langSwitcher": "Language"
+  },
+  "trending": {
+    "label": "Trending:",
+    "topics": {
+      "reparole": "Re-parole U4U",
+      "tps-ukraine": "TPS Ukraine",
+      "ead-delays": "EAD Delays",
+      "payment-issues": "Payment Issues",
+      "i-94-issues": "I-94 Problems",
+      "rfe-denial": "RFE / Denial"
+    }
+  },
+  "hero": {
+    "title": "Immigration guidance for the U.S. — based on official sources",
+    "subtitle": "Information from USCIS and other government sources. Document translation, form preparation, and step-by-step instructions.",
+    "ctaServices": "Browse Services",
+    "ctaUpdates": "Read Latest Updates",
+    "trustItems": [
+      "Official-source based",
+      "4 languages",
+      "Not a law firm"
+    ],
+    "disclaimer": {
+      "badge": "Service Support Only",
+      "items": [
+        "We are not licensed attorneys or immigration lawyers.",
+        "We provide information support, document translation assistance, and form-preparation help only.",
+        "For legal advice, please contact a licensed immigration attorney."
+      ]
+    }
+  },
+  "caseStatus": {
+    "title": "Check Your USCIS Case Status",
+    "description": "Enter your receipt number to open the official USCIS case status page. Your number is never stored.",
+    "placeholder": "IOE1234567890",
+    "button": "Check Status",
+    "errorInvalid": "Please enter a valid receipt number (e.g. IOE1234567890 or EAC1234567890).",
+    "privacyNote": "Your receipt number is validated locally and never sent to our servers.",
+    "subtitle": "We don't process case status data — that's done on the official USCIS portal. Tap to open it.",
+    "buttonLabel": "Open USCIS Case Status",
+    "disclaimer": "Messenginfo does not handle receipt numbers or status data. The button above opens the official USCIS Case Status page in a new tab."
+  },
+  "officialSources": {
+    "title": "Official sources",
+    "items": {
+      "uscis-case-status": {
+        "name": "USCIS Case Status",
+        "description": "Check the official status of your pending USCIS application."
+      },
+      "uscis-forms": {
+        "name": "USCIS Forms",
+        "description": "Download official immigration forms and instructions from USCIS."
+      },
+      "cbp-i94": {
+        "name": "CBP I-94",
+        "description": "View or print your official I-94 arrival/departure record."
+      },
+      "doj-accredited": {
+        "name": "DOJ Accredited Representatives",
+        "description": "Find recognized organizations and DOJ-accredited immigration representatives."
+      }
+    }
+  },
+  "services": {
+    "title": "Immigration information assistance in the U.S.",
+    "subtitle": "Based on official information from USCIS and other government sources."
+  },
+  "cards": {
+    "parole-expires-soon": {
+      "title": "My Parole Is Expiring Soon",
+      "shortProblem": "Parole expiring soon? We explain your options, fill the right forms, and help you keep your status."
+    },
+    "re-parole-u4u": {
+      "title": "Re-parole (Uniting for Ukraine)",
+      "shortProblem": "Extend your U4U parole. We fill Form I-131, translate documents, and prepare your packet."
+    },
+    "tps-ukraine": {
+      "title": "TPS for Ukraine",
+      "shortProblem": "Protect your status with TPS. Upload documents — get filled I-821 and I-765 forms."
+    },
+    "ead-work-permit": {
+      "title": "EAD Work Permit",
+      "shortProblem": "Work permit for the US. We help fill I-765 and gather all required documents."
+    },
+    "i-94": {
+      "title": "I-94 Arrival/Departure Record",
+      "shortProblem": "Access, print, or correct your I-94 record via the CBP portal."
+    },
+    "uscis-case-status": {
+      "title": "USCIS Case Status",
+      "shortProblem": "Check your USCIS case status by receipt number."
+    },
+    "payment-problem": {
+      "title": "Payment Problem",
+      "shortProblem": "Resolve filing fee issues, rejected checks, or payment errors with USCIS."
+    },
+    "biometrics": {
+      "title": "Biometrics Appointment",
+      "shortProblem": "Got a biometrics appointment letter? We explain what to bring and how the process works."
+    },
+    "rfe-denial": {
+      "title": "RFE or Denial",
+      "shortProblem": "Learn how to respond to a Request for Evidence or an application denial."
+    },
+    "translate-document": {
+      "title": "Translate Document",
+      "shortProblem": "Translate your passport, certificates, and documents for USCIS. Upload and get a ready translation."
+    },
+    "form-draft-helper": {
+      "title": "Form Draft Helper",
+      "shortProblem": "Not sure what to write on a USCIS form? We explain every field in plain language."
+    },
+    "official-sources": {
+      "title": "Official Sources Library",
+      "shortProblem": "Curated links to USCIS, CBP, DOJ, and other authoritative government sources."
+    },
+    "tps-status": {
+      "title": "TPS Ukraine — Current Status",
+      "shortProblem": "Check the latest Temporary Protected Status designation for Ukraine and re-registration deadlines."
+    },
+    "attorney-directory": {
+      "title": "Find Immigration Legal Help",
+      "shortProblem": "Vetted free and low-cost legal aid organizations. How to spot and avoid immigration scams."
+    },
+    "i-94-guide": {
+      "title": "I-94 Arrival Record Guide",
+      "shortProblem": "How to access, read, print, and correct your I-94 record from the CBP portal."
+    },
+    "action": "Start →"
+  },
+  "servicePages": {
+    "parole-expires-soon": {
+      "title": "My Parole Is Expiring Soon",
+      "subtitle": "Steps to take before your humanitarian parole expires.",
+      "whatHelps": [
+        "Check your parole end date on your I-94 record at i94.cbp.dhs.gov",
+        "Review your eligibility for re-parole under the Uniting for Ukraine program",
+        "Explore whether Temporary Protected Status (TPS) applies to your situation"
+      ],
+      "commonMistakes": [
+        "Waiting until the last few days before expiration to take action",
+        "Confusing parole expiration with work authorization expiration",
+        "Failing to verify the correct end date on the I-94 record"
+      ],
+      "officialNote": "USCIS provides official information about humanitarian parole at uscis.gov.",
+      "lastVerifiedLabel": "Last verified: {date}"
+    },
+    "re-parole-u4u": {
+      "title": "Re-parole Under Uniting for Ukraine (U4U)",
+      "subtitle": "Official guidance on applying for re-parole through the U4U program.",
+      "whatHelps": [
+        "Review the official USCIS Uniting for Ukraine program page for current requirements",
+        "Confirm your current parole status and expiration date via your I-94 record",
+        "Prepare required supporting documents as listed in official USCIS instructions"
+      ],
+      "commonMistakes": [
+        "Submitting the application without verifying current program requirements",
+        "Providing incomplete or inconsistent personal information",
+        "Misunderstanding the difference between parole and other immigration statuses"
+      ],
+      "officialNote": "All re-parole information comes from the official USCIS Uniting for Ukraine page.",
+      "lastVerifiedLabel": "Last verified: {date}",
+      "statusWarning": "Important: The U4U sponsor process (Form I-134A) was paused in January 2025 by Executive Order. Re-Parole for Ukrainians already in the U.S. (Form I-131) is a separate process that continues to be reviewed case-by-case. Verify current USCIS guidance before filing.",
+      "service.status.note": "U4U sponsor process (Form I-134A) was paused in January 2025 by Executive Order. Re-Parole for Ukrainians already in the U.S. (Form I-131) is a separate process that continues to be reviewed case-by-case.",
+      "service.status.source": "Source: USCIS Re-Parole Guide (last reviewed 10/11/2024) · USCIS Form I-131 edition 01/20/25 (USCIS page last reviewed 03/30/2026)",
+      "filing.paper.title": "Filing by Mail",
+      "filing.paper.step1": "In Part 2 of Form I-131, select Item 1.e",
+      "filing.paper.step2": "Handwrite \"Ukraine RE-PAROLE\" at the top of the first page",
+      "filing.paper.feeWaiver": "Fee Waiver (Form I-912) is available when filing by mail",
+      "filing.online.title": "Filing Online (my.uscis.gov)",
+      "filing.online.step1": "Select Box 10.C: \"Certain Ukrainians paroled on/after Feb 11, 2022\"",
+      "filing.online.step2": "Complete all required fields and upload supporting documents (PDF). Pay the USCIS filing fee through the myUSCIS portal.",
+      "filing.online.noFeeWaiver": "Fee Waiver (Form I-912) is not available when filing online. File by mail if you need a fee waiver.",
+      "filing.source": "Source: USCIS Form I-131 edition 01/20/25 (USCIS page last reviewed 03/30/2026) · USCIS U4U Re-Parole Guide (last reviewed 10/11/2024)",
+      "feeNotice": "USCIS charges a filing fee. Additionally, some applicants are assessed a parole grant fee upon conditional approval. Fees are subject to change. Use the USCIS Fee Calculator (uscis.gov/feecalculator) and G-1055 (uscis.gov/g-1055) for current amounts. Do not rely on third-party fee estimates.",
+      "processingWarning": "USCIS processing times vary significantly. Check current estimates at uscis.gov/processing-times. Plan for substantial waiting periods.",
+      "medicalNote": "Medical documentation required: proof of vaccinations and TB/IGRA test where applicable. Follow current USCIS instructions for medical requirements.",
+      "eadWarning": "Do not file Form I-765 for employment authorization based on this re-parole request until your I-131 has been approved and USCIS guidance authorizes EAD filing. This re-parole package is not an EAD filing package.",
+      "eadWarningBlock": "Important EAD warning: Do not file Form I-765 for employment authorization based on this re-parole request until USCIS approves your Form I-131. Filing too early may cause confusion or rejection.",
+      "processingTimeNote": "Processing times change. U4U re-parole requests may take many months. Check the official USCIS Processing Times page before filing and monitor your case after submission.",
+      "feeWaiverNote": "If you are unable to pay the filing fee, you may request a fee waiver using Form I-912. Fee waiver requests are typically for paper-only filing. Verify current USCIS eligibility requirements at uscis.gov/i-912.",
+      "verified": {
+        "facts": {
+          "title": "Verified facts",
+          "form": "Form I-131 (edition 01/20/25)",
+          "item": "Part 2, Item 1.e — Select \"I am outside the United States, applying for Advance Parole Document\" (select this even if you are inside the US). Write \"Ukraine RE-PAROLE\" at the top of the form.",
+          "topNote": "Paper filing only: handwrite \"Ukraine RE-PAROLE\" at the top of Form I-131. Online filing (my.uscis.gov): select Box 10.C — \"Certain Ukrainians paroled on/after Feb 11, 2022\". (Source: uscis.gov/i-131, verified 2026-05-04)",
+          "window": "Filing window: no earlier than 180 days (6 months) before current parole expires"
+        },
+        "fees": {
+          "title": "USCIS fees",
+          "note": "USCIS fees are paid directly to USCIS — not to us. Amounts may change. Note: USCIS charges both a filing fee AND a separate parole grant fee (charged upon conditional approval).",
+          "checkLink": "Check current amounts on USCIS Fee Calculator"
+        },
+        "processing": {
+          "title": "Processing times",
+          "note": "Processing times vary significantly. Check current data on USCIS Processing Times. Plan for substantial waiting periods."
+        },
+        "disclaimer": "Information and document support only. Not legal advice. You file yourself."
+      }
+    },
+    "tps-ukraine": {
+      "title": "Temporary Protected Status (TPS) for Ukraine",
+      "subtitle": "What TPS means for Ukrainian nationals currently in the United States.",
+      "whatHelps": [
+        "Visit the official USCIS TPS Ukraine page for current designation period and requirements",
+        "Understand TPS benefits: protection from removal and work authorization eligibility",
+        "Review the registration period and required forms on USCIS.gov"
+      ],
+      "commonMistakes": [
+        "Applying after the registration deadline without checking for late initial registration rules",
+        "Assuming TPS automatically renews without filing a re-registration application",
+        "Not maintaining continuous residence requirements"
+      ],
+      "officialNote": "TPS designation and requirements are published on the official USCIS TPS Ukraine page.",
+      "lastVerifiedLabel": "Last verified: {date}"
+    },
+    "ead-work-permit": {
+      "title": "Employment Authorization Document (EAD) — Form I-765",
+      "subtitle": "Guidance on applying for or renewing your EAD work permit.",
+      "whatHelps": [
+        "Download Form I-765 and instructions from the official USCIS forms page",
+        "Identify the correct eligibility category for your immigration status",
+        "File before your current EAD expires to request an automatic extension"
+      ],
+      "commonMistakes": [
+        "Selecting the wrong eligibility category on Form I-765",
+        "Filing too late to take advantage of the automatic 180-day extension",
+        "Submitting without the correct supporting documents for your category"
+      ],
+      "officialNote": "Form I-765 and current filing fees are available at uscis.gov/i-765.",
+      "lastVerifiedLabel": "Last verified: {date}"
+    },
+    "i-94": {
+      "title": "I-94 Arrival/Departure Record",
+      "subtitle": "How to access, print, and understand your official I-94 record.",
+      "whatHelps": [
+        "Access your I-94 record at i94.cbp.dhs.gov using your travel document information",
+        "Verify that the class of admission and date are correct",
+        "Print or save your most recent I-94 for USCIS or employer verification"
+      ],
+      "commonMistakes": [
+        "Assuming your visa expiration date equals your authorized stay — check the I-94",
+        "Not correcting errors on the I-94 promptly through the CBP deferred inspection process",
+        "Using an outdated I-94 when a newer one exists after re-entry"
+      ],
+      "officialNote": "I-94 records are maintained by U.S. Customs and Border Protection at i94.cbp.dhs.gov.",
+      "lastVerifiedLabel": "Last verified: {date}"
+    },
+    "uscis-case-status": {
+      "title": "USCIS Case Status",
+      "subtitle": "How to check the status of a pending USCIS application.",
+      "whatHelps": [
+        "Use your receipt number (e.g. IOE1234567890) to check status at egov.uscis.gov",
+        "Sign up for case status updates by email on your USCIS online account",
+        "Understand common status messages and what they mean for your case"
+      ],
+      "commonMistakes": [
+        "Contacting USCIS before the published processing time has elapsed",
+        "Confusing the notice date with the receipt date",
+        "Not keeping the receipt notice in a safe place"
+      ],
+      "officialNote": "USCIS case status is available at the official USCIS case status portal egov.uscis.gov.",
+      "lastVerifiedLabel": "Last verified: {date}"
+    },
+    "payment-problem": {
+      "title": "Filing Fee Payment Problems",
+      "subtitle": "How to resolve payment issues with USCIS filings.",
+      "whatHelps": [
+        "Review your payment method options on the official USCIS fee page at uscis.gov",
+        "Use the my.uscis.gov online account to manage payments for eligible forms",
+        "Contact USCIS through official channels if a fee was rejected or debited incorrectly"
+      ],
+      "commonMistakes": [
+        "Submitting incorrect fee amounts — always verify current fees before filing",
+        "Using an expired or unsupported payment method",
+        "Not including all required fees when filing multiple forms together"
+      ],
+      "officialNote": "Current USCIS filing fees are published at uscis.gov/forms/filing-fees.",
+      "lastVerifiedLabel": "Last verified: {date}"
+    },
+    "biometrics": {
+      "title": "Biometrics Appointment",
+      "subtitle": "What to expect at your USCIS biometrics appointment.",
+      "whatHelps": [
+        "Bring your biometrics appointment notice and a valid government-issued photo ID",
+        "Arrive on time — most appointments take 30 minutes or less",
+        "Contact USCIS in advance if you need to reschedule your appointment"
+      ],
+      "commonMistakes": [
+        "Forgetting to bring the biometrics appointment notice",
+        "Appearing without a valid photo ID",
+        "Missing the appointment without rescheduling, which can delay processing"
+      ],
+      "officialNote": "Biometrics requirements are described on the official USCIS biometrics fee page.",
+      "lastVerifiedLabel": "Last verified: {date}"
+    },
+    "rfe-denial": {
+      "title": "Request for Evidence (RFE) or Denial",
+      "subtitle": "Understanding and responding to an RFE or application denial.",
+      "whatHelps": [
+        "Read the RFE or denial notice carefully — it specifies what evidence or information is needed",
+        "Respond within the deadline stated in the notice",
+        "Consult an accredited representative or licensed immigration attorney for complex RFEs"
+      ],
+      "commonMistakes": [
+        "Missing the response deadline, which can result in the application being denied",
+        "Providing incomplete responses that do not address all points in the RFE",
+        "Not consulting a professional when the RFE involves legal questions"
+      ],
+      "officialNote": "USCIS Policy Manual guidance on RFEs is available at uscis.gov/policy-manual.",
+      "lastVerifiedLabel": "Last verified: {date}"
+    },
+    "translate-document": {
+      "title": "Document Translation for USCIS",
+      "subtitle": "What USCIS requires when submitting foreign-language documents.",
+      "whatHelps": [
+        "USCIS generally requires a full English translation and a signed self-certification statement per 8 CFR 103.2(b)(3)",
+        "The signer must certify that they are competent to translate and that the translation is accurate",
+        "Review 8 CFR 103.2 for the official translation self-certification requirement"
+      ],
+      "commonMistakes": [
+        "Submitting a partial translation instead of a full translation",
+        "Omitting the signed self-certification statement",
+        "Using machine translation without human review and a proper certification"
+      ],
+      "officialNote": "Translation requirements are codified at 8 CFR 103.2 (ecfr.gov).",
+      "lastVerifiedLabel": "Last verified: {date}"
+    },
+    "form-draft-helper": {
+      "title": "USCIS Form Draft Helper",
+      "subtitle": "Guidance on completing common USCIS forms correctly.",
+      "whatHelps": [
+        "Always download the current version of the form from uscis.gov/forms",
+        "Read the official form instructions before filling out any field",
+        "Use black ink or complete the form electronically if allowed"
+      ],
+      "commonMistakes": [
+        "Using an outdated form version — USCIS may reject older versions",
+        "Leaving required fields blank or writing 'N/A' where not instructed",
+        "Not signing and dating the form before submission"
+      ],
+      "officialNote": "Current USCIS forms and instructions are available at uscis.gov/forms.",
+      "lastVerifiedLabel": "Last verified: {date}"
+    },
+    "official-sources": {
+      "title": "Official Sources Library",
+      "subtitle": "Curated links to authoritative U.S. government immigration resources.",
+      "whatHelps": [
+        "Use USCIS.gov as your primary source for immigration forms, fees, and policy",
+        "Verify attorney credentials at the DOJ accredited representatives roster",
+        "Check your I-94 arrival record at i94.cbp.dhs.gov"
+      ],
+      "commonMistakes": [
+        "Relying on unofficial websites or social media for immigration guidance",
+        "Using outdated information — always check the date of any resource you find",
+        "Paying third parties to access free government forms or information"
+      ],
+      "officialNote": "All sources listed are official U.S. government websites.",
+      "lastVerifiedLabel": "Last verified: {date}"
+    },
+    "labels": {
+      "home": "Home",
+      "openOfficialSource": "Open Official Source",
+      "backToServices": "Back to Services",
+      "whatHelps": "What this helps with",
+      "commonMistakes": "Common mistakes",
+      "relatedServices": "Related Services",
+      "translationNotice": "USCIS requires a full English translation with a signed certification under 8 CFR §103.2(b)(3). You sign as the translator."
+    }
+  },
+  "translatePage": {
+    "safeStatement": "USCIS requires a full English translation with a signed certification under 8 CFR §103.2(b)(3). You sign as the translator. Messenginfo is not a translation agency."
+  },
+  "askQuestion": {
+    "title": "Don't see your question?",
+    "subtitle": "Browse our knowledge base or contact us.",
+    "ctaFaq": "Browse FAQ & Answers",
+    "ctaContact": "Contact us"
+  },
+  "howWeHelp": {
+    "title": "Messenginfo helps you",
+    "subtitle": "You review all data before final submission.",
+    "items": [
+      {
+        "title": "Understand your situation in plain language",
+        "description": "Select your situation — see the official path, links to USCIS.gov, and a clear explanation of every step."
+      },
+      {
+        "title": "Prepare and translate documents",
+        "description": "Upload your passport, certificate, or other document — get an English translation draft per USCIS standards."
+      },
+      {
+        "title": "Automatically build forms for filing",
+        "description": "The system fills out Forms I-821, I-765, I-131 from your documents. You review, print, sign, and submit yourself."
+      }
+    ]
+  },
+  "documentTools": {
+    "title": "Document Translation Guidance",
+    "subtitle": "Understand USCIS requirements for translating foreign-language documents. Select a document type to learn what is needed.",
+    "items": {
+      "passport": {
+        "title": "Passport",
+        "description": "Bio page translation requirements for USCIS submissions."
+      },
+      "birth-certificate": {
+        "title": "Birth Certificate",
+        "description": "What USCIS requires when submitting birth record translations."
+      },
+      "marriage-certificate": {
+        "title": "Marriage Certificate",
+        "description": "What USCIS requires when submitting foreign marriage documents."
+      },
+      "diploma": {
+        "title": "Diploma / Degree",
+        "description": "Academic credential translation requirements for immigration purposes."
+      },
+      "military-document": {
+        "title": "Military Document",
+        "description": "Translation guidance for military service records and discharge papers."
+      },
+      "driver-license": {
+        "title": "Driver's License",
+        "description": "When and how a driver's license must be translated for USCIS."
+      }
+    },
+    "footnote": "Document tools will be added after verification. These pages explain what to prepare and link to official requirements."
+  },
+  "telegramStrip": {
+    "title": "Community access",
+    "channelButton": "Open Channel",
+    "botButton": "Open Bot",
+    "fallbackText": "Telegram channel and bot will be added after verification."
+  },
+  "miaWidget": {
+    "greeting": "Hi! I'm Mia, your guide to Messenginfo.",
+    "disclaimer": "I'm a quick navigator, not a chat assistant. For questions, contact us.",
+    "links": {
+      "caseStatus": "Check Case Status",
+      "services": "Browse Services",
+      "sources": "Official Sources",
+      "contact": "Contact"
+    }
+  },
+  "disclaimer": {
+    "title": "Messenginfo is not a law firm and does not provide legal advice.",
+    "body": "We provide official-source information and self-help guidance. For legal advice, consult a licensed immigration attorney or DOJ-accredited representative."
+  },
+  "footer": {
+    "columns": {
+      "about": {
+        "title": "About",
+        "tagline": "Official-source immigration information for Ukrainians in the U.S. Not a law firm."
+      },
+      "services": {
+        "title": "Services",
+        "links": {
+          "all": "Browse All Services",
+          "reparole": "Re-parole (U4U)",
+          "ead": "EAD Work Permit",
+          "tps": "TPS Ukraine"
+        }
+      },
+      "resources": {
+        "title": "Resources",
+        "links": {
+          "officialLinks": "Official Links",
+          "faq": "FAQ",
+          "supportedDocuments": "Supported Documents",
+          "supportedDocs": "Supported documents",
+          "telegram": "Telegram",
+          "contact": "Contact",
+          "pricing": "Pricing"
+        }
+      },
+      "legal": {
+        "title": "Legal",
+        "links": {
+          "privacy": "Privacy Policy",
+          "terms": "Terms of Service",
+          "disclaimer": "Disclaimer"
+        }
+      }
+    },
+    "bottom": "© 2026 Messenginfo",
+    "tagline": "Immigration information — in plain language.",
+    "rights": "© {year} Messenginfo. All rights reserved.",
+    "shortDisclaimer": "Messenginfo is not a law firm and does not provide legal advice. Information is provided for educational purposes only.",
+    "contact": "Contact",
+    "links": {
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "disclaimer": "Disclaimer"
+    }
+  },
+  "mobileBar": {
+    "home": "Home",
+    "services": "Services",
+    "status": "Status",
+    "contact": "Contact"
+  },
+  "badges": {
+    "officialSource": "Official source"
+  },
+  "errors": {
+    "404": {
+      "title": "Page not found",
+      "body": "The page you are looking for does not exist.",
+      "back": "Back to Home"
+    },
+    "500": {
+      "title": "Something went wrong",
+      "body": "An unexpected error occurred. Please try again.",
+      "back": "Back to Home"
+    },
+    "rateLimit": "Too many requests. Please try again later.",
+    "validation": "Please review your input and try again.",
+    "backHome": "Back to Home"
+  },
+  "legal": {
+    "disclaimer": {
+      "title": "Disclaimer",
+      "alert": "Messenginfo is not a law firm and does not provide legal advice.",
+      "notice": "Last updated April 29, 2026. For questions about your specific situation, consult a licensed immigration attorney.",
+      "backHome": "← Back to Home",
+      "lastReviewed": "April 29, 2026",
+      "sections": [
+        {
+          "id": "not-law-firm",
+          "title": "Not a Law Firm",
+          "body": "Messenginfo is not a law firm, does not employ attorneys, and does not provide legal advice. Nothing on this website constitutes legal advice or creates an attorney-client relationship."
+        },
+        {
+          "id": "not-affiliated",
+          "title": "Not Affiliated with the U.S. Government",
+          "body": "Messenginfo is not affiliated with, endorsed by, or connected to USCIS, DHS, DOS, or any other U.S. government agency."
+        },
+        {
+          "id": "consult-attorney",
+          "title": "For Legal Advice, Consult a Licensed Attorney",
+          "body": "For legal advice about your specific immigration situation, consult a licensed immigration attorney. The DOJ maintains a roster of recognized organizations and accredited representatives at justice.gov/eoir."
+        },
+        {
+          "id": "unofficial-info",
+          "title": "Information Accuracy",
+          "body": "While we strive to provide accurate and up-to-date information, immigration law and policy change frequently. Always verify information against official government sources before taking any action."
+        },
+        {
+          "id": "no-guarantee",
+          "title": "No Guarantee of Outcome",
+          "body": "Use of Messenginfo does not guarantee any particular outcome in your immigration case. Results depend on individual circumstances and official government decisions."
+        },
+        {
+          "id": "provisional-data",
+          "title": "Provisional Information",
+          "body": "Form fees, edition dates, and policy information are labeled as provisional until verified against official sources within the last 30 days. Always check uscis.gov for current information."
+        },
+        {
+          "id": "california-notice",
+          "title": "Notice for California Residents (Immigration Consultants Act)",
+          "body": "Messenginfo is a technology and information service — not an immigration consultant as defined under California Business & Professions Code §22440 et seq. Messenginfo does not select, prepare, or complete immigration applications on behalf of users, does not represent clients before any government agency, and does not provide individualized legal advice. Users prepare and file their own documents. If you require individualized immigration assistance in California, consult a licensed immigration attorney (State Bar of California, calbar.ca.gov) or a DOJ-accredited representative (justice.gov/eoir)."
+        }
+      ]
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "notice": "Last updated April 29, 2026. These terms govern your use of Messenginfo.",
+      "backHome": "← Back to Home",
+      "lastReviewed": "April 29, 2026",
+      "sections": [
+        {
+          "id": "acceptance",
+          "title": "1. Acceptance of Terms",
+          "body": "By accessing or using messenginfo.com, you agree to be bound by these Terms of Service."
+        },
+        {
+          "id": "about",
+          "title": "2. About Messenginfo",
+          "body": "Messenginfo is an information service, not a law firm. We do not provide legal advice. Use of our service does not create an attorney-client relationship."
+        },
+        {
+          "id": "disclaimers",
+          "title": "3. Disclaimers",
+          "body": "THE SITE IS PROVIDED AS-IS WITHOUT WARRANTIES. WE DO NOT PROVIDE LEGAL ADVICE. ALWAYS VERIFY INFORMATION AGAINST OFFICIAL SOURCES (USCIS.GOV)."
+        },
+        {
+          "id": "use",
+          "title": "3. Acceptable use",
+          "body": "You agree not to: use the service for any unlawful purpose; attempt to gain unauthorized access; interfere with the service's operation; submit false or misleading information."
+        },
+        {
+          "id": "ip",
+          "title": "4. Intellectual property",
+          "body": "All content on this site is owned by Messenginfo or its licensors. You may not reproduce, distribute, or create derivative works without our written permission."
+        },
+        {
+          "id": "third-party",
+          "title": "5. Third-party links",
+          "body": "We link to official government websites and other third-party sites. We are not responsible for the content or privacy practices of those sites."
+        },
+        {
+          "id": "privacy",
+          "title": "6. Privacy",
+          "body": "Your use of the service is also governed by our Privacy Policy, which is incorporated into these Terms by reference."
+        },
+        {
+          "id": "limitation",
+          "title": "7. Limitation of liability",
+          "body": "TO THE MAXIMUM EXTENT PERMITTED BY LAW, MESSENGINFO SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING FROM YOUR USE OF THE SERVICE."
+        },
+        {
+          "id": "indemnification",
+          "title": "8. Indemnification",
+          "body": "You agree to indemnify and hold harmless Messenginfo from any claims arising from your use of the service or violation of these Terms."
+        },
+        {
+          "id": "governing-law",
+          "title": "9. Governing law",
+          "body": "These Terms shall be governed by the laws of the State of California, without regard to its conflict of law provisions."
+        },
+        {
+          "id": "dispute-resolution",
+          "title": "10. Dispute resolution",
+          "body": "Any disputes shall be resolved through binding arbitration in accordance with the rules of the American Arbitration Association, except for injunctive relief."
+        },
+        {
+          "id": "severability",
+          "title": "11. Severability",
+          "body": "If any provision of these Terms is found to be unenforceable, the remaining provisions shall continue in full force and effect."
+        },
+        {
+          "id": "entire-agreement",
+          "title": "12. Entire agreement",
+          "body": "These Terms constitute the entire agreement between you and Messenginfo regarding the service and supersede all prior agreements."
+        },
+        {
+          "id": "changes",
+          "title": "13. Changes to terms",
+          "body": "We may update these Terms periodically. We will notify you of significant changes by posting the new Terms on this page with a revised date."
+        },
+        {
+          "id": "contact",
+          "title": "14. Contact",
+          "body": "For questions about these Terms, contact us at 2133611700uscis@gmail.com."
+        }
+      ]
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "notice": "Last updated April 29, 2026. This policy describes how Messenginfo handles your data.",
+      "backHome": "← Back to Home",
+      "lastReviewed": "April 29, 2026",
+      "sections": [
+        {
+          "id": "intro",
+          "title": "1. Introduction",
+          "body": "Messenginfo operates messenginfo.com. This Privacy Policy explains how we collect, use, and protect your information."
+        },
+        {
+          "id": "collection",
+          "title": "2. Information We Collect",
+          "body": "We collect only what you provide via the contact form (name, email, message) and anonymized analytics via Vercel Analytics. We do not store receipt numbers or case details."
+        },
+        {
+          "id": "rights",
+          "title": "3. Your Rights",
+          "body": "You may request access, correction, or deletion of your data by contacting contact@messenginfo.com."
+        },
+        {
+          "id": "use",
+          "title": "4. How we use your information",
+          "body": "We use your information to: respond to your inquiries; improve the service based on aggregated anonymized analytics; comply with applicable legal obligations; prevent abuse through rate limiting."
+        },
+        {
+          "id": "legal-bases",
+          "title": "5. Legal bases for processing (GDPR)",
+          "body": "We process your data based on: your consent (contact form); our legitimate interests (security, analytics); compliance with legal obligations."
+        },
+        {
+          "id": "retention",
+          "title": "6. Data retention",
+          "body": "Contact form submissions are retained for up to 12 months. Anonymized analytics data is retained indefinitely in aggregated form. IP hashes used for rate limiting are deleted within 24 hours."
+        },
+        {
+          "id": "tps-uscis-document-processing",
+          "title": "TPS document processing (OCR and AI)",
+          "body": "When you upload a document image in the TPS Ukraine wizard, the file passes an image-quality check in your browser/our server, then the bytes are sent to Google Cloud Vision (Google LLC, USA) for text recognition. The image is not stored on our servers: the bytes live only in request memory and are released after the response. If the operator enables the experimental AI layer (TPS_AI_BRAIN_ENABLED flag), the Google Vision extracted text (no image, no other identifying data attached) is additionally sent to an external AI model provider for document-type classification and field extraction. The AI never writes into a USCIS form directly — every value requires your confirmation on the review screen. The AI layer is opt-in and off by default. After your PDF packet is generated, you can wipe local data using the \"Clear my data\" button."
+        },
+        {
+          "id": "sharing",
+          "title": "7. Data sharing",
+          "body": "We do not sell your data. We share it only with: Resend (email delivery); Vercel (hosting and analytics); Supabase (database). All processors are contractually bound to confidentiality."
+        },
+        {
+          "id": "security",
+          "title": "8. Security",
+          "body": "We use HTTPS, encrypted storage, and access controls. No system is perfectly secure — if you believe your data has been compromised, contact us immediately."
+        },
+        {
+          "id": "rights",
+          "title": "9. Your rights",
+          "body": "Depending on your location, you may have the right to: access your personal data; correct inaccurate data; request deletion; object to processing; receive a copy of your data. Contact us to exercise these rights."
+        },
+        {
+          "id": "california",
+          "title": "10. California residents (CCPA/CPRA)",
+          "body": "California residents have the right to know what personal information we collect, the right to delete personal information, and the right to opt-out of sale (we do not sell data). Contact us to submit a CCPA request."
+        },
+        {
+          "id": "children",
+          "title": "11. Children's privacy",
+          "body": "Our service is not directed to individuals under 13. We do not knowingly collect personal information from children. If you believe a child has provided us with personal information, contact us."
+        },
+        {
+          "id": "international",
+          "title": "12. International transfers",
+          "body": "Your data may be processed in the United States and other countries. We ensure appropriate safeguards are in place for any international transfers."
+        },
+        {
+          "id": "changes",
+          "title": "13. Changes to this policy",
+          "body": "We may update this policy periodically. We will post the updated policy on this page with a revised date. Continued use of the service constitutes acceptance of the updated policy."
+        },
+        {
+          "id": "contact",
+          "title": "14. Contact",
+          "body": "For privacy inquiries, contact us at 2133611700uscis@gmail.com."
+        }
+      ]
+    }
+  },
+  "translationService": {
+    "home": "Home",
+    "backToServices": "Back to Services",
+    "title": "Translate Document",
+    "subtitle": "Self-service translation for the Ukrainian internal passport booklet. Other Ukrainian documents may be uploaded but route to a team member for manual review.",
+    "draftOnlyBanner": "You self-certify as the translator under 8 CFR §103.2(b)(3). This tool does not provide legal advice and does not guarantee USCIS acceptance.",
+    "chooseDocumentTitle": "Choose your document",
+    "chooseDocumentSubtitle": "Select the document type you want to prepare.",
+    "startAction": "Start →",
+    "documents": {
+      "passport": {
+        "title": "Passport",
+        "description": "Upload a passport bio page and prepare a clear English draft.",
+        "panelTitle": "Passport Translation Draft",
+        "fieldsIncluded": [
+          "English draft with the main passport fields.",
+          "Name, date of birth, passport number, issue date, and expiration date.",
+          "Notes for visible stamps or seals when they affect the main page.",
+          "Draft PDF layout for review before translator certification."
+        ],
+        "uploadInstructions": [
+          "Upload a clear photo or scan of the passport bio page.",
+          "Make sure all text is readable from edge to edge.",
+          "Avoid glare, blur, shadows, and cropped corners."
+        ],
+        "riskNote": "Review spelling, dates, and document numbers before final translator review."
+      },
+      "birth-certificate": {
+        "title": "Birth Certificate",
+        "description": "Prepare a draft with names, dates, places, and registry details.",
+        "panelTitle": "Birth Certificate Translation Draft",
+        "fieldsIncluded": [
+          "Child and parent names as shown on the original.",
+          "Date and place of birth, certificate number, and registry office details.",
+          "Visible seals, notes, or marginal entries when readable.",
+          "Draft layout you can review before sending to a translator."
+        ],
+        "uploadInstructions": [
+          "Upload the full certificate, front and back if text appears on both sides.",
+          "Keep stamps, seals, and handwritten notes visible.",
+          "Use a scan or flat photo with good contrast."
+        ],
+        "riskNote": "Birth records often include marginal notes. Keep the full page visible."
+      },
+      "marriage-certificate": {
+        "title": "Marriage Certificate",
+        "description": "Prepare a draft with spouses, dates, places, and registry details.",
+        "panelTitle": "Marriage Certificate Translation Draft",
+        "fieldsIncluded": [
+          "Spouse names, date of marriage, and place of registration.",
+          "Certificate numbers, registry references, and issuing authority details.",
+          "Visible seals or annotations when they appear on the document.",
+          "Draft layout for quick review before translator certification."
+        ],
+        "uploadInstructions": [
+          "Upload the full certificate, including all printed notes.",
+          "Do not crop off the registry area or seals.",
+          "Use a scan or high-resolution photo without glare."
+        ],
+        "riskNote": "Marriage certificates often fail when the registry section is cropped out."
+      },
+      "divorce-certificate": {
+        "title": "Divorce Certificate",
+        "description": "Prepare a draft with parties, dates, decision details, and registry data.",
+        "panelTitle": "Divorce Certificate Translation Draft",
+        "fieldsIncluded": [
+          "Names of both parties and the registration or decision date.",
+          "Court or registry references visible on the document.",
+          "Certificate numbers, issuing office, and official notes.",
+          "Draft layout for review before final translation steps."
+        ],
+        "uploadInstructions": [
+          "Upload the complete document, including any court or registry pages.",
+          "Keep signatures, stamps, and handwritten notes visible when present.",
+          "Use clear lighting and avoid folded edges."
+        ],
+        "riskNote": "If the divorce document has multiple pages, include all of them."
+      },
+      "diploma-transcript": {
+        "title": "Diploma / Transcript",
+        "description": "Prepare a draft with school names, dates, grades, and degree details.",
+        "panelTitle": "Diploma / Transcript Translation Draft",
+        "fieldsIncluded": [
+          "Institution name, degree or diploma title, and graduation dates.",
+          "Subjects, grades, or transcript rows when readable.",
+          "Issuing authority details and document numbers if shown.",
+          "Draft layout for reviewing names, dates, and academic terms."
+        ],
+        "uploadInstructions": [
+          "Upload the diploma or transcript pages in full.",
+          "Keep tables, grades, and stamps readable.",
+          "Use PDF when the document has multiple pages."
+        ],
+        "riskNote": "Academic records often need every page, not just the cover."
+      },
+      "military-document": {
+        "title": "Military Document",
+        "description": "Prepare a draft with service dates, unit details, and official notes.",
+        "panelTitle": "Military Document Translation Draft",
+        "fieldsIncluded": [
+          "Service dates, unit references, and personal identification fields.",
+          "Visible orders, discharge notes, or classification details.",
+          "Stamps, seals, and handwritten notes when readable.",
+          "Draft format for review before translator certification."
+        ],
+        "uploadInstructions": [
+          "Upload the full document, including all stamped pages.",
+          "Make sure handwriting is as clear as possible.",
+          "Use multiple photos or a PDF if the record spans several pages."
+        ],
+        "riskNote": "Military records often contain handwritten notes that need manual review later."
+      },
+      "driver-license": {
+        "title": "Driver License",
+        "description": "Prepare a draft with identity fields, dates, categories, and restrictions.",
+        "panelTitle": "Driver License Translation Draft",
+        "fieldsIncluded": [
+          "Name, document number, date of birth, issue date, and expiration date.",
+          "Vehicle categories and visible restrictions or endorsements.",
+          "Issuing authority details when shown.",
+          "Draft format for checking core identity fields before final review."
+        ],
+        "uploadInstructions": [
+          "Upload the front side and the back side if text appears on both sides.",
+          "Keep the card edges visible and avoid flash glare.",
+          "Use a flat photo or scan with readable small print."
+        ],
+        "riskNote": "If the back side contains codes or restrictions, upload it too."
+      },
+      "other-document": {
+        "title": "Other Document",
+        "description": "Prepare a draft for documents that do not fit the main categories.",
+        "panelTitle": "Other Document Translation Draft",
+        "fieldsIncluded": [
+          "Core names, dates, document numbers, and issuing authority details.",
+          "Visible seals, signatures, and short notes where readable.",
+          "Simple draft layout for review before human translation steps.",
+          "A clear list of fields that may still need manual completion."
+        ],
+        "uploadInstructions": [
+          "Upload the clearest complete copy you have.",
+          "Include every page that contains official text, seals, or signatures.",
+          "Use PDF if the document has more than one page."
+        ],
+        "riskNote": "Other documents vary a lot. Review the draft carefully before using it."
+      },
+      "death-certificate": {
+        "title": "Death Certificate",
+        "description": "Prepare a draft with name, dates, place of death, and registry details.",
+        "panelTitle": "Death Certificate Translation Draft",
+        "fieldsIncluded": [
+          "Deceased's full name, date and place of death.",
+          "Certificate number and registry office details.",
+          "Cause of death when shown on the document.",
+          "Draft layout for review before translator certification."
+        ],
+        "uploadInstructions": [
+          "Upload the full certificate including seals and signatures.",
+          "Keep all stamps and handwritten notes visible.",
+          "Use a scan or flat photo with good contrast."
+        ],
+        "riskNote": "Death certificates are often needed for inheritance and survivor benefit claims. Verify all dates carefully."
+      },
+      "adoption-certificate": {
+        "title": "Adoption Certificate",
+        "description": "Prepare a draft with child name, adoptive parents, and court decision details.",
+        "panelTitle": "Adoption Certificate Translation Draft",
+        "fieldsIncluded": [
+          "Child's name before and after adoption.",
+          "Adoptive parents' full names and date of adoption decision.",
+          "Court or registry reference number and issuing authority.",
+          "Draft layout for review before translator certification."
+        ],
+        "uploadInstructions": [
+          "Upload the full certificate or court decision including all pages.",
+          "Keep signatures, seals, and official stamps visible.",
+          "Use a scan or flat photo without glare."
+        ],
+        "riskNote": "Adoption documents often span multiple pages. Include all pages in your upload."
+      },
+      "name-change-certificate": {
+        "title": "Name Change Certificate",
+        "description": "Prepare a draft showing former and new legal name, decision date, and issuing authority.",
+        "panelTitle": "Name Change Certificate Translation Draft",
+        "fieldsIncluded": [
+          "Former full legal name and new full legal name.",
+          "Date of decision or registration and document number.",
+          "Reason for name change when shown on the document.",
+          "Draft layout for review before translator certification."
+        ],
+        "uploadInstructions": [
+          "Upload the full certificate or court decision.",
+          "Keep stamps, seals, and handwritten notes visible.",
+          "Use a scan or flat photo with good contrast."
+        ],
+        "riskNote": "Name change documents are critical for identity consistency across all USCIS filings."
+      },
+      "police-record": {
+        "title": "Police / Criminal Record",
+        "description": "Prepare a draft showing name, record status, issuing authority, and validity dates.",
+        "panelTitle": "Police Record Translation Draft",
+        "fieldsIncluded": [
+          "Full name, date of birth, and place of birth.",
+          "Record status (e.g., No Criminal Record) and reference number.",
+          "Issuing authority and date of issue.",
+          "Validity date when shown on the document."
+        ],
+        "uploadInstructions": [
+          "Upload the complete document including all stamps and signatures.",
+          "Keep the issuing authority section fully visible.",
+          "Use a scan or flat photo without glare."
+        ],
+        "riskNote": "Police records are often required for green card and naturalization applications. Confirm the validity date is within the required window."
+      },
+      "medical-record": {
+        "title": "Medical Record / Certificate",
+        "description": "Prepare a draft with patient name, diagnosis, treatment period, and issuing institution.",
+        "panelTitle": "Medical Record Translation Draft",
+        "fieldsIncluded": [
+          "Patient's full name and date of birth.",
+          "Diagnosis or medical condition when shown.",
+          "Treatment dates and attending physician details.",
+          "Issuing medical institution and document reference number."
+        ],
+        "uploadInstructions": [
+          "Upload the full document including all pages with medical details.",
+          "Keep the doctor's signature and institution stamp visible.",
+          "Use a scan or flat photo with good contrast."
+        ],
+        "riskNote": "Medical records vary widely in format. Review all fields carefully before using the draft."
+      },
+      "property-document": {
+        "title": "Property Document",
+        "description": "Prepare a draft with owner name, property address, document type, and registration details.",
+        "panelTitle": "Property Document Translation Draft",
+        "fieldsIncluded": [
+          "Owner's full legal name and property address.",
+          "Document type (title, deed, or ownership certificate) and registration number.",
+          "Date of registration and issuing authority details.",
+          "Draft layout for review before translator certification."
+        ],
+        "uploadInstructions": [
+          "Upload the full document including all stamped and signed pages.",
+          "Keep registration numbers and official seals clearly visible.",
+          "Use a scan or flat photo — avoid photographing folded documents."
+        ],
+        "riskNote": "Property documents often need notarized translations. Confirm the translator's certification requirements with USCIS."
+      },
+      "employment-record": {
+        "title": "Employment Record",
+        "description": "Prepare a draft with employer, position, employment dates, and official record details.",
+        "panelTitle": "Employment Record Translation Draft",
+        "fieldsIncluded": [
+          "Employee's full name and employer / organization name.",
+          "Job title or position and employment start and end dates.",
+          "Document reference number and issuing authority details.",
+          "Draft layout for review before translator certification."
+        ],
+        "uploadInstructions": [
+          "Upload the full record including all stamped pages.",
+          "Keep handwritten entries and official seals clearly visible.",
+          "Use PDF when the record spans multiple pages."
+        ],
+        "riskNote": "Employment records often contain handwritten dates. Review these carefully before finalizing the draft."
+      }
+    },
+    "panel": {
+      "whatYouGet": "What you get",
+      "whatToUpload": "What to upload",
+      "uploadButton": "Upload photo or file",
+      "createDraftButton": "Create Translation Draft",
+      "useAnotherDocument": "Use another document"
+    },
+    "upload": {
+      "dropText": "Drop your file here or click to upload",
+      "acceptedTypes": "Accepted: JPG, PNG, PDF, HEIC",
+      "maxSize": "Max 10 MB",
+      "privacyNote": "Your file is used only to create the draft. Do not upload sensitive documents unless you agree to the privacy terms.",
+      "localOnlyNotice": "Draft generation is not active yet. This test screen shows the intended flow. No file is uploaded.",
+      "fileTooLarge": "This file is larger than 10 MB. Please upload a smaller file.",
+      "unsupportedType": "Unsupported file type. Use JPG, PNG, PDF, or HEIC.",
+      "heicWarning": "HEIC files may need conversion before draft generation is activated.",
+      "removeFile": "Remove file"
+    },
+    "result": {
+      "placeholderTitle": "Draft flow ready",
+      "noBackend": "Your draft flow is ready for the next step. AI generation will be connected after verification.",
+      "draftOnly": "You self-certify as translator under 8 CFR §103.2(b)(3). Not a professional translation agency.",
+      "downloadDraft": "Download Draft PDF",
+      "sendToEmail": "Send to Email",
+      "startAnother": "Start another document"
+    },
+    "source": {
+      "title": "Official source requirement",
+      "body": "USCIS generally requires foreign-language documents to include a full English translation with a signed certification under 8 CFR §103.2(b)(3). You sign as the translator.",
+      "uscisPolicyManual": "USCIS Policy Manual — Chapter 6 Evidence",
+      "ecfr": "8 CFR 103.2(b)(3)",
+      "lastCheckedLabel": "Last checked: {date}",
+      "sourceLabel": "Source: official government website"
+    },
+    "supportedScope": "Currently only the Ukrainian internal passport booklet is fully self-serve. Birth, marriage, divorce, ID card, and international passport are accepted but routed to manual review by our team. Unsupported or unclear documents are also routed to manual review."
+  },
+  "home": {
+    "hero": {
+      "title": "Navigate your immigration case with confidence",
+      "subtitle": "Messenginfo provides clear, reliable information about USCIS forms, procedures, and official resources — so you can manage your case on your own terms.",
+      "cta": "Contact us",
+      "badge": "Information service · Not legal advice"
+    },
+    "services": {
+      "title": "How we help",
+      "subtitle": "We help you navigate the paperwork — you make the decisions.",
+      "items": [
+        {
+          "title": "Document translation guidance",
+          "description": "Learn what USCIS requires when submitting translated documents: which documents to translate, what self-certification language to use, and how to meet official standards per 8 CFR 103.2(b)(3)."
+        },
+        {
+          "title": "Form completion assistance",
+          "description": "Step-by-step explanations of commonly used immigration forms — what each field means, what documents to attach, and where to submit. Based on official USCIS instructions."
+        },
+        {
+          "title": "Official source navigation",
+          "description": "Direct links to USCIS.gov, DOS, and other government resources — always from an authoritative source, not forums."
+        }
+      ]
+    },
+    "how": {
+      "title": "How it works",
+      "steps": [
+        {
+          "title": "Tell us about your question",
+          "description": "Write to us through the contact form about your question or the form you are working with. We respond in your language."
+        },
+        {
+          "title": "Get information in plain language",
+          "description": "We will send clear explanations from official government publications — no jargon, no guesswork."
+        },
+        {
+          "title": "Act with confidence",
+          "description": "Use our information to prepare your own applications. In complex situations, we will refer you to licensed immigration attorneys."
+        }
+      ]
+    },
+    "why": {
+      "title": "Why Messenginfo",
+      "points": [
+        {
+          "title": "Official sources only",
+          "description": "All information comes from USCIS.gov and official government publications. Not from forums, not from social media, not from rumors."
+        },
+        {
+          "title": "Four languages",
+          "description": "Available in English, Russian, Ukrainian, and Spanish — for the communities that need clear immigration information most."
+        },
+        {
+          "title": "Privacy first",
+          "description": "We collect only what is necessary. No tracking cookies, no advertising profiles, no data sales — ever."
+        }
+      ]
+    },
+    "contact": {
+      "title": "Contact us",
+      "subtitle": "Have a question about a form, deadline, or document translation? Write to us. We usually respond within 1–2 business days.",
+      "form": {
+        "name": "Full name",
+        "namePlaceholder": "Your full name",
+        "email": "Email address",
+        "emailPlaceholder": "you@example.com",
+        "message": "Message",
+        "messagePlaceholder": "Describe your question or situation...",
+        "consent": "I understand that Messenginfo does not provide legal advice and that this message does not create an attorney-client relationship.",
+        "consentRequired": "You must acknowledge this to continue.",
+        "submit": "Send message",
+        "submitting": "Sending...",
+        "success": "Your message has been received. We will respond within 1–2 business days.",
+        "error": "Something went wrong. Please try again or write to us directly.",
+        "rateLimit": "Too many submissions. Please wait an hour before trying again.",
+        "validation": "Please review the form and correct the highlighted fields."
+      }
+    },
+    "disclaimer": {
+      "title": "Important notice",
+      "body": "Messenginfo is not a law firm and does not provide legal advice. We provide information from official government sources to help you understand U.S. immigration procedures. For questions specific to your situation, consult a licensed immigration attorney."
+    }
+  },
+  "wizard": {
+    "nav": {
+      "back": "← Back",
+      "next": "Next →",
+      "done": "Done",
+      "step_of": "Step {current} of {total}"
+    },
+    "steps": {
+      "0": "Welcome",
+      "1": "About the Form",
+      "2": "Package",
+      "3": "Family",
+      "4": "Documents",
+      "5": "Recognition",
+      "6": "Confirmation",
+      "7": "Information",
+      "8": "Filing Method",
+      "9": "Preview",
+      "10": "Payment",
+      "11": "Download",
+      "12": "Transfer"
+    },
+    "mia": {
+      "title": "Mia",
+      "placeholder": "Ask a question about Re-Parole U4U…",
+      "send": "Send",
+      "thinking": "Mia is thinking…",
+      "open_hint": "Have questions?"
+    },
+    "theme": {
+      "light": "Light theme",
+      "dark": "Dark theme"
+    },
+    "language": {
+      "ru": "RU",
+      "uk": "UK",
+      "en": "EN",
+      "es": "ES"
+    }
+  },
+  "fees.baseFee.note": "Use the USCIS Fee Calculator for current amounts. Fees may vary based on age, filing method, and parole category.",
+  "fees.paroleGrant.note": "HR-1 Parole Grant Fee: USCIS charges this fee after conditional approval — not at the time of filing. You will receive a separate payment notice with a deadline.",
+  "fees.paroleGrant.approx": "See current amount at uscis.gov/g-1055 (subject to annual adjustment).",
+  "fees.eadRenewal.note": "HR-1 EAD Renewal Fee: USCIS charges this separately from the base filing fee. See current amount at uscis.gov/g-1055.",
+  "fees.hr1WaiverNote": "HR-1 fees (Parole Grant + EAD Renewal) cannot be waived by Form I-912. Form I-912 covers only standard USCIS filing fees.",
+  "fees.payment.note": "USCIS no longer accepts personal checks or money orders (since October 28, 2025). Pay by credit/debit card using Form G-1450. If you don't have bank account access, see Form G-1651 at uscis.gov/g-1651.",
+  "fees.feeCalculatorUrl": "https://www.uscis.gov/fees",
+  "fees.source": "Source: USCIS G-1055 fee schedule (last reviewed 04/23/2026)",
+  "ead.sequence.warning": "USCIS advises: do not file Form I-765 before your Form I-131 Re-Parole is approved. Filing too early may result in denial and fees may not be refunded.",
+  "eadSequence.step1": "File Form I-131 (Re-Parole)",
+  "eadSequence.step2": "Receive I-131 Approval Notice",
+  "eadSequence.step3": "Download updated Form I-94 from i94.cbp.dhs.gov (look for class \"UHP\")",
+  "eadSequence.step4": "File Form I-765 with the updated I-94 and Approval Notice",
+  "ead.source": "Source: USCIS U4U Re-Parole Guide (last reviewed 10/11/2024)",
+  "checklist.g1145.title": "Tip: attach Form G-1145",
+  "checklist.g1145.desc": "Form G-1145 is a free one-page form you attach to your packet. USCIS will send you an SMS and email with your Receipt Number as soon as they process your envelope. This saves 2-3 weeks of waiting for the paper notice.",
+  "checklist.ar11.title": "Update your address when you move",
+  "checklist.ar11.desc": "USCIS requires address updates within 10 days of any move (Form AR-11 at uscis.gov/ar-11). USCIS mails your EAD card and all notices — an outdated address means lost documents.",
+  "checklist.keepCopy.title": "Keep a complete copy",
+  "checklist.keepCopy.desc": "Photograph or scan every page before mailing. If USCIS requests evidence, you'll need your own records.",
+  "checklist.applicantAccount.title": "Create a USCIS account for the applicant",
+  "checklist.applicantAccount.desc": "Set up an account at my.uscis.gov using the applicant's email — not the sponsor's. Medical attestation and case status updates are sent to this account.",
+  "checklist.childPassport.title": "Child listed in a parent's passport?",
+  "checklist.childPassport.desc": "USCIS recognizes that Ukrainian children may be listed in a parent's passport. Include: the relevant pages of the parent's passport showing the child's name, plus a birth certificate with certified English translation. The child is the Applicant — use the child's data in the applicant fields.",
+  "medical.attestation.note": "USCIS handles U4U medical attestation (vaccines and TB screening) through your USCIS online account at my.uscis.gov. Check your account and follow USCIS official instructions — do not assume that paper clinic records attached to your mail packet satisfy this requirement.",
+  "medical.attestation.source": "Source: USCIS U4U program instructions (archived)"
+}

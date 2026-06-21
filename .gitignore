@@ -1,0 +1,93 @@
+node_modules
+.next
+.env*
+coverage
+.dist
+.secrets-uscis.txt
+docs/archive/*
+.vercel
+.env*.local
+.claude/
+
+# Generated test artifacts (local-only)
+apps/web/test-results/
+apps/web/playwright-report/
+playwright-report/
+test-results/
+
+# ──────────────────────────────────────────────────────────────────────
+# Evidence + reports — BLOCK-EVERYTHING policy (Session 54, post-audit)
+#
+# Previous policy listed individual extensions (.zip, .pdf, .png, …) and
+# DELIBERATELY allowed text formats (.txt, .json, .csv, .tsv, .md) under
+# the assumption they'd be sanitized. They weren't: the audit found
+# 746 tracked files under docs/reports/evidence/ + reports/ containing
+# raw OCR responses, I-821/I-765 form dumps, and the owner's real PII
+# (name, address, DOB, A-number, SSN-pattern).
+#
+# New policy: ALL evidence content is sensitive by default. The folder
+# may exist for local runs, but NOTHING under it ships in commits unless
+# explicitly force-added with `git add -f` after manual sanitization
+# review by the owner. Same rule for reports/ root.
+# ──────────────────────────────────────────────────────────────────────
+
+# docs/reports/evidence/ — entire subtree blocked
+docs/reports/evidence/
+# (Keep the folder marker so future runs have a place to write to.)
+!docs/reports/evidence/.gitkeep
+!docs/reports/evidence/README.md
+
+# reports/ root — booklet OCR runs, benchmark CSVs, owner test outputs
+reports/booklet-stability-*/
+reports/booklet-synthetic-*
+reports/booklet-multi-sample-*
+reports/BOOKLET_*.md
+reports/*-response.json
+reports/owner_*
+
+# Real user documents — PII, never committed
+qa-shots/private/
+qa-shots/ua_passport_real.*
+qa-shots/booklet_*
+test-fixtures/owner/
+docs/audit/REAL_DOC_GROUND_TRUTH.local.yaml
+
+# Build artifacts
+apps/web/tsconfig.tsbuildinfo
+*.tsbuildinfo
+apps/web/public/brand/archive/
+
+# Tesseract OSD/traineddata — generated/vendored runtime blob, not source.
+# Client-side Tesseract OSD auto-rotation was removed 2026-06-12; no code loads
+# this file at runtime. Keep it out of the repo (10MB+ binary).
+*.traineddata
+
+# Real client/owner documents — PII, NEVER commit
+test-fixtures/real-docs/
+
+# Private QA data — PII / ground-truth / benchmark raw, NEVER commit
+# Root-anchored: must NOT match docs/reports/ (public sanitized reports live there).
+/qa-private/
+/reports/
+
+# scratch owner-intake helper (not for commit)
+scripts/gt_intake.mjs
+
+# session-54 accuracy rerun harness (scratch, gitignored)
+/apps/web/src/lib/docintel/__rerun__/
+
+# logs (never track)
+*.log
+.apply-migration.log
+.mr-checks.log
+.push.log
+.save-mr-*.log
+.ship.log
+*.swp
+*.swo
+.pii-patterns
+.pii-secret-setup.txt
+
+# V1 OCR cache (private; raw provider responses never committed)
+*.ocr-cache/
+apps/web/.ocr-cache/

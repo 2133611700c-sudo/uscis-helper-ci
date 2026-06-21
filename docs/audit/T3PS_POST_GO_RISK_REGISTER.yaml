@@ -1,0 +1,73 @@
+risks:
+  - id: T3PS-P1-001
+    priority: P1
+    title: Vercel analytics script 404
+    status: open
+    owner: platform
+    impact: "Console noise; non-blocking unless it breaks runtime execution."
+    next_action: "Confirm analytics script path/config on production and suppress non-critical error noise."
+  - id: T3PS-P1-002
+    priority: P1
+    title: I-912 not generated
+    status: open
+    owner: product
+    impact: "Fee-waiver packet path is not automated."
+    next_action: "Keep explicit copy that I-912 is not generated; scope as separate post-beta project."
+  - id: T3PS-P1-003
+    priority: P1
+    title: Paid launch not ready
+    status: open
+    owner: release
+    impact: "No public monetized rollout criteria met."
+    next_action: "Keep paid_launch_ready=false until broader production metrics and support readiness pass."
+  - id: T3PS-P1-004
+    priority: P1
+    title: Limited real-user sample
+    status: open
+    owner: operations
+    impact: "Current proof is strong but sample is still narrow."
+    next_action: "Run controlled beta with 3-5 users and collect structured feedback."
+  - id: T3PS-P1-005
+    priority: P1
+    title: External attorney/legal review not done
+    status: open
+    owner: legal
+    impact: "No external legal review beyond content guardrails."
+    next_action: "Schedule optional legal copy review without changing product eligibility logic."
+  - id: T3PS-P1-006
+    priority: P1
+    title: Telemetry depth may be minimal
+    status: open
+    owner: platform
+    impact: "Early anomaly detection may be weaker than full observability stack."
+    next_action: "Document counts-only monitoring first, then iterate post-beta."
+  - id: T3PS-P2-001
+    priority: P2
+    title: Locale-aware README expansion
+    status: backlog
+    owner: content
+    impact: "README language support can be improved."
+    next_action: "Add locale-aware README rendering after controlled beta."
+  - id: T3PS-P2-002
+    priority: P2
+    title: Full Playwright CI suite
+    status: backlog
+    owner: qa
+    impact: "Browser regression coverage not fully automated in CI."
+    next_action: "Introduce stable Playwright CI profile with redaction-safe fixtures."
+  - id: T3PS-P2-003
+    priority: P2
+    title: Service Engine extraction
+    status: backlog
+    owner: tps-ocr
+    impact: "Advanced extraction enhancements deferred."
+    next_action: "Evaluate only if new production OCR blockers appear."
+  - id: T3PS-P2-004
+    priority: P2
+    title: Re-Parole parity follow-up
+    status: backlog
+    owner: product
+    impact: "Cross-service parity improvements are pending."
+    next_action: "Run separate parity track; do not mix into T3PS controlled-beta lock."
+
+no_open_p0_for_controlled_beta: true

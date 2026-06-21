@@ -1,0 +1,431 @@
+{
+  "_version": "1.1.0",
+  "_notes": [
+    "HISTORICAL ACCURACY RULES:",
+    "1. Before July 2015, do NOT translate МВД/міліція structures as Police.",
+    "2. Use 'Militsiya Department' (transliterated, NOT translated as 'Militia') for militsiya-era units.",
+    "3. Use 'National Police of Ukraine' ONLY for post-July-2015 docs if source supports it.",
+    "4. Preserve historical agency names as shown in the document.",
+    "5. Do not modernize agency/place names unless official controlling English spelling exists.",
+    "6. Do not expand abbreviations beyond what is visible unless dictionary match is reliable.",
+    "7. If abbreviation unknown: keep abbr/transliteration, set review_required, reason=abbreviation_not_verified"
+  ],
+  "entries": {
+    "МВС": {
+      "uk_full": "Міністерство внутрішніх справ України",
+      "en": "Ministry of Internal Affairs of Ukraine",
+      "confidence": "high",
+      "era": "1991-present",
+      "review_required": false
+    },
+    "МВД": {
+      "uk_full": "Міністерство внутрішніх справ (радянська назва)",
+      "en": "Ministry of Internal Affairs",
+      "confidence": "high",
+      "era": "soviet-1991",
+      "note": "Soviet-era designation. Do NOT translate as 'Police'.",
+      "review_required": false
+    },
+    "УМВС": {
+      "uk_full": "Управління Міністерства внутрішніх справ України в [Назва] області",
+      "en": "Directorate of the Ministry of Internal Affairs of Ukraine in [Oblast] Oblast",
+      "confidence": "high",
+      "era": "1991-2015",
+      "review_required": false
+    },
+    "УМВД": {
+      "uk_full": "Управління Міністерства внутрішніх справ",
+      "en": "Directorate of the Ministry of Internal Affairs",
+      "confidence": "high",
+      "era": "soviet-1991",
+      "note": "Historical pre-1991 designation.",
+      "review_required": false
+    },
+    "ГУМВС": {
+      "uk_full": "Головне управління Міністерства внутрішніх справ України",
+      "en": "Main Directorate of the Ministry of Internal Affairs of Ukraine",
+      "confidence": "high",
+      "era": "1991-2015",
+      "review_required": false
+    },
+    "ГУМВД": {
+      "uk_full": "Головне управління Міністерства внутрішніх справ",
+      "en": "Main Directorate of the Ministry of Internal Affairs",
+      "confidence": "high",
+      "era": "soviet-1991",
+      "review_required": false
+    },
+    "УВС": {
+      "uk_full": "Управління внутрішніх справ",
+      "en": "Directorate of Internal Affairs",
+      "confidence": "high",
+      "era": "1991-2015",
+      "note": "Militsiya-era unit. Do NOT translate as Police.",
+      "review_required": false
+    },
+    "ГУВС": {
+      "uk_full": "Головне управління внутрішніх справ",
+      "en": "Main Directorate of Internal Affairs",
+      "confidence": "high",
+      "era": "1991-2015",
+      "note": "Militsiya-era unit. Do NOT translate as Police.",
+      "review_required": false
+    },
+    "РВ": {
+      "uk_full": "Районне відділення",
+      "en": "District Department",
+      "confidence": "high",
+      "era": "1991-2015",
+      "note": "Never render as 'Police Department' for pre-2015 documents.",
+      "review_required": false
+    },
+    "РВ УМВС": {
+      "uk_full": "Районне відділення Управління Міністерства внутрішніх справ України",
+      "en": "District Department of the Directorate of the Ministry of Internal Affairs of Ukraine",
+      "confidence": "high",
+      "era": "1991-2015",
+      "note": "Do NOT render as Police. Militsiya-era unit.",
+      "review_required": false
+    },
+    "РВ МВС": {
+      "uk_full": "Районне відділення Міністерства внутрішніх справ України",
+      "en": "District Department of the Ministry of Internal Affairs of Ukraine",
+      "confidence": "high",
+      "era": "1991-2015",
+      "note": "Militsiya-era unit. Do NOT translate as Police.",
+      "review_required": false
+    },
+    "МВ": {
+      "uk_full": "Міське відділення",
+      "en": "City Department",
+      "confidence": "high",
+      "era": "1991-2015",
+      "review_required": false
+    },
+    "МРВ": {
+      "uk_full": "Міськрайонне відділення",
+      "en": "City and District Department",
+      "confidence": "high",
+      "era": "1991-2015",
+      "review_required": false
+    },
+    "ВМ": {
+      "uk_full": "Відділення міліції",
+      "en": "Militsiya Department",
+      "confidence": "high",
+      "era": "pre-2015",
+      "note": "MUST render as 'Militsiya Department', NOT 'Police Department' or 'Militia Department'. Transliterate, do not translate. Per ADR-004.",
+      "review_required": false
+    },
+    "ММВ": {
+      "uk_full": "Міське міжрайонне відділення",
+      "en": "City Inter-District Division",
+      "confidence": "medium",
+      "era": "1991-2015",
+      "review_required": false
+    },
+    "ВМУ": {
+      "uk_full": "Відділення міліції у [місті/районі]",
+      "en": "Militsiya Department",
+      "confidence": "medium",
+      "era": "pre-2015",
+      "note": "Militsiya-era unit. Do NOT translate as Police.",
+      "review_required": false
+    },
+    "ОВС": {
+      "uk_full": "Відділ внутрішніх справ",
+      "en": "Department of Internal Affairs",
+      "confidence": "high",
+      "era": "1991-2015",
+      "note": "Militsiya-era. Do NOT translate as Police.",
+      "review_required": false
+    },
+    "ВОВС": {
+      "uk_full": "Відділення відділу внутрішніх справ",
+      "en": "Sub-department of Internal Affairs",
+      "confidence": "medium",
+      "era": "1991-2015",
+      "review_required": false
+    },
+    "ВГІРФО": {
+      "uk_full": "Відділ у справах громадянства, імміграції та реєстрації фізичних осіб",
+      "en": "Department of Citizenship, Immigration and Registration of Individuals",
+      "confidence": "high",
+      "era": "2003-2012",
+      "review_required": false
+    },
+    "СГІРФО": {
+      "uk_full": "Сектор у справах громадянства, імміграції та реєстрації фізичних осіб",
+      "en": "Sector of Citizenship, Immigration and Registration of Individuals",
+      "confidence": "high",
+      "era": "2003-2012",
+      "review_required": false
+    },
+    "ДМС": {
+      "uk_full": "Державна міграційна служба України",
+      "en": "State Migration Service of Ukraine",
+      "confidence": "high",
+      "era": "2012-present",
+      "review_required": false
+    },
+    "УДМС": {
+      "uk_full": "Управління Державної міграційної служби України",
+      "en": "Directorate of the State Migration Service of Ukraine",
+      "confidence": "high",
+      "era": "2012-present",
+      "review_required": false
+    },
+    "ГУДМС": {
+      "uk_full": "Головне управління Державної міграційної служби України",
+      "en": "Main Directorate of the State Migration Service of Ukraine",
+      "confidence": "high",
+      "era": "2012-present",
+      "review_required": false
+    },
+    "ВДДМС": {
+      "uk_full": "Відділ/відділення Державної міграційної служби України",
+      "en": "Department of the State Migration Service of Ukraine",
+      "confidence": "high",
+      "era": "2012-present",
+      "review_required": false
+    },
+    "СДМС": {
+      "uk_full": "Сектор Державної міграційної служби України",
+      "en": "Sector of the State Migration Service of Ukraine",
+      "confidence": "high",
+      "era": "2012-present",
+      "review_required": false
+    },
+    "ТДМС": {
+      "uk_full": "Територіальний орган Державної міграційної служби України",
+      "en": "Territorial Authority of the State Migration Service of Ukraine",
+      "confidence": "medium",
+      "era": "2012-present",
+      "review_required": false
+    },
+    "ДРАЦС": {
+      "uk_full": "Департамент державної реєстрації актів цивільного стану",
+      "en": "Department of State Registration of Civil Status Acts",
+      "confidence": "high",
+      "era": "2016-present",
+      "review_required": false
+    },
+    "РАЦС": {
+      "uk_full": "Реєстрація актів цивільного стану",
+      "en": "Civil Status Registration Office",
+      "confidence": "high",
+      "era": "1991-2016",
+      "review_required": false
+    },
+    "ВАЦС": {
+      "uk_full": "Відділ актів цивільного стану",
+      "en": "Department of Civil Status Acts",
+      "confidence": "high",
+      "era": "1991-2016",
+      "review_required": false
+    },
+    "ЗАГС": {
+      "uk_full": "Запис актів громадянського стану",
+      "en": "Civil Registry Office (ZAGS)",
+      "confidence": "high",
+      "era": "soviet-1991",
+      "review_required": false
+    },
+    "УМВСУ": {
+      "uk_full": "Управління МВС України",
+      "en": "Directorate of the Ministry of Internal Affairs of Ukraine",
+      "confidence": "medium",
+      "era": "1991-2015",
+      "review_required": false
+    },
+    "НПУ": {
+      "uk_full": "Національна поліція України",
+      "en": "National Police of Ukraine",
+      "confidence": "high",
+      "era": "2015-present",
+      "note": "Use ONLY for post-July 2015 documents.",
+      "review_required": false
+    },
+    "УНП": {
+      "uk_full": "Управління Національної поліції",
+      "en": "Directorate of the National Police",
+      "confidence": "high",
+      "era": "2015-present",
+      "review_required": false
+    },
+    "ГУНП": {
+      "uk_full": "Головне управління Національної поліції",
+      "en": "Main Directorate of the National Police",
+      "confidence": "high",
+      "era": "2015-present",
+      "review_required": false
+    },
+    "ВП": {
+      "uk_full": "Відділ поліції",
+      "en": "Police Department",
+      "confidence": "high",
+      "era": "2015-present",
+      "note": "Use ONLY for post-July 2015. Pre-2015 'ВП' may be 'відповідальний підрозділ' — review_required.",
+      "review_required": false
+    },
+    "ВГНП": {
+      "uk_full": "Відділ Головного управління Національної поліції",
+      "en": "Department of the Main Directorate of the National Police",
+      "confidence": "medium",
+      "era": "2015-present",
+      "review_required": false
+    },
+    "ГОВП": {
+      "uk_full": "Головний відділ поліції",
+      "en": "Main Police Department",
+      "confidence": "medium",
+      "era": "2015-present",
+      "review_required": false
+    },
+    "ЦНАП": {
+      "uk_full": "Центр надання адміністративних послуг",
+      "en": "Administrative Services Center",
+      "confidence": "high",
+      "era": "2014-present",
+      "review_required": false
+    },
+    "ЦНАПу": {
+      "uk_full": "Центру надання адміністративних послуг",
+      "en": "Administrative Services Center",
+      "confidence": "high",
+      "era": "2014-present",
+      "review_required": false
+    },
+    "МЦНАП": {
+      "uk_full": "Міський центр надання адміністративних послуг",
+      "en": "Municipal Administrative Services Center",
+      "confidence": "medium",
+      "era": "2014-present",
+      "review_required": false
+    },
+    "УВІР": {
+      "uk_full": "Управління у справах іноземців та осіб без громадянства",
+      "en": "Directorate for Affairs of Foreigners and Stateless Persons",
+      "confidence": "high",
+      "era": "1993-2012",
+      "review_required": false
+    },
+    "ВУПР": {
+      "uk_full": "Відділ у справах іноземців та реєстрації",
+      "en": "Department for Foreigners and Registration Affairs",
+      "confidence": "medium",
+      "era": "1993-2012",
+      "review_required": false
+    },
+    "ОМ": {
+      "uk_full": "Відділення міліції (міське)",
+      "en": "Urban Militsiya Department",
+      "confidence": "medium",
+      "era": "pre-2015",
+      "note": "Militsiya-era unit. Do NOT translate as Police.",
+      "review_required": false
+    },
+    "РМ": {
+      "uk_full": "Районний відділ міліції",
+      "en": "District Militsiya Department",
+      "confidence": "high",
+      "era": "pre-2015",
+      "note": "Militsiya-era unit. Do NOT translate as Police.",
+      "review_required": false
+    },
+    "МВУ": {
+      "uk_full": "Міністерство внутрішніх справ України",
+      "en": "Ministry of Internal Affairs of Ukraine",
+      "confidence": "medium",
+      "era": "1991-present",
+      "review_required": false
+    },
+    "КМ": {
+      "uk_full": "Кримінальна міліція",
+      "en": "Criminal Militsiya",
+      "confidence": "medium",
+      "era": "pre-2015",
+      "note": "Militsiya-era. Do NOT translate as Police.",
+      "review_required": false
+    },
+    "МОУ": {
+      "uk_full": "Міністерство оборони України",
+      "en": "Ministry of Defense of Ukraine",
+      "confidence": "high",
+      "era": "1991-present",
+      "review_required": false
+    },
+    "ФДМУ": {
+      "uk_full": "Фонд державного майна України",
+      "en": "State Property Fund of Ukraine",
+      "confidence": "high",
+      "era": "1991-present",
+      "review_required": false
+    },
+    "ВСЗН": {
+      "uk_full": "Відділ/Управління соціального захисту населення",
+      "en": "Department of Social Protection",
+      "confidence": "medium",
+      "era": "1991-present",
+      "review_required": false
+    },
+    "ВИКОНКОМ": {
+      "uk_full": "Виконавчий комітет",
+      "en": "Executive Committee",
+      "confidence": "high",
+      "era": "1991-present",
+      "review_required": false
+    },
+    "РДА": {
+      "uk_full": "Районна державна адміністрація",
+      "en": "District State Administration",
+      "confidence": "high",
+      "era": "1991-present",
+      "review_required": false
+    },
+    "ОДА": {
+      "uk_full": "Обласна державна адміністрація",
+      "en": "Regional State Administration",
+      "confidence": "high",
+      "era": "1991-present",
+      "review_required": false
+    },
+    "МЖК": {
+      "uk_full": "Міжнародний жіночий клуб / Міжрайонне житлово-комунальне",
+      "en": "Inter-District Housing Committee",
+      "confidence": "low",
+      "era": "1991-present",
+      "review_required": true
+    },
+    "ЦНАП": {
+      "uk_full": "Центр надання адміністративних послуг",
+      "en": "Administrative Services Center",
+      "confidence": "high",
+      "era": "2014-present",
+      "note": "Post-2014 one-stop government services. Issues passports, registers residence.",
+      "review_required": false
+    },
+    "ТЦК": {
+      "uk_full": "Територіальний центр комплектування та соціальної підтримки",
+      "en": "Territorial Recruitment and Social Support Center",
+      "confidence": "high",
+      "era": "2022-present",
+      "note": "Military conscription and social support centers, post-2022.",
+      "review_required": false
+    },
+    "ДСНС": {
+      "uk_full": "Державна служба надзвичайних ситуацій України",
+      "en": "State Emergency Service of Ukraine",
+      "confidence": "high",
+      "era": "2012-present",
+      "review_required": false
+    },
+    "ДПСУ": {
+      "uk_full": "Державна прикордонна служба України",
+      "en": "State Border Guard Service of Ukraine",
+      "confidence": "high",
+      "era": "2003-present",
+      "review_required": false
+    }
+  }
+}

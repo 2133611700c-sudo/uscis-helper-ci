@@ -1,0 +1,28 @@
+report: T3PS_FINAL_OCR_MATRIX
+generated_at: "2026-05-24T05:58:00Z"
+source: "/Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-final-release/browser-run-clean/dual_proof_summary.json"
+endpoint: "https://messenginfo.com/api/tps/ocr/extract"
+documents:
+  international_passport:
+    status: PASS
+    http_status: 200
+    slot: passport
+  ukrainian_internal_passport:
+    status: PASS
+    http_status: 200
+    slot: booklet
+  i94:
+    status: PASS
+    http_status: 200
+    slot: i94
+  ead:
+    status: PASS
+    http_status: 200
+    slot: i797_or_ead
+  uscis_notice:
+    status: NOT_REQUIRED
+    reason: out_of_scope_stage_i
+checks:
+  required_slots_http_200: true
+  browser_review_to_generate_chain_closed: true
+overall: PASS

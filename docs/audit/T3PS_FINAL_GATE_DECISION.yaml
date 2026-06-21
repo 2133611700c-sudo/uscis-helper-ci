@@ -1,0 +1,18 @@
+report: T3PS_FINAL_GATE_DECISION
+generated_at: "2026-05-16T08:46:20Z"
+inputs:
+  changed_files_are_docs_only: false
+  any_code_file_changed: false
+decision:
+  mode: docs_only_release_lock
+  rationale: "No source code files changed; only docs/evidence and generated artifacts changed."
+commands:
+  - command: pnpm --filter web run guard
+    exit_code: 0
+    status: PASS
+  - command: pnpm --filter web run typecheck
+    exit_code: 0
+    status: PASS
+authoritative_functional_evidence:
+  source: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_110_FUNCTIONAL_REVERIFY.yaml
+  statement: "Prior full functional evidence remains authoritative for OCR matrix, browser A/B, and PDF proof."

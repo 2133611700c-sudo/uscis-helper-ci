@@ -1,0 +1,23 @@
+report: T3PS_MASTER_RELEASE_TRUTH_SNAPSHOT
+generated_at: "2026-05-16T09:36:00Z"
+local_head: "11c7f978bef35de6eef4380b316bdd3af5fbf115"
+origin_main: "11c7f978bef35de6eef4380b316bdd3af5fbf115"
+production_health_sha: "11c7f978bef35de6eef4380b316bdd3af5fbf115"
+production_health_ok: true
+branch: main
+dirty_files:
+  - apps/web/tsconfig.tsbuildinfo
+  - docs/audit/T3PS_110_TRUTH_BASELINE.yaml
+  - docs/audit/T3PS_110_EVIDENCE_INDEX.yaml
+  - docs/audit/T3PS_110_FUNCTIONAL_REVERIFY.yaml
+  - docs/audit/T3PS_110_FINAL_RELEASE_LOCK.yaml
+  - docs/reports/evidence/t3ps-final-release/browser-run-clean/screenshots/05_upload_next.png
+  - docs/reports/evidence/t3ps-final-release/browser-run-clean/screenshots/07_step6_screen.png
+  - docs/reports/evidence/t3ps-final-release/browser-run-clean/screenshots/08_before_generate.png
+  - docs/reports/evidence/t3ps-final-release/browser-run-clean/screenshots/09_after_generate.png
+  - docs/reports/evidence/t3ps-functional-closeout/scenario_A/browser_summary.json
+  - docs/reports/evidence/t3ps-functional-closeout/scenario_B/browser_summary.json
+  - test-fixtures/proof/RUN_ALL_GATES.report.yaml
+changed_files_are_docs_only: false
+any_code_file_changed: false
+runtime_sha_note: "Production runtime and origin are aligned; docs-only reconciliation does not require redeploy."

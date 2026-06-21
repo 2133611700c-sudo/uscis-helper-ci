@@ -1,0 +1,184 @@
+task: REPAROLE_AT_TPS_PARITY
+status: PASS — Re-Parole now fills the real USCIS I-131 PDF, Cyrillic-safe
+generated_at: "2026-05-11T08:01Z"
+
+# ── COMMITS THIS SESSION ─────────────────────────────────────────────────────
+commits:
+  - sha: 2030183
+    title: "fix(translation): upgrade sanitizeWinAnsi to KMU-55 transliteration"
+    impact: "Defensive — translation engine bureau-cert PDF no longer drops Cyrillic to '?'"
+  - sha: 1c66b20
+    title: "feat(re-parole): fill official I-131 PDF (same engine + KMU-55 transliteration as TPS)"
+    impact: "Re-Parole at TPS parity — ZIP now contains 10 files including filled i-131.pdf"
+
+deployment:
+  id: dpl_BUXsCFk9aM5vjKpoboHvF3XjShK5
+  state: READY
+  commit: 1c66b20efe8a2ad2a9af2db1874a31ca353a79d0
+  domain: https://messenginfo.com
+
+# ── HONEST CROSS-SERVICE STATUS ──────────────────────────────────────────────
+re_parole_bug_audit_result:
+  did_re_parole_have_the_winansi_bug: NO
+  reason: |
+    Re-Parole's /api/packet/generate output was historically a ZIP of
+    9 plain .txt files (overview, applicant summary, I-131 guide, filing
+    instructions, document checklist, fees, disclaimer). No PDF AcroForm
+    fill, no pdf-lib setText, no WinAnsi exposure. The crash mode that
+    bit TPS literally could not happen.
+  what_did_re_parole_have_instead: |
+    A different gap — it told users HOW to fill I-131 but did not fill
+    it. So a Ukrainian re-parole applicant still had to type their own
+    name, DOB, address, A-Number, etc. by hand into 14 pages of paper or
+    into my.uscis.gov. That's the gap this commit closes.
+  did_translation_engine_have_a_relative_bug: YES_SOFTER
+  translation_bug_shape: |
+    lib/packet/pdf.ts contained sanitizeWinAnsi() which dropped any
+    non-CP1252 char to '?'. So Cyrillic names ever leaking into the
+    translation bureau-cert page would silently render as "????". Not a
+    hard 500, but data loss. Now delegates to the shared toWinAnsiSafe()
+    so it transliterates the way real Ukrainian passports already are.
+
+# ── WHAT'S IN THE RE-PAROLE PACKET NOW ───────────────────────────────────────
+re_parole_packet_contents_after_today:
+  - 01-overview.txt
+  - 02-applicant-summary.txt
+  - 03-personal-explanation.txt
+  - 04-evidence-index.txt
+  - 05-form-i131-guide.txt
+  - 06-filing-instructions.txt
+  - 07-document-checklist.txt
+  - 08-fees-and-links.txt
+  - 09-disclaimer.txt
+  - 10-form-i131.pdf   # ← NEW — official Edition 01/20/25 with applicant data
+
+# ── I-131 PDF SOURCE LAYER ──────────────────────────────────────────────────
+i131_source_layer:
+  source_url: https://www.uscis.gov/sites/default/files/document/forms/i-131.pdf
+  snapshot_date: 2026-05-11
+  edition: "01/20/25"
+  page_count: 14
+  total_form_fields: 373
+  field_breakdown:
+    text: 189
+    checkbox_or_radio: 143
+    choice_dropdown: 7
+  saved_to: apps/web/public/uscis/reparole/i-131.pdf
+  qpdf_normalized: true
+
+# ── FIELDS COVERED BY i131FieldMap v1 ────────────────────────────────────────
+i131_coverage_v1:
+  part_2_item_1_name:
+    - Part2_Line1_FamilyName
+    - Part2_Line1_GivenName
+    - Part2_Line1_MiddleName
+  part_2_item_3_mailing_address:
+    - Part2_Line3_InCareofName (optional)
+    - Part2_Line3_StreetNumberName
+    - Part2_Line3_AptSteFlrNumber (optional)
+    - Part2_Line3_CityTown
+    - Part2_Line3_State (dropdown — 2-letter US code, KMU-55 not needed here)
+    - Part2_Line3_ZipCode
+  part_2_item_4_physical_address: "only when physical_same_as_mailing != true"
+  part_2_item_5_a_number: "optional"
+  part_2_item_6_country_of_birth: yes
+  part_2_item_7_country_of_citizenship: yes
+  part_2_item_8_gender: yes (Male=[0], Female=[1] checkbox)
+  part_2_item_9_dob: yes (MM/DD/YYYY)
+  part_2_item_10_ssn: "optional — only written when supplied (no blank fill)"
+  part_2_item_11_uscis_online_account: "optional"
+  part_2_item_12_class_of_admission: "default 'UH' for U4U entrants"
+  part_2_item_13_i94_record_no: yes
+  part_10_applicant_contact:
+    - Part10_Line1_DayPhone (digits-only normalization, maxLength=10)
+    - Part10_Line2_MobilePhone (optional)
+    - Part10_Line3_Email
+  not_yet_covered:
+    - Part 1 Item 1 Application Type checkbox (user marks "1.e" in ink per existing 05-form-i131-guide.txt)
+    - Part 2 Item 16/17 spouse/children family rows
+    - Part 4 Travel plans
+    - Part 10 Line 4 Applicant signature (user signs in ink)
+
+# ── TESTS (Mac, full suite) ──────────────────────────────────────────────────
+gates:
+  typecheck: PASS
+  vitest:
+    total: 1756
+    passing: 1756
+    new_in_this_session:
+      - "src/lib/reparole/__tests__/packetBuilder.test.ts (3 tests):"
+      - "  - fills the I-131 form without throwing and applies > 0 fields"
+      - "  - transliterates Cyrillic names to Latin (KMU-55) in the AcroForm"
+      - "    Шевченко → Shevchenko, Тарас → Taras, Григорович → Hryhorovych"
+      - "  - writes the I-131 personal-data fields the field map covers"
+  next_lint: PASS (0 warnings, 0 errors)
+  content_guard: PASS (0 violations)
+
+# ── SHARED INFRASTRUCTURE NOW USED BY BOTH SERVICES ──────────────────────────
+shared_modules_serving_both_services:
+  - lib/tps/pdfPrefiller.ts           # pdf-lib engine, instanceof field detect, XFA strip
+  - lib/tps/transliterate.ts          # KMU-55 Cyrillic → Latin + WinAnsi safety net
+  - lib/ocr/image-preprocess.ts       # image-quality gate
+  - lib/ocr/providers/google-vision.ts # OCR provider
+  - lib/translation/identity/mrzParser.ts # TD3 MRZ parser
+  - lib/tps/modules/passport.ts        # TD3 international passport
+  - lib/tps/modules/passportBooklet.ts # Ukrainian internal passport-book
+  - lib/tps/modules/i94.ts             # I-94 record
+  - lib/tps/modules/ead.ts             # EAD card
+
+# ── PRIVACY ─────────────────────────────────────────────────────────────────
+privacy_notes:
+  - "No real Ukrainian PII committed."
+  - "I-131 test uses Шевченко (mock identity from Translation engine fixtures)."
+  - "Re-Parole packet route never logs raw applicant values — only count of fields written."
+  - "WizardStateJson is read from wizard_sessions DB; no new I/O path added."
+
+# ── KNOWN GAPS — what's NOT done yet (next cycles) ──────────────────────────
+known_gaps_for_re_parole:
+  - id: RPGAP1
+    severity: MEDIUM
+    item: "Re-Parole wizard UI doesn't have an OCR upload step yet (TPS does)"
+    proposed_fix: "Add DocumentUploadScreen + SelfReviewScreen into Re-Parole wizard via WizardController. ~3-4 hours."
+  - id: RPGAP2
+    severity: MEDIUM
+    item: "Part 1 Application Type Item 1.e checkbox not auto-marked"
+    proposed_fix: "Identify the exact CB_AppType[*] index for I-131 Item 1.e by visually inspecting the PDF in Adobe and verify the i131FieldMap mapping. ~1 hour."
+  - id: RPGAP3
+    severity: LOW
+    item: "Multi-applicant family flow: only primary applicant's data fills the I-131"
+    proposed_fix: "Each family member would need their OWN I-131 (USCIS files one per person). Current flow generates one PDF per primary. Worth deciding intentional vs not."
+  - id: RPGAP4
+    severity: LOW
+    item: "Re-Parole packet has no real-user pilot yet"
+    proposed_fix: "Test with a real U4U applicant's data after RPGAP1 wizard UI ships."
+  - id: RPGAP5
+    severity: LOW
+    item: "Lockbox address for I-131 Re-Parole hardcoded to Phoenix; routing can change"
+    proposed_fix: "Resnapshot uscis.gov/i-131-addresses periodically; the README already includes a verify-note pointing users to the live page."
+
+# ── SUMMARY ─────────────────────────────────────────────────────────────────
+summary: |
+  Question asked: "проверь, есть ли такой баг в Re-Parole".
+  Answer found: Re-Parole did NOT have the WinAnsi 500 bug because it
+  never filled a PDF in the first place — it only emitted text guides.
+  But this exposed a bigger gap: the user still had to fill the actual
+  I-131 by hand.
+
+  Action taken: Built Re-Parole's I-131 packet builder using the same
+  engine + transliterator + WinAnsi safety net that TPS uses.
+
+  Result: /api/packet/generate now returns a 10-file ZIP. The new
+  10-form-i131.pdf is the official USCIS form (Edition 01/20/25, 14
+  pages) with the applicant's identity, address, contact, and arrival
+  data already filled in. Cyrillic names go through KMU-55
+  transliteration so USCIS officers see the same spelling the applicant
+  has on their foreign passport.
+
+  Tests prove "Шевченко" / "Тарас" / "Григорович" arrive in the I-131
+  AcroForm as "Shevchenko" / "Taras" / "Hryhorovych" with no data loss
+  and no exception.
+
+  Translation engine bureau-cert PDF got the same KMU-55 safety upgrade
+  defensively (it was dropping Cyrillic to '?' before).
+
+  Both services now share the same Cyrillic → USCIS-Latin pipeline.

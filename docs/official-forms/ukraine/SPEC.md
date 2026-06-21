@@ -1,0 +1,1 @@
+8-phase official-forms build (Principal Engineer / UA Forms Architect). Phase1 research → ledger; Phase2 archive; Phase3 schemas; Phase4 PDF renderers; Phase5 central brain wrapper for all products; Phase6 translation rules; Phase7 tests; Phase8 report. RULE: no template without official source.

@@ -1,0 +1,28 @@
+name: V1 Program Guard
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  v1-program-guard:
+    name: V1 program rules + dashboard drift
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+      - name: Verify V1_COMPLETION rules (one active phase, ordering, gates, policies, workflows)
+        run: node scripts/verify-v1-completion.mjs
+      - name: V1_STATUS.md must be regenerated from V1_COMPLETION.yaml (no hand edits)
+        run: |
+          node scripts/gen-v1-status.mjs
+          git diff --exit-code V1_STATUS.md || {
+            echo "::error::V1_STATUS.md is stale — run: node scripts/gen-v1-status.mjs"
+            exit 1
+          }

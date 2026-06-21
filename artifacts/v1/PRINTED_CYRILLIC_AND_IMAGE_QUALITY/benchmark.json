@@ -1,0 +1,39 @@
+{
+  "phase": "PRINTED_CYRILLIC_AND_IMAGE_QUALITY",
+  "kind": "real_document_benchmark",
+  "commit": "20300492b886b08a67323b3b31d0649bfcc11db0",
+  "timestamp": "2026-06-14T07:40:46Z",
+  "environment": "local-dev (existing GEMINI_API_KEY; not production, not prod DB)",
+  "fabricated_critical_fields": 0,
+  "pdf_readback_proof": {
+    "i821": "PASS",
+    "i131": "PASS",
+    "i765": "PASS"
+  },
+  "recognition_verdicts_pii_free": {
+    "us_ead_canonical": {
+      "family_name": "SAME",
+      "given_name": "SAME",
+      "a_number": "SAME",
+      "card_number": "SAME",
+      "ead_category": "SAME",
+      "date_of_birth": "EMPTY"
+    },
+    "ua_internal_passport_canonical": {
+      "family_name": "SAME",
+      "given_name": "SAME",
+      "patronymic": "EMPTY",
+      "date_of_birth": "EMPTY"
+    },
+    "us_i94_canonical": {
+      "family_name": "SAME",
+      "given_name": "SAME",
+      "date_of_birth": "SAME",
+      "i94_admission_number": "SAME",
+      "i94_class_of_admission": "SAME",
+      "i94_date_of_entry": "SAME"
+    }
+  },
+  "coverage_note": "Verified set (EAD, I-94, internal passport booklet) all identity-SAME with the correct runtime fixtures. The earlier I-94 FALLBACK was a missing test-input filename, NOT a product regression. Broader doc types (intl passport, birth x2, military) have VERIFIED GT but are not yet wired into a runnable gate (fixture filenames embed PII → must be passed via env, not committed).",
+  "honest_status": "0 fabricated across the verified set; PDF field proof passes. Outstanding: wire intl-passport/birth/military gates, plus all owner-gated items (Stripe test E2E, staging, V2 hosted)."
+}

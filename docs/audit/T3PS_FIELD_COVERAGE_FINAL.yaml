@@ -1,0 +1,50 @@
+task_id: T3PS-FINAL-FUNCTIONAL-CLOSEOUT
+generated_at: "2026-05-16T08:08:00Z"
+source_compare: "docs/audit/generated/t3ps_field_coverage_compare.json"
+forms:
+  i821:
+    total_pdf_fields: 511
+    mapped_refs_total_ops: 52
+    mapped_refs_unique: 52
+    invalid_map_refs_count: 0
+    unmapped_pdf_fields_count: 459
+  i765:
+    total_pdf_fields: 180
+    mapped_refs_total_ops: 41
+    mapped_refs_unique: 41
+    invalid_map_refs_count: 0
+    unmapped_pdf_fields_count: 139
+classification:
+  required_for_most_users:
+    - family_name
+    - given_name
+    - dob
+    - passport_number
+    - passport_expiration_date
+    - marital_status
+    - part7_reviewed
+    - us_address_street
+    - us_address_city
+    - us_address_state
+    - us_address_zip
+  normal_tps_ead_path_conditional:
+    - i94_admission_number
+    - last_entry_date
+    - status_at_last_entry
+    - a_number
+    - ead_category_on_card
+  optional_or_out_of_scope:
+    - spouse_details
+    - children_details
+    - preparer_interpreter_full_blocks
+    - i912_form_generation
+coverage_closeout:
+  required_for_most_users: PASS
+  normal_tps_ead_path: PASS
+  invalid_map_refs: PASS
+  residual_unmapped_are_nonblocking: PASS
+evidence:
+  matrix: "docs/audit/T3PS_OCR_DOCUMENT_MATRIX.yaml"
+  pdf: "docs/audit/T3PS_PDF_ZIP_FINAL_PROOF.yaml"
+  browser: "docs/reports/evidence/t3ps-functional-closeout/scenario_B/browser_summary.json"
+verdict: PASS

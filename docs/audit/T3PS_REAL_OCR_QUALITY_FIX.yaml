@@ -1,0 +1,114 @@
+status: PARTIAL_OCR_QUALITY_GAP
+production_sha: a8b26e21d3
+verified_at: 2026-05-19T23:33:24Z
+
+real_world_evidence:
+  test_image: synthetic_passport_visual_zone   # MRZ + "Date of Birth: 01 JAN 1985" + "Nationality: UKR"
+  pii_redaction: PII-free (synthetic test data)
+
+before_after:
+  dob:
+    before: null
+    after: "01/01/1985"
+    root_cause: parseDate() only accepted YYYY-MM-DD and MM/DD/YYYY
+    fix: parseDate widened to ISO + MM/DD/YYYY + DD.MM.YYYY + DD/MM/YYYY (when DD>12) + 'D MMM YYYY' + MRZ YYMMDD
+    pass: true
+
+  country_of_nationality:
+    before: "UKR"
+    after: "Ukraine"
+    root_cause: no country normalizer existed
+    fix: COUNTRY_ALIASES lookup applied in validateBrainField
+    pass: true
+
+  passport_country_of_issuance:
+    before: "UKR"
+    after: "Ukraine"
+    pass: true
+
+  passport_expiration_date:
+    before: rejected
+    after: still rejected on this test image
+    note: synthetic test image had no visible expiration date; for real passports with visible expiration, the same parseDate widening applies. Will validate with real document.
+
+  patronymic:
+    before: dash, no explanation
+    after: dash, no explanation
+    pass: false
+    reason: UX not yet shipped — needs "Не присутствует в этом документе" copy per spec phase_6
+
+  a_number:
+    before: "000-000-000" (with dashes; from EAD/I-797 upload, NOT passport)
+    after: not retested (no synthetic EAD with A-number)
+    pass: pending_real_test
+
+  source_labels:
+    before: hardcoded per row ("Паспорт → OCR" even when value came from Brain)
+    after: still hardcoded
+    pass: false
+    reason: spec phase_2 not yet shipped — needs per-field extraction_source surfacing
+
+verdict_components:
+  dob: PASS
+  country: PASS
+  a_number: PENDING_REAL_TEST
+  labels_source: GAP
+  patronymic_ux: GAP
+  browser_step5_renders: PASS
+  browser_dob_visible: PASS
+  browser_country_visible: PASS
+
+remaining_gaps:
+  - id: source_label_accuracy
+    priority: P1
+    blocker: false
+    description: |
+      TPSWizardV2 RW() rows hardcode source per field name. When Brain provides
+      a field (extraction_source='ai_brain'), the UI still says "Паспорт → OCR".
+      Fix: thread extraction_source from upload entry through to RW so the label
+      shows "AI → review required" vs "Паспорт MRZ", etc.
+
+  - id: patronymic_explainer
+    priority: P2
+    blocker: false
+    description: |
+      International passport never has patronymic. Empty dash looks like a
+      bug to RU/UK users who have patronymics in their internal passport.
+      UX should show "Не присутствует в этом документе" when field key
+      is patronymic AND brain_document_type=international_passport.
+
+  - id: a_number_normalizer
+    priority: P2
+    blocker: false
+    description: |
+      Display can format as A123-456-789; internal value must be digits-only
+      for PDF prefill. Today the value carries dashes through to packetBuilder.
+      Verify packetBuilder strips non-digits before writing to I-821/I-765
+      A-number fields.
+
+  - id: missing_field_humanization
+    priority: P1
+    blocker: false
+    description: |
+      Empty "—" gives users no recovery path. Replace with localized
+      "Не найдено — можно ввести вручную" + clickable edit field. Improves
+      conversion for users whose docs partially fail OCR.
+
+  - id: real_document_quality_matrix
+    priority: P0
+    blocker: false
+    description: |
+      Need to test with redacted real Ukrainian passport scans (not just
+      synthetic). Taras's real upload showed a_number from EAD merging,
+      so the matrix should include passport+EAD upload combo.
+
+next_action: |
+  1. Taras retests the wizard with the same real documents he used before.
+     Expected: dob now populated, "Ukraine" instead of "UKR".
+  2. Ship source-label accuracy + missing-field humanization as one PR.
+  3. After that, run real-document matrix on redacted passport / EAD /
+     I-94 combinations to close the PARTIAL_OCR_QUALITY_GAP gap to GO.
+
+commits:
+  - sha: a8b26e2
+    message: fix(tps-ai) widen date parser + normalize country (real-doc OCR quality)

@@ -1,0 +1,510 @@
+plan: TPS_FINISH_PLAN_V1
+purpose: "Доведение TPS Ukraine до controlled beta → public beta → paid launch с честными воротами"
+generated_at: "2026-05-11T09:30Z"
+owner_legend:
+  me: "agent in sandbox (code, gates, browser MCP, YAML reports)"
+  mac: "user runs command on Mac (push, full vitest, full build)"
+  user: "user makes business/product decision OR provides input (photo, env var, secret)"
+
+# ── ЧЕСТНАЯ КАРТИНА СЕЙЧАС ───────────────────────────────────────────────────
+current_state:
+  commits_local_unpushed: 4
+    - cfdf980  P110.1 Latin preview
+    - 6735324  P110.3 A-Number + I-94 routing
+    - 85ab047  P110.2 Packet Completeness Checker
+    - bdddaf0  CB.1 privacy fixes (cleanup cron + Clear-data)
+  sandbox_gates_run:
+    typecheck: PASS
+    content_guard: PASS
+    vitest: NOT_RUN (rolldown linux-arm64 binding missing)
+    build: NOT_RUN
+  prod_state: "Stale — last deploy is older than these 4 commits"
+  honest_readiness:
+    internal_demo: 78
+    controlled_beta: 65
+    public_beta: 45
+    paid_launch: 25
+
+# ── ЧТО Я ЯВНО УБИРАЮ ИЗ ПЛАНА И ПОЧЕМУ ──────────────────────────────────────
+explicit_cuts:
+  - id: CUT-1
+    item: "Stripe / payments / refund policy"
+    why: "Business+legal decision, not engineering. Делать после первого пилота с настоящими пользователями. До этого никаких платных функций."
+  - id: CUT-2
+    item: "Service Engine extraction refactor"
+    why: "TPS + Re-Parole уже делят lib/tps/transliterate, pdfPrefiller, OCR modules de facto. Формальный рефакторинг без третьего сервиса — риск регрессии ради чистоты, не ради пользователя."
+  - id: CUT-3
+    item: "Playwright E2E в CI"
+    why: "Vitest packet-builder fixture-тесты уже ловят prod-class баги (XFA, encryption, instanceof, WinAnsi). Playwright нужен после стабильного UI и 3-5 реальных пользователей. До этого он будет ломаться чаще, чем ловить."
+  - id: CUT-4
+    item: "I-912 fee waiver autofill"
+    why: "Scope creep. Юзер может попросить I-912 явно после controlled beta. Tools/data ready (i-912.pdf inventoried), но wiring это P2."
+  - id: CUT-5
+    item: "Attorney / DOJ-accredited referral path (формальная)"
+    why: "Контракт с настоящей immigration юр. фирмой/DOJ-accredited rep — это business deal, не код. До этого: текст 'this may require legal review' уже достаточен, ничего больше не обещаем."
+  - id: CUT-6
+    item: "Full WCAG 2.1 AA audit с axe-core"
+    why: "Делаем focused manual check (keyboard, contrast, screen-reader landmarks) в F.3. Full automated audit — после первых пользователей."
+  - id: CUT-7
+    item: "User accounts / save-and-continue через Supabase Auth"
+    why: "Пока localStorage достаточно для одной сессии. Supabase save-and-continue добавляет attack surface и retention bugs. Делать тогда, когда реальные пользователи попросят."
+
+# ── ФАЗЫ ─────────────────────────────────────────────────────────────────────
+# Каждая фаза имеет explicit gate. Следующая фаза не стартует пока gate не green.
+
+phase_A:
+  title: "DEPLOY THE BACKLOG"
+  status: BLOCKED_ON_MAC
+  goal: "4 local commits в prod, Vercel READY, live smoke на messenginfo.com"
+  est_total_hours: 1.5
+  blocking_next: yes
+  gate:
+    - "git log origin/main..HEAD пустой"
+    - "Vercel deployment READY на коммите bdddaf0+"
+    - "Live browser smoke: latin preview + checker + clear-data все видны на /ru/services/tps-ukraine/start"
+  tasks:
+    - id: A.1
+      task: "Mac: cd /Users/sergiiivanenko/work/uscis-helper && ./push.command"
+      owner: mac
+      hours: 0.1
+      blocks: [A.2, A.3]
+    - id: A.2
+      task: "Mac: pnpm --filter web typecheck && pnpm --filter web lint && pnpm --filter web test && pnpm --filter web build"
+      owner: mac
+      hours: 0.5
+      output: "Все 4 команды exit 0. Без 'just commit anyway'."
+      blocks_on_failure: "Если test или build падает — fix on Mac или amend+force-push, не пушим broken main."
+    - id: A.3
+      task: "Vercel deployment goes READY"
+      owner: mac
+      hours: 0.2
+      verification: "vercel ls --token=... | grep READY на нашем commit SHA"
+    - id: A.4
+      task: "Live browser smoke на messenginfo.com через Chrome MCP"
+      owner: me
+      hours: 0.5
+      script:
+        - "/ru/services/tps-ukraine/start → S1 → S2 → ... → upload"
+        - "OCR mock или synthetic passport"
+        - "Self-Review: проверить что green Latin-chip виден на Cyrillic-полях"
+        - "Generate block: проверить что PacketCompletenessChecker рендерится"
+        - "Generate → download ZIP → Clear-data button → confirm done state"
+      output: "проверка через screenshot, evidence в test-fixtures/proof/phase_A_live/"
+    - id: A.5
+      task: "Если что-то сломалось — fix, push, re-verify"
+      owner: me
+      hours: "0-2 (variable)"
+
+phase_B:
+  title: "TPS-CORE COMPLETENESS"
+  status: PENDING_PHASE_A
+  goal: "Закрыть оставшиеся inline gaps в TPS pipeline — legal-risk, manual fallback, output contract, i18n, README accuracy"
+  est_total_hours: 9
+  gate:
+    - "5 commits зашиты, push'нуты, Vercel READY"
+    - "Live browser smoke каждой новой surface проходит"
+    - "Content guards + typecheck + i18n drift script все green"
+  tasks:
+    - id: B.1
+      task: "CB.2 — Legal-risk routing UI surface"
+      owner: me
+      hours: 3
+      detail: |
+        Существующие поля в TPSAnswers: has_criminal_concern, has_prior_tps_denial,
+        left_us_without_advance_parole. Сейчас никто их не выставляет — генерация
+        идёт с false по умолчанию. Добавить:
+          - 3 yes/no вопроса перед attestation в GeneratePacketBlock
+          - При любом 'yes' показать notice:
+            ru: "Это может требовать консультации иммиграционного адвоката.
+                 Messenginfo — не юридическая фирма."
+          - НЕ блокировать генерацию — это юзерское решение
+          - data-testid: legal-risk-criminal, legal-risk-denial, legal-risk-ap, legal-risk-notice
+          - Перевести uk/ru/en/es
+      blocker: no
+    - id: B.2
+      task: "CB.3 — Manual fallback в TPS upload"
+      owner: me
+      hours: 2
+      detail: |
+        manual_review_queue таблица + admin queue уже built (phases 1-15 из старого
+        backlog). Не перестраиваем — wire-up:
+          - В DocumentUploadScreen: при failed OCR / image_quality reject — кнопка
+            'Нужна помощь — отправить на ручную проверку'
+          - В SelfReviewScreen: 'Я не уверен — отправить на ручную проверку'
+          - Создать строку в manual_review_queue через существующий endpoint
+            (или новый /api/tps/manual-review если необходимо)
+          - НЕ загружать изображение в Supabase storage из этого пути — только
+            session_id + что не получилось + контакт юзера (email)
+        Privacy: контакт юзера — это email, не файл.
+      blocker: no
+    - id: B.3
+      task: "CB.4 — Output contract drift audit"
+      owner: me
+      hours: 1
+      method: "Agent run: сравнить promised content в (a) PacketCompletenessChecker (b) README.txt generator (c) landing page tpsHowSteps copy. Drift → fix к single source of truth (forms_manifest.json)."
+      blocker: no
+    - id: B.4
+      task: "CB.5 — i18n drift guard script"
+      owner: me
+      hours: 1
+      detail: |
+        Скрипт в scripts/check-i18n-drift.mjs:
+          - Парсит COPY объекты в каждом .tsx файле с locale='ru'|'uk'|'en'|'es'
+          - Для каждого ключа проверяет что все 4 локали имеют значение
+          - Для non-EN локалей: warn если строка содержит >= 3 чисто-латинских слов
+            подряд (за исключением whitelist: I-821, I-765, USCIS, EAD, ZIP, PDF...)
+          - Wire в package.json scripts: 'guard:i18n'
+        Fail-list на сегодня: вероятно 0-5 драйфтов.
+      blocker: no
+    - id: B.5
+      task: "CB.6 — Source snapshot date + edition drift guard"
+      owner: me
+      hours: 1
+      detail: |
+        - README.txt generator (packetBuilder) читает forms_manifest.json и пишет
+          в README: 'I-821 Edition 01/20/25 (snapshot 2026-05-10), I-765 Edition
+          08/21/25 (snapshot 2026-05-10)'
+        - Существующий vitest 'forms manifest edition drift guard' уже падает
+          если edition_match != current_from_official_page — оставляем как есть
+        - Добавить hash самого PDF в forms_manifest.json и runtime-check при
+          packetBuilder загрузке. Если SHA256 PDF не совпадает с pinned —
+          throw 'Form PDF tampered'.
+      blocker: no
+    - id: B.6
+      task: "RUN.5 — Fix 'Повторить' cycle behaviour"
+      owner: me
+      hours: 1
+      detail: "Pending в legacy backlog — выяснить symptom, починить, тест"
+      blocker: no
+    - id: B.7
+      task: "SP-1 root fix — Re-Parole streaming response"
+      owner: me
+      hours: 2
+      detail: |
+        Сейчас Re-Parole /api/packet/generate грузит filled ZIP в Supabase Storage
+        и отдаёт signed URL. CB.1 cron теперь подметает старые объекты, но root
+        fix — это вообще не писать в storage. Переключить на streaming response
+        как у TPS:
+          return new NextResponse(zipBytes, {
+            headers: { 'Content-Type': 'application/zip',
+                       'Content-Disposition': 'attachment; filename=...' }
+          })
+        Снять Supabase upload вызов. Снять signed URL логику. Обновить wizard UI
+        чтобы download был прямой blob URL.
+      blocker: no
+      risk: "Может сломать существующий Re-Parole flow если у юзеров есть открытые signed URLs. Mitigation: оставить signed-URL endpoint работающим 7 дней после deploy, новые сессии используют streaming."
+    - id: B.8
+      task: "Commit + push + Vercel READY + live verify фазы B"
+      owner: "me + mac"
+      hours: "0.5 + 0.2"
+
+phase_C:
+  title: "REAL DOCUMENT PILOT"
+  status: BLOCKED_ON_USER_PHOTO
+  goal: "Доказать на одном настоящем украинском паспорте что end-to-end OCR → review → PDF работает"
+  est_total_hours: "2-8 в зависимости от того, упадёт ли что-то"
+  gate:
+    - "Реальный документ обработан end-to-end на prod URL"
+    - "Latin transliteration корректна (юзер визуально подтверждает что Shevchenko в PDF совпадает с его passport)"
+    - "Zero критических полей не пропущено"
+    - "Privacy: фото удалено сразу после теста, no commit, no log"
+  tasks:
+    - id: C.1
+      task: "User кладёт реальное фото на /Users/sergiiivanenko/Downloads/tps-real-test.jpg"
+      owner: user
+      hours: 0.1
+      acceptance: "Современный украинский загранпаспорт ИЛИ паспорт-книжка post-2010 биометрика. Photo страницы с MRZ или страницы с фамилия/имя."
+    - id: C.2
+      task: "Live pilot через Chrome MCP"
+      owner: me
+      hours: 1
+      script:
+        - "Navigate /ru/services/tps-ukraine/start, follow happy path до upload"
+        - "Upload real photo"
+        - "Capture screenshot of Self-Review screen"
+        - "Confirm Latin preview matches what's on user's passport"
+        - "Capture screenshot of PacketCompletenessChecker"
+        - "Click attestation + Generate"
+        - "Download ZIP, open I-821.pdf in Preview, screenshot page 1+2"
+        - "Compare against expected: Latin names match passport, no '?' chars, no skipped fields"
+        - "DELETE photo from Downloads/ via bash"
+      output: "test-fixtures/proof/phase_C_pilot.report.yaml — REDACTED (initials only, no full names, no DOB, no passport number, just pass/fail per checkpoint)"
+    - id: C.3
+      task: "If OCR failure mode found — fix module"
+      owner: me
+      hours: "0-6 (variable per failure class)"
+      common_failures_anticipated:
+        - "Vision misreads cyrillic letter X as Y (already have look-alike map; might need extension)"
+        - "Booklet stamp obscures field (low-confidence flag should fire — verify)"
+        - "Phone number contains non-digit characters in Ukrainian format"
+        - "Country of birth shown as 'Україна' vs 'Ukraine' (transliteration must produce 'Ukraine')"
+    - id: C.4
+      task: "Re-pilot after fix"
+      owner: me
+      hours: 0.5
+    - id: C.5
+      task: "Commit + push + Vercel verify"
+      owner: "me + mac"
+      hours: 0.5
+
+phase_D:
+  title: "RE-PAROLE OCR WIZARD (RP.5)"
+  status: OPTIONAL_BEFORE_TPS_BETA
+  rationale: "Можно отложить если хотим бету только на TPS. Если ship'аем оба сервиса одновременно — D обязательна."
+  goal: "Re-Parole имеет ту же upload + review + generate UX, что TPS"
+  est_total_hours: 5
+  gate:
+    - "/[locale]/services/re-parole/start имеет working DocumentUploadScreen"
+    - "Live pilot reaches I-131 PDF download"
+  tasks:
+    - id: D.1
+      task: "Wire DocumentUploadScreen в Re-Parole wizard"
+      owner: me
+      hours: 2
+    - id: D.2
+      task: "OCR fields → ReParoleAnswers adapter"
+      owner: me
+      hours: 1.5
+    - id: D.3
+      task: "End-to-end test + live verify"
+      owner: "me + mac"
+      hours: 1.5
+
+phase_E:
+  title: "OPS BASICS"
+  status: PENDING_PHASE_A
+  goal: "Минимум, чтобы понимать когда юзеры ломаются, и чтобы не словить cost-runaway"
+  est_total_hours: 4
+  gate:
+    - "/api/health отдаёт {ok, sha, form_editions, snapshot_date}"
+    - "Telegram alert на failed packet generation (если есть TELEGRAM_BOT_TOKEN env)"
+  tasks:
+    - id: E.1
+      task: "/api/health endpoint"
+      owner: me
+      hours: 1
+      detail: |
+        Returns JSON: { ok: true, sha: process.env.VERCEL_GIT_COMMIT_SHA,
+                        form_editions: { i821: '01/20/25', i765: '08/21/25', i131: '01/20/25' },
+                        snapshot_date: '2026-05-10',
+                        ocr_provider: 'google_vision', ocr_configured: true|false }
+        Public endpoint, no PII. Wire в Vercel readiness check.
+    - id: E.2
+      task: "Telegram daily summary cron (counts only)"
+      owner: me
+      hours: 2
+      detail: |
+        /api/cron/daily-summary — пройти audit_log за последние 24 ч,
+        собрать: tps_packets_generated, reparole_packets_generated,
+        ocr_attempted, ocr_succeeded, ocr_failed, image_quality_rejects,
+        manual_review_tickets_created. POST в Telegram chat (chat_id из env)
+        с message: 'TPS daily 2026-05-12: X packets, Y OCR pass, Z OCR fail'.
+        NO PII. NO session_ids. NO names. Только counters.
+        Wire в vercel.json crons.
+      env_required: [TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID]
+    - id: E.3
+      task: "Sentry breadcrumb cleanup re-verify"
+      owner: me
+      hours: 0.5
+      detail: "Audit уже подтвердил что email/key patterns redacted. Add test: 'PII patterns must not appear in Sentry events' (unit-test mock event)."
+    - id: E.4
+      task: "Cost controls: upload size limit + rate-limit verify"
+      owner: me
+      hours: 0.5
+      detail: |
+        Audit уже подтвердил rate limits: OCR 20/min, TPS gen 10/5min,
+        Re-Parole 5/min. Add: max file size 10MB на upload route
+        (Vercel default + explicit check), reject >10MB with friendly error.
+
+phase_F:
+  title: "CONTROLLED BETA GO/NO-GO"
+  status: PENDING_ALL_ABOVE
+  goal: "Чёткое да/нет: можно ли давать ссылку первым 3-5 настоящим юзерам"
+  est_total_hours: 3
+  gate:
+    - "Все Phase A через E done"
+    - "Final YAML report показывает паспортный аудит сошёлся"
+  tasks:
+    - id: F.1
+      task: "README accuracy final review"
+      owner: me
+      hours: 0.5
+      output: "Edition + page counts + lockbox + fee sources всё совпадает с manifest"
+    - id: F.2
+      task: "Privacy notice update в /[locale]/privacy"
+      owner: me
+      hours: 1
+      detail: |
+        Добавить параграф (uk/ru/en/es):
+          'When you upload a document, we send the image bytes to Google
+          Cloud Vision API (Google LLC, United States) for text recognition.
+          No other identifying information is attached. The image is held
+          in memory only and not stored on our servers. Vision's response
+          is also not persisted. The extracted text is shown on the review
+          screen and stored only in your browser (localStorage) until you
+          click "Clear my data" or close the tab.'
+        Also: 90-day retention for Re-Parole wizard sessions, 7-day for filled packets in storage (now matches cron).
+    - id: F.3
+      task: "Landing page truth audit"
+      owner: me
+      hours: 1
+      method: "Agent run: read /[locale]/services/tps-ukraine/page.tsx + /landing page copy. Check for: 'we file', 'USCIS-approved', 'guaranteed', 'attorney', 'legal advice'. Any hit → fix to neutral language."
+    - id: F.4
+      task: "Final 110%-grade YAML"
+      owner: me
+      hours: 0.5
+      output: "test-fixtures/proof/CONTROLLED_BETA_READINESS_FINAL.report.yaml — with paid_launch_ready: false explicit"
+    - id: F.5
+      task: "User decides: ship to 3-5 real users or hold"
+      owner: user
+      hours: "decision, not eng"
+
+phase_G:
+  title: "POST-PILOT (DO NOT START BEFORE F.5)"
+  status: FUTURE
+  rationale: "Делать только если controlled beta показала, что product fundamentally works. Иначе это premature optimization."
+  goal: "Готовность к public free beta → paid launch"
+  est_total_hours: "30-60 (зависит от scope payment'а)"
+  tasks:
+    - id: G.1
+      task: "Telemetry funnel events (anonymous, count-only)"
+      owner: me
+      hours: 4
+    - id: G.2
+      task: "Service Engine extraction (TPS + Re-Parole shared library формализован)"
+      owner: me
+      hours: 8
+    - id: G.3
+      task: "Playwright E2E happy-path в CI"
+      owner: me
+      hours: 6
+    - id: G.4
+      task: "I-912 fee waiver prefill"
+      owner: me
+      hours: 4
+    - id: G.5
+      task: "Stripe / payments / refund — после business+legal sign-off"
+      owner: "user + me"
+      hours: "20+"
+
+# ── DEPENDENCY GRAPH (упрощённо) ─────────────────────────────────────────────
+dependencies:
+  A_blocks: [B, C, D, E, F]
+  B_blocks: [F]
+  C_blocks: [F]      # без real-doc proof нет beta
+  D_blocks: []       # optional
+  E_blocks: [F]
+  F_blocks: [G]
+
+# ── REAL TIME ESTIMATE ──────────────────────────────────────────────────────
+honest_total_hours:
+  optimistic:
+    A: 1.5
+    B: 9
+    C: 2     # если pilot pass first try
+    D: 0     # пропускаем для TPS-only beta
+    E: 4
+    F: 3
+    total: 19.5
+  realistic:
+    A: 2
+    B: 11
+    C: 5     # фикс одного OCR failure class
+    D: 0
+    E: 4
+    F: 3
+    total: 25
+  pessimistic:
+    A: 4     # build fails on Mac, fix takes a round
+    B: 14
+    C: 10    # multiple OCR failures
+    D: 0
+    E: 5
+    F: 4
+    total: 37
+
+# ── RISK MATRIX ─────────────────────────────────────────────────────────────
+top_risks:
+  - id: R1
+    severity: high
+    item: "Push без полного Mac-vitest"
+    impact: "Можем словить регрессию класса, который sandbox не видит"
+    mitigation: "A.2 — pnpm test обязателен ПЕРЕД vercel deploy. Не пропускаем."
+  - id: R2
+    severity: high
+    item: "Real-doc pilot откроет неожиданный OCR failure mode"
+    impact: "Замедление 5-10ч, может потребовать новую страницу-модуль"
+    mitigation: "C.3 заложен в plan. Если 2+ failures — пересмотр C.4 scope."
+  - id: R3
+    severity: medium
+    item: "Re-Parole streaming refactor (B.7) ломает существующих юзеров с открытым signed URL"
+    impact: "Юзер с прошлой сессии не сможет скачать ZIP"
+    mitigation: "Оставить старый signed-URL endpoint deprecated на 7 дней"
+  - id: R4
+    severity: medium
+    item: "Legal-risk UI копи неверно сформулирован → UPL trap"
+    impact: "Юзер думает что мы даём legal advice"
+    mitigation: "B.1 final copy проходит content-guard на 'legal advice' / 'we file' patterns"
+  - id: R5
+    severity: low
+    item: "Telegram bot down → daily summary lost"
+    impact: "Operator не видит counters, но прод работает"
+    mitigation: "Cron handler catch + return 200 anyway. Не критично."
+
+# ── DEFINITION OF DONE ──────────────────────────────────────────────────────
+done_criteria:
+  controlled_beta_ready:
+    - "Phase A complete (4 commits в prod, Vercel READY, live verify)"
+    - "Phase B complete (legal-risk, manual fallback, i18n, edition guard, повторить-fix, Re-Parole streaming)"
+    - "Phase C complete (1 real document end-to-end success)"
+    - "Phase E.1, E.4 complete (health endpoint, cost controls)"
+    - "Phase F complete (README + privacy + landing copy + final YAML)"
+    - "No critical privacy finding outstanding"
+
+  public_beta_ready:
+    - "controlled_beta_ready"
+    - "3-5 настоящих юзеров прошли flow"
+    - "Найденные баги починены или явно tracked"
+    - "Phase D done (Re-Parole at TPS parity if shipping both)"
+    - "Phase E.2 (Telegram daily summary), E.3 (Sentry test) complete"
+
+  paid_launch_ready:
+    - "public_beta_ready"
+    - "Phase G complete OR scoped-down version of G.1+G.3+G.5"
+    - "Business: pricing decided, Stripe live, refund policy written"
+    - "Legal: terms of service updated, no UPL claim"
+
+# ── HOW WE TRACK PROGRESS ───────────────────────────────────────────────────
+tracking:
+  source_of_truth: "TaskList в Cowork (этот файл — план; TaskList — runtime state)"
+  yaml_reports_dir: "test-fixtures/proof/"
+  per_phase_report: "PHASE_{A|B|C|...}.report.yaml"
+  final_report: "CONTROLLED_BETA_READINESS_FINAL.report.yaml"
+
+# ── NEXT ACTION ─────────────────────────────────────────────────────────────
+next_action:
+  immediate: "Mac: ./push.command. Then pnpm --filter web test. Then verify Vercel READY."
+  after_phase_A: "Resume agent for Phase B (CB.2 → CB.6 → B.6 → B.7) as a single multi-commit push"
+  blocked_until_phase_C: "Phase F. Cannot declare 'ready' без real-doc pilot proof."
+
+# ── ЧЕСТНОЕ ЗАКЛЮЧЕНИЕ ──────────────────────────────────────────────────────
+honest_summary: |
+  TPS Ukraine ~65-70% до controlled-beta-ready по моей честной оценке (не 90%).
+  Дорога до beta: 20-25 реальных часов работы + один настоящий документ от тебя
+  + один Mac-side run pnpm test + build.
+
+  Если хочешь быстрее — режу Phase D (Re-Parole OCR wizard) и Phase E.2
+  (Telegram summary). Это даёт TPS-only controlled beta за ~15-18 часов.
+
+  Если делаем full controlled beta включая Re-Parole — 25-30 часов.
+
+  Все остальные фичи из твоего исходного списка (Stripe, Service Engine,
+  Playwright, I-912, attorney referral, accessibility audit, save-and-continue)
+  я переношу в Phase G и явно НЕ начинаю до того как 3-5 настоящих юзеров
+  пройдут flow в controlled beta. Это не cutting corners — это order of
+  operations. Делать payments до доказательства что forms работают на
+  реальных документах = строить на песке.
+
+  Phase A заблокирована на тебе. Phase C заблокирована на тебе. Между ними
+  я могу сделать Phase B полностью в sandbox-режиме (typecheck + content
+  guards) и подготовить коммиты для Mac-push.

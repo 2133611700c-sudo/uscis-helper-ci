@@ -1,0 +1,59 @@
+task_id: T3PS-09-CONTROLLED-BETA-OPERATIONS-AND-FIRST-USERS
+generated_at: "2026-05-15T23:50:00Z"
+
+production_sha: 132f0f582cf5807b931daf3657ce274b128d3342
+health:
+  url: https://messenginfo.com/api/tps/health
+  ok: true
+  sha_match: true
+
+monitoring_transport:
+  status: BLOCKED_WITH_EXACT_MISSING_ENV
+  verified_present_keys:
+    - CRON_SECRET
+  missing_env_keys:
+    - TELEGRAM_BOT_TOKEN
+    - TELEGRAM_CHAT_ID
+  evidence:
+    - vercel env ls (Production includes CRON_SECRET, missing TELEGRAM_* keys)
+
+dry_run:
+  status: PASS
+  evidence:
+    - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-final-release/browser-run-clean/browser_summary.json
+    - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-final-release/browser-run-clean/console.json
+    - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-final-release/browser-run-clean/network.json
+    - /Users/sergiiivanenko/work/uscis-helper/docs/reports/evidence/t3ps-final-release/browser-run-clean/failed_requests.json
+  ocr_status: 200
+  generate_status: 200
+  zip_size_bytes: 1825484
+
+support_queue:
+  status: PASS
+  manual_help_cta_verified: true
+  test_ticket_id: 9b7fb5ae-55be-4b60-a179-f5c2cb5eec92
+  ticket_status: queued
+
+testers:
+  invited_count: 3
+  list_path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_CONTROLLED_BETA_USERS.md
+  first_beta_script: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_FIRST_BETA_USERS_SCRIPT.md
+
+counts:
+  completed_flows: 2
+  ocr_success: 2
+  ocr_failures: 0
+  generate_success: 2
+  generate_failures: 0
+  support_requests: 2
+
+issues_path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_BETA_ISSUES.yaml
+p0_issues:
+  - T3PS-BETA-OPS-001
+p1_issues:
+  - T3PS-BETA-OPS-002
+
+final_status: BETA_BLOCKED_MONITORING
+go_no_go_for_continue: pause_until_monitoring_transport_enabled
+notes:
+  - manual-review strict-body fix deployed and verified in production (extra key => 400)

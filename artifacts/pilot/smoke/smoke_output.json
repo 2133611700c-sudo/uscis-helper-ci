@@ -1,0 +1,26 @@
+{
+  "generated_at": "2026-05-09T09:43:46.860Z",
+  "smoke_session_id": "a9afd327-a44e-49e2-b4a9-1aa53bc37182",
+  "live_ocr_session": "92567d4f-e950-417c-88d7-271615eb9714",
+  "steps": {
+    "session_created": true,
+    "fields_seeded": 11,
+    "critical_fields_confirmed": 8,
+    "correction_applied": true,
+    "can_certify_gate": true,
+    "certify_http_200": true,
+    "payment_confirmed_mock": true,
+    "render_http_200": true,
+    "pdf_bytes": 3162,
+    "pdf_valid_magic_bytes": true,
+    "final_renders_db_row": true,
+    "audit_log_pii_violations": 0,
+    "all_11_critical_fields_in_live_ocr": true
+  },
+  "pdf_forbidden_scan": {
+    "pages": 2,
+    "violations": 0,
+    "verdict": "PASS"
+  },
+  "verdict": "PASS"
+}

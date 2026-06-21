@@ -1,0 +1,8 @@
+{
+  "pdf_path": "/Users/sergiiivanenko/work/uscis-helper/artifacts/e2e/smoke_test_output.pdf",
+  "pages": 2,
+  "char_count": 1240,
+  "forbidden_phrases_checked": 21,
+  "violations": [],
+  "verdict": "PASS"
+}

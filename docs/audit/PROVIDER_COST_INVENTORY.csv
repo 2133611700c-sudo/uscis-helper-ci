@@ -1,0 +1,13 @@
+provider,model,route,product,trigger,retry,timeout,fallback,cost,cache,budget,logging,pii,default_on_off,prod_actual
+google_vision/docai,vision-or-docai,api/tps/ocr/extract,tps,every upload OCR,attemptsPerModel(brain),route maxDuration,docai<->vision via DOCAI_ENABLED,paid-per-page,NONE-runtime(lib only),NONE-runtime,tps_ocr_audit row,RAW PII in brain_raw,ON,LIVE
+gemini(documentBrain),GEMINI_MODEL(3.1-pro-preview),api/tps/ocr/extract,tps,after OCR (TPS_AI_BRAIN_ENABLED!=0),per documentBrain,within route,flash fallback,paid-per-call,NONE-runtime,NONE-runtime,tps_ocr_audit brain_status,RAW PII (brain_fields),ON(default),LIVE
+gemini(dualOcrCrossref),GEMINI,api/tps/ocr/extract,tps,booklet matched + DUAL_OCR_CROSSREF!=false,1,within route,skip,paid-per-call EXTRA,NONE-runtime,NONE-runtime,crossref_status,uses field values,ON(default),LIVE
+gemini(visionArbiter),GEMINI,api/tps/ocr/extract,tps,TPS_GEMINI_VISION_ARBITER_ENABLED,1,within route,skip,paid-per-call EXTRA,NONE-runtime,NONE-runtime,vision_arbiter_status,uses field values,OFF,not active(flag absent)
+gemini(readDocument),GEMINI_MODEL,api/translation/vision-extract,translation,every page,attemptsPerModel:1,per-page 85s/total 120s,fallback model chain,paid-per-page,NONE-runtime,NONE-runtime,none-table,field values,ON,LIVE
+gemini(self-consistency),GEMINI,documentFieldReader,translation,SELF_CONSISTENCY_GATE_ENABLED=1,SELF_CONSISTENCY_RUNS x,SELF_CONSISTENCY_TIMEOUT_MS,n/a,paid xN-MULTIPLIER,NONE-runtime,NONE-runtime,none,field values,OFF(prod SET unknown),unverified
+gemini(ensembleDate),GEMINI+vision,ensemble/dateRegionRead,translation,ENSEMBLE_DATE_ENABLED,1,within,vision-cross,paid-2x,NONE-runtime,NONE-runtime,none,date region,OFF,not active
+google_vision(autoOrient OSD),vision,orientation/autoOrient,translation,AUTO_ORIENT_ENABLED=1,1,within,skip,paid-per-call,NONE-runtime,NONE-runtime,none,image,OFF(prod SET unknown),unverified
+deepseek,DEEPSEEK_MODEL,lib/deepseek/client + mia/chat,translation+mia,prose translation / chat,client retry,client,none,paid-per-call,NONE,NONE,none,prose may contain PII,ON,LIVE
+mrz-local,deterministic,lib/canonical/core(mrz),tps/reparole/ead,passport MRZ,n/a,n/a,n/a,FREE-local,n/a,n/a,none,MRZ values,ON,LIVE
+tesseract/legacy,legacy,lib/ocr legacy fallback,translation,fallback only,n/a,within,terminal,FREE/cheap,n/a,n/a,none,field values,fallback,LIVE(fallback)
+cachedBudgetedCall(#127),n/a-wrapper,lib/v1/cachedBudgetedProvider,BENCHMARK-ONLY,benchmark harness,n/a,n/a,fail-closed DENY default,protects benchmark only,IMMUTABLE(lib),FAIL-CLOSED(lib),none,none,DEFAULT_BUDGET disabled,NOT_WIRED-to-runtime

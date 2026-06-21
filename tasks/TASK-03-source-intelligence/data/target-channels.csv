@@ -1,0 +1,21 @@
+priority,source_id,handle,name,subscribers,language,tier,notes
+P0,YT-MURATOVA,@Immigraciya_in_usa,Муратова,70000,RU,2,High-value attorney content
+P0,YT-MANILICH,@immigrationlawyerusa,Манилич,40000,RU/UA,2,Active immigration lawyer
+P0,YT-UKRAINIANINTHEUSA,@UkrainianintheUSA,Ukrainian in the USA,53000,UA,3,COMPLETED — skip in run
+P0,YT-IMIGRANT,@imigrant1,Imigrant1,699,RU,3,838 videos despite low subs — high signal
+P0,YT-INFOUA,@infoua_usa,InfoUA USA,unknown,UA,3,Active community channel
+P0,YT-RELOKA,@reloka-ua,Reloka UA,unknown,UA,3,P0 videos already known
+P0,YT-ARVIAN,@arvian_immigration,Arvian Immigration,unknown,RU,2,Attorney channel
+P1,YT-ELMI,@elmi_usa,Elmi USA,2000,UA,3,Has "не адвокат" disclaimer (good signal)
+P1,YT-ECUAL,@ECUALeauge,Educational Coalition for Ukrainian Americans,283,UA,1.5,USCRI partner — Tier 1.5
+P1,YT-BOIKOLILY,@boikolily,Boiko Lily,unknown,UA,3,Community
+P1,YT-TEACHBK,@TeachBK,TeachBK,unknown,RU,3,I-94 specialist
+P1,YT-RUSHIN,@rushindocumentation,Rushin Documentation,unknown,RU,3,Translation expert
+P2,YT-ANNAINUSA,@annainusa,Anna in USA,unknown,UA,3,Handle to verify
+P2,YT-DENVER-HLIN,@denverhlin,Denver/Hlin USCRI,unknown,UA,1.5,USCRI affiliate to verify
+P2,YT-INFOUA-NATALIA,@inforesourceusa,Інфоресурс по США (Natalia),unknown,UA,3,Handle to verify
+P2,YT-ZAVALA,@ZavalaTexasLaw,Zavala Texas Law,unknown,EN,2,Texas attorney
+P2,YT-AMLAW,@AmLawGroup,AmLaw Group,unknown,RU,2,Law firm
+P2,YT-IMMTOOLS,@ImmigrationLawyersToolbox,Immigration Lawyers Toolbox,unknown,EN,2,Lawyer-to-lawyer content
+P2,YT-MURATBEKOV,@manasmuratbekov,Manas Muratbekov,unknown,RU,2,Attorney
+P2,YT-RELOCATE,@ReLocate,ReLocate,unknown,UA/RU,3,Immigration agency

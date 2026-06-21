@@ -1,0 +1,13 @@
+timestamp_utc: '2026-05-14T07:24:36.167134Z'
+endpoint: https://messenginfo.com/api/tps/ocr/extract
+http_status: 200
+doc_type_hint: passport
+module_name: null
+module_matched: null
+field_count: 0
+avg_confidence: null
+high_confidence_fields: 0
+requires_review_fields: 0
+raw_payload_sha256: 1016b666fb20c8c2e71140665556e574175d32331aef9dad200a324cd193781c
+redaction: No raw PII values stored in this report. Full OCR payload kept in /tmp
+  only and deleted after summary.

@@ -1,0 +1,27 @@
+{
+  "_meta": {
+    "doc_id": "",
+    "fixture": "birth_cert_handwritten_<surname>.jpg",
+    "document_class": "birth_certificate",
+    "handwritten": true,
+    "ground_truth_status": "PENDING_OWNER",
+    "p2_relevant_fields": [
+      "child_place_of_birth_cyrillic",
+      "child_patronymic_cyrillic",
+      "issuing_authority_cyrillic"
+    ],
+    "fill_instructions": "Type the EXACT value seen on the physical document. Leave \"\" if a field is genuinely absent. Set ground_truth_status to VERIFIED_BY_OWNER when done. Do NOT commit the filled file — keep it under test-fixtures/real-docs/ground-truth/ (gitignored) or qa-private/."
+  },
+  "child_family_name_cyrillic": "",
+  "child_given_name_cyrillic": "",
+  "child_patronymic_cyrillic": "",
+  "child_date_of_birth": "",
+  "child_place_of_birth_cyrillic": "",
+  "child_place_of_birth_expected_english": "",
+  "father_full_name_cyrillic": "",
+  "mother_full_name_cyrillic": "",
+  "act_record_number": "",
+  "issuing_authority_cyrillic": "",
+  "issuing_authority_expected_english": "",
+  "critical_fields": []
+}

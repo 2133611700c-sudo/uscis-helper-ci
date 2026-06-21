@@ -1,0 +1,52 @@
+name: Supabase Drift Check
+
+# Guards against a SILENT prod schema change by ANYONE (incl. direct MCP applies):
+# daily, diff the linked prod schema against the repo migrations; fail (= alert) if they drift.
+#
+# REQUIRES three GitHub Actions secrets (job skips cleanly until they are set):
+#   SUPABASE_ACCESS_TOKEN  — a personal access token (supabase.com/dashboard/account/tokens)
+#   SUPABASE_PROJECT_REF   — the prod project ref (rtfxrlountkoegsseukx)
+#   SUPABASE_DB_PASSWORD   — the prod database password
+on:
+  schedule:
+    - cron: '0 9 * * *' # daily 09:00 UTC
+  workflow_dispatch:
+
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - name: Guard — skip cleanly until secrets are configured
+        id: guard
+        env:
+          TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          REF: ${{ secrets.SUPABASE_PROJECT_REF }}
+        run: |
+          if [ -z "$TOKEN" ] || [ -z "$REF" ]; then
+            echo "SUPABASE_ACCESS_TOKEN / SUPABASE_PROJECT_REF not set — skipping drift check."
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Setup Supabase CLI
+        if: steps.guard.outputs.configured == 'true'
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - name: Link + diff (fail if drift)
+        if: steps.guard.outputs.configured == 'true'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+        run: |
+          supabase link --project-ref "${{ secrets.SUPABASE_PROJECT_REF }}"
+          # db diff --linked compares the LINKED remote schema against local repo migrations.
+          DIFF="$(supabase db diff --linked --schema public || true)"
+          if [ -n "$DIFF" ]; then
+            echo "::error::Supabase schema DRIFT detected (prod ≠ repo migrations):"
+            echo "$DIFF"
+            exit 1
+          fi
+          echo "No drift — repo migrations match prod."

@@ -1,0 +1,135 @@
+status: PARTIAL
+generated_at: "2026-05-21T05:21:53Z"
+production_url: "https://messenginfo.com"
+evidence_dir: "docs/reports/evidence/messenginfo-web-visibility"
+visibility_status:
+  google_brand: PARTIAL_BLOCKED_SCREENSHOT_FOUND_IN_WEB_SAMPLE
+  bing_brand: PARTIAL
+  site_indexed_pages: UNKNOWN_WITH_WEB_SAMPLE_RESULTS
+  robots: PASS
+  sitemap: PASS_WITH_REDIRECT_ISSUE
+  noindex: PASS_WITH_TPS_LANDING_ISSUE
+  canonical: PASS_WITH_TPS_LANDING_ISSUE
+  structured_data: PASS
+  mobile_rendering: PASS
+  top_root_cause: "The sitemap TPS landing URL redirects to a transactional noindex wizard route."
+  first_fix: "Restore /[locale]/services/tps-ukraine as an indexable guide page and link to /start as CTA."
+production_checks:
+  - url: "https://messenginfo.com/"
+    status: VERIFIED
+    http: "307 to /en"
+    browser_final_url: "https://messenginfo.com/en"
+    title: "Messenginfo - USCIS Help for Ukrainians in the U.S."
+    robots: "index, follow"
+    canonical: "https://messenginfo.com/en"
+    screenshot: "docs/reports/evidence/messenginfo-web-visibility/screenshots/home.png"
+  - url: "https://messenginfo.com/ru"
+    status: VERIFIED
+    http: 200
+    title: "Messenginfo - Pomoshch s USCIS dlya ukraintsev v SShA"
+    robots: "index, follow"
+    canonical: "https://messenginfo.com/ru"
+    screenshot: "docs/reports/evidence/messenginfo-web-visibility/screenshots/ru.png"
+  - url: "https://messenginfo.com/ru/services/tps-ukraine"
+    status: FAIL_SEO
+    http: "307 to /ru/services/tps-ukraine/start"
+    browser_final_url: "https://messenginfo.com/ru/services/tps-ukraine/start"
+    final_robots: "noindex, nofollow"
+    final_canonical: "https://messenginfo.com/ru/services/tps-ukraine/start"
+    screenshot: "docs/reports/evidence/messenginfo-web-visibility/screenshots/tps_ru.png"
+  - url: "https://messenginfo.com/ru/services/tps-ukraine/start"
+    status: VERIFIED_TRANSACTIONAL_NOINDEX
+    http: 200
+    title: "TPS Ukraina - podgotovka paketa | Messenginfo"
+    robots: "noindex, nofollow"
+    canonical: "https://messenginfo.com/ru/services/tps-ukraine/start"
+    screenshot: "docs/reports/evidence/messenginfo-web-visibility/screenshots/tps_start_ru.png"
+  - url: "https://messenginfo.com/ru/services/translate-document"
+    status: VERIFIED
+    http: 200
+    title: "Perevod dokumentov | Messenginfo"
+    robots: "index, follow"
+    canonical: "https://messenginfo.com/ru/services/translate-document"
+    screenshot: "docs/reports/evidence/messenginfo-web-visibility/screenshots/translate_ru.png"
+repo_evidence:
+  sitemap_file: "apps/web/src/app/sitemap.ts"
+  sitemap_service_slug_lines: "17-33"
+  tps_redirect_file: "apps/web/src/app/[locale]/services/tps-ukraine/page.tsx"
+  tps_redirect_lines: "17-20"
+  tps_start_noindex_file: "apps/web/src/app/[locale]/services/tps-ukraine/start/page.tsx"
+  tps_start_noindex_lines: "48-52"
+search_evidence:
+  google_playwright:
+    status: BLOCKED
+    reason: "Google returned unusual-traffic page in browser automation."
+    screenshots:
+      - "docs/reports/evidence/messenginfo-web-visibility/screenshots/google_messenginfo.png"
+      - "docs/reports/evidence/messenginfo-web-visibility/screenshots/google_site.png"
+  web_search_samples:
+    status: VERIFIED_SAMPLE
+    brand_query: "Messenginfo found, but stale www.messenginfo.com $1 checks result appears."
+    site_query: "Messenginfo indexed pages found in web sample."
+    non_brand_queries: "Messenginfo not observed in returned top samples for TPS/re-parole/I-94/translation queries."
+root_causes_ranked:
+  - issue: "TPS sitemap URL redirects to noindex wizard."
+    severity: critical
+    evidence:
+      - "docs/reports/evidence/messenginfo-web-visibility/http_headers.txt"
+      - "docs/reports/evidence/messenginfo-web-visibility/browser_visibility_snapshot.json"
+      - "apps/web/src/app/[locale]/services/tps-ukraine/page.tsx:17-20"
+      - "apps/web/src/app/[locale]/services/tps-ukraine/start/page.tsx:48-52"
+    fix: "Restore indexable TPS landing page and link to noindex wizard."
+    effort: medium
+    expected_impact: high
+  - issue: "Stale www search result with old business-check content."
+    severity: high
+    evidence:
+      - "web search sample: messenginfo"
+      - "docs/reports/evidence/messenginfo-web-visibility/http_headers.txt"
+    fix: "Use Search Console to recrawl/remove stale www result and verify 301/apex canonical."
+    effort: low_medium
+    expected_impact: high
+  - issue: "Weak non-brand user-intent visibility."
+    severity: high
+    evidence:
+      - "web search samples for Ukraine TPS, U4U re-parole, I-94, USCIS translation"
+    fix: "Upgrade 5 official-source guide pages and internal links."
+    effort: medium
+    expected_impact: medium_high
+  - issue: "Search Console/Bing Webmaster data unavailable."
+    severity: medium
+    evidence:
+      - "No authenticated webmaster access used in this audit."
+    fix: "Verify domain properties, submit sitemap, inspect key URLs."
+    effort: low
+    expected_impact: high_for_diagnosis
+required_fixes:
+  immediate:
+    - fix: "Make /[locale]/services/tps-ukraine indexable."
+      file_or_page: "apps/web/src/app/[locale]/services/tps-ukraine/page.tsx"
+      evidence: "Live URL redirects to noindex /start."
+      expected_result: "Sitemap TPS URL returns 200, index/follow, canonical self, hreflang present."
+    - fix: "Clean stale www search identity."
+      file_or_page: "Search Console / domain property"
+      evidence: "Web search sample shows old $1 checks snippet."
+      expected_result: "Brand SERP reflects current USCIS-help site."
+    - fix: "Validate sitemap URLs resolve to indexable pages."
+      file_or_page: "apps/web/src/app/sitemap.ts"
+      evidence: "Sitemap includes TPS landing URLs but production landing redirects."
+      expected_result: "No sitemap URL redirects to noindex page."
+  next:
+    - fix: "Upgrade translate-document page for Ukrainian passport and USCIS translation intent."
+      file_or_page: "https://messenginfo.com/ru/services/translate-document"
+      evidence: "Commercial translation competitors dominate query samples."
+      expected_result: "Better long-tail relevance without unsupported USCIS-approved claims."
+    - fix: "Create official-source FAQ pages for I-94/re-parole/EAD pain points."
+      file_or_page: "new or existing FAQ/service guide pages"
+      evidence: "Non-brand query samples do not surface Messenginfo."
+      expected_result: "More indexable long-tail entry points."
+do_not_do:
+  - "Do not run ads until indexability and stale brand snippets are fixed."
+  - "Do not spam Telegram or Facebook groups."
+  - "Do not claim legal authority, USCIS approval, guaranteed acceptance, or law-firm status."
+  - "Do not create AI mass pages without official-source review."
+  - "Do not chase generic immigration lawyer keywords first."
+next_action: "Implement the TPS landing-page SEO fix, then re-run sitemap/indexability checks."

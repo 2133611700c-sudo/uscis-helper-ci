@@ -1,0 +1,51 @@
+name: Translation PDF Acceptance (poppler)
+
+# #195 — Visual-acceptance gate for the certified translation PDF.
+#
+# Renders the cert PDF locally (deterministic, via generateTranslationPDF) and
+# uses poppler (pdfinfo/pdftoppm/pdftotext) to assert: 2 non-blank pages, the
+# English transliterated value, the 8 CFR §103.2(b)(3) cert block, and ZERO
+# Cyrillic (U+0400–U+04FF) leak. The test self-skips when poppler is absent;
+# this job installs poppler-utils so the REAL assertions run (no skip).
+#
+# Pure local render — no Vercel deploy, no staging, no secrets. Cheap and inert
+# until a relevant PR touches the renderer/orders, or a manual dispatch.
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'apps/web/src/lib/packet/**'
+      - 'apps/web/src/lib/translation/orders/**'
+
+permissions:
+  contents: read
+
+jobs:
+  translation-pdf-acceptance:
+    name: render + poppler visual acceptance
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v6
+        with:
+          run_install: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install poppler-utils
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+
+      - name: Translation PDF visual acceptance (real assertions, no skip)
+        run: pnpm --filter web exec vitest run src/lib/packet/__tests__/translationPdfVisualAcceptance.test.ts
+
+      - name: Acceptance passed
+        run: echo "TRANSLATION_PDF_ACCEPTANCE=PASS"

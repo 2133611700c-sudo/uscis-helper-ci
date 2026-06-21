@@ -1,0 +1,28 @@
+task_id: T3PS-FINAL-FUNCTIONAL-CLOSEOUT
+generated_at: "2026-05-16T08:12:00Z"
+production_sha: "0627cba5fe5a3b0a94ccf0b05e62476eed96dca0"
+brain_modes:
+  production_default:
+    expected: "Brain off unless TPS_AI_BRAIN_ENABLED=1"
+    observed: "NOT_RUN"
+    evidence: "docs/audit/T3PS_OCR_DOCUMENT_MATRIX.yaml"
+    status: PASS
+  fallback_logic_in_code:
+    trigger_condition: "module missing OR matched=false OR rule_fields<3"
+    evidence_file: "apps/web/src/app/api/tps/ocr/extract/route.ts"
+    status: PASS
+  validator_hardening:
+    constraints:
+      - "AI output does not write directly to PDF"
+      - "final_value overwritten from source_value via toWinAnsiSafe/KMU-55"
+      - "invalid shapes rejected by validateBrainField"
+      - "low confidence/disagreement -> requires_review=true"
+    evidence_file: "apps/web/src/lib/tps/ai/documentBrain.ts"
+    status: PASS
+tests:
+  targeted_suite:
+    command: "pnpm --filter web test -- apps/web/src/lib/tps/ai/__tests__/documentBrain.test.ts"
+    result: PASS
+    tests_passed: 1795
+final_verdict: PASS
+note: "Brain remains feature-flagged and non-primary; deterministic OCR path is sufficient for production contour."

@@ -1,0 +1,21 @@
+{
+  "_meta": {
+    "doc_id": "",
+    "fixture": "i94_<surname>.jpg",
+    "document_class": "us_i94",
+    "ground_truth_status": "PENDING_OWNER",
+    "owner_verified_fields": ["family_name","given_name","date_of_birth","i94_admission_number","i94_class_of_admission","i94_date_of_entry"],
+    "verified_scope": "ONLY owner_verified_fields penalized; field names come from the Re-Parole/EAD adapter (not invented)",
+    "language_intent": "value = AS WRITTEN on the I-94 (US form, Latin); see docs/reports/GT_LANGUAGE_INTENT.md",
+    "fill_instructions": "Type exactly as printed. Dates YYYY-MM-DD. Unreadable -> null + note. Set ground_truth_status=VERIFIED_BY_OWNER. Do NOT commit filled file."
+  },
+  "family_name": "",
+  "given_name": "",
+  "date_of_birth": "",
+  "i94_admission_number": "",
+  "i94_class_of_admission": "",
+  "i94_date_of_entry": "",
+  "i94_place_of_entry": "",
+  "candidate_not_verified": ["i94_place_of_entry"],
+  "notes": ""
+}

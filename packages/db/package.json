@@ -1,0 +1,21 @@
+{
+  "name": "@uscis-helper/db",
+  "version": "0.1.0",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts",
+    "./types": "./src/types/index.ts",
+    "./client": "./src/client/index.ts",
+    "./queries": "./src/queries/index.ts"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.0"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.39",
+    "typescript": "^5"
+  }
+}

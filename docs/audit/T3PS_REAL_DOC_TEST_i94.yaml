@@ -1,0 +1,94 @@
+test: T3PS_REAL_DOC_TEST_i94
+date: 2026-05-20
+sha_pre_fix: dfa5bc0
+sha_post_fix: c4c8cea
+file_under_test: qa-shots/private/I94 Taras Ivanenko .jpg
+file_shape: { width_px: 1439, height_px: 1853, mime: image/jpeg, bytes: 463449 }
+hint_used: i94
+
+pre_fix_run:
+  http_status: 200
+  vision_text_length: 1257
+  detected_document_type: i94
+  slot: i94
+  slot_mismatch: false
+  brain_status: ran
+  module_matched: true
+  module_field_count: 5
+  final_field_count: 5
+  rejected_field_count: 2
+  final_field_keys:
+    - family_name
+    - given_name
+    - i94_admission_number
+    - i94_class_of_admission
+    - passport_number
+  rejected_fields:
+    - { field: i94_admit_until,        reason: FIELD_NOT_ALLOWED_FOR_DOCUMENT_SLOT }
+    - { field: country_of_nationality, reason: FIELD_NOT_ALLOWED_FOR_DOCUMENT_SLOT }
+  missing_critical_fields:
+    - last_entry_date
+    - i94_admit_until   # extracted by Brain, then rejected by slot contract
+  status: FAIL
+  failure_reason: |
+    Two contract-level bugs and one regex bug:
+      1. i94_admit_until — the SINGLE most important I-94 field for
+         TPS (tells the user when current parole/status expires) was
+         extracted correctly by Brain from 'Admit Until Date:
+         09/07/2026' but then rejected by the slot contract because
+         the i94 allowed_fields list never included it. Same fate
+         for country_of_nationality, which is printed on every CBP
+         I-94 record.
+      2. last_entry_date — Brain didn't extract it either, because
+         the rule i94 module's date regex only matched MM/DD/YYYY
+         and CBP's web printout uses 'YYYY Month DD' format
+         ('2022 September 09'). Brain saw the line, but the rule
+         module set the anchor, so Brain didn't bother surfacing
+         what looked like rule-territory.
+  critical_fields_matched: 1 of 3
+
+fix_applied_in_commit: c4c8cea
+fix_summary:
+  - documentContracts.ts: added 'i94_admit_until' and
+    'country_of_nationality' to the i94 allowed_fields list.
+    Comment block above each entry explains WHY (admit_until is the
+    expiry date that drives TPS eligibility; country is bilingual
+    cross-check).
+  - documentBrain.ts: added i94_admit_until to the
+    DocumentBrainResultSchema.fields Zod object AND advertised it
+    in the SYSTEM_PROMPT schema block.
+  - modules/i94.ts: added yyyyMonthDdToUs() / anyDateToUs() helpers
+    and a second-pass findLabelledValue() call for both
+    last_entry_date and admit_until that accepts
+    '\\b\\d{4}\\s+[A-Za-z]{3,9}\\s+\\d{1,2}\\b'.
+    Result is normalized to MM/DD/YYYY then ISO YYYY-MM-DD so the
+    rest of the pipeline keeps working unchanged.
+
+post_fix_run:
+  sha_tested: abbc3ff   # includes contract widen + module date fix + Brain threshold bump
+  http_status: 200
+  vision_text_length: 1257
+  brain_status: ran
+  brain_added_count: 7
+  module_field_count: 8
+  final_field_count: 8
+  rejected_field_count: 0
+  final_field_keys:
+    - country_of_nationality
+    - family_name
+    - given_name
+    - i94_admission_number
+    - i94_admit_until
+    - i94_class_of_admission
+    - last_entry_date
+    - passport_number
+  critical_fields_matched: 3 of 3
+  status: PASS
+
+notes:
+  - All 3 critical fields now extract (i94_admission_number,
+    last_entry_date, i94_admit_until). Rejected count went from
+    2 → 0. Family/given name + country + passport_number surface
+    too (these are mirrored from the I-94 record and fill gaps
+    when passport hasn't been uploaded yet).
+  - All committed values here are SHAPES only — no PII leaks.

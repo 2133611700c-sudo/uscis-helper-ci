@@ -1,0 +1,36 @@
+name: V1 Document Benchmark
+
+# Runs ONLY when OCR / Brain / dictionaries change, and ONLY against staging +
+# the OCR cache. Paid provider calls are DISABLED by default (provider budget
+# guard is fail-closed). This job is a DRY-RUN gate until staging + an approved
+# budget exist; it never calls a provider and never touches production.
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'apps/web/src/lib/docintel/**'
+      - 'apps/web/src/lib/canonical/core/**'
+      - 'packages/knowledge/**'
+
+jobs:
+  document-benchmark:
+    name: document benchmark (dry-run, paid calls disabled)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+      - name: Assert benchmark is fail-closed (no paid calls, staging only)
+        env:
+          V1_BENCHMARK_PAID_ENABLED: ${{ vars.V1_BENCHMARK_PAID_ENABLED }}
+          V1_STAGING_READY: ${{ vars.V1_STAGING_READY }}
+        run: |
+          echo "OCR/Brain/dictionary change detected — benchmark gate."
+          if [ "${V1_BENCHMARK_PAID_ENABLED:-}" != "true" ] || [ "${V1_STAGING_READY:-}" != "true" ]; then
+            echo "DRY-RUN: paid provider calls disabled (default) and/or staging not ready. No provider calls made."
+            exit 0
+          fi
+          echo "::error::Live benchmark path is not implemented until GROUND_TRUTH_CORPUS_AND_CACHE phase; refusing to call providers from here."
+          exit 1

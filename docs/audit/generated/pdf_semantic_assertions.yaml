@@ -1,0 +1,20 @@
+i821:
+  family_name: Testsurname
+  given_name: Testgiven
+  dob: 07/12/1985
+  tps_country: Ukraine
+  marital_status_single: ''
+  passport: AB1234567
+  i94: '12345678901'
+  status_at_last_entry: ''
+  part7_criminal_yes_in_yes_scenario: /Y
+i765:
+  application_type_initial: ''
+  family_name: Testsurname
+  given_name: Testgiven
+  dob: 07/12/1985
+  i94: '12345678901'
+  status_at_last_entry: ''
+  eligibility_a12_a: a
+  eligibility_a12_12: '12'
+  email: test@example.com

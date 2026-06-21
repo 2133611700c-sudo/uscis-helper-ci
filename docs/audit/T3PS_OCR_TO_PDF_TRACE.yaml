@@ -1,0 +1,90 @@
+task_id: T3PS-FINAL-FUNCTIONAL-CLOSEOUT
+generated_at: "2026-05-16T08:05:00Z"
+production_sha: "0627cba5fe5a3b0a94ccf0b05e62476eed96dca0"
+trace_fields:
+  - field: family_name
+    ocr_presence: PASS
+    review_presence: PASS
+    step6_request_presence: PASS
+    map_presence: PASS
+    pdf_presence: PASS
+    notes:
+      - "OCR matrix: passport module key family_name"
+      - "GeneratePacketBlock payload wiring near line 787+"
+      - "I-821 map: Part2_Item1_FamilyName"
+      - "I-765 map: Line1a_FamilyName"
+  - field: given_name
+    ocr_presence: PASS
+    review_presence: PASS
+    step6_request_presence: PASS
+    map_presence: PASS
+    pdf_presence: PASS
+  - field: dob
+    ocr_presence: PASS
+    review_presence: PASS
+    step6_request_presence: PASS
+    map_presence: PASS
+    pdf_presence: PASS
+  - field: passport_number
+    ocr_presence: PASS
+    review_presence: PASS
+    step6_request_presence: PASS
+    map_presence: PASS
+    pdf_presence: PASS
+    selectors:
+      - tps-passport-number-input
+  - field: passport_expiration_date
+    ocr_presence: PASS
+    review_presence: PASS
+    step6_request_presence: PASS
+    map_presence: PASS
+    pdf_presence: PASS
+    selectors:
+      - tps-passport-expiration-input
+  - field: i94_admission_number
+    ocr_presence: PASS
+    review_presence: PASS
+    step6_request_presence: PASS
+    map_presence: PASS
+    pdf_presence: PASS
+    conditional: "Scenario B"
+  - field: last_entry_date
+    ocr_presence: PASS
+    review_presence: PASS
+    step6_request_presence: PASS
+    map_presence: PASS
+    pdf_presence: PASS
+    conditional: "Scenario B"
+  - field: a_number
+    ocr_presence: PASS
+    review_presence: PASS
+    step6_request_presence: PASS
+    map_presence: PASS
+    pdf_presence: PASS
+    conditional: "Scenario B"
+  - field: ead_category_on_card
+    ocr_presence: PASS
+    review_presence: PASS
+    step6_request_presence: PASS
+    map_presence: PASS
+    pdf_presence: PARTIAL
+    conditional: "Scenario B"
+    note: "Mapped to I-765 Item 27 split fields; source fixture yielded a12 path and fields are filled."
+  - field: marital_status
+    ocr_presence: N_A
+    review_presence: N_A
+    step6_request_presence: PASS
+    map_presence: PASS
+    pdf_presence: PASS
+  - field: part7_reviewed
+    ocr_presence: N_A
+    review_presence: N_A
+    step6_request_presence: PASS
+    map_presence: PASS
+    pdf_presence: PASS
+artifacts:
+  ocr_matrix: "docs/audit/T3PS_OCR_DOCUMENT_MATRIX.yaml"
+  browser_scenario_a: "docs/reports/evidence/t3ps-functional-closeout/scenario_A/browser_summary.json"
+  browser_scenario_b: "docs/reports/evidence/t3ps-functional-closeout/scenario_B/browser_summary.json"
+  pdf_proof: "docs/audit/T3PS_PDF_ZIP_FINAL_PROOF.yaml"
+verdict: PASS

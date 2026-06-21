@@ -1,0 +1,1238 @@
+{
+  "metadata": {
+    "title": "Messenginfo – Ayuda con USCIS para ucranianos en EE. UU.",
+    "description": "Orientación oficial de USCIS para ucranianos: re-parole U4U, TPS, EAD, I-94, estado del caso y traducción de documentos. 4 idiomas. No somos un bufete de abogados.",
+    "keywords": "ayuda USCIS, inmigración Ucrania, re-parole U4U, TPS Ucrania, permiso de trabajo EAD, I-94, verificar estado del caso, autoayuda inmigratoria"
+  },
+  "header": {
+    "logoLabel": "Messenginfo",
+    "nav": {
+      "services": "Servicios",
+      "documents": "Documentos",
+      "faq": "Preguntas frecuentes",
+      "sources": "Fuentes",
+      "home": "Inicio",
+      "privacy": "Privacidad",
+      "terms": "Términos",
+      "disclaimer": "Aviso legal",
+      "pillars": {
+        "translate": {
+          "label": "Traducir",
+          "translateDoc": "Traducir un documento",
+          "supportedDocs": "Documentos compatibles",
+          "pricing": "Precios"
+        },
+        "forms": {
+          "label": "Formularios",
+          "ead": "Permiso de trabajo (EAD)",
+          "reparole": "Re-Parole U4U",
+          "tps": "TPS Ucrania",
+          "all": "Todos los servicios"
+        },
+        "status": {
+          "label": "Estado",
+          "uscisStatus": "Estado del caso USCIS",
+          "tpsStatus": "Estado de TPS",
+          "i94Guide": "Guía I-94"
+        },
+        "info": {
+          "label": "Información",
+          "faq": "Preguntas frecuentes",
+          "attorneys": "Ayuda legal",
+          "sources": "Fuentes oficiales",
+          "about": "Acerca de",
+          "contact": "Contacto"
+        }
+      }
+    },
+    "ctaStatus": "Verificar estado",
+    "signIn": "Iniciar sesión",
+    "languageSelector": {
+      "label": "Seleccionar idioma"
+    },
+    "langSwitcher": "Idioma"
+  },
+  "trending": {
+    "label": "Tendencias:",
+    "topics": {
+      "reparole": "Re-parole U4U",
+      "tps-ukraine": "TPS Ucrania",
+      "ead-delays": "Demoras EAD",
+      "payment-issues": "Problemas de pago",
+      "i-94-issues": "Problemas con I-94",
+      "rfe-denial": "RFE / Denegación"
+    }
+  },
+  "hero": {
+    "title": "Ayuda con USCIS para ucranianos en EE. UU.",
+    "subtitle": "Información de fuentes oficiales, orientación sobre documentos y pasos claros para U4U, re-parole, TPS, EAD, I-94 y seguimiento de casos.",
+    "ctaServices": "Ver servicios",
+    "ctaUpdates": "Últimas actualizaciones",
+    "trustItems": [
+      "Basado en fuentes oficiales",
+      "4 idiomas",
+      "No es un bufete de abogados"
+    ],
+    "disclaimer": {
+      "badge": "Solo soporte informativo",
+      "items": [
+        "No somos abogados ni abogados de inmigración con licencia.",
+        "Solo brindamos soporte informativo, asistencia con traducción de documentos y preparación de formularios.",
+        "Para asesoramiento legal, consulte a un abogado de inmigración con licencia."
+      ]
+    }
+  },
+  "caseStatus": {
+    "title": "Verificar el estado de su caso en USCIS",
+    "description": "Introduzca su número de recibo para abrir la página oficial de USCIS. Su número nunca se almacena.",
+    "placeholder": "IOE1234567890",
+    "button": "Verificar estado",
+    "errorInvalid": "Introduzca un número de recibo válido (p. ej. IOE1234567890 o EAC1234567890).",
+    "privacyNote": "Su número de recibo se valida localmente y nunca se envía a nuestros servidores.",
+    "subtitle": "No procesamos datos de estado — lo hace el portal oficial de USCIS. Toque para abrirlo.",
+    "buttonLabel": "Abrir USCIS Case Status",
+    "disclaimer": "Messenginfo no maneja números de recibo ni datos de estado. El botón arriba abre el portal oficial de USCIS en una nueva pestaña."
+  },
+  "officialSources": {
+    "title": "Fuentes oficiales",
+    "items": {
+      "uscis-case-status": {
+        "name": "Estado de caso USCIS",
+        "description": "Consulte el estado oficial de su solicitud pendiente ante USCIS."
+      },
+      "uscis-forms": {
+        "name": "Formularios USCIS",
+        "description": "Descargue formularios oficiales de inmigración e instrucciones de USCIS."
+      },
+      "cbp-i94": {
+        "name": "CBP I-94",
+        "description": "Consulte o imprima su registro oficial de entrada/salida I-94."
+      },
+      "doj-accredited": {
+        "name": "Representantes acreditados del DOJ",
+        "description": "Encuentre organizaciones reconocidas y representantes de inmigración acreditados por el DOJ."
+      }
+    }
+  },
+  "services": {
+    "title": "¿En qué necesita ayuda?",
+    "subtitle": "Seleccione un tema para encontrar orientación oficial, listas de documentos y próximos pasos."
+  },
+  "cards": {
+    "parole-expires-soon": {
+      "title": "Mi parole vence pronto",
+      "shortProblem": "Conozca sus opciones antes de que venza su parole humanitario."
+    },
+    "re-parole-u4u": {
+      "title": "Re-parole (Uniting for Ukraine)",
+      "shortProblem": "Orientación para solicitar el re-parole bajo el programa U4U."
+    },
+    "tps-ukraine": {
+      "title": "TPS para Ucrania",
+      "shortProblem": "Estado de Protección Temporal para ciudadanos ucranianos en EE. UU."
+    },
+    "ead-work-permit": {
+      "title": "Permiso de trabajo EAD",
+      "shortProblem": "Solicite o renueve su Documento de Autorización de Empleo (Formulario I-765)."
+    },
+    "i-94": {
+      "title": "Registro de entrada/salida I-94",
+      "shortProblem": "Acceda, imprima o corrija su registro I-94 en el portal de CBP."
+    },
+    "uscis-case-status": {
+      "title": "Estado de caso USCIS",
+      "shortProblem": "Consulte el estado de una solicitud pendiente usando su número de recibo."
+    },
+    "payment-problem": {
+      "title": "Problema de pago",
+      "shortProblem": "Resuelva problemas con tarifas de presentación, cheques rechazados o errores de pago."
+    },
+    "biometrics": {
+      "title": "Cita de biometría",
+      "shortProblem": "Sepa qué llevar, qué esperar y cómo reprogramar su cita de biometría."
+    },
+    "rfe-denial": {
+      "title": "RFE o denegación",
+      "shortProblem": "Aprenda a responder a una solicitud de evidencia o a una denegación de solicitud."
+    },
+    "translate-document": {
+      "title": "Traducción de documentos",
+      "shortProblem": "Suba un pasaporte, certificado u otro documento y prepare un borrador de traducción al inglés."
+    },
+    "form-draft-helper": {
+      "title": "Asistente para formularios",
+      "shortProblem": "Orientación para completar correctamente los formularios comunes de USCIS."
+    },
+    "official-sources": {
+      "title": "Biblioteca de fuentes oficiales",
+      "shortProblem": "Enlaces seleccionados a USCIS, CBP, DOJ y otras fuentes gubernamentales autorizadas."
+    },
+    "tps-status": {
+      "title": "TPS Ucrania — Estado Actual",
+      "shortProblem": "Estado actual del Estatus de Protección Temporal para Ucrania y plazos de re-registro."
+    },
+    "attorney-directory": {
+      "title": "Encontrar Ayuda Legal",
+      "shortProblem": "Organizaciones verificadas de asistencia legal gratuita y asequible. Cómo detectar fraudes."
+    },
+    "i-94-guide": {
+      "title": "Guía del I-94",
+      "shortProblem": "Cómo acceder, leer, imprimir y corregir su registro I-94 en el portal de CBP."
+    },
+    "action": "Abrir →"
+  },
+  "servicePages": {
+    "parole-expires-soon": {
+      "title": "Mi parole vence pronto",
+      "subtitle": "Pasos a seguir antes de que venza su parole humanitario.",
+      "whatHelps": [
+        "Verifique la fecha de vencimiento de su parole en su registro I-94 en i94.cbp.dhs.gov",
+        "Revise su elegibilidad para el re-parole bajo el programa Uniting for Ukraine",
+        "Evalúe si el Estado de Protección Temporal (TPS) aplica a su situación"
+      ],
+      "commonMistakes": [
+        "Esperar hasta los últimos días antes del vencimiento para actuar",
+        "Confundir el vencimiento del parole con el vencimiento de la autorización de trabajo",
+        "No verificar la fecha correcta en el registro I-94"
+      ],
+      "officialNote": "USCIS proporciona información oficial sobre el parole humanitario en uscis.gov.",
+      "lastVerifiedLabel": "Última verificación: {date}"
+    },
+    "re-parole-u4u": {
+      "title": "Re-parole bajo Uniting for Ukraine (U4U)",
+      "subtitle": "Orientación oficial para solicitar el re-parole a través del programa U4U.",
+      "whatHelps": [
+        "Revise la página oficial de USCIS del programa Uniting for Ukraine para conocer los requisitos actuales",
+        "Confirme su estado de parole actual y fecha de vencimiento en su registro I-94",
+        "Prepare los documentos de respaldo requeridos según las instrucciones oficiales de USCIS"
+      ],
+      "commonMistakes": [
+        "Presentar la solicitud sin verificar los requisitos actuales del programa",
+        "Proporcionar información personal incompleta o inconsistente",
+        "Confundir el parole con otros estatus migratorios"
+      ],
+      "officialNote": "Toda la información de re-parole proviene de la página oficial de USCIS Uniting for Ukraine.",
+      "lastVerifiedLabel": "Última verificación: {date}",
+      "statusWarning": "Importante: el proceso de patrocinio (Formulario I-134A) fue pausado en enero de 2025 por Orden Ejecutiva. La Re-Parole para ucranianos ya en EE.UU. (Formulario I-131) es un proceso separado que continúa revisándose caso por caso. Verifique la orientación actual de USCIS antes de presentar.",
+      "service.status.note": "El proceso de patrocinio (Formulario I-134A) fue pausado en enero de 2025 por Orden Ejecutiva. La Re-Parole para ucranianos ya en EE.UU. (Formulario I-131) es un proceso separado que continúa revisándose caso por caso.",
+      "service.status.source": "Fuente: Guía Re-Parole USCIS (actualizada 10/11/2024) · USCIS Formulario I-131, edición 01/20/25 (página USCIS actualizada 03/30/2026)",
+      "filing.paper.title": "Presentación por correo",
+      "filing.paper.step1": "En la Parte 2 del Formulario I-131, seleccione Item 1.e",
+      "filing.paper.step2": "Escriba a mano \"Ukraine RE-PAROLE\" en la parte superior de la primera página",
+      "filing.paper.feeWaiver": "La exención de tarifas (Formulario I-912) está disponible al presentar por correo",
+      "filing.online.title": "Presentación en línea (my.uscis.gov)",
+      "filing.online.step1": "Seleccione Box 10.C: \"Ciertos ucranianos bajo libertad condicional el 11 de febrero de 2022 o después\"",
+      "filing.online.step2": "Complete todos los campos requeridos y cargue los documentos de respaldo (PDF). Pague la tarifa de USCIS a través del portal myUSCIS.",
+      "filing.online.noFeeWaiver": "La exención de tarifas (Formulario I-912) no está disponible al presentar en línea. Presente por correo si necesita una exención.",
+      "filing.source": "Fuente: USCIS Formulario I-131, edición 01/20/25 (página USCIS actualizada 03/30/2026) · Guía USCIS U4U Re-Parole (actualizada 10/11/2024)",
+      "feeNotice": "USCIS cobra una tarifa de presentación. Además, a algunos solicitantes se les cobra una tarifa de concesión de parole al recibir aprobación condicional. Las tarifas están sujetas a cambios. Use la Calculadora de Tarifas de USCIS (uscis.gov/feecalculator) y G-1055 (uscis.gov/g-1055) para los montos actuales.",
+      "processingWarning": "Los tiempos de procesamiento de USCIS varían significativamente. Consulte los estimados actuales en uscis.gov/processing-times. Planifique para períodos de espera sustanciales.",
+      "medicalNote": "Se requiere documentación médica: prueba de vacunas y prueba de TB/IGRA cuando aplique. Siga las instrucciones actuales de USCIS para los requisitos médicos.",
+      "eadWarning": "No presente el Formulario I-765 para autorización de empleo basada en esta solicitud de re-parole hasta que su I-131 haya sido aprobado y USCIS autorice la presentación del EAD. Este paquete de re-parole no es un paquete de presentación de EAD.",
+      "eadWarningBlock": "Advertencia importante sobre EAD: no presente el Formulario I-765 para autorización de empleo basada en este re-parole hasta que USCIS apruebe su Formulario I-131. Presentarlo demasiado pronto puede causar confusión o rechazo.",
+      "processingTimeNote": "Los tiempos de procesamiento cambian. Las solicitudes de U4U re-parole pueden tardar muchos meses. Revise la página oficial de USCIS Processing Times antes de presentar y monitoree su caso después del envío.",
+      "feeWaiverNote": "Si no puede pagar la tarifa de presentación, puede solicitar una exención de tarifas usando el Formulario I-912. Las solicitudes de exención de tarifas son típicamente solo para presentación en papel. Verifique los requisitos de elegibilidad actuales de USCIS en uscis.gov/i-912.",
+      "verified": {
+        "facts": {
+          "title": "Datos verificados",
+          "form": "Formulario I-131 (edición 01/20/25)",
+          "item": "Parte 2, Ítem 1.e — Seleccione \"Estoy fuera de los Estados Unidos, solicitando un Documento de Parole Adelantado\" (seleccione esto incluso si está dentro de los EE.UU.). Escriba \"Ukraine RE-PAROLE\" en la parte superior del formulario.",
+          "topNote": "Solo para presentación en papel: escriba a mano \"Ukraine RE-PAROLE\" en la parte superior del Formulario I-131. Presentación en línea (my.uscis.gov): seleccione Box 10.C — \"Ciertos ucranianos bajo libertad condicional el 11 de febrero de 2022 o después\". (Fuente: uscis.gov/i-131, verificado 2026-05-04)",
+          "window": "Ventana de presentación: no antes de 180 días (6 meses) antes de que expire el parole actual"
+        },
+        "fees": {
+          "title": "Tarifas de USCIS",
+          "note": "Las tarifas de USCIS se pagan directamente a USCIS — no a nosotros. Los montos pueden cambiar. Nota: USCIS cobra una tarifa de presentación Y una tarifa de concesión de parole por separado (cobrada al recibir aprobación condicional).",
+          "checkLink": "Verificar los montos actuales en USCIS Fee Calculator"
+        },
+        "processing": {
+          "title": "Tiempos de procesamiento",
+          "note": "Los tiempos de procesamiento varían significativamente. Consulte datos actuales en USCIS Processing Times. Planifique para períodos de espera sustanciales."
+        },
+        "disclaimer": "Información y soporte de documentos. No es asesoría legal. Usted presenta usted mismo."
+      }
+    },
+    "tps-ukraine": {
+      "title": "Estado de Protección Temporal (TPS) para Ucrania",
+      "subtitle": "Qué significa el TPS para los ciudadanos ucranianos actualmente en Estados Unidos.",
+      "whatHelps": [
+        "Visite la página oficial de TPS Ucrania de USCIS para conocer el período de designación y los requisitos actuales",
+        "Comprenda los beneficios del TPS: protección contra la deportación y elegibilidad para autorización de trabajo",
+        "Revise el período de registro y los formularios requeridos en USCIS.gov"
+      ],
+      "commonMistakes": [
+        "Solicitar después de la fecha límite de registro sin verificar las reglas de registro inicial tardío",
+        "Asumir que el TPS se renueva automáticamente sin presentar una nueva solicitud",
+        "No mantener los requisitos de residencia continua"
+      ],
+      "officialNote": "La designación y los requisitos del TPS se publican en la página oficial de USCIS TPS Ucrania.",
+      "lastVerifiedLabel": "Última verificación: {date}"
+    },
+    "ead-work-permit": {
+      "title": "Documento de Autorización de Empleo (EAD) — Formulario I-765",
+      "subtitle": "Orientación para solicitar o renovar su permiso de trabajo EAD.",
+      "whatHelps": [
+        "Descargue el Formulario I-765 y las instrucciones desde la página oficial de formularios de USCIS",
+        "Identifique la categoría de elegibilidad correcta para su estatus migratorio",
+        "Presente antes de que venza su EAD actual para solicitar una extensión automática"
+      ],
+      "commonMistakes": [
+        "Seleccionar la categoría de elegibilidad incorrecta en el Formulario I-765",
+        "Presentar demasiado tarde para aprovechar la extensión automática de 180 días",
+        "No incluir los documentos de respaldo correctos para su categoría"
+      ],
+      "officialNote": "El Formulario I-765 y las tarifas actuales están disponibles en uscis.gov/i-765.",
+      "lastVerifiedLabel": "Última verificación: {date}"
+    },
+    "i-94": {
+      "title": "Registro de entrada/salida I-94",
+      "subtitle": "Cómo acceder, imprimir y entender su registro I-94 oficial.",
+      "whatHelps": [
+        "Acceda a su registro I-94 en i94.cbp.dhs.gov con la información de su documento de viaje",
+        "Verifique que la clase de admisión y la fecha sean correctas",
+        "Imprima o guarde su I-94 más reciente para verificaciones de USCIS o del empleador"
+      ],
+      "commonMistakes": [
+        "Asumir que la fecha de vencimiento de la visa es igual a la estadía autorizada — verifique el I-94",
+        "No corregir errores en el I-94 de inmediato a través del proceso de inspección diferida de CBP",
+        "Usar un I-94 desactualizado cuando existe uno más reciente tras una reentrada"
+      ],
+      "officialNote": "Los registros I-94 son administrados por la Aduana y Protección Fronteriza de EE. UU. en i94.cbp.dhs.gov.",
+      "lastVerifiedLabel": "Última verificación: {date}"
+    },
+    "uscis-case-status": {
+      "title": "Estado de caso USCIS",
+      "subtitle": "Cómo verificar el estado de una solicitud pendiente ante USCIS.",
+      "whatHelps": [
+        "Use su número de recibo (p. ej. IOE1234567890) para verificar el estado en egov.uscis.gov",
+        "Regístrese para recibir actualizaciones por correo electrónico en su cuenta en línea de USCIS",
+        "Comprenda los mensajes de estado comunes y qué significan para su caso"
+      ],
+      "commonMistakes": [
+        "Contactar a USCIS antes de que haya transcurrido el tiempo de procesamiento publicado",
+        "Confundir la fecha del aviso con la fecha de recibo",
+        "No guardar el aviso de recibo en un lugar seguro"
+      ],
+      "officialNote": "El estado del caso de USCIS está disponible en el portal oficial egov.uscis.gov.",
+      "lastVerifiedLabel": "Última verificación: {date}"
+    },
+    "payment-problem": {
+      "title": "Problemas de pago de tarifas",
+      "subtitle": "Cómo resolver problemas de pago con presentaciones ante USCIS.",
+      "whatHelps": [
+        "Revise las opciones de pago disponibles en la página oficial de tarifas de USCIS en uscis.gov",
+        "Use la cuenta en línea my.uscis.gov para gestionar pagos de formularios elegibles",
+        "Contacte a USCIS a través de canales oficiales si una tarifa fue rechazada o cobrada incorrectamente"
+      ],
+      "commonMistakes": [
+        "Presentar montos incorrectos — siempre verifique las tarifas actuales antes de presentar",
+        "Usar un método de pago vencido o no compatible",
+        "No incluir todas las tarifas requeridas al presentar varios formularios juntos"
+      ],
+      "officialNote": "Las tarifas actuales de USCIS se publican en uscis.gov/forms/filing-fees.",
+      "lastVerifiedLabel": "Última verificación: {date}"
+    },
+    "biometrics": {
+      "title": "Cita de biometría",
+      "subtitle": "Qué esperar en su cita de biometría de USCIS.",
+      "whatHelps": [
+        "Lleve su aviso de cita de biometría y una identificación oficial con foto vigente",
+        "Llegue a tiempo — la mayoría de las citas duran 30 minutos o menos",
+        "Contacte a USCIS con anticipación si necesita reprogramar su cita"
+      ],
+      "commonMistakes": [
+        "Olvidar llevar el aviso de cita de biometría",
+        "Presentarse sin una identificación con foto válida",
+        "No presentarse sin reprogramar, lo que puede retrasar el procesamiento"
+      ],
+      "officialNote": "Los requisitos de biometría se describen en la página oficial de tarifas biométricas de USCIS.",
+      "lastVerifiedLabel": "Última verificación: {date}"
+    },
+    "rfe-denial": {
+      "title": "Solicitud de evidencia (RFE) o denegación",
+      "subtitle": "Cómo entender y responder a un RFE o a una denegación de solicitud.",
+      "whatHelps": [
+        "Lea detenidamente el aviso de RFE o denegación — especifica qué evidencia o información se necesita",
+        "Responda dentro del plazo indicado en el aviso",
+        "Consulte a un representante acreditado o abogado de inmigración autorizado para RFEs complejos"
+      ],
+      "commonMistakes": [
+        "Perder el plazo de respuesta, lo que puede resultar en la denegación de la solicitud",
+        "Proporcionar respuestas incompletas que no abordan todos los puntos del RFE",
+        "No consultar a un profesional cuando el RFE implica preguntas legales"
+      ],
+      "officialNote": "La orientación del Manual de Políticas de USCIS sobre RFEs está disponible en uscis.gov/policy-manual.",
+      "lastVerifiedLabel": "Última verificación: {date}"
+    },
+    "translate-document": {
+      "title": "Traducción de documentos para USCIS",
+      "subtitle": "Qué requiere USCIS al presentar documentos en idiomas extranjeros.",
+      "whatHelps": [
+        "USCIS generalmente requiere una traducción completa al inglés y una declaración de certificación del traductor",
+        "El traductor debe certificar que es competente para traducir y que la traducción es precisa",
+        "Consulte 8 CFR 103.2 para conocer el requisito oficial de certificación de traducción"
+      ],
+      "commonMistakes": [
+        "Presentar una traducción parcial en lugar de una traducción completa",
+        "Omitir la declaración de certificación del traductor",
+        "Usar traducción automática sin revisión humana y certificación adecuada"
+      ],
+      "officialNote": "Los requisitos de traducción están codificados en 8 CFR 103.2 (ecfr.gov).",
+      "lastVerifiedLabel": "Última verificación: {date}"
+    },
+    "form-draft-helper": {
+      "title": "Asistente para formularios USCIS",
+      "subtitle": "Orientación para completar correctamente los formularios comunes de USCIS.",
+      "whatHelps": [
+        "Siempre descargue la versión actual del formulario desde uscis.gov/forms",
+        "Lea las instrucciones oficiales antes de completar cualquier campo",
+        "Use tinta negra o complete el formulario electrónicamente si está permitido"
+      ],
+      "commonMistakes": [
+        "Usar una versión desactualizada del formulario — USCIS puede rechazar versiones anteriores",
+        "Dejar campos requeridos en blanco o escribir 'N/A' donde no se indique",
+        "No firmar y fechar el formulario antes de presentarlo"
+      ],
+      "officialNote": "Los formularios e instrucciones actuales de USCIS están disponibles en uscis.gov/forms.",
+      "lastVerifiedLabel": "Última verificación: {date}"
+    },
+    "official-sources": {
+      "title": "Biblioteca de fuentes oficiales",
+      "subtitle": "Enlaces seleccionados a recursos migratorios autorizados del gobierno de EE. UU.",
+      "whatHelps": [
+        "Use USCIS.gov como fuente principal para formularios, tarifas y políticas de inmigración",
+        "Verifique las credenciales de abogados en el registro de representantes acreditados del DOJ",
+        "Consulte su registro de entrada I-94 en i94.cbp.dhs.gov"
+      ],
+      "commonMistakes": [
+        "Confiar en sitios web no oficiales o redes sociales para orientación migratoria",
+        "Usar información desactualizada — siempre verifique la fecha de cualquier recurso",
+        "Pagar a terceros para acceder a formularios o información gubernamental gratuita"
+      ],
+      "officialNote": "Todas las fuentes listadas son sitios web oficiales del gobierno de EE. UU.",
+      "lastVerifiedLabel": "Última verificación: {date}"
+    },
+    "labels": {
+      "home": "Inicio",
+      "openOfficialSource": "Abrir fuente oficial",
+      "backToServices": "Volver a servicios",
+      "whatHelps": "En qué ayuda",
+      "commonMistakes": "Errores comunes",
+      "relatedServices": "Servicios relacionados",
+      "translationNotice": "USCIS generalmente exige una traducción completa al inglés y una certificación del traductor. Esta página crea solo un borrador para revisión."
+    }
+  },
+  "translatePage": {
+    "safeStatement": "USCIS generalmente exige una traducción completa al inglés y una certificación del traductor. Esta página crea solo un borrador para revisión."
+  },
+  "askQuestion": {
+    "title": "¿No encuentra su pregunta?",
+    "subtitle": "Explore nuestra base de conocimiento o contáctenos.",
+    "ctaFaq": "Ver preguntas frecuentes",
+    "ctaContact": "Contáctenos"
+  },
+  "howWeHelp": {
+    "title": "Cómo le ayudamos",
+    "subtitle": "Messenginfo le conecta con fuentes oficiales y organiza la información que necesita.",
+    "items": [
+      {
+        "title": "Encontrar fuentes oficiales",
+        "description": "Cada página enlaza directamente a USCIS.gov, CBP, DOJ y otras fuentes gubernamentales autorizadas."
+      },
+      {
+        "title": "Organizar sus documentos",
+        "description": "Entienda qué documentos son necesarios para cada trámite migratorio y cómo prepararlos."
+      },
+      {
+        "title": "Obtener próximos pasos claros",
+        "description": "Orientación paso a paso sobre qué hacer a continuación, basada en instrucciones oficiales."
+      }
+    ]
+  },
+  "documentTools": {
+    "title": "Orientación sobre traducción de documentos",
+    "subtitle": "Comprenda los requisitos de USCIS para traducir documentos en idiomas extranjeros. Seleccione un tipo de documento para conocer lo que se necesita.",
+    "items": {
+      "passport": {
+        "title": "Pasaporte",
+        "description": "Requisitos de traducción de la página biográfica para presentaciones ante USCIS."
+      },
+      "birth-certificate": {
+        "title": "Acta de nacimiento",
+        "description": "Requisitos de traducción completa y certificación para registros de nacimiento."
+      },
+      "marriage-certificate": {
+        "title": "Acta de matrimonio",
+        "description": "Qué requiere USCIS al presentar documentos de matrimonio extranjeros."
+      },
+      "diploma": {
+        "title": "Diploma / Título",
+        "description": "Requisitos de traducción de credenciales académicas para fines migratorios."
+      },
+      "military-document": {
+        "title": "Documento militar",
+        "description": "Orientación de traducción para registros de servicio militar y documentos de baja."
+      },
+      "driver-license": {
+        "title": "Licencia de conducir",
+        "description": "Cuándo y cómo debe traducirse una licencia de conducir para USCIS."
+      }
+    },
+    "footnote": "Las herramientas para documentos se agregarán después de la verificación. Estas páginas explican qué preparar y enlazan a los requisitos oficiales."
+  },
+  "telegramStrip": {
+    "title": "Acceso a la comunidad",
+    "channelButton": "Abrir canal",
+    "botButton": "Abrir bot",
+    "fallbackText": "El canal y el bot de Telegram se agregarán después de la verificación."
+  },
+  "miaWidget": {
+    "greeting": "¡Hola! Soy Mia, su guía en Messenginfo.",
+    "disclaimer": "Soy un navegador rápido, no un asistente de chat. Para preguntas, contáctenos.",
+    "links": {
+      "caseStatus": "Verificar estado del caso",
+      "services": "Ver servicios",
+      "sources": "Fuentes oficiales",
+      "contact": "Contacto"
+    }
+  },
+  "disclaimer": {
+    "title": "Messenginfo no es un bufete de abogados y no brinda asesoría legal.",
+    "body": "Proporcionamos información de fuentes oficiales y orientación de autoayuda. Para asesoría legal, consulte a un abogado de inmigración autorizado o a un representante acreditado por el DOJ."
+  },
+  "footer": {
+    "columns": {
+      "about": {
+        "title": "Acerca de",
+        "tagline": "Información migratoria de fuentes oficiales para ucranianos en EE. UU. No somos un bufete de abogados."
+      },
+      "services": {
+        "title": "Servicios",
+        "links": {
+          "all": "Ver todos los servicios",
+          "reparole": "Re-parole (U4U)",
+          "ead": "Permiso de trabajo EAD",
+          "tps": "TPS Ucrania"
+        }
+      },
+      "resources": {
+        "title": "Recursos",
+        "links": {
+          "officialLinks": "Fuentes oficiales",
+          "faq": "Preguntas frecuentes",
+          "supportedDocuments": "Documentos compatibles",
+          "supportedDocs": "Documentos compatibles",
+          "telegram": "Telegram",
+          "contact": "Contacto",
+          "pricing": "Precios"
+        }
+      },
+      "legal": {
+        "title": "Legal",
+        "links": {
+          "privacy": "Política de privacidad",
+          "terms": "Términos de servicio",
+          "disclaimer": "Aviso legal"
+        }
+      }
+    },
+    "bottom": "© 2026 Messenginfo",
+    "tagline": "Información de inmigración — en lenguaje claro.",
+    "rights": "© {year} Messenginfo. Todos los derechos reservados.",
+    "shortDisclaimer": "Messenginfo no es un bufete de abogados y no brinda asesoría legal. La información se proporciona únicamente con fines educativos.",
+    "contact": "Contacto",
+    "links": {
+      "privacy": "Política de privacidad",
+      "terms": "Términos de servicio",
+      "disclaimer": "Aviso legal"
+    }
+  },
+  "mobileBar": {
+    "home": "Inicio",
+    "services": "Servicios",
+    "status": "Estado",
+    "contact": "Contacto"
+  },
+  "badges": {
+    "officialSource": "Fuente oficial"
+  },
+  "errors": {
+    "404": {
+      "title": "Página no encontrada",
+      "body": "La página que busca no existe.",
+      "back": "Volver al inicio"
+    },
+    "500": {
+      "title": "Algo salió mal",
+      "body": "Ocurrió un error inesperado. Por favor, inténtelo de nuevo.",
+      "back": "Volver al inicio"
+    },
+    "rateLimit": "Demasiadas solicitudes. Por favor intente más tarde.",
+    "validation": "Por favor revise su información e intente de nuevo.",
+    "backHome": "Volver al inicio"
+  },
+  "legal": {
+    "disclaimer": {
+      "title": "Aviso legal",
+      "alert": "Messenginfo no es un bufete de abogados y no brinda asesoría legal.",
+      "notice": "Última actualización: 29 de abril de 2026. Para preguntas sobre su situación específica, consulte a un abogado de inmigración autorizado.",
+      "backHome": "← Volver al inicio",
+      "lastReviewed": "29 de abril de 2026",
+      "sections": [
+        {
+          "id": "not-law-firm",
+          "title": "No somos un bufete de abogados",
+          "body": "Messenginfo no es un bufete de abogados, no emplea abogados y no brinda asesoría legal. Nada en este sitio web constituye asesoría legal ni crea una relación abogado-cliente."
+        },
+        {
+          "id": "not-affiliated",
+          "title": "No estamos afiliados al gobierno de EE. UU.",
+          "body": "Messenginfo no está afiliado, respaldado ni conectado a USCIS, DHS, DOS ni a ninguna otra agencia del gobierno de EE. UU."
+        },
+        {
+          "id": "consult-attorney",
+          "title": "Para asesoría legal, consulte a un abogado autorizado",
+          "body": "Para asesoría legal sobre su situación migratoria específica, consulte a un abogado de inmigración autorizado. El DOJ mantiene un registro de organizaciones reconocidas y representantes acreditados en justice.gov/eoir."
+        },
+        {
+          "id": "unofficial-info",
+          "title": "Exactitud de la información",
+          "body": "Aunque nos esforzamos por proporcionar información precisa y actualizada, las leyes y políticas de inmigración cambian con frecuencia. Siempre verifique la información con fuentes gubernamentales oficiales antes de tomar cualquier acción."
+        },
+        {
+          "id": "no-guarantee",
+          "title": "Sin garantía de resultado",
+          "body": "El uso de Messenginfo no garantiza ningún resultado particular en su caso de inmigración. Los resultados dependen de las circunstancias individuales y las decisiones gubernamentales oficiales."
+        },
+        {
+          "id": "provisional-data",
+          "title": "Información provisional",
+          "body": "Las tarifas de formularios, fechas de edición e información de políticas se etiquetan como provisionales hasta que se verifiquen con fuentes oficiales en los últimos 30 días. Siempre consulte uscis.gov para obtener información actual."
+        },
+        {
+          "id": "california-notice",
+          "title": "Aviso para residentes de California (California Immigration Consultants Act)",
+          "body": "Messenginfo es un servicio de tecnología e información, no un consultor de inmigración según lo definido en California Business & Professions Code §22440 y siguientes. Messenginfo no prepara ni presenta solicitudes de inmigración en nombre de los usuarios, no representa a clientes ante agencias gubernamentales y no brinda asesoría legal individualizada. Los usuarios preparan y presentan sus propios documentos. Si necesita asistencia migratoria individualizada en California, consulte a un abogado de inmigración con licencia (State Bar of California, calbar.ca.gov) o un representante acreditado por el DOJ (justice.gov/eoir)."
+        }
+      ]
+    },
+    "terms": {
+      "title": "Términos de servicio",
+      "notice": "Última actualización: 29 de abril de 2026. Para preguntas sobre su situación específica, consulte a un abogado de inmigración autorizado.",
+      "backHome": "← Volver al inicio",
+      "lastReviewed": "29 de abril de 2026",
+      "sections": [
+        {
+          "id": "acceptance",
+          "title": "1. Aceptación de los términos",
+          "body": "Al acceder o usar messenginfo.com, usted acepta quedar vinculado por estos Términos de servicio."
+        },
+        {
+          "id": "about",
+          "title": "2. Acerca de Messenginfo",
+          "body": "Messenginfo es un servicio de información, no un bufete de abogados. No brindamos asesoría legal. El uso de nuestro servicio no crea una relación abogado-cliente."
+        },
+        {
+          "id": "disclaimers",
+          "title": "3. Exenciones de responsabilidad",
+          "body": "EL SITIO SE PROPORCIONA TAL CUAL, SIN GARANTÍAS. NO BRINDAMOS ASESORÍA LEGAL. SIEMPRE VERIFIQUE LA INFORMACIÓN CON FUENTES OFICIALES (USCIS.GOV)."
+        },
+        {
+          "id": "use",
+          "title": "3. Uso aceptable",
+          "body": "Usted acepta no usar el servicio con ningún propósito ilegal; no intentar obtener acceso no autorizado; no interferir con la operación del servicio; no enviar información falsa o engañosa."
+        },
+        {
+          "id": "ip",
+          "title": "4. Propiedad intelectual",
+          "body": "Todo el contenido en este sitio es propiedad de Messenginfo o sus licenciantes. No puede reproducir, distribuir o crear obras derivadas sin nuestro permiso escrito."
+        },
+        {
+          "id": "third-party",
+          "title": "5. Enlaces de terceros",
+          "body": "Enlazamos a sitios web gubernamentales oficiales y otros sitios de terceros. No somos responsables del contenido o las prácticas de privacidad de esos sitios."
+        },
+        {
+          "id": "privacy",
+          "title": "6. Privacidad",
+          "body": "Su uso del servicio también está regido por nuestra Política de privacidad, que se incorpora a estos Términos por referencia."
+        },
+        {
+          "id": "limitation",
+          "title": "7. Limitación de responsabilidad",
+          "body": "EN LA MÁXIMA MEDIDA PERMITIDA POR LA LEY, MESSENGINFO NO SERÁ RESPONSABLE DE NINGÚN DAÑO INDIRECTO, INCIDENTAL, ESPECIAL, CONSECUENTE O PUNITIVO QUE SURJA DE SU USO DEL SERVICIO."
+        },
+        {
+          "id": "indemnification",
+          "title": "8. Indemnización",
+          "body": "Usted acepta indemnizar y eximir de responsabilidad a Messenginfo de cualquier reclamación que surja de su uso del servicio o violación de estos Términos."
+        },
+        {
+          "id": "governing-law",
+          "title": "9. Ley aplicable",
+          "body": "Estos Términos se regirán por las leyes del Estado de California, sin tener en cuenta sus disposiciones sobre conflicto de leyes."
+        },
+        {
+          "id": "dispute-resolution",
+          "title": "10. Resolución de disputas",
+          "body": "Cualquier disputa se resolverá mediante arbitraje vinculante de acuerdo con las reglas de la Asociación Americana de Arbitraje, excepto para medidas cautelares."
+        },
+        {
+          "id": "severability",
+          "title": "11. Divisibilidad",
+          "body": "Si alguna disposición de estos Términos se considera inaplicable, las disposiciones restantes continuarán en plena vigencia."
+        },
+        {
+          "id": "entire-agreement",
+          "title": "12. Acuerdo completo",
+          "body": "Estos Términos constituyen el acuerdo completo entre usted y Messenginfo con respecto al servicio y reemplazan todos los acuerdos anteriores."
+        },
+        {
+          "id": "changes",
+          "title": "13. Cambios a los términos",
+          "body": "Podemos actualizar estos Términos periódicamente. Le notificaremos de cambios significativos publicando los nuevos Términos en esta página con una fecha revisada."
+        },
+        {
+          "id": "contact",
+          "title": "14. Contacto",
+          "body": "Para preguntas sobre estos Términos, contáctenos en 2133611700uscis@gmail.com."
+        }
+      ]
+    },
+    "privacy": {
+      "title": "Política de privacidad",
+      "notice": "Última actualización: 29 de abril de 2026. Para preguntas sobre su situación específica, consulte a un abogado de inmigración autorizado.",
+      "backHome": "← Volver al inicio",
+      "lastReviewed": "29 de abril de 2026",
+      "sections": [
+        {
+          "id": "intro",
+          "title": "1. Introducción",
+          "body": "Messenginfo opera messenginfo.com. Esta Política de privacidad explica cómo recopilamos, usamos y protegemos su información."
+        },
+        {
+          "id": "collection",
+          "title": "2. Información que recopilamos",
+          "body": "Solo recopilamos lo que usted proporciona a través del formulario de contacto (nombre, correo electrónico, mensaje) y análisis anónimos a través de Vercel Analytics. No almacenamos números de recibo ni detalles del caso."
+        },
+        {
+          "id": "rights",
+          "title": "3. Sus derechos",
+          "body": "Puede solicitar acceso, corrección o eliminación de sus datos contactando a contact@messenginfo.com."
+        },
+        {
+          "id": "use",
+          "title": "4. Cómo usamos su información",
+          "body": "Usamos su información para: responder a sus consultas; mejorar el servicio basándose en análisis anonimizados; cumplir con obligaciones legales aplicables; prevenir abusos mediante límites de solicitudes."
+        },
+        {
+          "id": "legal-bases",
+          "title": "5. Bases legales para el procesamiento (GDPR)",
+          "body": "Procesamos sus datos basándonos en: su consentimiento (formulario de contacto); nuestros intereses legítimos (seguridad, análisis); cumplimiento de obligaciones legales."
+        },
+        {
+          "id": "retention",
+          "title": "6. Retención de datos",
+          "body": "Los envíos del formulario de contacto se conservan hasta 12 meses. Los datos analíticos anonimizados se conservan indefinidamente en forma agregada. Los hashes de IP usados para límites de solicitudes se eliminan dentro de 24 horas."
+        },
+        {
+          "id": "tps-uscis-document-processing",
+          "title": "Procesamiento de documentos TPS (OCR e IA)",
+          "body": "Cuando sube una imagen de documento en el asistente TPS Ucrania, el archivo pasa una verificación de calidad en su navegador/nuestro servidor y luego se envía a Google Cloud Vision (Google LLC, EE. UU.) para el reconocimiento de texto. La imagen no se almacena en nuestros servidores: los bytes solo viven en la memoria de la solicitud y se liberan tras la respuesta. Si el operador activa la capa de IA experimental (bandera TPS_AI_BRAIN_ENABLED), el texto extraído por Google Vision (sin imagen, sin otros datos identificativos) se envía adicionalmente a un proveedor externo de modelos de IA para clasificación del tipo de documento y extracción de campos. La IA nunca escribe directamente en un formulario USCIS — cada valor requiere su confirmación en la pantalla de revisión. La capa de IA es opcional y está desactivada por defecto. Después de generar su PDF, puede borrar los datos locales con el botón \"Borrar mis datos\"."
+        },
+        {
+          "id": "sharing",
+          "title": "7. Compartir datos",
+          "body": "No vendemos sus datos. Solo los compartimos con: Resend (entrega de correo electrónico); Vercel (alojamiento y análisis); Supabase (base de datos). Todos los procesadores están contractualmente obligados a la confidencialidad."
+        },
+        {
+          "id": "security",
+          "title": "8. Seguridad",
+          "body": "Usamos HTTPS, almacenamiento cifrado y controles de acceso. Ningún sistema es completamente seguro — si cree que sus datos han sido comprometidos, contáctenos de inmediato."
+        },
+        {
+          "id": "rights",
+          "title": "9. Sus derechos",
+          "body": "Dependiendo de su ubicación, puede tener derecho a: acceder a sus datos personales; corregir datos inexactos; solicitar la eliminación; oponerse al procesamiento; recibir una copia de sus datos."
+        },
+        {
+          "id": "california",
+          "title": "10. Residentes de California (CCPA/CPRA)",
+          "body": "Los residentes de California tienen derecho a saber qué información personal recopilamos, derecho a eliminar información personal y derecho a optar por no participar en la venta (no vendemos datos)."
+        },
+        {
+          "id": "children",
+          "title": "11. Privacidad de los niños",
+          "body": "Nuestro servicio no está dirigido a personas menores de 13 años. No recopilamos intencionalmente información personal de niños."
+        },
+        {
+          "id": "international",
+          "title": "12. Transferencias internacionales",
+          "body": "Sus datos pueden procesarse en los Estados Unidos y otros países. Garantizamos las protecciones adecuadas para cualquier transferencia internacional."
+        },
+        {
+          "id": "changes",
+          "title": "13. Cambios a esta política",
+          "body": "Podemos actualizar esta política periódicamente. Publicaremos la política actualizada en esta página con una fecha revisada."
+        },
+        {
+          "id": "contact",
+          "title": "14. Contacto",
+          "body": "Para consultas de privacidad, contáctenos en 2133611700uscis@gmail.com."
+        }
+      ]
+    }
+  },
+  "translationService": {
+    "home": "Inicio",
+    "backToServices": "Volver a servicios",
+    "title": "Traducción de documentos",
+    "subtitle": "Traducción autoservicio del pasaporte interno ucraniano. Otros documentos ucranianos se pueden subir, pero se envían a un miembro del equipo para revisión manual.",
+    "draftOnlyBanner": "Usted firma la certificación del traductor conforme a 8 CFR §103.2(b)(3). Esta herramienta no proporciona asesoramiento legal y no garantiza la aceptación de USCIS.",
+    "chooseDocumentTitle": "Elija su documento",
+    "chooseDocumentSubtitle": "Seleccione el tipo de documento que desea preparar.",
+    "startAction": "Abrir →",
+    "documents": {
+      "passport": {
+        "title": "Pasaporte",
+        "description": "Suba la página biográfica del pasaporte y prepare un borrador claro en inglés.",
+        "panelTitle": "Borrador de traducción de pasaporte",
+        "fieldsIncluded": [
+          "Borrador en inglés con los campos principales del pasaporte.",
+          "Nombre, fecha de nacimiento, número de pasaporte, fecha de emisión y vencimiento.",
+          "Notas sobre sellos visibles cuando afecten la página principal.",
+          "Diseño PDF de borrador para revisión antes de la certificación del traductor."
+        ],
+        "uploadInstructions": [
+          "Suba una foto o escaneo claro de la página biográfica del pasaporte.",
+          "Asegúrese de que todo el texto sea legible de borde a borde.",
+          "Evite reflejos, desenfoque, sombras y esquinas recortadas."
+        ],
+        "riskNote": "Revise nombres, fechas y números del documento antes de la revisión final del traductor."
+      },
+      "birth-certificate": {
+        "title": "Certificado de nacimiento",
+        "description": "Prepare un borrador con nombres, fechas, lugares y datos del registro.",
+        "panelTitle": "Borrador de traducción del certificado de nacimiento",
+        "fieldsIncluded": [
+          "Nombres del niño y de los padres tal como aparecen en el original.",
+          "Fecha y lugar de nacimiento, número del certificado y datos del registro.",
+          "Sellos visibles, notas o anotaciones marginales cuando sean legibles.",
+          "Diseño de borrador para revisión antes de enviarlo a un traductor."
+        ],
+        "uploadInstructions": [
+          "Suba el documento completo, frente y reverso si hay texto en ambos lados.",
+          "Mantenga visibles los sellos, timbres y notas manuscritas.",
+          "Use un escaneo o una foto plana con buen contraste."
+        ],
+        "riskNote": "Los certificados de nacimiento suelen incluir notas marginales. Muestre la página completa."
+      },
+      "marriage-certificate": {
+        "title": "Certificado de matrimonio",
+        "description": "Prepare un borrador con los cónyuges, fechas, lugar y datos del registro.",
+        "panelTitle": "Borrador de traducción del certificado de matrimonio",
+        "fieldsIncluded": [
+          "Nombres de los cónyuges, fecha del matrimonio y lugar del registro.",
+          "Números del certificado, referencias del registro y datos de la autoridad emisora.",
+          "Sellos o anotaciones visibles cuando aparezcan en el documento.",
+          "Diseño de borrador para revisión rápida antes de la certificación del traductor."
+        ],
+        "uploadInstructions": [
+          "Suba el documento completo, incluidas todas las notas impresas.",
+          "No recorte la zona del registro ni los sellos.",
+          "Use un escaneo o foto de alta resolución sin reflejos."
+        ],
+        "riskNote": "Los certificados de matrimonio suelen fallar cuando la sección del registro está recortada."
+      },
+      "divorce-certificate": {
+        "title": "Certificado de divorcio",
+        "description": "Prepare un borrador con las partes, fechas, decisión y datos del registro.",
+        "panelTitle": "Borrador de traducción del certificado de divorcio",
+        "fieldsIncluded": [
+          "Nombres de ambas partes y fecha del registro o de la decisión.",
+          "Referencias del tribunal o del registro visibles en el documento.",
+          "Números del certificado, oficina emisora y notas oficiales.",
+          "Diseño de borrador para revisión antes de los pasos finales de traducción."
+        ],
+        "uploadInstructions": [
+          "Suba el documento completo, incluidas las páginas del tribunal o del registro.",
+          "Mantenga visibles firmas, sellos y notas manuscritas cuando existan.",
+          "Use buena iluminación y evite bordes doblados."
+        ],
+        "riskNote": "Si el documento de divorcio tiene varias páginas, súbalas todas."
+      },
+      "diploma-transcript": {
+        "title": "Diploma / historial académico",
+        "description": "Prepare un borrador con institución, fechas, calificaciones y datos del título.",
+        "panelTitle": "Borrador de traducción de diploma / historial académico",
+        "fieldsIncluded": [
+          "Nombre de la institución, título o grado y fechas de graduación.",
+          "Asignaturas, calificaciones o filas del historial cuando sean legibles.",
+          "Datos de la autoridad emisora y números del documento si aparecen.",
+          "Diseño de borrador para revisar nombres, fechas y términos académicos."
+        ],
+        "uploadInstructions": [
+          "Suba el diploma o las páginas del historial académico completas.",
+          "Mantenga legibles tablas, calificaciones y sellos.",
+          "Use PDF si el documento tiene varias páginas."
+        ],
+        "riskNote": "Los registros académicos suelen requerir todas las páginas, no solo la portada."
+      },
+      "military-document": {
+        "title": "Documento militar",
+        "description": "Prepare un borrador con fechas de servicio, unidad y notas oficiales.",
+        "panelTitle": "Borrador de traducción de documento militar",
+        "fieldsIncluded": [
+          "Fechas de servicio, referencias de la unidad y campos de identificación personal.",
+          "Órdenes visibles, notas de baja o detalles de clasificación.",
+          "Sellos, timbres y notas manuscritas cuando sean legibles.",
+          "Formato de borrador para revisión antes de la certificación del traductor."
+        ],
+        "uploadInstructions": [
+          "Suba el documento completo, incluidas todas las páginas selladas.",
+          "Procure que la escritura a mano sea lo más legible posible.",
+          "Use varias fotos o un PDF si el registro tiene varias páginas."
+        ],
+        "riskNote": "Los registros militares suelen contener notas manuscritas que después requieren revisión manual."
+      },
+      "driver-license": {
+        "title": "Licencia de conducir",
+        "description": "Prepare un borrador con datos personales, fechas, categorías y restricciones.",
+        "panelTitle": "Borrador de traducción de licencia de conducir",
+        "fieldsIncluded": [
+          "Nombre, número del documento, fecha de nacimiento, emisión y vencimiento.",
+          "Categorías de vehículo y restricciones o endosos visibles.",
+          "Datos de la autoridad emisora cuando aparezcan.",
+          "Formato de borrador para revisar los campos principales antes de la revisión final."
+        ],
+        "uploadInstructions": [
+          "Suba el frente y el reverso si hay texto en ambos lados.",
+          "Mantenga visibles los bordes de la tarjeta y evite reflejos del flash.",
+          "Use una foto plana o un escaneo para que se lea la letra pequeña."
+        ],
+        "riskNote": "Si el reverso contiene códigos o restricciones, súbalo también."
+      },
+      "other-document": {
+        "title": "Otro documento",
+        "description": "Prepare un borrador para documentos que no encajan en las categorías principales.",
+        "panelTitle": "Borrador de traducción de otro documento",
+        "fieldsIncluded": [
+          "Nombres, fechas, números del documento y datos de la autoridad emisora.",
+          "Sellos visibles, firmas y notas breves cuando sean legibles.",
+          "Diseño simple de borrador para revisión antes de la traducción humana.",
+          "Lista clara de campos que aún pueden requerir completarse manualmente."
+        ],
+        "uploadInstructions": [
+          "Suba la copia completa más clara que tenga.",
+          "Incluya todas las páginas con texto oficial, sellos o firmas.",
+          "Use PDF si el documento tiene más de una página."
+        ],
+        "riskNote": "Estos documentos varían mucho. Revise el borrador con cuidado antes de usarlo."
+      },
+      "death-certificate": {
+        "title": "Certificado de Defunción",
+        "description": "Prepare un borrador con nombre, fechas, lugar de fallecimiento y datos del registro.",
+        "panelTitle": "Borrador de traducción del certificado de defunción",
+        "fieldsIncluded": [
+          "Nombre completo del fallecido, fecha y lugar de fallecimiento.",
+          "Número de certificado y datos de la oficina de registro.",
+          "Causa de fallecimiento si aparece en el documento.",
+          "Borrador para revisar antes de la certificación del traductor."
+        ],
+        "uploadInstructions": [
+          "Cargue el certificado completo incluyendo sellos y firmas.",
+          "Mantenga todos los sellos y notas manuscritas visibles.",
+          "Use un escáner o foto plana con buen contraste."
+        ],
+        "riskNote": "Los certificados de defunción suelen necesitarse para herencias y beneficios. Verifique todas las fechas con cuidado."
+      },
+      "adoption-certificate": {
+        "title": "Certificado de Adopción",
+        "description": "Prepare un borrador con el nombre del menor, padres adoptivos y decisión judicial.",
+        "panelTitle": "Borrador de traducción del certificado de adopción",
+        "fieldsIncluded": [
+          "Nombre del menor antes y después de la adopción.",
+          "Nombres completos de los padres adoptivos y fecha de la decisión.",
+          "Número de referencia del tribunal o registro y autoridad emisora.",
+          "Borrador para revisar antes de la certificación del traductor."
+        ],
+        "uploadInstructions": [
+          "Cargue el certificado completo o la decisión judicial con todas las páginas.",
+          "Mantenga firmas, sellos y estampillas oficiales visibles.",
+          "Use escáner o foto plana sin reflejos."
+        ],
+        "riskNote": "Los documentos de adopción suelen tener varias páginas. Incluya todas en su carga."
+      },
+      "name-change-certificate": {
+        "title": "Certificado de Cambio de Nombre",
+        "description": "Prepare un borrador con el nombre anterior y nuevo, fecha de decisión y autoridad emisora.",
+        "panelTitle": "Borrador de traducción del certificado de cambio de nombre",
+        "fieldsIncluded": [
+          "Nombre legal completo anterior y nuevo.",
+          "Fecha de decisión o registro y número de documento.",
+          "Motivo del cambio de nombre si aparece en el documento.",
+          "Borrador para revisar antes de la certificación del traductor."
+        ],
+        "uploadInstructions": [
+          "Cargue el certificado completo o la decisión judicial.",
+          "Mantenga sellos, estampillas y notas manuscritas visibles.",
+          "Use escáner o foto plana con buen contraste."
+        ],
+        "riskNote": "Los documentos de cambio de nombre son críticos para la coherencia de identidad en todos los trámites de USCIS."
+      },
+      "police-record": {
+        "title": "Antecedentes Penales",
+        "description": "Prepare un borrador con nombre, estado del registro, autoridad emisora y fechas de vigencia.",
+        "panelTitle": "Borrador de traducción de antecedentes penales",
+        "fieldsIncluded": [
+          "Nombre completo, fecha y lugar de nacimiento.",
+          "Estado del registro (p. ej., Sin antecedentes) y número de referencia.",
+          "Autoridad emisora y fecha de emisión.",
+          "Fecha de vigencia si aparece en el documento."
+        ],
+        "uploadInstructions": [
+          "Cargue el documento completo incluyendo todos los sellos y firmas.",
+          "Mantenga la sección de la autoridad emisora completamente visible.",
+          "Use escáner o foto plana sin reflejos."
+        ],
+        "riskNote": "Los antecedentes penales suelen requerirse para la green card y naturalización. Confirme que la fecha de vigencia está dentro del plazo requerido."
+      },
+      "medical-record": {
+        "title": "Documento / Certificado Médico",
+        "description": "Prepare un borrador con nombre del paciente, diagnóstico, período de tratamiento e institución.",
+        "panelTitle": "Borrador de traducción del documento médico",
+        "fieldsIncluded": [
+          "Nombre completo y fecha de nacimiento del paciente.",
+          "Diagnóstico o condición médica cuando aparece.",
+          "Fechas de tratamiento y datos del médico tratante.",
+          "Institución médica emisora y número de referencia del documento."
+        ],
+        "uploadInstructions": [
+          "Cargue el documento completo incluyendo todas las páginas con detalles médicos.",
+          "Mantenga la firma del médico y el sello institucional visibles.",
+          "Use escáner o foto plana con buen contraste."
+        ],
+        "riskNote": "Los documentos médicos varían mucho en formato. Revise todos los campos cuidadosamente antes de usar el borrador."
+      },
+      "property-document": {
+        "title": "Documentos de Propiedad",
+        "description": "Prepare un borrador con nombre del propietario, dirección, tipo de documento y datos de registro.",
+        "panelTitle": "Borrador de traducción de documentos de propiedad",
+        "fieldsIncluded": [
+          "Nombre legal completo del propietario y dirección de la propiedad.",
+          "Tipo de documento (título, escritura) y número de registro.",
+          "Fecha de registro y datos de la autoridad emisora.",
+          "Borrador para revisar antes de la certificación del traductor."
+        ],
+        "uploadInstructions": [
+          "Cargue el documento completo incluyendo todas las páginas selladas y firmadas.",
+          "Mantenga los números de registro y sellos oficiales claramente visibles.",
+          "Use escáner o foto plana — no fotografíe documentos doblados."
+        ],
+        "riskNote": "Los documentos de propiedad suelen requerir traducción notariada. Confirme los requisitos de certificación con USCIS."
+      },
+      "employment-record": {
+        "title": "Registro de Empleo",
+        "description": "Prepare un borrador con empleador, puesto, fechas de empleo y certificación oficial.",
+        "panelTitle": "Borrador de traducción del registro de empleo",
+        "fieldsIncluded": [
+          "Nombre completo del empleado y nombre del empleador / organización.",
+          "Cargo o puesto y fechas de inicio y fin del empleo.",
+          "Número de referencia del documento y datos de la autoridad emisora.",
+          "Borrador para revisar antes de la certificación del traductor."
+        ],
+        "uploadInstructions": [
+          "Cargue el registro completo incluyendo todas las páginas selladas.",
+          "Mantenga las entradas manuscritas y sellos oficiales claramente visibles.",
+          "Use PDF cuando el registro ocupa varias páginas."
+        ],
+        "riskNote": "Los registros de empleo suelen contener fechas manuscritas. Revíselas cuidadosamente antes de finalizar el borrador."
+      }
+    },
+    "panel": {
+      "whatYouGet": "Qué recibe",
+      "whatToUpload": "Qué subir",
+      "uploadButton": "Subir foto o archivo",
+      "createDraftButton": "Crear borrador de traducción",
+      "useAnotherDocument": "Usar otro documento"
+    },
+    "upload": {
+      "dropText": "Suelte su archivo aquí o haga clic para subirlo",
+      "acceptedTypes": "Aceptados: JPG, PNG, PDF, HEIC",
+      "maxSize": "Máximo 10 MB",
+      "privacyNote": "El archivo se usa solo para crear el borrador. No suba documentos sensibles si no acepta la política de privacidad.",
+      "localOnlyNotice": "La generación del borrador aún no está activa. Esta pantalla de prueba muestra el flujo previsto. No se sube ningún archivo.",
+      "fileTooLarge": "Este archivo supera los 10 MB. Suba un archivo más pequeño.",
+      "unsupportedType": "Tipo de archivo no compatible. Use JPG, PNG, PDF o HEIC.",
+      "heicWarning": "Los archivos HEIC pueden requerir conversión antes de activar la generación del borrador.",
+      "removeFile": "Quitar archivo"
+    },
+    "result": {
+      "placeholderTitle": "Flujo de borrador listo",
+      "noBackend": "Su flujo de borrador está listo para el siguiente paso. La generación con IA se conectará después de la verificación.",
+      "draftOnly": "Plantilla para USCIS — usted firma la certificación.",
+      "downloadDraft": "Descargar borrador PDF",
+      "sendToEmail": "Enviar por correo",
+      "startAnother": "Comenzar otro documento"
+    },
+    "source": {
+      "title": "Requisito oficial de la fuente",
+      "body": "USCIS generalmente exige que los documentos en idioma extranjero incluyan una traducción completa al inglés con certificación del traductor. Esta herramienta crea solo un borrador.",
+      "uscisPolicyManual": "USCIS Policy Manual — Chapter 6 Evidence",
+      "ecfr": "8 CFR 103.2(b)(3)",
+      "lastCheckedLabel": "Última revisión: {date}",
+      "sourceLabel": "Fuente: sitio oficial del gobierno"
+    },
+    "supportedScope": "Actualmente solo el pasaporte interno ucraniano es totalmente autoservicio. Otros documentos (certificados de nacimiento/matrimonio/divorcio, ID, pasaporte internacional) se aceptan pero se envían a revisión manual por nuestro equipo. Los documentos no compatibles o poco claros también se envían a revisión manual."
+  },
+  "home": {
+    "hero": {
+      "title": "Navegue su caso de inmigración con confianza",
+      "subtitle": "Messenginfo proporciona información clara y confiable sobre formularios USCIS, procedimientos y recursos oficiales — para que pueda gestionar su caso de manera independiente.",
+      "cta": "Contáctenos",
+      "badge": "Servicio de información · No es asesoría legal"
+    },
+    "services": {
+      "title": "Cómo ayudamos",
+      "subtitle": "Le ayudamos a navegar el papeleo — usted toma las decisiones.",
+      "items": [
+        {
+          "title": "Orientación para traducción de documentos",
+          "description": "Conozca lo que USCIS requiere para traducciones certificadas: qué documentos traducir, qué certificación usar y cómo cumplir con los estándares oficiales."
+        },
+        {
+          "title": "Asistencia para completar formularios",
+          "description": "Explicaciones paso a paso de los formularios de inmigración más comunes — qué significa cada campo, qué documentos adjuntar y dónde presentar. Basado en instrucciones oficiales de USCIS."
+        },
+        {
+          "title": "Navegación de fuentes oficiales",
+          "description": "Enlaces directos a USCIS.gov, DOS y otros recursos gubernamentales — siempre de una fuente autorizada, no de foros."
+        }
+      ]
+    },
+    "how": {
+      "title": "Cómo funciona",
+      "steps": [
+        {
+          "title": "Cuéntenos su pregunta",
+          "description": "Escríbanos a través del formulario de contacto sobre su pregunta o el formulario con el que está trabajando. Respondemos en su idioma."
+        },
+        {
+          "title": "Obtenga información en lenguaje claro",
+          "description": "Le enviaremos explicaciones claras de publicaciones gubernamentales oficiales — sin jerga ni suposiciones."
+        },
+        {
+          "title": "Actúe con confianza",
+          "description": "Use nuestra información para preparar sus propias solicitudes. En situaciones complejas, le referiremos a abogados de inmigración con licencia."
+        }
+      ]
+    },
+    "why": {
+      "title": "Por qué Messenginfo",
+      "points": [
+        {
+          "title": "Solo fuentes oficiales",
+          "description": "Toda la información proviene de USCIS.gov y publicaciones gubernamentales oficiales. No de foros, no de redes sociales, no de rumores."
+        },
+        {
+          "title": "Cuatro idiomas",
+          "description": "Disponible en inglés, ruso, ucraniano y español — para las comunidades que más necesitan información de inmigración clara."
+        },
+        {
+          "title": "Privacidad primero",
+          "description": "Recopilamos solo lo necesario. Sin cookies de seguimiento, sin perfiles publicitarios, sin venta de datos — nunca."
+        }
+      ]
+    },
+    "contact": {
+      "title": "Contáctenos",
+      "subtitle": "¿Tiene preguntas sobre un formulario, fecha límite o traducción de documentos? Escríbanos. Generalmente respondemos en 1–2 días hábiles.",
+      "form": {
+        "name": "Nombre completo",
+        "namePlaceholder": "Su nombre completo",
+        "email": "Dirección de correo electrónico",
+        "emailPlaceholder": "usted@ejemplo.com",
+        "message": "Mensaje",
+        "messagePlaceholder": "Describa su pregunta o situación...",
+        "consent": "Entiendo que Messenginfo no brinda asesoría legal y que este mensaje no crea una relación abogado-cliente.",
+        "consentRequired": "Debe reconocer esto para continuar.",
+        "submit": "Enviar mensaje",
+        "submitting": "Enviando...",
+        "success": "Su mensaje ha sido recibido. Responderemos en 1–2 días hábiles.",
+        "error": "Algo salió mal. Por favor intente de nuevo o escríbanos directamente.",
+        "rateLimit": "Demasiados envíos. Por favor espere una hora antes de intentar de nuevo.",
+        "validation": "Por favor revise el formulario y corrija los campos marcados."
+      }
+    },
+    "disclaimer": {
+      "title": "Aviso importante",
+      "body": "Messenginfo no es un bufete de abogados y no brinda asesoría legal. Proporcionamos información de fuentes gubernamentales oficiales para ayudarle a comprender los procedimientos de inmigración de EE. UU. Para preguntas específicas a su situación, consulte a un abogado de inmigración con licencia."
+    }
+  },
+  "wizard": {
+    "nav": {
+      "back": "← Atrás",
+      "next": "Siguiente →",
+      "done": "Listo",
+      "step_of": "Paso {current} de {total}"
+    },
+    "steps": {
+      "0": "Bienvenida",
+      "1": "Sobre el formulario",
+      "2": "Paquete",
+      "3": "Familia",
+      "4": "Documentos",
+      "5": "Reconocimiento",
+      "6": "Confirmación",
+      "7": "Información",
+      "8": "Método de presentación",
+      "9": "Vista previa",
+      "10": "Pago",
+      "11": "Descargar",
+      "12": "Transferencia"
+    },
+    "mia": {
+      "title": "Mia",
+      "placeholder": "Haz una pregunta sobre Re-Parole U4U…",
+      "send": "Enviar",
+      "thinking": "Mia está pensando…",
+      "open_hint": "¿Tienes preguntas?"
+    },
+    "theme": {
+      "light": "Tema claro",
+      "dark": "Tema oscuro"
+    },
+    "language": {
+      "ru": "RU",
+      "uk": "UK",
+      "en": "EN",
+      "es": "ES"
+    }
+  },
+  "fees.baseFee.note": "Use la Calculadora de Tarifas de USCIS para los montos actuales. Las tarifas pueden variar según la edad, el método de presentación y la categoría de libertad condicional.",
+  "fees.paroleGrant.note": "Tarifa de otorgamiento de libertad condicional HR-1: USCIS cobra esta tarifa después de la aprobación condicional, no al momento de presentar. Recibirá un aviso de pago separado con fecha límite.",
+  "fees.paroleGrant.approx": "Consulte el monto actual en uscis.gov/g-1055 (sujeto a ajuste anual).",
+  "fees.eadRenewal.note": "Tarifa de renovación de EAD HR-1: USCIS la cobra por separado de la tarifa base de presentación. Consulte el monto actual en uscis.gov/g-1055.",
+  "fees.hr1WaiverNote": "Las tarifas HR-1 (otorgamiento de libertad condicional + renovación de EAD) no pueden ser exoneradas mediante el Formulario I-912. El Formulario I-912 solo cubre las tarifas estándar de USCIS.",
+  "fees.payment.note": "USCIS ya no acepta cheques personales ni giros postales (desde el 28 de octubre de 2025). Pague con tarjeta de crédito/débito usando el Formulario G-1450. Si no tiene acceso a cuenta bancaria, consulte el Formulario G-1651 en uscis.gov/g-1651.",
+  "fees.feeCalculatorUrl": "https://www.uscis.gov/fees",
+  "fees.source": "Fuente: programa de tarifas USCIS G-1055 (actualizado 23/04/2026)",
+  "ead.sequence.warning": "USCIS recomienda: no presente el Formulario I-765 antes de que se apruebe su Formulario I-131 (Re-Parole). Presentar demasiado pronto puede resultar en denegación y es posible que las tarifas no sean reembolsadas.",
+  "eadSequence.step1": "Presente el Formulario I-131 (Re-Parole)",
+  "eadSequence.step2": "Reciba el Aviso de Aprobación del I-131",
+  "eadSequence.step3": "Descargue el Formulario I-94 actualizado de i94.cbp.dhs.gov (busque la clase \"UHP\")",
+  "eadSequence.step4": "Presente el Formulario I-765 con el I-94 actualizado y el Aviso de Aprobación",
+  "ead.source": "Fuente: Guía USCIS U4U Re-Parole (actualizada 10/11/2024)",
+  "checklist.g1145.title": "Consejo: adjunte el Formulario G-1145",
+  "checklist.g1145.desc": "El Formulario G-1145 es un formulario gratuito de una página que adjunta a su paquete. USCIS le enviará un SMS y correo electrónico con su Número de Recibo tan pronto como procesen su sobre. Esto ahorra 2-3 semanas de espera por el aviso en papel.",
+  "checklist.ar11.title": "Actualice su dirección cuando se mude",
+  "checklist.ar11.desc": "USCIS requiere actualizaciones de dirección dentro de los 10 días de cualquier mudanza (Formulario AR-11 en uscis.gov/ar-11). USCIS envía su tarjeta EAD y todos los avisos por correo — una dirección desactualizada significa documentos perdidos.",
+  "checklist.keepCopy.title": "Conserve una copia completa",
+  "checklist.keepCopy.desc": "Fotografíe o escanee cada página antes de enviar. Si USCIS solicita evidencia, necesitará sus propios registros.",
+  "checklist.applicantAccount.title": "Cree una cuenta USCIS para el solicitante",
+  "checklist.applicantAccount.desc": "Configure una cuenta en my.uscis.gov usando el correo electrónico del solicitante, no del patrocinador. La certificación médica y las actualizaciones de estado del caso se envían a esta cuenta.",
+  "checklist.childPassport.title": "¿Niño en el pasaporte de uno de los padres?",
+  "checklist.childPassport.desc": "USCIS reconoce que los niños ucranianos pueden estar incluidos en el pasaporte de uno de los padres. Incluya: las páginas relevantes del pasaporte del padre/madre que muestren el nombre del niño, más un acta de nacimiento con traducción certificada al inglés. El niño es el Solicitante — use los datos del niño en los campos del solicitante.",
+  "medical.attestation.note": "USCIS maneja la certificación médica U4U (vacunas y detección de TB) a través de su cuenta en línea de USCIS en my.uscis.gov. Verifique su cuenta y siga las instrucciones oficiales de USCIS — no asuma que los registros médicos en papel adjuntos a su paquete postal satisfacen este requisito.",
+  "medical.attestation.source": "Fuente: instrucciones del programa USCIS U4U (archivadas)"
+}

@@ -1,0 +1,25 @@
+id,file_path,type,official_source,verified,used_by_core,used_by_route,duplicate_of,risk,action
+1,packages/knowledge/src/transliterate.ts,parser,CMU Resolution No. 55 (2010-01-27),yes,yes,all,-,none,keep
+2,packages/knowledge/src/mrz.ts,parser,ICAO 7-3-1 TD3,yes,yes,TPS/Re-Parole/EAD,-,none,keep
+3,packages/knowledge/src/gazetteer.ts,validator,KOATUU/KATOTTG (zakon.rada.gov.ua),partial,yes,all,-,incomplete_seed,keep + extend
+4,packages/knowledge/src/patronymic.ts,generator,Ukrainian grammar rules,yes,yes,all,-,none,keep
+5,packages/knowledge/src/dictionary.ts,dictionary,mvs.gov.ua; dmsu.gov.ua; czo.gov.ua,yes,yes,all,-,none,keep
+6,packages/knowledge/src/normalize.ts,service,KMU-55 + dictionary,yes,yes,all,-,none,keep
+7,packages/knowledge/src/civil_registry_terms.json,glossary,КМУ № 1025 (2010-11-10),yes,yes,Translation,-,none,keep
+8,packages/knowledge/src/registry/registry.csv,source-ledger,13+ КМУ acts verified,yes,yes,all,-,none,keep
+9,packages/knowledge/src/registry/registryLookup.ts,service,registry.csv,yes,yes,Core,-,none,keep
+10,packages/knowledge/src/formatName.ts,formatter,Latin name rules,yes,no,-,-,orphaned,wire-to-core
+11,packages/knowledge/src/garbageGuard.ts,validator,OCR noise classification,yes,no,-,-,orphaned,wire-to-core
+12,packages/knowledge/src/tps_ukraine_requirements.ts,reference,КМУ acts + USCIS,yes,no,TPS only,-,none,keep-as-is
+13,apps/web/src/lib/canonical/core/mrzAuthority.ts,bridge,parseMrz wrapper,yes,yes,TPS/Re-Parole/EAD,-,none,keep
+14,apps/web/src/lib/canonical/core/documentClassPolicy.ts,policy,Benchmark 2026-06-02,yes,yes,all,-,none,keep
+15,apps/web/src/lib/translation/glossary/agencyGlossary.ts,glossary,ukraine_agency_abbreviations.json,partial,yes,Translation,registry,partial_overlap,consolidate
+16,apps/web/src/lib/translation/glossary/glossaryLoader.ts,service,inline mappings,partial,yes,Translation,-,complementary,keep (different role)
+17,apps/web/src/lib/translation/glossary/ukraine_agency_abbreviations.json,dictionary,MVS/DMS/Мінюст,partial,yes,Translation,-,none,keep + verify
+18,apps/web/src/lib/translation/forms/ukraine/schemas/birth-certificate.schema.ts,schema,КМУ № 1025,yes,yes,Translation,-,none,keep
+19,apps/web/src/lib/translation/forms/ukraine/schemas/marriage-certificate.schema.ts,schema,КМУ № 1025,yes,yes,Translation,-,none,keep
+20,apps/web/src/lib/translation/forms/ukraine/schemas/divorce-certificate.schema.ts,schema,КМУ № 1025,yes,yes,Translation,-,none,keep
+21,apps/web/src/lib/translation/forms/ukraine/schemas/death-certificate.schema.ts,schema,КМУ № 1025,yes,yes,Translation,-,none,keep
+22,apps/web/src/lib/translation/forms/ukraine/schemas/name-change-certificate.schema.ts,schema,КМУ № 1025,yes,yes,Translation,-,none,keep
+23,docs/official-forms/ukraine/source-ledger.json,source-ledger,13+ КМУ acts (reference),yes,no,reference,registry,possible_overlap,verify-consolidation
+24,apps/web/src/lib/docintel/transliterationPolicy.ts,policy,KMU-55 rules,yes,yes,all,-,none,keep

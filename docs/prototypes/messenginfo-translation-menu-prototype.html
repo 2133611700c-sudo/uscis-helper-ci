@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Messenginfo Translation Menu Prototype</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f7fb;
+      --panel: #ffffff;
+      --ink: #172033;
+      --muted: #59667d;
+      --line: #dbe3ef;
+      --blue: #2457d6;
+      --blue-soft: #eaf1ff;
+      --green: #176b4d;
+      --green-soft: #eaf8f1;
+      --amber: #8a4b00;
+      --amber-soft: #fff4db;
+      --shadow: 0 18px 44px rgba(28, 42, 72, 0.10);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Aptos", "Segoe UI", Arial, sans-serif;
+      line-height: 1.45;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+
+    .topbar-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: 0;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      background: #152541;
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+    }
+
+    .language {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 22px 18px 72px;
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 48px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      padding: 0 18px;
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .hero {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .hero-main,
+    .help-card,
+    .steps,
+    .section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-main {
+      padding: 28px;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--blue);
+      font-size: 15px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 720px;
+      font-size: clamp(32px, 4vw, 52px);
+      line-height: 1.06;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 16px 0 0;
+      max-width: 720px;
+      color: var(--muted);
+      font-size: 21px;
+    }
+
+    .trust {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .trust span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 40px;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: #173b91;
+      padding: 0 14px;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .help-card {
+      padding: 22px;
+      background: var(--amber-soft);
+      border-color: #f3cf8e;
+    }
+
+    .help-card h2 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.15;
+    }
+
+    .help-card p {
+      margin: 10px 0 18px;
+      color: #6b440a;
+      font-size: 17px;
+    }
+
+    .primary-button {
+      width: 100%;
+      min-height: 58px;
+      border: 0;
+      border-radius: 14px;
+      background: var(--amber);
+      color: #fff;
+      padding: 0 18px;
+      font-size: 18px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .steps {
+      margin-top: 22px;
+      padding: 16px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 70px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #f8fbff;
+      padding: 12px;
+    }
+
+    .step-number {
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: var(--blue);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 900;
+      flex: 0 0 auto;
+    }
+
+    .step span:last-child {
+      font-size: 16px;
+      font-weight: 800;
+      color: #2c3a55;
+    }
+
+    .section {
+      margin-top: 22px;
+      padding: 22px;
+    }
+
+    .section-title {
+      margin: 0 0 14px;
+      font-size: 24px;
+      line-height: 1.2;
+    }
+
+    .doc-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .doc-row {
+      width: 100%;
+      min-height: 98px;
+      display: grid;
+      grid-template-columns: 66px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 16px;
+      border: 2px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      padding: 14px;
+      color: inherit;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+    }
+
+    .doc-row:hover,
+    .doc-row:focus-visible {
+      border-color: var(--blue);
+      background: #f8fbff;
+      outline: none;
+    }
+
+    .doc-row:active {
+      transform: scale(0.99);
+    }
+
+    .doc-icon {
+      width: 58px;
+      height: 66px;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #153765, #2f79dc);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 30px;
+      font-weight: 900;
+    }
+
+    .doc-row:nth-child(2) .doc-icon { background: linear-gradient(145deg, #176b4d, #2cb67d); }
+    .doc-row:nth-child(3) .doc-icon { background: linear-gradient(145deg, #8b4c00, #f0a020); }
+    .doc-row:nth-child(4) .doc-icon { background: linear-gradient(145deg, #8c1d45, #d95686); }
+    .doc-row:nth-child(5) .doc-icon { background: linear-gradient(145deg, #233e73, #7293d8); }
+    .doc-row:nth-child(6) .doc-icon { background: linear-gradient(145deg, #3d4b5f, #8494a8); }
+
+    .doc-title {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1.15;
+    }
+
+    .doc-hint {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .choose-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      border-radius: 999px;
+      background: var(--blue);
+      color: #fff;
+      padding: 0 20px;
+      font-size: 17px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    details {
+      margin-top: 22px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 18px 22px;
+    }
+
+    summary {
+      min-height: 48px;
+      cursor: pointer;
+      font-size: 21px;
+      font-weight: 900;
+      color: var(--ink);
+    }
+
+    .more-grid {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .small-doc {
+      min-height: 64px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      padding: 12px 14px;
+      text-align: left;
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .bottom-help {
+      margin-top: 22px;
+      border: 1px solid #b6dfcc;
+      border-radius: 16px;
+      background: var(--green-soft);
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .bottom-help p {
+      margin: 0;
+      color: #164f3a;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .secondary-button {
+      min-height: 52px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--green);
+      color: #fff;
+      padding: 0 18px;
+      font-size: 17px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .prototype-note {
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 760px) {
+      .topbar-inner {
+        padding: 10px 14px;
+      }
+
+      .brand {
+        font-size: 18px;
+      }
+
+      main {
+        padding: 16px 14px 42px;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .hero-main,
+      .help-card,
+      .section {
+        padding: 18px;
+        border-radius: 14px;
+      }
+
+      h1 {
+        font-size: 27px;
+        line-height: 1.1;
+      }
+
+      .subtitle {
+        font-size: 18px;
+      }
+
+      .steps {
+        grid-template-columns: 1fr;
+        padding: 12px;
+      }
+
+      .doc-row {
+        grid-template-columns: 56px minmax(0, 1fr) 26px;
+        min-height: 92px;
+        padding: 12px;
+      }
+
+      .doc-icon {
+        width: 50px;
+        height: 58px;
+        font-size: 25px;
+      }
+
+      .doc-title {
+        font-size: 20px;
+      }
+
+      .doc-hint {
+        font-size: 16px;
+      }
+
+      .choose-pill {
+        width: 26px;
+        min-height: 26px;
+        padding: 0;
+        border-radius: 999px;
+        font-size: 0;
+      }
+
+      .choose-pill::after {
+        content: ">";
+        font-size: 22px;
+        line-height: 1;
+      }
+
+      .more-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .bottom-help {
+        align-items: stretch;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 340px) {
+      main {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+
+      .hero-main,
+      .help-card,
+      .section {
+        padding: 14px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      .subtitle,
+      .help-card p,
+      .doc-hint {
+        font-size: 15px;
+      }
+
+      .doc-title {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span class="brand-mark">M</span>
+        <span>Messenginfo</span>
+      </div>
+      <button class="language" type="button">RU</button>
+    </div>
+  </header>
+
+  <main>
+    <a class="back" href="#">← Назад к услугам</a>
+
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-main">
+        <p class="eyebrow">Перевод документов</p>
+        <h1 id="page-title">Выберите<br>документ.<br>Мы проведем<br>вас по шагам.</h1>
+        <p class="subtitle">Сделайте фото или загрузите файл. Затем проверьте данные и скачайте готовые файлы для печати.</p>
+        <div class="trust" aria-label="Что получает пользователь">
+          <span>Крупные кнопки</span>
+          <span>Можно с телефона</span>
+          <span>Можно заполнить вручную</span>
+        </div>
+      </div>
+
+      <aside class="help-card">
+        <h2>Не знаете, что выбрать?</h2>
+        <p>Нажмите эту кнопку. Мы откроем общий вариант для любого официального документа.</p>
+        <button class="primary-button" type="button">Помогите выбрать</button>
+      </aside>
+    </section>
+
+    <section class="steps" aria-label="Как это работает">
+      <div class="step"><span class="step-number">1</span><span>Выберите документ</span></div>
+      <div class="step"><span class="step-number">2</span><span>Сфотографируйте или загрузите</span></div>
+      <div class="step"><span class="step-number">3</span><span>Проверьте поля</span></div>
+      <div class="step"><span class="step-number">4</span><span>Скачайте файлы</span></div>
+    </section>
+
+    <section class="section" aria-labelledby="common-title">
+      <h2 class="section-title" id="common-title">Самые частые документы</h2>
+      <div class="doc-list">
+        <button class="doc-row" type="button">
+          <span class="doc-icon">P</span>
+          <span>
+            <span class="doc-title">Паспорт</span>
+            <span class="doc-hint">Загранпаспорт, внутренний паспорт или travel document.</span>
+          </span>
+          <span class="choose-pill">Выбрать</span>
+        </button>
+
+        <button class="doc-row" type="button">
+          <span class="doc-icon">ID</span>
+          <span>
+            <span class="doc-title">ID-карта / удостоверение</span>
+            <span class="doc-hint">Документ личности, пластиковая карта или похожее удостоверение.</span>
+          </span>
+          <span class="choose-pill">Выбрать</span>
+        </button>
+
+        <button class="doc-row" type="button">
+          <span class="doc-icon">B</span>
+          <span>
+            <span class="doc-title">Свидетельство о рождении</span>
+            <span class="doc-hint">Для ребенка или взрослого. Важно загрузить всю страницу.</span>
+          </span>
+          <span class="choose-pill">Выбрать</span>
+        </button>
+
+        <button class="doc-row" type="button">
+          <span class="doc-icon">M</span>
+          <span>
+            <span class="doc-title">Свидетельство о браке</span>
+            <span class="doc-hint">Для брака, смены фамилии или семейного пакета документов.</span>
+          </span>
+          <span class="choose-pill">Выбрать</span>
+        </button>
+
+        <button class="doc-row" type="button">
+          <span class="doc-icon">D</span>
+          <span>
+            <span class="doc-title">Диплом / справка об учебе</span>
+            <span class="doc-hint">Диплом, оценки, приложение или школьная справка.</span>
+          </span>
+          <span class="choose-pill">Выбрать</span>
+        </button>
+
+        <button class="doc-row" type="button">
+          <span class="doc-icon">DL</span>
+          <span>
+            <span class="doc-title">Водительское удостоверение</span>
+            <span class="doc-hint">Загрузите лицевую и обратную сторону, если сзади есть текст.</span>
+          </span>
+          <span class="choose-pill">Выбрать</span>
+        </button>
+      </div>
+    </section>
+
+    <details>
+      <summary>Другие документы</summary>
+      <div class="more-grid">
+        <button class="small-doc" type="button">Свидетельство о разводе</button>
+        <button class="small-doc" type="button">Свидетельство о смерти</button>
+        <button class="small-doc" type="button">Военный документ</button>
+        <button class="small-doc" type="button">Медицинская справка</button>
+        <button class="small-doc" type="button">Справка о несудимости</button>
+        <button class="small-doc" type="button">Судебное решение</button>
+        <button class="small-doc" type="button">Доверенность</button>
+        <button class="small-doc" type="button">Банковская выписка</button>
+        <button class="small-doc" type="button">Документ на недвижимость</button>
+        <button class="small-doc" type="button">Другой официальный документ</button>
+      </div>
+    </details>
+
+    <section class="bottom-help">
+      <p>Если человек боится ошибиться, он должен видеть один простой выход: “помогите выбрать”.</p>
+      <button class="secondary-button" type="button">Открыть общий вариант</button>
+    </section>
+
+    <p class="prototype-note">Prototype only. This file does not change production routing, database, payments, or live Messenginfo code.</p>
+  </main>
+</body>
+</html>

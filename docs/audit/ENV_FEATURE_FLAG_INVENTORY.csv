@@ -1,0 +1,46 @@
+name,file,default,runtime_read,product,paid,safety_impact,prod_actual,preview_actual,tests,conflicts,undocumented,dead,inverted_semantics,dangerous_default
+CANONICAL_MODE_TPS,lib/canonical/continuityMode.ts,shadow,yes,tps,no,high,ABSENT(=shadow),ABSENT(=shadow),unit,none,no,no,no,no
+CANONICAL_MODE_REPAROLE,lib/canonical/continuityMode.ts,shadow,yes,reparole,no,high,ABSENT(=shadow),ABSENT,unit,none,no,no,no,no
+CANONICAL_MODE_EAD,lib/canonical/continuityMode.ts,shadow,yes,ead,no,high,ABSENT(=shadow),ABSENT,unit,none,no,no,no,no
+CANONICAL_MODE_TRANSLATION,lib/canonical/continuityMode.ts,shadow,yes,translation,no,high,ABSENT(=shadow),ABSENT,unit,none,no,no,no,no
+CANONICAL_MODES,lib/canonical/continuityMode.ts,unset,yes,all,no,high,ABSENT,ABSENT,unit,JSON fallback layer; legacy-global clamped to shadow/off,no,no,no,no
+CANONICAL_CONTINUITY_MODE,lib/canonical/continuityMode.ts,shadow,yes,all(legacy),no,high,ABSENT,ABSENT,unit,HARD-GUARD: can never enforce (clamped to off/shadow),no,no,no,no
+TPS_AI_BRAIN_ENABLED,lib/tps/ai/documentBrain.ts,ON(only =0 disables),yes,tps,yes,high,ABSENT(=ON),ABSENT(=ON),unit,none,no,no,inverted(opt-OUT),default-ON paid brain in prod
+DUAL_OCR_CROSSREF,app/api/tps/ocr/extract/route.ts,ON(only =false disables),yes,tps,yes,med,ABSENT(=ON),ABSENT(=ON),none-direct,none,partial,no,inverted(opt-OUT),default-ON extra paid call
+TPS_GEMINI_VISION_ARBITER_ENABLED,app/api/tps/ocr/extract/route.ts,OFF,yes,tps,yes,med,ABSENT,ABSENT,unit,none,no,no,no,no
+QUALITY_GATE_ENABLED,lib/docintel/quality/documentImageQuality.ts,OFF,yes,translation,no,med,ABSENT,ABSENT,unit,none,no,no,no,no
+AUTO_ORIENT_ENABLED,lib/docintel/documentFieldReader.ts,OFF,yes,translation,no,med,Encrypted(SET),ABSENT,unit,MEMORY notes OSD direction bug history,no,no,no,if=1 with bad OSD can mis-rotate
+ANTI_FABRICATION_GATE_ENABLED,lib/docintel/documentFieldReader.ts,OFF,yes,translation,no,high,Encrypted(SET),ABSENT,unit,prod value SET (0/1 unknown),no,no,no,no
+SELF_CONSISTENCY_GATE_ENABLED,lib/docintel/documentFieldReader.ts,OFF,yes,translation,yes,med,Encrypted(SET),ABSENT,unit,if=1 multiplies provider calls x SELF_CONSISTENCY_RUNS,no,no,no,cost-multiplier if enabled
+SELF_CONSISTENCY_RUNS,lib/docintel/selfConsistency.ts,default-const,yes,translation,yes,low,ABSENT,ABSENT,unit,none,no,no,no,no
+SELF_CONSISTENCY_TIMEOUT_MS,lib/docintel/selfConsistency.ts,default-const,yes,translation,no,low,ABSENT,ABSENT,unit,none,no,no,no,no
+CONFIRMED_VALUE_GUARD_MODE,app/api/translation/generate-pdf/route.ts,shadow,yes,translation,no,high,Encrypted(SET),ABSENT,unit,values off|shadow|enforce,no,no,no,no
+OCR_FIELD_SAFETY_ENABLED,lib/documentSafety/applyOcrFieldSafety.ts,OFF,yes,tps+translation,no,high,ABSENT,ABSENT,unit,CHANGELOG: rolled back to OFF after DEGRADED canary,no,no,no,no
+MIRROR_PDF_ENABLED,app/api/translation/generate-pdf/route.ts,OFF(birth allowlisted ON),yes,translation,no,med,Encrypted(SET),ABSENT,unit,birth-cert mirror LIVE via allowlist regardless of flag,no,no,no,no
+SMART_NORMALIZE_ENABLED,lib/docintel/authorityResolve.ts,OFF,yes,translation,no,med,ABSENT,ABSENT,unit,MEMORY: forbidden in prod until owner GT,no,no,no,no
+KNOWLEDGE_BRAIN_ENABLED,lib/canonical/core/knowledgeNormalize.ts,ON(only =0 disables),yes,all,no,high,ABSENT(=ON),ABSENT(=ON),unit,none,no,no,inverted(opt-OUT),default-ON knowledge override
+MRZ_TRANSLATION_ENABLED,app/api/translation/vision-extract/route.ts,OFF,yes,translation,no,med,ABSENT,ABSENT,none-direct,passport MRZ feed gated off in translation,no,no,no,no
+ENSEMBLE_DATE_ENABLED,lib/docintel/ensemble/dateRegionRead.ts,OFF,yes,translation,yes,med,ABSENT,ABSENT,unit,none,no,no,no,no
+RU_TRANSLIT_ENABLED,lib/transliteration,OFF,yes,translation,no,med,Encrypted(SET),ABSENT,unit,none,no,no,no,no
+DOCUMENT_CLASS_METRICS_ENABLED,lib/docintel,OFF,yes,translation,no,low,Encrypted(SET),ABSENT,unit,none,no,no,no,no
+GUARD_BLOCK_METRICS_ENABLED,lib/guardBlock,OFF,yes,translation,no,low,Encrypted(SET),ABSENT,unit,writes guard_block_events (shadow baseline),no,no,no,no
+REFUND_AUTOTICKET_ENABLED,lib/documentSafety/paymentFailureRouteAdapter.ts,OFF,yes,translation,no,med,Encrypted(SET),ABSENT,unit,none,no,no,no,no
+CERTIFIER_OVERRIDE_ENABLED,lib/certifier,OFF,yes,translation,no,med,ABSENT,ABSENT,unit,prod has CERTIFIER_AUDIT_PERSIST_ENABLED (different name) - naming drift,partial,no,no,no
+NEXT_PUBLIC_NEW_OPERATOR_FLOW_ENABLED,components/services/translation/TranslateWizard.tsx,OFF,yes,translation,no,med,Encrypted(SET),ABSENT,none-direct,client-only UI flow switch,no,no,no,no
+NEXT_PUBLIC_HARD_CASE_AUTOREAD_ENABLED,client,OFF,yes,translation,no,med,Encrypted(SET),ABSENT,none-direct,none,no,no,no,no
+SERVER_LEDGER_ENABLED,lib/v1/wizardDraftStore.ts,OFF(route 404s),yes,all-wizard,no,high-PII,ABSENT(route404),ABSENT,itest-local,requires WIZARD_DRAFT_ENC_KEY (also absent),no,no,no,no
+NEXT_PUBLIC_SERVER_LEDGER_ENABLED,GeneratePacketBlock.tsx,OFF,yes,tps,no,high-PII,ABSENT(=OFF),ABSENT,none-direct,client toggles server vs localStorage PII path,no,no,no,no
+WIZARD_DRAFT_ENC_KEY,lib/v1/wizardDraftCrypto.ts,unset(503 if flag on),yes,all-wizard,no,high-PII,ABSENT,ABSENT,itest,without key route 503s even if flag ON,no,no,no,no
+DOCAI_ENABLED,lib/docai/client.ts,OFF(true/1),yes,tps,yes,med,Encrypted(SET),ABSENT,unit,switches OCR provider vision<->docai,no,no,no,no
+RUN_REAL_DOC_GATE,test-only,unset,test,n/a,no,n/a,n/a,n/a,gate,test gate,no,no,no,no
+RUN_LIVE_VISION,test-only,unset,test,n/a,yes,n/a,n/a,n/a,gate,enables real Vision in tests,no,no,no,no
+RUN_INTL_PASSPORT_GATE,test-only,unset,test,n/a,no,n/a,n/a,n/a,gate,test gate,no,no,no,no
+RUN_DB_INVARIANTS,test-only,unset,test,n/a,no,n/a,n/a,n/a,gate,test gate,no,no,no,no
+STRIPE_SECRET_KEY,lib/stripe,unset,yes,all-pay,REAL$,P0,Encrypted(SET),ABSENT-in-list,n/a,UNVERIFIED test vs live key; no separate test-key var seen,no,no,no,if live key + shared preview env = real charge risk
+STRIPE_WEBHOOK_SECRET,api/stripe/webhook,unset,yes,all-pay,REAL$,P0,Encrypted(SET),ABSENT,n/a,single webhook secret; idempotency via stripe_processed_events,no,no,no,no
+STRIPE_PRICE_ID_TRANSLATION_*,lib/stripe,unset,yes,translation,REAL$,high,Encrypted(SET),ABSENT,n/a,TPS/reparole price IDs in code NOT in prod env list,partial,no,no,no
+GEMINI_API_KEY/KEY2/KEY_PAY,lib/gemini/apiKey.ts,unset,yes,ocr,yes,high,Encrypted(SET multi),Preview-shared(KEY2),n/a,multiple keys; free vs paid per MEMORY,no,no,no,no
+SUPABASE_SERVICE_ROLE_KEY,lib/supabase/admin.ts,unset,yes,all,no,P0,Encrypted(SET),SHARED Prod+Preview+Dev,n/a,SAME key all envs -> NO isolation; preview writes prod DB,no,no,no,shared service-role across envs
+SUPABASE_URL/NEXT_PUBLIC_SUPABASE_URL,lib/supabase,unset,yes,all,no,P0,rtfxrlount(prod),SAME(prod),n/a,Preview+Dev point at PRODUCTION Supabase,no,no,no,no separate staging/preview DB
+CRON_SECRET,api/cron/*,unset,yes,ops,no,med,Encrypted(SET),ABSENT,n/a,gates cron endpoints,no,no,no,no
+HEALTH_TOKEN/INTERNAL_DIAG_TOKEN,api/health,unset,yes,ops,no,low,Encrypted(SET),ABSENT,n/a,none,no,no,no,no

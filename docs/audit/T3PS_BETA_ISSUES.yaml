@@ -1,0 +1,24 @@
+issues:
+  - id: T3PS-BETA-OPS-001
+    severity: P0
+    status: blocked
+    title: Monitoring transport env keys missing
+    evidence:
+      - /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_FINAL_CERTIFIED_RELEASE.yaml
+    reproduction:
+      - Check environment for TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, CRON_SECRET
+      - Missing keys prevent live alert send verification
+    owner: ops
+    next_action: Set TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID in production and run no-PII alert test
+
+  - id: T3PS-BETA-OPS-002
+    severity: P1
+    status: fixed_verified_production
+    title: /api/tps/manual-review accepts extra JSON keys in request body
+    evidence:
+      - /Users/sergiiivanenko/work/uscis-helper/apps/web/src/app/api/tps/manual-review/route.ts
+    reproduction:
+      - POST valid payload plus extra key passport_number
+      - Endpoint still returns 200
+    owner: backend
+    next_action: Closed — production now returns 400 for unknown keys

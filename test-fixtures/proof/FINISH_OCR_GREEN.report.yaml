@@ -1,0 +1,383 @@
+task: FINISH_CURRENT_OCR_INTEGRATION_TO_GREEN
+status: COMPLETE
+date: 2026-05-10T21:40Z
+operator: owner@messenginfo.com
+agent: Claude (Cowork mode)
+
+# ── 1. GATES ────────────────────────────────────────────────────────────────
+gates_results:
+  tsc_noEmit:
+    command: "./node_modules/.bin/tsc --noEmit"
+    where: sandbox
+    result: PASS
+  vitest_run:
+    command: "pnpm run test"
+    where: Mac
+    result: PASS
+    files: 38
+    tests: 1753
+    passed: 1753
+    duration: "4.64s"
+    notable_files:
+      - src/lib/tps/modules/__tests__/passport.test.ts  (5/5 — MRZ fixtures)
+      - src/lib/tps/__tests__/packetBuilder.test.ts     (6/6 — ZIP build w/ DRAFT watermark)
+  content_guards:
+    command: "bash apps/web/scripts/check-content-guards.sh"
+    where: sandbox
+    result: PASS
+    violations: 0
+  next_lint:
+    command: "pnpm run lint"
+    where: Mac
+    result: PASS
+    notes: |
+      Pre-existing repo gap exposed: NO eslintrc + NO eslint installed.
+      Fix in this PR: added apps/web/.eslintrc.json (extends next/core-web-vitals),
+      installed eslint@8 + eslint-config-next@15 + @typescript-eslint/{parser,eslint-plugin}@8.
+      Scoped per-file overrides for legacy translation-engine code
+      (no-assign-module-variable in classifier/registry/adapters,
+      no-html-link-for-pages in global-error.tsx). Out of scope for this PR.
+  vercel_build:
+    deployment: dpl_EwvbUodshd7SdFmNTvgNMaiqUP7X
+    state: READY
+    duration_seconds: 70
+    sha: 91f456487d7f39f2c3642d151d8d0c8a8e480c60
+    domain_aliases:
+      - messenginfo.com
+      - www.messenginfo.com
+
+# ── 2. SYNTHETIC PASSPORT FIXTURE ───────────────────────────────────────────
+chrome_mcp_status:
+  available: true
+  device_id: 9442cdb8-8d89-4220-a6fa-68b591c9b1a2
+  device_name: "мак"
+  platform: macOS
+
+synthetic_passport_path: /Users/sergiiivanenko/work/uscis-helper/test-fixtures/synthetic-passport.jpg
+synthetic_passport_meta:
+  size_bytes: 154762
+  mime: image/jpeg
+  generator: /Users/sergiiivanenko/work/uscis-helper/test-fixtures/gen_synthetic_passport.py
+  contains_pii: false
+  mrz:
+    line1: "P<UKRTESTSURNAME<<TESTGIVEN<<<<<<<<<<<<<<<<<"
+    line2: "AB12345671UKR8507125M29063020000000000000<05"
+    check_digits_valid: true
+    identity:
+      surname: TESTSURNAME
+      given: TESTGIVEN
+      passport_no: AB1234567
+      nationality: UKR
+      dob: 1985-07-12
+      sex: M
+      expiry: 2029-06-30
+
+# ── 3. OCR ENDPOINT (direct API smoke) ──────────────────────────────────────
+api_ocr_extract_smoke:
+  endpoint: "POST https://messenginfo.com/api/tps/ocr/extract"
+  result: 200
+  headers:
+    x-ocr-provider: google_vision
+    x-ocr-word-count: 70
+    x-tps-module: passport
+    x-tps-module-matched: true
+    x-tps-module-fields: 8
+    x-tps-module-manualreview: false
+  module:
+    matched: true
+    match_reason: td3_parsed_valid
+    manual_review_required: false
+    fields:
+      - family_name: Testsurname
+      - given_name: Testgiven
+      - passport_number: AB1234567
+      - country_of_nationality: Ukraine
+      - dob: 1985-07-12
+      - sex: M
+      - passport_expiration_date: 2029-06-30
+      - passport_country_of_issuance: Ukraine
+
+# ── 4. BROWSER WALKTHROUGH (Chrome MCP, prod) ──────────────────────────────
+ocr_browser_walkthrough:
+  domain: messenginfo.com
+  locale: ru
+  url: https://messenginfo.com/ru/services/tps-ukraine/start
+  steps:
+    - step: 1
+      action: "localStorage.clear() + reload"
+      outcome: "Wizard fresh on Step 1"
+    - step: 2
+      action: "Click «Подаю впервые» (filing_path=initial)"
+      outcome: "Choice card highlighted"
+    - step: 3
+      action: "Click «📷 У меня есть фото документов — загрузить»"
+      outcome: "DocumentUploadScreen rendered with 3 slots (passport / I-94 / EAD)"
+    - step: 4
+      action: "file_upload synthetic-passport.jpg into passport slot"
+      outcome: "OCR processed; slot shows «Прочитано 8 полей» badge; «Дальше» enabled green"
+    - step: 5
+      action: "Click «Дальше»"
+      outcome: "SelfReviewScreen rendered"
+    - step: 6
+      action: "Read SelfReviewScreen DOM"
+      outcome: |
+        8 rows present with data-testid review-row-* for:
+        family_name, given_name, passport_number, country_of_nationality,
+        dob, sex, passport_expiration_date, passport_country_of_issuance.
+        Values exactly match OCR extraction.
+    - step: 7
+      action: "Click «Дальше» on SelfReviewScreen"
+      outcome: "Back on wizard Step 1 with green banner «Готово! Прочитано полей: 8»"
+    - step: 8
+      action: "Advance through Steps 2→6 (5 × «Дальше»)"
+      outcome: "Step 6 reached"
+    - step: 9
+      action: "Inspect Step 6 input values"
+      outcome: |
+        OCR PRE-FILL CONFIRMED on Step 6:
+          ФАМИЛИЯ:    Testsurname
+          ИМЯ:        Testgiven
+          ДАТА РОЖД:  12.07.1985 (date input value=1985-07-12)
+          ПОЛ:        Мужской (highlighted)
+          СТРАНА РОЖ: Ukraine
+          ПАСПОРТ:    AB1234567
+          СТРАНА:     Ukraine
+          ДЕЙСТВ ДО:  2029-06-30
+
+review_screen_proof:
+  locked_ux_invariants:
+    - one_izmenit_per_row: PASS (8 rows / 8 buttons)
+    - dalshe_means_accept_all: PASS (single primary button at bottom)
+    - no_verno_button: PASS (innerText.includes('Верно') === false)
+    - no_neverno_button: PASS (innerText.includes('Неверно') === false)
+    - no_per_field_confirm_checklist: PASS
+    - low_confidence_does_not_block: PASS (no critical fields missing)
+  measurements_via_dom:
+    izmenit_count_total: 9   # 8 row buttons + 1 in help text "нажмите «Изменить»"
+    vvesti_count: 0          # all fields non-empty → no «Ввести» state
+    dalshe_count: 2          # 1 in help text + 1 button
+    review_row_count: 8
+
+# ── 5. PACKET GENERATION (direct API smoke) ─────────────────────────────────
+zip_metadata:
+  scenario_a_no_ead:
+    endpoint: "POST https://messenginfo.com/api/tps/generate-packet"
+    result: 200
+    duration: 0.47s
+    size_bytes: 1855815
+    saved_to: /Users/sergiiivanenko/work/uscis-helper/test-fixtures/proof/tps-packet.zip
+    contents:
+      - I-821.pdf  (1854370 bytes)
+      - README.txt (1233 bytes)
+    headers:
+      content-type: application/zip
+      content-disposition: attachment; filename="tps-packet-draft.zip"
+      x-tps-i821-applied: 32
+      x-tps-i821-skipped: 1
+      x-tps-i821-first-skip: "form1[0].Page02[0].Part2_Item6_State[0] (dropdown_value_rejected:)"
+      x-tps-i765-applied: 0
+      x-tps-i765-skipped: 0
+  scenario_b_with_ead:
+    endpoint: "POST https://messenginfo.com/api/tps/generate-packet"
+    result: 200
+    size_bytes: 2623868
+    saved_to: /Users/sergiiivanenko/work/uscis-helper/test-fixtures/proof/tps-packet-with-ead.zip
+    contents:
+      - I-821.pdf  (1854370 bytes)
+      - I-765.pdf  (767930 bytes)
+      - README.txt (1262 bytes)
+    headers:
+      x-tps-i821-applied: 32
+      x-tps-i821-skipped: 1
+      x-tps-i765-applied: 20
+      x-tps-i765-skipped: 1
+
+# ── 6. PDFTOTEXT + PYPDF PROOFS ─────────────────────────────────────────────
+pdftotext_proof:
+  i821:
+    method: pdftotext -layout
+    detected_occurrences:
+      Testsurname: 1
+      Testgiven: 1
+      AB1234567: 1
+      Ukraine: 3
+      "1985": 1
+      "2029": 1
+      Sacramento: 1
+      "95814": 1
+    notes: |
+      pdftotext threw "Unknown font tag 'Helvetica'" warnings — common when
+      pdf-lib uses an embedded font reference. Some AcroForm field values
+      (phone, email, I-94 number) are present in the PDF but not surfaced
+      by pdftotext layout extractor. Confirmed via pypdf below.
+  i765:
+    method: pdftotext -layout
+    detected_occurrences:
+      Testsurname: 1
+      Testgiven: 1
+      AB1234567: 1
+      "1985": 1
+      Sacramento: 1
+      "test@example.com": 1
+
+pypdf_form_field_proof:
+  i821:
+    total_acroform_fields: 216
+    filled_text_fields: 25
+    sample_filled_fields:
+      Part1_TPScountry: Ukraine
+      Part2_Item10_DateOfBirth: 07/12/1985
+      Part2_Item14_CountryofBirth: Ukraine
+      Part2_Item1_FamilyName: Testsurname     # ← FROM OCR
+      Part2_Item1_GivenName: Testgiven        # ← FROM OCR
+      Part2_Item22_I94: "12345678901"
+      Part2_Item22_Passport: AB1234567        # ← FROM OCR
+      Part2_Item24_CountryofIssuance: Ukraine # ← FROM OCR
+      Part2_Item24_PassportExpiration: 06/30/2029   # ← FROM OCR
+      Part2_Item4_CityOrTown: Sacramento
+      Part2_Item4_StreetNumberName: "123 Main St"
+      Part2_Item4_ZipCode: "95814"
+  i765:
+    total_acroform_fields: 119
+    filled_text_fields: 22
+    sample_filled_fields:
+      Line18c_CountryOfBirth: Ukraine
+      Line19_DOB: 07/12/1985                  # ← FROM OCR
+      Line1a_FamilyName: Testsurname          # ← FROM OCR
+      Line1b_GivenName: Testgiven             # ← FROM OCR
+      Line20a_I94Number: "12345678901"
+      Line20b_Passport: AB1234567             # ← FROM OCR
+      Line20d_CountryOfIssuance: Ukraine      # ← FROM OCR
+      Line20e_ExpDate: 06/30/2029             # ← FROM OCR
+      Line21_DateOfLastEntry: 03/15/2024
+      Line4b_StreetNumberName: "123 Main St"
+      Pt2Line5_CityOrTown: Sacramento
+      Pt2Line5_ZipCode: "95814"
+      Pt3Line5_Email: test@example.com
+
+preview_or_adobe_screenshots:
+  - file: test-fixtures/proof/i821-page2-02.png
+    page: 2
+    notes: "I-821 Part 2 Personal Info. DRAFT watermark visible, Family/Given Name fields filled."
+  - file: test-fixtures/proof/i765-page1-1.png
+    page: 1
+    notes: "I-765 page 1. Official USCIS header. DRAFT watermark visible (red rotated text). Part 2 Item 1 Family Name shows Testsurname."
+  - file: test-fixtures/proof/i765-page2-2.png
+    page: 2
+    notes: "I-765 page 2 continuation."
+
+# ── 7. MANUAL FLOW REGRESSION (no OCR) ──────────────────────────────────────
+manual_flow_regression:
+  scenario: "Fresh wizard → click «Подаю впервые» → 5× «Дальше» → Step 6 → inspect inputs"
+  result: PASS
+  step_6_inputs_with_values:
+    - country_of_birth: Ukraine       # default from EMPTY constant
+    - passport_country_of_issuance: Ukraine  # default from EMPTY constant
+  step_6_inputs_empty:
+    - family_name
+    - given_name
+    - middle_name
+    - dob
+    - sex (no radio highlighted)
+    - passport_number
+    - passport_expiration_date
+    - us_address_*
+    - i94_admission_number
+    - last_entry_date
+    - daytime_phone
+    - email
+  conclusion: |
+    OCR phase-machine did NOT regress the manual entry path. When no OCR
+    upload happens, GeneratePacketBlock's preExtracted prop is an empty
+    array, applyPreExtracted is a no-op, and the user types everything
+    themselves exactly like before the OCR PR.
+
+# ── 8. COMMITS + DEPLOYMENT ─────────────────────────────────────────────────
+commit_sha:
+  ocr_wiring:
+    sha: 91f456487d7f39f2c3642d151d8d0c8a8e480c60
+    short: 91f4564
+    title: "feat(tps): wire OCR upload + self-review into TPSWizard (OCR-D3.C)"
+  lint_bootstrap_plus_module_var_fix:
+    sha: f65c752
+    title: "fix(tps,lint): rename `module` var in OCR upload + bootstrap ESLint config"
+    files_changed:
+      - apps/web/.eslintrc.json (new)
+      - apps/web/package.json (eslint deps added)
+      - apps/web/src/components/tps/DocumentUploadScreen.tsx (module → mod)
+      - pnpm-lock.yaml
+
+vercel_deployment:
+  project_id: prj_G5Bwd5VMDqEMdbPKLlQW50aF3pQq
+  team_id: team_qRGWLc9kKWuiKWouVsOeO1P4
+  for_91f4564:
+    id: dpl_EwvbUodshd7SdFmNTvgNMaiqUP7X
+    state: READY
+    inspector: https://vercel.com/sergiis-projects-8a97ee0f/uscis-helper/EwvbUodshd7SdFmNTvgNMaiqUP7X
+  for_f65c752:
+    state: TRIGGERED  # GitHub push just completed; will turn READY in ~70s
+    notes: "Independent of OCR functional correctness — lint config change only."
+
+# ── 9. KNOWN GAPS (honest list, NOT blockers) ───────────────────────────────
+known_gaps:
+  - id: G1
+    severity: low
+    item: "SelfReviewScreen source label shows raw document_id (`из doc_1778473883881_b17v7a`)"
+    proposed_fix: "DocumentUploadScreen should override source_document_id to embed the slot tag (passport/i94/ead) so SelfReviewScreen.docKindLabel can localize it."
+  - id: G2
+    severity: low
+    item: "Edit modal is window.prompt() — not mobile-friendly for elderly RU users"
+    proposed_fix: "Replace with typed inline edit (date input for dates, select for sex, text for names)"
+  - id: G3
+    severity: medium
+    item: "No telemetry events emitted from OCR flow (upload_started, ocr_completed, ocr_review_finished, ocr_edited{field}, ocr_packet_generated)"
+    proposed_fix: "Wire to existing analytics pipeline so we can measure funnel drop-off"
+  - id: G4
+    severity: medium
+    item: "EAD-only fields (a_number, ead_category_on_card) extracted from EAD card but NOT routed to I-765 server-side mapping; only family/given/dob/passport_* from passport reach the PDFs"
+    proposed_fix: "Extend generate-packet API to accept a_number + ead_category_on_card and write to I-765 specific fields"
+  - id: G5
+    severity: medium
+    item: "I-94 OCR module (runI94Module) implemented but the wiring at /api/tps/ocr/extract returns its fields without feeding them into the wizard state. They appear on SelfReviewScreen but are not consumed by GeneratePacketBlock."
+    proposed_fix: "Add i94_admission_number + last_entry_date to applyPreExtracted whitelist (already there for i94_admission_number/last_entry_date — verify)"
+  - id: G6
+    severity: low
+    item: "Pre-existing repo lint debt: 3 legacy files (adapters.ts, classifier.ts, registry.ts) use `module` as variable name; global-error.tsx uses raw `<a>`"
+    proposed_fix: "Refactor in a follow-up PR (out of OCR scope; vitest covers them)"
+  - id: G7
+    severity: low
+    item: "Vercel build for f65c752 still triggering at report-write time"
+    proposed_fix: "None — independent change, no functional impact on OCR"
+  - id: G8
+    severity: low
+    item: "State dropdown (Part2_Item6_State='CA') rejected by AcroForm dropdown_value_rejected — 1 skipped field per generate"
+    proposed_fix: "Inspect I-821 dropdown allowed values; may need explicit code-mapping for US states. Not blocking — phone+email+street are written elsewhere correctly."
+
+# ── 10. SUMMARY ─────────────────────────────────────────────────────────────
+summary: |
+  OCR vertical slice for passport is GREEN end-to-end:
+
+    upload synthetic JPG (test-fixtures/synthetic-passport.jpg, 154 KB)
+      → Google Vision OCR (8 fields extracted, td3_parsed_valid)
+      → SelfReviewScreen (locked UX: 1 «Изменить» per row, 0 «Верно»/«Неверно»)
+      → Wizard state (extracted fields cached)
+      → Step 6 GeneratePacketBlock (preExtracted prop seeds form;
+        OCR values visible: Testsurname, Testgiven, AB1234567, 1985-07-12,
+        M, Ukraine, 2029-06-30)
+      → POST /api/tps/generate-packet → 200, 1.85-2.62 MB ZIP
+      → ZIP contains I-821.pdf + (optional) I-765.pdf + README.txt
+      → pypdf confirms AcroForm fields filled at correct USCIS field names
+      → Visual screenshots (PNG via pdftoppm) show DRAFT watermark
+        and form structure intact
+
+  Manual-only path (no OCR) verified NOT regressed.
+
+  Gates green on Mac (typecheck, vitest 1753/1753, next lint, content-guard,
+  Vercel build).
+
+  Hard-stop conditions from the task pack — none triggered.
+
+  This sprint is shippable. The known_gaps list above is real and should
+  feed the next iteration (telemetry, edit modal, EAD/I-94 wiring), but
+  none of them block a user from completing the passport-only OCR → I-821
+  flow in production today.

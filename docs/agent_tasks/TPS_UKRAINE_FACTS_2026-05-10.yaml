@@ -1,0 +1,160 @@
+# TPS Ukraine — Operational Facts Snapshot
+# Compiled: 2026-05-10
+# Sources:
+#   1. User's Gemini NotebookLM "USCIS Helper — Source Intelligence" (73 sources, Gemini Pro 2.5 synthesis)
+#   2. Pending: direct USCIS.gov verification (next cycle)
+#
+# IMPORTANT — operational rules for this file:
+# - Every fact here MUST be re-verified against uscis.gov before going into product copy
+# - last_verified stamp on every page that displays any of these facts
+# - When a fact says "from notebook synthesis", treat it as PROBABLE TRUE pending direct USCIS check
+# - When a fact says "USCIS direct", treat it as authoritative
+# - DO NOT use these facts as legal advice — surface them as "what USCIS says today"
+
+snapshot_date: 2026-05-10
+
+designation:
+  country: Ukraine
+  status: ACTIVE
+  current_designation_period_ends: 2026-10-19
+  source: notebook_synthesis
+  duration_months: 18
+  re_registration_window:
+    start: 2025-01-17           # some sources say 2025-01-01
+    end: 2025-03-18
+    status: CLOSED
+  continuous_residence_date: 2023-08-16        # for initial filing
+  continuous_physical_presence_date: 2023-08-16
+  pending_applications_note: >
+    Applications filed before the latest extension announcement and still pending
+    are automatically extended to the new period end (2026-10-19). No need to re-file.
+
+forms:
+  I-821:
+    purpose: TPS application / re-registration
+    edition_date: UNKNOWN_FROM_NOTEBOOK   # action: fetch from uscis.gov/i-821
+    url: https://www.uscis.gov/i-821
+    filing_method: paper_or_online
+  I-765:
+    purpose: Employment Authorization Document (EAD)
+    edition_date: 08/21/25
+    url: https://www.uscis.gov/i-765
+    page_last_verified_by_uscis: 2026-04-30
+    filing_method: paper_or_online
+    ead_categories:
+      initial_tps: A12
+      re_registration_tps: C19
+  I-912:
+    purpose: Fee waiver
+    edition_date: 07/22/25
+    url: https://www.uscis.gov/i-912
+    page_last_verified_by_uscis: 2025-12-16
+    note: >
+      I-912 CANNOT waive H.R. 1 fees (the $1,000 immigration parole fee on I-131
+      is non-waivable). Standard USCIS filing fees still waivable. Verify per
+      USCIS instructions before stating in product copy.
+  I-601:
+    purpose: Waiver of grounds of inadmissibility
+    edition_date: NOT_IN_NOTEBOOK         # action: fetch from uscis.gov/i-601
+    url: https://www.uscis.gov/i-601
+    triggers_use: only_when_inadmissibility_finding
+
+fees_after_HR1:
+  effective_date: 2025-07-or-10  # H.R. 1 "One Big Beautiful Bill"
+  annual_inflation_adjustment: true
+  amounts_usd:
+    I-821_initial: 50
+    I-821_re_registration: 30
+    biometrics: 85
+    I-765_online: 470
+    I-765_paper: 470            # check: notebook only states online; verify paper amount
+    I-765_older_pre_HR1: 410    # for historical reference only
+  child_under_14_special:
+    combined_I-821_plus_I-765: 50
+  re_parole_for_cross_reference:
+    HR1_parole_fee: 1000          # non-waivable
+    I-131_base: 580_to_630
+    online_bundle_I-131_plus_I-765: 1325
+
+EAD_auto_extension:
+  automatic_to_end_of_designation_for_all: false
+  on_timely_renewal_filing:
+    auto_extension_months: 12
+    some_sources_say_until: 2026-04-19
+  community_misinformation:
+    common_wrong_belief: "EAD is automatically valid until 2026-10-19 without filing"
+    actual_truth: "Need separate I-765 to cover April 2026 → October 2026 period"
+    critical_cutoff_date: 2026-07-22
+  comparison_to_U4U: "TPS allows work during auto-extension. U4U does NOT."
+
+processing_times_today:
+  I-765_EAD: up_to_19_months
+  source: notebook_community_reports
+  action_required: cross_check_against_uscis_case_processing_times_tool
+
+evidence_required_initial_filing:
+  identity_and_nationality:
+    NOT_YET_DETAILED_IN_NOTEBOOK: true
+    expected_acceptable_documents:
+      - passport
+      - national_id
+      - birth_certificate
+      - other_government_issued_photo_id
+  continuous_residence_since: 2023-08-16
+  continuous_physical_presence_since: 2023-08-16
+  acceptable_evidence_types_per_uscis_general_tps_guidance:
+    - employment_records_pay_stubs_W2_1099
+    - rent_lease_mortgage_records
+    - utility_bills
+    - school_records_children
+    - medical_records
+    - religious_attendance_records
+    - bank_statements
+    - dated_receipts
+    - tax_returns
+    - affidavits_from_third_parties  # last-resort, weaker
+  action_required: fetch_official_I-821_instructions_evidence_section_from_uscis
+
+evidence_required_re_registration:
+  additional_evidence_required: false
+  reasoning: "USCIS already has prior filing on file"
+  source: notebook_synthesis
+
+filing_logistics:
+  concurrent_I_821_plus_I_765: ALLOWED_per_general_USCIS_practice
+  paper_filing_lockbox_address: NOT_IN_NOTEBOOK
+  online_filing_available: true
+  online_account_url: https://my.uscis.gov
+  action_required: fetch_lockbox_address_from_I-821_filing_addresses_page
+
+manual_review_red_flags:
+  not_yet_extracted_from_notebook:
+    - arrest_or_criminal_record
+    - prior_TPS_denial
+    - missed_re_registration_window_with_lapse
+    - departure_from_US_without_advance_parole
+    - inconsistent_dates_between_documents
+    - inadmissibility_grounds_requiring_I-601
+  status: needs_second_notebook_query_or_USCIS_fetch
+
+biggest_community_fears_2026:
+  - 2026-10-19 cutoff date triggers panic
+  - 19-month EAD processing delays
+  - July 22 2026 cutoff misinformation
+  - Confusion between EAD auto-extension and TPS status duration
+  - Misinformation that TPS leads to green card or asylum (it does NOT)
+
+what_TPS_does_NOT_grant:
+  - permanent_residency_green_card
+  - asylum
+  - automatic_path_to_citizenship
+  - protection_from_inadmissibility_findings
+
+gaps_for_next_cycle:
+  - I-821 current edition date
+  - I-601 current edition date
+  - Official USCIS evidence list per current I-821 instructions
+  - Manual review red-flag list from USCIS guidance
+  - Current paper-filing lockbox address(es)
+  - Verified I-765 paper fee (notebook only specified online)
+  - USCIS Case Processing Times current snapshot

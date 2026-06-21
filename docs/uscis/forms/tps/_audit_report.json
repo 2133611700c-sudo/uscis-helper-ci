@@ -1,0 +1,184 @@
+{
+  "i-821.pdf": {
+    "form_id_expected": "I-821",
+    "kind": "form",
+    "expected_edition": "01/20/25",
+    "sha256_stored": "d6281d7ee4699228744e2cee80590d222d92a6c9e87eb86d657f0cd683ea91d3",
+    "sha256_fresh_redownload": "d6281d7ee4699228744e2cee80590d222d92a6c9e87eb86d657f0cd683ea91d3",
+    "sha256_match_across_downloads": true,
+    "fresh_download_error": null,
+    "edition_stamps_in_stored_pdf": [
+      "Form I-821 Edition 01/20/25"
+    ],
+    "edition_stamps_in_fresh_pdf": [
+      "Form I-821 Edition 01/20/25"
+    ],
+    "expected_edition_present_in_stamps": true,
+    "first_page_form_id": "I-821",
+    "first_page_omb_no": "1615-0043",
+    "first_page_expires": "02/28/2027",
+    "page_count_pypdf": 13,
+    "page_count_poppler_pdfinfo": 13,
+    "page_count_match": true,
+    "form_architecture": "Hybrid",
+    "form_architecture_note": "Both XFA and AcroForm/Fields present",
+    "field_count_pypdf_get_fields": 511,
+    "field_count_top_level_AcroForm_Fields": 1
+  },
+  "i-821instr.pdf": {
+    "form_id_expected": "I-821",
+    "kind": "instructions",
+    "expected_edition": "01/20/25",
+    "sha256_stored": "6e0e672edb65d57a811e9f6113a00a927159c5ca698ce847e6574298c78a61be",
+    "sha256_fresh_redownload": "6e0e672edb65d57a811e9f6113a00a927159c5ca698ce847e6574298c78a61be",
+    "sha256_match_across_downloads": true,
+    "fresh_download_error": null,
+    "edition_stamps_in_stored_pdf": [
+      "Form I-821 Instructions 01/20/25"
+    ],
+    "edition_stamps_in_fresh_pdf": [
+      "Form I-821 Instructions 01/20/25"
+    ],
+    "expected_edition_present_in_stamps": true,
+    "first_page_form_id": "I-821",
+    "first_page_omb_no": "1615-0043",
+    "first_page_expires": "02/28/2027",
+    "page_count_pypdf": 15,
+    "page_count_poppler_pdfinfo": 15,
+    "page_count_match": true,
+    "form_architecture": "AcroForm",
+    "form_architecture_note": "/Fields count=10",
+    "field_count_pypdf_get_fields": 10,
+    "field_count_top_level_AcroForm_Fields": 10
+  },
+  "i-765.pdf": {
+    "form_id_expected": "I-765",
+    "kind": "form",
+    "expected_edition": "08/21/25",
+    "sha256_stored": "9ac0eae287749d4c2dfa0a591f464cc2124c18647c10e999b59484f090e0dc7d",
+    "sha256_fresh_redownload": "9ac0eae287749d4c2dfa0a591f464cc2124c18647c10e999b59484f090e0dc7d",
+    "sha256_match_across_downloads": true,
+    "fresh_download_error": null,
+    "edition_stamps_in_stored_pdf": [
+      "Form I-765 Edition 08/21/25"
+    ],
+    "edition_stamps_in_fresh_pdf": [
+      "Form I-765 Edition 08/21/25"
+    ],
+    "expected_edition_present_in_stamps": true,
+    "first_page_form_id": "I-765",
+    "first_page_omb_no": "1615-0040",
+    "first_page_expires": "08/31/2027",
+    "page_count_pypdf": 7,
+    "page_count_poppler_pdfinfo": 7,
+    "page_count_match": true,
+    "form_architecture": "Hybrid",
+    "form_architecture_note": "Both XFA and AcroForm/Fields present",
+    "field_count_pypdf_get_fields": 180,
+    "field_count_top_level_AcroForm_Fields": 1
+  },
+  "i-765instr.pdf": {
+    "form_id_expected": "I-765",
+    "kind": "instructions",
+    "expected_edition": "08/21/25",
+    "sha256_stored": "fca9de128c4e408b6d842432b98242bd5cf17cd09e4d6c717c1c0895f625c2a4",
+    "sha256_fresh_redownload": "fca9de128c4e408b6d842432b98242bd5cf17cd09e4d6c717c1c0895f625c2a4",
+    "sha256_match_across_downloads": true,
+    "fresh_download_error": null,
+    "edition_stamps_in_stored_pdf": [
+      "Form I-765 Instructions 08/21/25"
+    ],
+    "edition_stamps_in_fresh_pdf": [
+      "Form I-765 Instructions 08/21/25"
+    ],
+    "expected_edition_present_in_stamps": true,
+    "first_page_form_id": "I-765",
+    "first_page_omb_no": "1615-0040",
+    "first_page_expires": "08/31/2027",
+    "page_count_pypdf": 25,
+    "page_count_poppler_pdfinfo": 25,
+    "page_count_match": true,
+    "form_architecture": "None",
+    "form_architecture_note": "AcroForm present but empty",
+    "field_count_pypdf_get_fields": 0,
+    "field_count_top_level_AcroForm_Fields": 0
+  },
+  "i-765ws.pdf": {
+    "form_id_expected": "I-765WS",
+    "kind": "worksheet",
+    "expected_edition": "08/21/25",
+    "sha256_stored": "d79f9b55ee1ad2abb8cd5337865ef1c0b073d26e79cbd6b18daa39382bf487bd",
+    "sha256_fresh_redownload": "d79f9b55ee1ad2abb8cd5337865ef1c0b073d26e79cbd6b18daa39382bf487bd",
+    "sha256_match_across_downloads": true,
+    "fresh_download_error": null,
+    "edition_stamps_in_stored_pdf": [
+      "Form I-765WS Edition 08/21/25"
+    ],
+    "edition_stamps_in_fresh_pdf": [
+      "Form I-765WS Edition 08/21/25"
+    ],
+    "expected_edition_present_in_stamps": true,
+    "first_page_form_id": "I-765",
+    "first_page_omb_no": "1615-0040",
+    "first_page_expires": "08/31/2027",
+    "page_count_pypdf": 1,
+    "page_count_poppler_pdfinfo": 1,
+    "page_count_match": true,
+    "form_architecture": "Hybrid",
+    "form_architecture_note": "Both XFA and AcroForm/Fields present",
+    "field_count_pypdf_get_fields": 13,
+    "field_count_top_level_AcroForm_Fields": 1
+  },
+  "i-912.pdf": {
+    "form_id_expected": "I-912",
+    "kind": "form",
+    "expected_edition": "07/22/25",
+    "sha256_stored": "c5c5f61c9954e812133f702a0edfacd5cb7ff597c703017789de87735bf2c276",
+    "sha256_fresh_redownload": "c5c5f61c9954e812133f702a0edfacd5cb7ff597c703017789de87735bf2c276",
+    "sha256_match_across_downloads": true,
+    "fresh_download_error": null,
+    "edition_stamps_in_stored_pdf": [
+      "Form I-912 Edition 07/22/25"
+    ],
+    "edition_stamps_in_fresh_pdf": [
+      "Form I-912 Edition 07/22/25"
+    ],
+    "expected_edition_present_in_stamps": true,
+    "first_page_form_id": "I-912",
+    "first_page_omb_no": "1615-0116",
+    "first_page_expires": "03/31/2027",
+    "page_count_pypdf": 8,
+    "page_count_poppler_pdfinfo": 8,
+    "page_count_match": true,
+    "form_architecture": "Hybrid",
+    "form_architecture_note": "Both XFA and AcroForm/Fields present",
+    "field_count_pypdf_get_fields": 241,
+    "field_count_top_level_AcroForm_Fields": 1
+  },
+  "i-912instr.pdf": {
+    "form_id_expected": "I-912",
+    "kind": "instructions",
+    "expected_edition": "07/22/25",
+    "sha256_stored": "124ef809f62477b5feb6a991c0eea307bb929a0aca062be3e87b0fd11cab0404",
+    "sha256_fresh_redownload": "124ef809f62477b5feb6a991c0eea307bb929a0aca062be3e87b0fd11cab0404",
+    "sha256_match_across_downloads": true,
+    "fresh_download_error": null,
+    "edition_stamps_in_stored_pdf": [
+      "Form I-912 Instructions 07/22/25"
+    ],
+    "edition_stamps_in_fresh_pdf": [
+      "Form I-912 Instructions 07/22/25"
+    ],
+    "expected_edition_present_in_stamps": true,
+    "first_page_form_id": "I-912",
+    "first_page_omb_no": "1615-0116",
+    "first_page_expires": "03/31/2027",
+    "page_count_pypdf": 12,
+    "page_count_poppler_pdfinfo": 12,
+    "page_count_match": true,
+    "form_architecture": "None",
+    "form_architecture_note": "AcroForm present but empty",
+    "field_count_pypdf_get_fields": 0,
+    "field_count_top_level_AcroForm_Fields": 0
+  }
+}

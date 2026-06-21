@@ -1,0 +1,50 @@
+report: T3PS_STATUS_RECONCILIATION_FINAL
+generated_at: "2026-05-16T22:02:30Z"
+status_map:
+  - path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_MASTER_RELEASE_LOCK_FINAL.yaml
+    raw_status: GO_CONTROLLED_BETA_110_LOCKED
+    class: current_authoritative
+    notes: updated by final functional hardening evidence pack
+
+  - path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_110_FINAL_RELEASE_LOCK.yaml
+    raw_status: GO_CONTROLLED_BETA_110_LOCKED
+    class: current_authoritative
+    notes: aligned with master lock status and sha
+
+  - path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_FINAL_FUNCTIONAL_CLOSEOUT.yaml
+    raw_status: GO_CONTROLLED_BETA
+    class: historical_superseded
+    notes: functional predecessor retained as evidence
+
+  - path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_MASTER_CLOSEOUT_REPORT.yaml
+    raw_status: GO_CONTROLLED_BETA_LOCKED
+    class: historical_superseded
+    notes: superseded by 110 master release lock
+
+  - path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_CONTROLLED_BETA_DAY1_REPORT.yaml
+    raw_status: BETA_BLOCKED_MONITORING
+    class: valid_residual_risk
+    notes: operational monitoring status only; not stage I functional blocker
+
+  - path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_FINAL_GO_NO_GO_RELEASE_REPORT.yaml
+    raw_status: NO_GO
+    class: historical_superseded
+    notes: older decision before final OCR/browser/pdf closure
+
+  - path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_110_EVIDENCE_INDEX.yaml
+    raw_status: stale_sha_references
+    class: incorrect_stale
+    notes: historical stale references remain non-authoritative
+
+  - path: /Users/sergiiivanenko/work/uscis-helper/docs/audit/T3PS_FINAL_RESIDUAL_GAPS_REGISTER.yaml
+    raw_status: GO_CONTROLLED_BETA_LOCKED
+    class: current_authoritative
+    notes: no P0 blockers; accepted P1/P2 risks explicitly listed
+
+authoritative_status:
+  controlled_beta: GO_CONTROLLED_BETA_110_LOCKED
+  functional_product: GO
+  release_accounting: GO_CONTROLLED_BETA_110_LOCKED
+  historical_prompt_status: PARTIAL_WITH_SUPERSEDED_ITEMS
+  telegram_required_for_stage_i: false
+  paid_launch_ready: false

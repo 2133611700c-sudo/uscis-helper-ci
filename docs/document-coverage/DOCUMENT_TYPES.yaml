@@ -1,0 +1,143 @@
+# DOCUMENT_TYPES.yaml — V1_COMPLETION phase PRIVATE_DOCUMENT_REGISTRY.
+#
+# The field CONTRACT per supported document type. Extraction policy per field:
+#   auto            = may be auto-extracted and released (still subject to review gates)
+#   candidate_only  = may be surfaced as a candidate; never auto-final without confirm
+#   manual_confirm  = must be confirmed by the user/operator before release
+#   never_guess     = must never be inferred/auto-filled (legal/identity risk)
+#
+# Controlling rule reminders: MRZ/printed-Latin is controlling for passport names;
+# patronymic is "Patronymic" (never Middle Name); historical place names preserved;
+# handwriting is candidate_only for v1 (no auto-final on critical fields).
+schema_version: 1
+
+document_types:
+  ua_international_passport:
+    script: latin_plus_cyrillic
+    has_mrz: true
+    fields:
+      family_name: auto            # MRZ/printed-Latin controlling
+      given_name: auto
+      passport_number: auto
+      date_of_birth: auto
+      date_of_expiry: auto
+      sex: auto
+      nationality: auto
+      place_of_birth: candidate_only
+
+  ua_internal_passport_booklet:
+    script: cyrillic
+    handwritten_risk: true
+    fields:
+      family_name: candidate_only
+      given_name: candidate_only
+      patronymic: candidate_only
+      date_of_birth: candidate_only
+      place_of_birth: candidate_only
+      authority: candidate_only
+
+  ua_internal_passport_card:
+    script: cyrillic_plus_latin
+    fields:
+      family_name: auto
+      given_name: auto
+      patronymic: candidate_only
+      date_of_birth: auto
+      record_number: candidate_only
+
+  ua_birth_certificate:
+    script: cyrillic
+    handwritten_risk: true
+    fields:
+      family_name: candidate_only
+      given_name: candidate_only
+      patronymic: candidate_only
+      date_of_birth: candidate_only
+      place_of_birth: candidate_only
+      parents: manual_confirm
+      act_record_number: candidate_only
+      issuing_authority: candidate_only
+
+  ua_marriage_certificate:
+    script: cyrillic
+    handwritten_risk: true
+    fields:
+      spouse_family_names: candidate_only
+      spouse_given_names: candidate_only
+      date_of_marriage: candidate_only
+      act_record_number: candidate_only
+      issuing_authority: candidate_only
+
+  ua_divorce_certificate:
+    script: cyrillic
+    handwritten_risk: true
+    fields:
+      family_names: candidate_only
+      date_of_divorce: candidate_only
+      act_record_number: candidate_only
+      issuing_authority: candidate_only
+
+  ua_name_change_certificate:
+    script: cyrillic
+    handwritten_risk: true
+    fields:
+      old_name: candidate_only
+      new_name: candidate_only
+      date: candidate_only
+      act_record_number: candidate_only
+
+  ua_military_id:
+    script: cyrillic
+    handwritten_risk: true
+    fields:
+      family_name: candidate_only
+      given_name: candidate_only
+      patronymic: candidate_only
+      date_of_birth: candidate_only
+      issuing_authority: candidate_only
+
+  ua_drivers_license:
+    script: cyrillic_plus_latin
+    fields:
+      family_name: auto
+      given_name: auto
+      date_of_birth: auto
+      license_number: candidate_only
+      address: manual_confirm
+
+  us_i94:
+    script: latin
+    fields:
+      family_name: auto
+      given_name: auto
+      date_of_birth: auto
+      i94_admission_number: auto
+      i94_class_of_admission: auto
+      i94_date_of_entry: auto
+      place_of_entry: candidate_only
+
+  us_ead:
+    script: latin
+    fields:
+      family_name: auto
+      given_name: auto
+      a_number: auto
+      card_number: auto
+      ead_category: auto
+      date_of_birth: candidate_only   # often absent on card
+      validity_dates: auto
+
+  us_i797:
+    script: latin
+    fields:
+      receipt_number: auto
+      a_number: candidate_only
+      notice_type: candidate_only
+      names: candidate_only
+
+# Fields that are NEVER auto-derived from any document (user must answer):
+never_guess_global:
+  - legal_eligibility_answers   # criminal/immigration-history/intent questions
+  - ssn                         # user-entered only
+  - signatures
+  - country_of_residence_intent

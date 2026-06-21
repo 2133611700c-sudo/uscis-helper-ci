@@ -1,0 +1,20 @@
+{
+  "_meta": {
+    "doc_id": "",
+    "fixture": "id_card_<surname>.jpg",
+    "document_class": "ua_id_card",
+    "ground_truth_status": "PENDING_OWNER",
+    "owner_verified_fields": ["family_name_cyrillic","given_name_cyrillic","middle_name_cyrillic","date_of_birth","doc_number","sex"],
+    "verified_scope": "ONLY owner_verified_fields penalized; all else = candidate_not_verified",
+    "language_intent": "value = AS WRITTEN; canonical in *_latin; see GT_LANGUAGE_INTENT.md",
+    "fill_instructions": "Type exactly as written. Unreadable -> null + note. Set ground_truth_status=VERIFIED_BY_OWNER. Do NOT commit filled file."
+  },
+  "family_name_cyrillic": "",
+  "given_name_cyrillic": "",
+  "middle_name_cyrillic": "",
+  "date_of_birth": "",
+  "doc_number": "",
+  "sex": "",
+  "candidate_not_verified": [],
+  "notes": ""
+}

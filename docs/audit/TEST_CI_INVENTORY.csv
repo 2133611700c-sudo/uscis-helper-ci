@@ -1,0 +1,27 @@
+path,runs_in_CI,trigger,skipped,flaky,environment,uses_production,external_deps,real_or_mocked,assertion_quality,evidence_artifact,last_success,gap
+.github/workflows/guards.yml,yes,push+PR,no,unknown,ubuntu-node22,no,poppler-utils,real(local pdftotext readback),HIGH(full suite+build+knowledge),CI log,UNVERIFIED-needs-gh-run,full suite gates merge but no required-check enforcement (free plan)
+.github/workflows/v1-fast-gates.yml,yes,push+PR,no,unknown,ubuntu-node22,no,none,mocked(lib/v1 unit only),MED(contract units only),CI log,UNVERIFIED,only runs src/lib/v1/__tests__ - narrow
+.github/workflows/v1-program-guard.yml,yes,push+PR,no,no,ubuntu-node22,no,none,n/a(doc gen check),LOW(V1_STATUS freshness),CI log,UNVERIFIED,verifies V1_STATUS.md not stale only
+.github/workflows/v1-document-benchmark.yml,yes(dry-run),push(paths)+dispatch,YES(exit0),no,ubuntu-node22,no,none,NEITHER(dry-run exit0),NONE(no provider call),none,n/a,DRY-RUN until V1_STAGING_READY=true (never run live)
+.github/workflows/v1-nightly-staging.yml,yes(dry-run),cron 07:00+dispatch,YES(exit0),no,ubuntu-node22,no,STAGING_APP_URL(absent),NEITHER(dry-run),NONE,none,n/a,DRY-RUN: staging does not exist
+.github/workflows/v1-production-readonly-smoke.yml,yes,cron 13:00+dispatch,no,low,external-curl,YES-READ-ONLY,messenginfo.com,real(curl 200 checks),LOW(HTTP 200 only),CI log,UNVERIFIED,only asserts 200 not content/correctness
+.github/workflows/post-deploy-smoke.yml,yes,deployment_status=success,no,med,external-curl,YES,messenginfo.com healthz+vision,real(prod POST vision),MED,CI log,UNVERIFIED,calls prod vision endpoint post-deploy (paid)
+.github/workflows/post-deploy-ui-smoke.yml,yes,deployment_status,no,med,external,YES,messenginfo.com,real,MED,CI log,UNVERIFIED,UI smoke prod
+.github/workflows/prod-safety-monitor.yml,yes,cron,no,low,external,YES-READ,prod,real,MED,CI log,UNVERIFIED,monitors prod flags/health
+.github/workflows/release-state-guard.yml,yes,push+PR,no,no,node,no,none,n/a,LOW,CI log,UNVERIFIED,release-state file consistency
+.github/workflows/session-docs-guard.yml,yes,push+PR,no,no,node,no,none,n/a(doc presence),LOW,CI log,UNVERIFIED,requires STATUS/HANDOFF/CHANGELOG in commit
+.github/workflows/supabase-drift-check.yml,yes,cron/push,no,unknown,node+supabase,YES-READ,prod-db,real(schema compare),MED,CI log,UNVERIFIED,DRIFT EXISTS (local files re-stamped vs live versions)
+.github/workflows/guard-block-rate-check.yml,yes,cron,no,low,supabase,YES-READ,prod-db,real,LOW,CI log,UNVERIFIED,reads guard_block_events(0 rows)
+.github/workflows/daily-reconciliation.yml,yes,cron,no,unknown,supabase,YES,prod-db,real,MED,CI log,UNVERIFIED,reconciliation cron
+.github/workflows/escalation-tick.yml,yes,cron,no,unknown,supabase,YES,prod-db,real,MED,CI log,UNVERIFIED,ticket escalation (MEMORY: cron-coupled dead-code trap)
+.github/workflows/federal-register-monitor.yml,yes,cron,no,low,external,no,fed-register API,real,LOW,CI log,UNVERIFIED,content monitor
+.github/workflows/form-edition-checker.yml,yes,cron,no,low,external,no,uscis.gov,real,LOW,CI log,UNVERIFIED,form edition monitor
+.github/workflows/uscis-news-monitor.yml,yes,cron,no,low,external,no,uscis,real,LOW,CI log,UNVERIFIED,monitor
+.github/workflows/youtube-monitor.yml,yes,cron,no,low,external,no,youtube,real,LOW,CI log,UNVERIFIED,monitor
+.github/workflows/dead-link-checker.yml,yes,cron,no,low,external,no,various,real,LOW,CI log,UNVERIFIED,dead link cron
+apps/web/src/lib/v1/__tests__/*,yes(fast-gates+guards),push+PR,no,no,node-mocked,no,none,MOCKED(injected store/clock/provider),HIGH-for-lib,CI log,UNVERIFIED-locally(deps not installed in worktree),library proves itself but not runtime wiring
+apps/web/src/lib/packet/__tests__/pdf-readback.e2e.test.ts,yes(guards),push+PR,no,no,node+poppler,no,poppler,real-PDF-render+SYNTHETIC-fields,MED(asserts row planner+%PDF-+>2000B; values glyph-encoded not searchable),CI log,UNVERIFIED,does NOT read back real OCR; synthetic IVANENKO/Militsiya inputs
+apps/web/src/lib/canonical/core/__tests__/intlPassportGate.live.test.ts,conditional,RUN_INTL_PASSPORT_GATE,YES-default-skip,unknown,node,no(fixture),GEMINI(if live),mocked-default,MED,none,n/a,gated behind RUN_* flag - skipped in normal CI
+apps/web/src/app/api/wizard-draft/__tests__/route.itest.test.ts,yes(guards full suite),push+PR,no,unknown,node-mocked,no,supabase-mock,MOCKED(env-set in test),MED,CI log,UNVERIFIED,#132 E2E claim = local mocked itest NOT live (route 404s in prod)
+apps/web/src/app/api/ead/__tests__/eadExtractCanonicalCarriage.test.ts,yes,push+PR,no,unknown,node-mocked,no,none,mocked,MED,CI log,UNVERIFIED,canonical carriage shadow
+real-doc benchmark (#128 0 fabricated),partial,local-vitest,unknown,unknown,node,no,GEMINI(if live),UNVERIFIED-likely-fixture,UNKNOWN,DARK_CODE/benchmark dir,UNVERIFIED,no real-doc fixtures in repo except 1 synthetic_passport.jpg; CI benchmark is dry-run
