@@ -1,0 +1,72 @@
+name: Core Proof — Translation + Dictionaries + Ukrainian Transliteration
+
+# The deterministic heart of the product. NO secrets, NO external API, NO Gemini.
+# Proves: KMU-55 Ukrainian transliteration, the unified dictionaries, Cyrillic
+# brain normalization, MRZ, and the certified-PDF Cyrillic-leak gate — entirely
+# on free unlimited Linux runners. This is "главное": перевод + словари + транслит.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  knowledge:
+    name: Knowledge — KMU-55 transliteration + dictionaries + MRZ
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install
+        run: pnpm install --frozen-lockfile || pnpm install
+      - name: Knowledge tests (transliterate, patronymic, normalize, golden dictionaries, MRZ)
+        run: pnpm --filter @uscis-helper/knowledge test
+      - name: Live transformation demo (real code, printed into the log)
+        run: npx tsx scripts/core-demo.ts
+
+  brain:
+    name: Central Brain — Cyrillic normalization + single-arbiter invariant
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install
+        run: pnpm install --frozen-lockfile || pnpm install
+      - name: Deterministic canonical/brain vectors (no secrets)
+        run: >
+          pnpm --filter web exec vitest run
+          src/lib/canonical/__tests__/cyrillicGoldenVectors.test.ts
+          src/lib/canonical/core/__tests__/brainSingleArbiterInvariant.test.ts
+
+  pdf-cyrillic-leak-gate:
+    name: Certified PDF — zero Cyrillic leak (poppler)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install poppler (free on Linux)
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+      - name: Install
+        run: pnpm install --frozen-lockfile || pnpm install
+      - name: PDF visual acceptance — Cyrillic input must render as Latin, never raw
+        run: >
+          pnpm --filter web exec vitest run
+          src/lib/packet/__tests__/translationPdfVisualAcceptance.test.ts
