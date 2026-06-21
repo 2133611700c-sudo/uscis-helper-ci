@@ -89,3 +89,10 @@ jobs:
         run: >
           pnpm --filter web exec vitest run
           src/app/api/translation/__tests__/translationPipelineFixtureE2E.test.ts
+      # Owner scenario coverage (no Gemini): RU-printed transliteration, passport MRZ
+      # controlling-Latin rule, and the operator-correction → regenerated-PDF journey.
+      - name: Scenario E2E — RU-printed + passport MRZ + operator correction → PDF
+        run: >
+          pnpm --filter web exec vitest run
+          src/app/api/translation/__tests__/translationScenariosFixtureE2E.test.ts
+          src/app/api/translation/__tests__/translationOperatorCorrectionE2E.test.ts
