@@ -36,6 +36,19 @@ const SKIP = new Set(["Ь", "ь", "Ъ", "ъ", "'", "'", "ʼ", "\u0027"]);
 // Ukrainian Cyrillic character check
 const UA_CYRILLIC = /[\u0400-\u04FF\u0490\u0491]/;
 
+// HARD CONTRACT (no-Cyrillic-leak): KMU-55 is the Ukrainian table and has NO
+// mapping for the Russian-only letters Ё/Э/Ы (Ъ/Ь are already in SKIP). Before
+// this guard they fell through to the "pass through non-Cyrillic" branch and
+// leaked raw Cyrillic into the Latin `value` (real OCR bug: СОЛОВЬЁВ→SOLOVЁV,
+// ЭДУАРД→ЭDUARD). The correct fix for clearly-Russian source is to route to the
+// Russian table (see transliterationPolicy); this map is a defense-in-depth net so
+// that even if a Russian-only char ever reaches KMU-55 it is romanized, never
+// emitted as Cyrillic. Values follow the project's BGN/PCGN Russian convention
+// (Э→E, Ы→Y, Ё→Ye); KMU-55 itself stays a pure Ukrainian table otherwise.
+const KMU_RU_FALLBACK: Record<string, string> = {
+  'Ё': 'Ye', 'ё': 'ye', 'Э': 'E', 'э': 'e', 'Ы': 'Y', 'ы': 'y',
+};
+
 function isWordStart(text: string, i: number): boolean {
   if (i === 0) return true;
   // Look back past apostrophes/soft signs to find the real previous character
@@ -81,6 +94,14 @@ export function transliterateKMU55(input: string): string {
     // Standard mapping
     if (MAP[ch]) {
       result.push(MAP[ch]);
+      continue;
+    }
+
+    // Defense-in-depth: a Russian-only letter (Ё/Э/Ы) that has no Ukrainian
+    // mapping must NEVER pass through as Cyrillic. Romanize it so KMU-55 output
+    // can never contain a U+0400–U+04FF character.
+    if (KMU_RU_FALLBACK[ch]) {
+      result.push(KMU_RU_FALLBACK[ch]);
       continue;
     }
 

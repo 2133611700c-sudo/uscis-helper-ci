@@ -92,6 +92,22 @@ export function isNameSourceScriptAmbiguous(
 }
 
 /**
+ * Romanize a Cyrillic string to Latin, choosing the table by SOURCE script.
+ * Unambiguously-Russian content (distinctive ы/э/ё/ъ, no Ukrainian і/ї/є/ґ) MUST
+ * use the Russian table: KMU-55 cannot map those letters (г→h is wrong for a
+ * Russian word, and ё/э/ы/ъ would otherwise leak as raw Cyrillic). This routing is
+ * UNCONDITIONAL (not flag-gated) because it is not a guess — the source script is
+ * visually confirmed by letters that exist only in Russian, and the alternative is
+ * a guaranteed Cyrillic leak into the released value (e.g. «город Подъездный» must
+ * be "gorod Podyezdnyy", never "horod Podezdnыi"). Ukrainian / ambiguous content
+ * stays on KMU-55, preserving the owner's anti-Russification default. The `name`
+ * kind keeps its own flag-gated routing above; this helper is for place/agency/text.
+ */
+function romanizeBySourceScript(cy: string): string {
+  return detectNameScript(cy) === 'ru' ? transliterateRussian(cy) : transliterateKMU55(cy)
+}
+
+/**
  * Convert one vision read to its canonical value by field kind.
  * Returns null when there is nothing trustworthy to emit (no guessing).
  */
@@ -148,17 +164,17 @@ export function toCanonicalValue(read: VisionFieldRead, kind: FieldKind): string
       const noCountry = stripCountryCode(cy)
       if (/обл\.?|област[ьі:]/iu.test(noCountry)) {
         const expanded = noCountry.replace(/\s*обл\.?\s*$/iu, ' область').trim()
-        return normalizeProvince(expanded).value || normalizeProvince(noCountry).value || transliterateKMU55(noCountry) || null
+        return normalizeProvince(expanded).value || normalizeProvince(noCountry).value || romanizeBySourceScript(noCountry) || null
       }
       const bare = stripSettlementPrefix(noCountry)
       const nc = normalizeCity(bare)
       if (nc.value === null) return null // blocklisted
-      return /[a-zA-Z]/.test(nc.value) ? nc.value : transliterateKMU55(nc.value) || null
+      return /[a-zA-Z]/.test(nc.value) ? nc.value : romanizeBySourceScript(nc.value) || null
     }
 
     case 'place_oblast':
       // Oblast → nominative + "Oblast" (e.g. Вінницька область → Vinnytsia Oblast).
-      return cy ? normalizeProvince(cy).value || transliterateKMU55(cy) || null : null
+      return cy ? normalizeProvince(cy).value || romanizeBySourceScript(cy) || null : null
 
     case 'doc_number':
       // Document/series/act numbers: preserve exactly. If the model returned a
@@ -167,7 +183,7 @@ export function toCanonicalValue(read: VisionFieldRead, kind: FieldKind): string
 
     case 'agency':
       // Agency name: transliterate as a baseline; downstream glossary may refine.
-      return cy ? transliterateKMU55(cy) || cy : null
+      return cy ? romanizeBySourceScript(cy) || cy : null
 
     case 'sex': {
       // Sex marker: map Ч/Ж/чол/жін/M/F → Male/Female. Passports print it BILINGUAL
@@ -185,6 +201,6 @@ export function toCanonicalValue(read: VisionFieldRead, kind: FieldKind): string
 
     case 'text':
     default:
-      return cy ? transliterateKMU55(cy) || cy : null
+      return cy ? romanizeBySourceScript(cy) || cy : null
   }
 }
