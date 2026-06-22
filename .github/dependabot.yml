@@ -1,0 +1,15 @@
+# Dependabot SECURITY UPDATES still fire (independent of this file).
+# Version-update PRs are paused: this is a public CI mirror, deps are
+# managed in the private source repo. To re-enable: uncomment below.
+#
+# version: 2
+# updates:
+#   - package-ecosystem: "npm"
+#     directory: "/"
+#     schedule: { interval: "weekly", day: "monday" }
+#     open-pull-requests-limit: 3
+#     ignore:
+#       - dependency-name: "*"
+#         update-types: ["version-update:semver-major"]
+version: 2
+updates: []
