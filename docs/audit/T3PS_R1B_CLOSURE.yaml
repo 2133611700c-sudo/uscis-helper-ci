@@ -15,7 +15,7 @@ closed_in_r1b:
       from MRZ. extraction_source set to 'ocr_mrz'.
     proof: |
       3 consecutive production runs with same image:
-        family_name = Kuropyatnyk  (deterministic)
+        family_name = OwnerSubject  (deterministic)
         given_name  = Taras       (deterministic)
         source      = ocr_mrz
       Eliminated Sergi/Taras LLM non-determinism.
@@ -43,7 +43,7 @@ closed_in_r1b:
       zip_size_bytes: 1826250
       pdfs_in_zip: [I-821.pdf (13 pages, 216 filled fields), README.txt]
       critical_fields_present:
-        Part2_Item1_FamilyName: len=11  # Kuropyatnyk
+        Part2_Item1_FamilyName: len=11  # OwnerSubject
         Part2_Item1_GivenName:  len=6   # Taras
         Part8_Item3_DayPhone:   len=10  # 5551234567
         Part8_Item5_Email:      len=16  # test@example.com

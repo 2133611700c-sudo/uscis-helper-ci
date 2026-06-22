@@ -100,8 +100,8 @@ const DOCS: RealDocSpec[] = [
   {
     caseId: 'internal_passport',
     documentClass: 'ua_internal_passport_booklet',
-    image: 'internal_passport_kuropiatnyk.jpg',
-    gt: 'internal_passport_kuropiatnyk.json',
+    image: 'internal_passport_owner_subject.jpg',
+    gt: 'internal_passport_owner_subject.json',
     docTypeId: 'ua_internal_passport_booklet',
     fields: [
       { canonicalKey: 'family_name', gtKey: 'family_name_latin', compare: 'latin', mustReview: true },
@@ -113,8 +113,8 @@ const DOCS: RealDocSpec[] = [
   {
     caseId: 'birth_cert_handwritten',
     documentClass: 'ua_birth_certificate',
-    image: 'birth_cert_handwritten_kuropiatnyk.jpg',
-    gt: 'birth_cert_handwritten_kuropiatnyk.json',
+    image: 'birth_cert_handwritten_owner_subject.jpg',
+    gt: 'birth_cert_handwritten_owner_subject.json',
     docTypeId: 'ua_birth_certificate',
     fields: [
       { canonicalKey: 'child_family_name', gtKey: 'family_name_cyrillic', compare: 'cyrillic', mustReview: true },
@@ -126,8 +126,8 @@ const DOCS: RealDocSpec[] = [
   {
     caseId: 'birth_cert_soviet',
     documentClass: 'ua_birth_certificate',
-    image: 'birth_cert_soviet_kuropiatnyk.jpg',
-    gt: 'birth_cert_soviet_kuropiatnyk.json',
+    image: 'birth_cert_soviet_owner_subject.jpg',
+    gt: 'birth_cert_soviet_owner_subject.json',
     docTypeId: 'ua_birth_certificate',
     fields: [
       { canonicalKey: 'child_family_name', gtKey: 'family_name_cyrillic', compare: 'cyrillic', mustReview: true },
@@ -139,8 +139,8 @@ const DOCS: RealDocSpec[] = [
   {
     caseId: 'military_id_p1',
     documentClass: 'ua_military_id',
-    image: 'military_id_p1_kuropiatnyk.jpg',
-    gt: 'military_id_p1_kuropiatnyk.json',
+    image: 'military_id_p1_owner_subject.jpg',
+    gt: 'military_id_p1_owner_subject.json',
     docTypeId: 'ua_military_id',
     fields: [
       { canonicalKey: 'family_name', gtKey: 'family_name_latin', compare: 'latin', mustReview: true },

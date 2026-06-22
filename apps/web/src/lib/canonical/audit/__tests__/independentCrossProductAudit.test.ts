@@ -269,9 +269,9 @@ interface LiveDocSpec {
 const LIVE_DOCS: LiveDocSpec[] = [
   {
     case_id: 'internal_passport',
-    image: 'internal_passport_kuropiatnyk.jpg',
+    image: 'internal_passport_owner_subject.jpg',
     docintelId: 'ua_internal_passport_booklet',
-    gt: 'internal_passport_kuropiatnyk.json',
+    gt: 'internal_passport_owner_subject.json',
     fieldMap: {
       family_name: 'family_name_latin',
       given_name: 'given_name_latin',

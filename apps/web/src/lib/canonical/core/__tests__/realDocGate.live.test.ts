@@ -58,14 +58,14 @@ interface RealDocSpec {
 // against an unverified truth and produce meaningless verdicts).
 const DOCS: RealDocSpec[] = [
   {
-    image: 'internal_passport_kuropiatnyk.jpg',
+    image: 'internal_passport_owner_subject.jpg',
     // Phase B: wired to the VERIFIED owner ground truth
-    // (qa-private/ground-truth/internal_passport_kuropiatnyk.json,
+    // (qa-private/ground-truth/internal_passport_owner_subject.json,
     // _meta.ground_truth_status === 'VERIFIED_BY_OWNER'), resolved from the
     // qa-private GT dir (see gtPath resolution below). The booklet vision reader
     // emits the KMU-55 Latin canonical value (normalized_value = toCanonicalValue),
     // so identity fields map to the *_latin truth keys; date_of_birth is script-free.
-    gt: 'internal_passport_kuropiatnyk.json',
+    gt: 'internal_passport_owner_subject.json',
     fieldMap: {
       family_name: 'family_name_latin',
       given_name: 'given_name_latin',
