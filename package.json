@@ -6,7 +6,10 @@
     "onlyBuiltDependencies": [
       "@sentry/cli",
       "sharp"
-    ]
+    ],
+    "overrides": {
+      "js-yaml": "4.3.2"
+    }
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.0"
